@@ -65,7 +65,7 @@ export const projects: Project[] = [
       "The latest Nesting Tree residence — a high-rise built on the same standard as every project before it: more amenities, better daily living, delivered on time.",
     amenities: "Rooftop Gym · Terrace · Lift · CCTV",
     image: "/images/projects/ShikharElevationFinal.jpeg",
-    objectPosition: "center top",
+    objectPosition: "center 12%",
   },
   {
     slug: "prithvi",
@@ -77,7 +77,7 @@ export const projects: Project[] = [
       "A corner-plot residence with deep balconies and street-level retail — designed for everyday convenience without leaving the building.",
     amenities: "Lift · CCTV · Parking · Retail",
     image: "/images/projects/Prithvi-Elevation.jpg",
-    objectPosition: "center top",
+    objectPosition: "center 12%",
   },
   {
     slug: "ishan",
@@ -89,7 +89,7 @@ export const projects: Project[] = [
       "Clean contemporary lines, planted balconies and a secured entrance — a calm address with the Nesting Tree amenity standard built in.",
     amenities: "Terrace · Lift · CCTV · Security",
     image: "/images/projects/Ishan-Reduced.jpg",
-    objectPosition: "center top",
+    objectPosition: "center 30%",
   },
   {
     slug: "rudra",
