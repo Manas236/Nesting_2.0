@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nesting Tree — Homepage Design Exploration v2 (Editorial)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#14130F',
+          inksoft: '#211F18',
+          stone: '#F4F2EC',
+          card: '#FFFFFF',
+          line: '#E2DED3',
+          concrete: '#DCD8CD',
+          muted: '#706C60',
+          mutedlight: '#9C968A',
+          olive: { 50: '#EFF0E2', 100: '#E1E4C9', DEFAULT: '#6E7A45', 600: '#5C6638', dark: '#3F4729' },
+        },
+        fontFamily: {
+          display: ['Archivo', 'sans-serif'],
+          sans: ['Inter', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background-color: #F4F2EC; }
+  .font-display { font-family: 'Archivo', sans-serif; }
+
+  header { transition: background-color .35s ease, border-color .35s ease; }
+  header .nav-logo-badge { transition: background-color .3s ease, border-color .3s ease; background-color: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
+  header .nav-logo-icon, header .nav-link, header .nav-toggle-icon { color: #fff; transition: color .3s ease; }
+  header .nav-cta { background-color: #fff; color: #14130F; transition: background-color .3s ease, color .3s ease; }
+  header.is-scrolled { background-color: rgba(244,242,236,0.94); border-bottom: 1px solid #E2DED3; backdrop-filter: blur(8px); }
+  header.is-scrolled .nav-logo-badge { background-color: #EFF0E2; border-color: #E1E4C9; }
+  header.is-scrolled .nav-logo-icon { color: #5C6638; }
+  header.is-scrolled .nav-link, header.is-scrolled .nav-toggle-icon, header.is-scrolled .nav-wordmark { color: #14130F; }
+  header.is-scrolled .nav-cta { background-color: #14130F; color: #F4F2EC; }
+
+  .blueprint-light {
+    background-color: #DCD8CD;
+    background-image: repeating-linear-gradient(135deg, rgba(20,19,15,0.05) 0px, rgba(20,19,15,0.05) 1px, transparent 1px, transparent 11px);
+  }
+  .blueprint-dark {
+    background-color: rgba(255,255,255,0.04);
+    background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0px, rgba(255,255,255,0.06) 1px, transparent 1px, transparent 11px);
+  }
+  .crosshair span { position: absolute; background: currentColor; opacity: .35; }
+  .crosshair .h { top: 50%; left: 50%; width: 28px; height: 1px; transform: translate(-50%,-50%); }
+  .crosshair .v { top: 50%; left: 50%; width: 1px; height: 28px; transform: translate(-50%,-50%); }
+  .tick { position: absolute; width: 18px; height: 18px; }
+
+  #mobile-menu { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .25s ease, opacity .2s ease; }
+  #mobile-menu.open { max-height: 360px; opacity: 1; }
+</style>
+</head>
+<body class="text-ink antialiased">
+
+<!-- ============ NOTE BAR (remove in production — orientation only) ============ -->
+<div class="bg-ink text-stone text-center text-xs py-2 px-4 font-medium tracking-wide">
+  DESIGN EXPLORATION v2 — Editorial / Brochure Direction · Placeholders shown as <span class="text-olive-100">[BRACKETED LABELS]</span> · Not production code
+</div>
+
+<!-- ============ NAVBAR (transparent over hero, solidifies on scroll) ============ -->
+<header id="site-header" class="fixed top-[33px] left-0 right-0 z-50">
+  <div class="max-w-[1600px] mx-auto px-6 lg:px-12">
+    <div class="flex items-center justify-between h-20">
+
+      <a href="#" class="flex items-center gap-2.5 shrink-0">
+        <span class="nav-logo-badge inline-flex items-center justify-center w-9 h-9 rounded-full border">
+          <svg viewBox="0 0 128 128" class="nav-logo-icon w-5 h-5" fill="currentColor">
+            <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
+          </svg>
+        </span>
+        <span class="nav-wordmark nav-link font-display font-bold text-lg tracking-tight">Nesting&nbsp;Tree</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-10 font-display text-sm font-bold uppercase tracking-wide">
+        <a href="#featured" class="nav-link hover:opacity-70 transition-opacity">Projects</a>
+        <a href="#journey" class="nav-link hover:opacity-70 transition-opacity">About</a>
+        <a href="#contact" class="nav-link hover:opacity-70 transition-opacity">Contact</a>
+      </nav>
+
+      <div class="hidden md:flex items-center">
+        <a href="#contact" class="nav-cta font-display font-bold text-sm uppercase tracking-wide px-5 py-2.5 rounded-[2px]">Enquire Now</a>
+      </div>
+
+      <button id="menu-toggle" class="md:hidden p-2 -mr-2" aria-label="Toggle menu">
+        <svg class="nav-toggle-icon w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden bg-stone/98 -mx-6 px-6 rounded-b-md">
+      <nav class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide text-ink">
+        <a href="#featured" class="py-3 border-b border-line">Projects</a>
+        <a href="#journey" class="py-3 border-b border-line">About</a>
+        <a href="#contact" class="py-3 border-b border-line">Contact</a>
+        <a href="#contact" class="mt-4 text-center bg-ink text-stone px-5 py-3 rounded-[2px]">Enquire Now</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- ============ FULL-SCREEN HERO ============ -->
+<section class="relative h-screen min-h-[640px] w-full overflow-hidden bg-ink">
+  <!-- full-bleed image placeholder -->
+  <div class="absolute inset-0 blueprint-dark">
+    <span class="tick top-6 left-6 border-t-2 border-l-2" style="border-color:rgba(255,255,255,.22)"></span>
+    <span class="tick top-6 right-6 border-t-2 border-r-2" style="border-color:rgba(255,255,255,.22)"></span>
+    <span class="tick bottom-6 left-6 border-b-2 border-l-2" style="border-color:rgba(255,255,255,.22)"></span>
+    <span class="tick bottom-6 right-6 border-b-2 border-r-2" style="border-color:rgba(255,255,255,.22)"></span>
+    <div class="crosshair text-white absolute inset-0"><span class="h"></span><span class="v"></span></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 translate-y-[64px] flex flex-col items-center gap-3 text-white/25">
+      <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+      <div class="w-8 h-px bg-white/30"></div>
+      <span class="font-display text-[11px] font-bold uppercase tracking-[0.22em]">Fig. 01 — Building Elevation, Hero</span>
+    </div>
+  </div>
+
+  <!-- legibility gradient -->
+  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-ink/10"></div>
+  <div class="absolute inset-0 bg-gradient-to-r from-ink/50 via-transparent to-transparent"></div>
+
+  <!-- content -->
+  <div class="relative h-full max-w-[1600px] mx-auto px-6 lg:px-12 flex flex-col justify-end pb-16 lg:pb-20">
+    <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100 mb-5">Panvel &amp; Navi Mumbai</span>
+    <h1 class="font-display font-black text-white text-[3.2rem] sm:text-7xl lg:text-[6.5rem] leading-[0.96] tracking-tight max-w-4xl">
+      More Building.<br/>More Living.
+    </h1>
+    <p class="text-white/65 text-lg lg:text-xl mt-7 max-w-md leading-relaxed">
+      Nesting Tree residences come with more amenities than the building next door — gyms, terraces, play areas and security built in, not bolted on.
+    </p>
+    <div class="mt-9 flex flex-wrap items-center gap-4">
+      <a href="#featured" class="font-display font-bold uppercase tracking-wide text-sm bg-white text-ink px-7 py-4 rounded-[2px] hover:bg-stone transition-colors">View Current Projects</a>
+      <a href="#contact" class="font-display font-bold uppercase tracking-wide text-sm border border-white/35 text-white px-7 py-4 rounded-[2px] hover:bg-white/10 transition-colors">Enquire Now</a>
+    </div>
+  </div>
+
+  <!-- bottom-right brochure caption -->
+  <div class="absolute bottom-8 right-6 lg:right-12 text-right hidden sm:block">
+    <p class="font-display text-xs font-bold uppercase tracking-[0.2em] text-white/55">Est. 2019 · MahaRERA Registered</p>
+  </div>
+</section>
+
+<!-- ============ FEATURED PROJECT (magazine spread) ============ -->
+<section id="featured" class="bg-stone">
+  <div class="grid lg:grid-cols-5">
+
+    <div class="lg:col-span-3 relative aspect-[4/3] lg:aspect-auto lg:min-h-[680px] blueprint-light order-1">
+      <span class="tick top-6 left-6 border-t-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <span class="tick top-6 right-6 border-t-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 left-6 border-b-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 right-6 border-b-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <div class="crosshair text-ink/30 absolute inset-0"><span class="h"></span><span class="v"></span></div>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+        <div class="w-8 h-px bg-[#B9B3A1]"></div>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 02 — Building Elevation, Shikhar</span>
+      </div>
+    </div>
+
+    <div class="lg:col-span-2 flex flex-col justify-center px-6 lg:px-14 py-16 lg:py-0 order-2">
+      <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600">Featured Project — Now Booking</span>
+      <h2 class="font-display font-black text-6xl lg:text-7xl tracking-tight mt-4">SHIKHAR</h2>
+      <p class="font-display font-bold text-muted uppercase tracking-wide text-sm mt-3">Panvel, Navi Mumbai</p>
+      <p class="text-muted text-lg leading-relaxed mt-6 max-w-sm">
+        The latest Nesting Tree residence — built on the same standard as every project before it: more amenities, better daily living, delivered on time.
+      </p>
+
+      <div class="mt-8 flex flex-col gap-3 text-sm font-display font-semibold border-t border-line pt-6">
+        <div class="flex justify-between max-w-sm"><span class="text-muted font-medium uppercase tracking-wide text-xs pt-0.5">Status</span><span>Ongoing</span></div>
+        <div class="flex justify-between max-w-sm"><span class="text-muted font-medium uppercase tracking-wide text-xs pt-0.5">Location</span><span>Panvel</span></div>
+        <div class="flex justify-between max-w-sm"><span class="text-muted font-medium uppercase tracking-wide text-xs pt-0.5">MahaRERA</span><span>Registered</span></div>
+      </div>
+
+      <a href="#" class="inline-flex items-center gap-2 font-display font-bold uppercase tracking-wide text-sm mt-9">
+        Explore Shikhar
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ AMENITIES EXPERIENCE ============ -->
+<section class="bg-stone py-20 lg:py-28">
+  <div class="max-w-[1600px] mx-auto px-6 lg:px-12 mb-16">
+    <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600">The Nesting Tree Standard</span>
+    <h2 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 max-w-2xl leading-[1.05]">Amenities aren&rsquo;t a feature here. They&rsquo;re the whole point.</h2>
+  </div>
+
+  <!-- Row 01 -->
+  <div class="grid lg:grid-cols-2 border-t border-line">
+    <div class="relative aspect-[4/3] lg:aspect-auto lg:min-h-[560px] blueprint-light order-1">
+      <span class="tick top-6 left-6 border-t-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 right-6 border-b-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="4" height="6" rx="1"/><rect x="18" y="9" width="4" height="6" rx="1"/><line x1="6" y1="12" x2="18" y2="12" stroke-width="2"/></svg>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 03 — Rooftop Gym Image</span>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center px-6 lg:px-16 py-14 lg:py-0 order-2">
+      <span class="font-display text-7xl font-black text-olive-100 leading-none">01</span>
+      <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-muted mt-4">Rooftop &amp; Terrace</span>
+      <h3 class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-3 max-w-md leading-tight">Open-air living, above the city.</h3>
+      <p class="text-muted text-lg leading-relaxed mt-5 max-w-sm">A rooftop gym and open terrace built into the building itself — no separate membership, no separate commute. Just take the lift up.</p>
+      <p class="font-display text-xs font-bold uppercase tracking-[0.15em] text-ink/70 mt-6 border-t border-line pt-5">Featured: Rooftop Gym · Terrace Access</p>
+    </div>
+  </div>
+
+  <!-- Row 02 -->
+  <div class="grid lg:grid-cols-2 border-t border-line">
+    <div class="flex flex-col justify-center px-6 lg:px-16 py-14 lg:py-0 order-2 lg:order-1">
+      <span class="font-display text-7xl font-black text-olive-100 leading-none">02</span>
+      <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-muted mt-4">Family &amp; Community</span>
+      <h3 class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-3 max-w-md leading-tight">A childhood that doesn&rsquo;t wait for the park.</h3>
+      <p class="text-muted text-lg leading-relaxed mt-5 max-w-sm">A dedicated play area for children and community spaces for residents to gather — designed into the building, not squeezed into a leftover corner.</p>
+      <p class="font-display text-xs font-bold uppercase tracking-[0.15em] text-ink/70 mt-6 border-t border-line pt-5">Featured: Children&rsquo;s Play Area · Community Spaces</p>
+    </div>
+    <div class="relative aspect-[4/3] lg:aspect-auto lg:min-h-[560px] blueprint-light order-1 lg:order-2">
+      <span class="tick top-6 right-6 border-t-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 left-6 border-b-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="16" r="2.6"/><path d="M14 6l6 4-6 4z" stroke-linejoin="round"/><path d="M14 6v14"/></svg>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 04 — Amenity Photo, Play Area</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row 03 -->
+  <div class="grid lg:grid-cols-2 border-t border-line">
+    <div class="relative aspect-[4/3] lg:aspect-auto lg:min-h-[560px] blueprint-light order-1">
+      <span class="tick top-6 left-6 border-t-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 right-6 border-b-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="9" width="13" height="7" rx="2"/><circle cx="8" cy="12.5" r="1.8"/><path d="M16 10.5 21 8v9l-5-2.5z" stroke-linejoin="round"/></svg>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 05 — Amenity Photo, Security</span>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center px-6 lg:px-16 py-14 lg:py-0 order-2">
+      <span class="font-display text-7xl font-black text-olive-100 leading-none">03</span>
+      <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-muted mt-4">Safety &amp; Access</span>
+      <h3 class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-3 max-w-md leading-tight">Security that never clocks out.</h3>
+      <p class="text-muted text-lg leading-relaxed mt-5 max-w-sm">CCTV-monitored common areas, round-the-clock trained security, and a lift to every floor — the fundamentals, done properly.</p>
+      <p class="font-display text-xs font-bold uppercase tracking-[0.15em] text-ink/70 mt-6 border-t border-line pt-5">Featured: CCTV Surveillance · 24×7 Security · Lift</p>
+    </div>
+  </div>
+
+  <!-- Row 04 -->
+  <div class="grid lg:grid-cols-2 border-t border-b border-line">
+    <div class="flex flex-col justify-center px-6 lg:px-16 py-14 lg:py-0 order-2 lg:order-1">
+      <span class="font-display text-7xl font-black text-olive-100 leading-none">04</span>
+      <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-muted mt-4">Everyday Convenience</span>
+      <h3 class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-3 max-w-md leading-tight">The small things, already sorted.</h3>
+      <p class="text-muted text-lg leading-relaxed mt-5 max-w-sm">Dedicated parking and backup power for common areas and lifts — so the building keeps working, even when the city doesn&rsquo;t.</p>
+      <p class="font-display text-xs font-bold uppercase tracking-[0.15em] text-ink/70 mt-6 border-t border-line pt-5">Featured: Dedicated Parking · Power Backup</p>
+    </div>
+    <div class="relative aspect-[4/3] lg:aspect-auto lg:min-h-[560px] blueprint-light order-1 lg:order-2">
+      <span class="tick top-6 right-6 border-t-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 left-6 border-b-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 16V8h3.2a2.6 2.6 0 1 1 0 5.2H9"/></svg>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 06 — Amenity Photo, Parking</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEVELOPMENT JOURNEY TIMELINE ============ -->
+<section id="journey" class="bg-ink text-stone py-20 lg:py-28 overflow-hidden">
+  <div class="max-w-[1600px] mx-auto px-6 lg:px-12">
+    <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100">Our Journey</span>
+    <h2 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4">Five Projects. One Standard.</h2>
+    <p class="font-display text-sm font-semibold uppercase tracking-wide text-stone/50 mt-5 flex flex-wrap gap-x-3 gap-y-2 items-center">
+      <span>2019 → Today</span><span class="text-stone/25">·</span>
+      <span>5 Projects</span><span class="text-stone/25">·</span>
+      <span>3 Delivered</span><span class="text-stone/25">·</span>
+      <span>2 Ongoing</span><span class="text-stone/25">·</span>
+      <span>MahaRERA Registered</span>
+    </p>
+  </div>
+
+  <!-- Desktop horizontal timeline -->
+  <div class="hidden lg:block max-w-[1600px] mx-auto px-12 mt-20">
+    <div class="grid grid-cols-5">
+      <!-- top row (odd items) -->
+      <div class="h-44 flex items-end pb-6 px-2">
+        <div class="bg-inksoft border border-white/10 p-4 rounded-[2px] w-full">
+          <div class="aspect-[4/3] blueprint-dark mb-3 flex items-center justify-center text-white/25"><span class="font-display text-[9px] font-bold uppercase tracking-[0.15em]">[Rudra Image]</span></div>
+          <p class="font-display font-bold text-sm">Rudra</p>
+          <p class="text-stone/45 text-xs mt-1">Panvel · Delivered</p>
+        </div>
+      </div>
+      <div class="h-44"></div>
+      <div class="h-44 flex items-end pb-6 px-2">
+        <div class="bg-inksoft border border-white/10 p-4 rounded-[2px] w-full">
+          <div class="aspect-[4/3] blueprint-dark mb-3 flex items-center justify-center text-white/25"><span class="font-display text-[9px] font-bold uppercase tracking-[0.15em]">[Shaurya Image]</span></div>
+          <p class="font-display font-bold text-sm">Shaurya</p>
+          <p class="text-stone/45 text-xs mt-1">Taloja · Delivered</p>
+        </div>
+      </div>
+      <div class="h-44"></div>
+      <div class="h-44 flex items-end pb-6 px-2">
+        <div class="bg-olive-600/20 border border-olive-600/30 p-4 rounded-[2px] w-full">
+          <div class="aspect-[4/3] blueprint-dark mb-3 flex items-center justify-center text-white/25"><span class="font-display text-[9px] font-bold uppercase tracking-[0.15em]">[Project 05 Image]</span></div>
+          <p class="font-display font-bold text-sm">Project 05</p>
+          <p class="text-olive-100 text-xs mt-1">Navi Mumbai · Ongoing</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- line + nodes + year marker -->
+    <div class="relative h-px bg-white/15 mx-2">
+      <div class="absolute -top-2.5 -left-1 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-stone"></span>
+        <span class="font-display text-xs font-bold uppercase tracking-wide whitespace-nowrap">2019 — Nesting Tree Launched, Panvel</span>
+      </div>
+      <span class="absolute -top-[5px] rounded-full w-3 h-3 bg-stone" style="left:10%"></span>
+      <span class="absolute -top-[5px] rounded-full w-3 h-3 bg-stone" style="left:30%"></span>
+      <span class="absolute -top-[5px] rounded-full w-3 h-3 bg-stone" style="left:50%"></span>
+      <span class="absolute -top-[5px] rounded-full w-3 h-3 bg-olive-100" style="left:70%"></span>
+      <span class="absolute -top-[5px] rounded-full w-3 h-3 bg-olive-100" style="left:90%"></span>
+    </div>
+
+    <div class="grid grid-cols-5">
+      <div class="h-44"></div>
+      <div class="h-44 flex items-start pt-6 px-2">
+        <div class="bg-inksoft border border-white/10 p-4 rounded-[2px] w-full">
+          <div class="aspect-[4/3] blueprint-dark mb-3 flex items-center justify-center text-white/25"><span class="font-display text-[9px] font-bold uppercase tracking-[0.15em]">[Dhruva Image]</span></div>
+          <p class="font-display font-bold text-sm">Dhruva</p>
+          <p class="text-stone/45 text-xs mt-1">Kharghar Road, Panvel · Delivered</p>
+        </div>
+      </div>
+      <div class="h-44"></div>
+      <div class="h-44 flex items-start pt-6 px-2">
+        <div class="bg-olive-600/20 border border-olive-600/30 p-4 rounded-[2px] w-full">
+          <div class="aspect-[4/3] blueprint-dark mb-3 flex items-center justify-center text-white/25"><span class="font-display text-[9px] font-bold uppercase tracking-[0.15em]">[Shikhar Image]</span></div>
+          <p class="font-display font-bold text-sm">Shikhar</p>
+          <p class="text-olive-100 text-xs mt-1">Panvel · Ongoing</p>
+        </div>
+      </div>
+      <div class="h-44"></div>
+    </div>
+  </div>
+
+  <!-- Mobile vertical timeline -->
+  <div class="lg:hidden max-w-xl mx-auto px-6 mt-14">
+    <p class="font-display text-xs font-bold uppercase tracking-wide text-stone/60 mb-8">2019 — Nesting Tree Launched, Panvel</p>
+    <div class="relative border-l border-white/15 pl-7 space-y-10">
+
+      <div class="relative">
+        <span class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-stone"></span>
+        <p class="font-display font-bold">Rudra</p>
+        <p class="text-stone/45 text-xs mt-1">Panvel · Delivered</p>
+      </div>
+      <div class="relative">
+        <span class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-stone"></span>
+        <p class="font-display font-bold">Dhruva</p>
+        <p class="text-stone/45 text-xs mt-1">Kharghar Road, Panvel · Delivered</p>
+      </div>
+      <div class="relative">
+        <span class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-stone"></span>
+        <p class="font-display font-bold">Shaurya</p>
+        <p class="text-stone/45 text-xs mt-1">Taloja · Delivered</p>
+      </div>
+      <div class="relative">
+        <span class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-olive-100"></span>
+        <p class="font-display font-bold text-olive-100">Shikhar</p>
+        <p class="text-stone/45 text-xs mt-1">Panvel · Ongoing</p>
+      </div>
+      <div class="relative">
+        <span class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-olive-100"></span>
+        <p class="font-display font-bold text-olive-100">Project 05</p>
+        <p class="text-stone/45 text-xs mt-1">Navi Mumbai · Ongoing</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DELIVERED PROJECTS (image-led, alternating) ============ -->
+<section class="bg-stone">
+  <div class="max-w-[1600px] mx-auto px-6 lg:px-12 pt-20 lg:pt-28 pb-4">
+    <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600">Delivered Projects</span>
+    <h2 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 max-w-2xl leading-[1.05]">Handed over. Lived in. Still standing on the same standard.</h2>
+  </div>
+
+  <!-- Rudra -->
+  <div class="grid lg:grid-cols-2 border-t border-line mt-12">
+    <div class="relative aspect-[4/3] lg:aspect-auto lg:min-h-[600px] blueprint-light order-1">
+      <span class="tick top-6 left-6 border-t-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 right-6 border-b-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 07 — Building Elevation, Rudra</span>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center px-6 lg:px-16 py-14 lg:py-0 order-2">
+      <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-muted">Panvel</span>
+      <h3 class="font-display font-black text-5xl tracking-tight mt-3">Rudra</h3>
+      <p class="font-display font-bold uppercase tracking-wide text-xs text-olive-600 mt-3">Delivered &amp; Handed Over</p>
+      <p class="text-muted text-lg leading-relaxed mt-5 max-w-sm">Lift access, CCTV-monitored entrances and dedicated parking — running the way it was handed over.</p>
+      <p class="font-display text-xs font-bold uppercase tracking-[0.15em] text-ink/70 mt-6 border-t border-line pt-5">Lift · CCTV · Parking</p>
+    </div>
+  </div>
+
+  <!-- Dhruva -->
+  <div class="grid lg:grid-cols-2 border-t border-line">
+    <div class="flex flex-col justify-center px-6 lg:px-16 py-14 lg:py-0 order-2 lg:order-1">
+      <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-muted">Kharghar Road, Panvel</span>
+      <h3 class="font-display font-black text-5xl tracking-tight mt-3">Dhruva</h3>
+      <p class="font-display font-bold uppercase tracking-wide text-xs text-olive-600 mt-3">Delivered &amp; Handed Over</p>
+      <p class="text-muted text-lg leading-relaxed mt-5 max-w-sm">Rooftop gym, terrace access and round-the-clock security — for residents who wanted more than four walls.</p>
+      <p class="font-display text-xs font-bold uppercase tracking-[0.15em] text-ink/70 mt-6 border-t border-line pt-5">Rooftop Gym · Terrace Access · Security</p>
+    </div>
+    <div class="relative aspect-[4/3] lg:aspect-auto lg:min-h-[600px] blueprint-light order-1 lg:order-2">
+      <span class="tick top-6 right-6 border-t-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 left-6 border-b-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 08 — Building Elevation, Dhruva</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shaurya -->
+  <div class="grid lg:grid-cols-2 border-t border-b border-line">
+    <div class="relative aspect-[4/3] lg:aspect-auto lg:min-h-[600px] blueprint-light order-1">
+      <span class="tick top-6 left-6 border-t-2 border-l-2" style="border-color:#B9B3A1"></span>
+      <span class="tick bottom-6 right-6 border-b-2 border-r-2" style="border-color:#B9B3A1"></span>
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-[#9A9484]">
+        <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+        <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 09 — Building Elevation, Shaurya</span>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center px-6 lg:px-16 py-14 lg:py-0 order-2">
+      <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-muted">Taloja, Navi Mumbai</span>
+      <h3 class="font-display font-black text-5xl tracking-tight mt-3">Shaurya</h3>
+      <p class="font-display font-bold uppercase tracking-wide text-xs text-olive-600 mt-3">Delivered &amp; Handed Over</p>
+      <p class="text-muted text-lg leading-relaxed mt-5 max-w-sm">A children&rsquo;s play area and community hall built in from day one — because a home is more than just a unit.</p>
+      <p class="font-display text-xs font-bold uppercase tracking-[0.15em] text-ink/70 mt-6 border-t border-line pt-5">Play Area · Community Hall · Lift</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT CTA (full-bleed image) ============ -->
+<section id="contact" class="relative h-[80vh] min-h-[480px] w-full overflow-hidden bg-ink">
+  <div class="absolute inset-0 blueprint-dark">
+    <div class="absolute inset-0 flex items-center justify-center text-white/15">
+      <span class="font-display text-[11px] font-bold uppercase tracking-[0.2em]">Fig. 10 — Building Elevation, Dusk</span>
+    </div>
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/20"></div>
+
+  <div class="relative h-full max-w-3xl mx-auto px-6 flex flex-col items-center justify-center text-center">
+    <h2 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-tight">Ready to see it for yourself?</h2>
+    <p class="text-white/65 mt-5 text-lg max-w-md">Schedule a site visit to an ongoing Nesting Tree project in Panvel or Navi Mumbai.</p>
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
+      <a href="#" class="font-display font-bold uppercase tracking-wide text-sm bg-white text-ink px-7 py-4 rounded-[2px] hover:bg-stone transition-colors">Schedule a Site Visit</a>
+      <a href="#" class="font-display font-bold uppercase tracking-wide text-sm border border-white/35 text-white px-7 py-4 rounded-[2px] hover:bg-white/10 transition-colors">Enquire Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="bg-ink text-stone">
+  <div class="max-w-[1600px] mx-auto px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
+    <h3 class="font-display font-black text-[4rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight">NESTING TREE</h3>
+  </div>
+
+  <div class="max-w-[1600px] mx-auto px-6 lg:px-12 py-14">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+
+      <div>
+        <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities since 2019.</p>
+        <div class="flex items-center gap-3 mt-6">
+          <a href="#" class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10">IG</a>
+          <a href="#" class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10">FB</a>
+          <a href="#" class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10">IN</a>
+        </div>
+      </div>
+
+      <div>
+        <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Company</h5>
+        <ul class="space-y-3 text-sm font-medium">
+          <li><a href="#featured" class="hover:text-olive-100">Projects</a></li>
+          <li><a href="#journey" class="hover:text-olive-100">About</a></li>
+          <li><a href="#contact" class="hover:text-olive-100">Contact</a></li>
+          <li><a href="#" class="hover:text-olive-100">Careers</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Projects</h5>
+        <ul class="space-y-3 text-sm font-medium text-stone/80">
+          <li>Rudra — Delivered</li>
+          <li>Dhruva — Delivered</li>
+          <li>Shaurya — Delivered</li>
+          <li>Shikhar — Ongoing</li>
+          <li>Project 05 — Ongoing</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Contact</h5>
+        <ul class="space-y-3 text-sm font-medium text-stone/80">
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+            [Office Address], Panvel, Navi Mumbai – 410206
+          </li>
+          <li class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v14H4z"/><path d="m4 6 8 7 8-7"/></svg>
+            hello@nestingtree.in
+          </li>
+          <li class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"/></svg>
+            +91 98765 43210
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40">
+      <p>&copy; 2026 Nesting Tree. All rights reserved.</p>
+      <p>MahaRERA Reg. No. PXXXXXXXXXXXX (sample placeholder)</p>
+      <div class="flex items-center gap-5">
+        <a href="#" class="hover:text-stone/70">Privacy Policy</a>
+        <a href="#" class="hover:text-stone/70">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('site-header');
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 60);
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+</script>
+
+</body>
+</html>

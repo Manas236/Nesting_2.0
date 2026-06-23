@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nesting Tree — Homepage Design Exploration</title>
+<link rel="icon" href="../public/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#1B1A17',
+          inksoft: '#2A281F',
+          stone: '#F7F5F0',
+          card: '#FFFFFF',
+          line: '#E4E1D7',
+          muted: '#716E63',
+          mutedlight: '#9C968A',
+          placeholder: '#EFECE3',
+          olive: { 50: '#F1F2E8', 100: '#E3E6D0', DEFAULT: '#6E7A45', 600: '#5C6638', dark: '#475030' },
+        },
+        fontFamily: {
+          display: ['Manrope', 'sans-serif'],
+          sans: ['Inter', 'sans-serif'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background-color: #F7F5F0; }
+  .font-display { font-family: 'Manrope', sans-serif; }
+  .corner { position: absolute; width: 16px; height: 16px; border-color: #C9C4B5; }
+  .placeholder-icon { color: #ABA496; }
+  .tab-btn[aria-selected="true"] { background-color: #1B1A17; color: #F7F5F0; }
+  .tab-btn[aria-selected="false"] { background-color: transparent; color: #716E63; }
+  .card-row[data-hidden="true"] { display: none; }
+  #mobile-menu.open { max-height: 320px; opacity: 1; }
+  #mobile-menu { max-height: 0; opacity: 0; overflow: hidden; transition: max-height .25s ease, opacity .2s ease; }
+</style>
+</head>
+<body class="text-ink antialiased">
+
+<!-- ============ NOTE BAR (remove in production — orientation only) ============ -->
+<div class="bg-ink text-stone text-center text-xs py-2 px-4 font-medium tracking-wide">
+  DESIGN EXPLORATION — Nesting Tree Homepage · Placeholders shown as <span class="text-olive-100">[BRACKETED LABELS]</span> · Not production code
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="sticky top-0 z-50 bg-stone/90 backdrop-blur-md border-b border-line">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex items-center justify-between h-20">
+
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-2.5 shrink-0">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-olive-50 border border-olive-100">
+          <svg viewBox="0 0 128 128" class="w-5 h-5 text-olive-600" fill="currentColor">
+            <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
+          </svg>
+        </span>
+        <span class="font-display font-bold text-lg tracking-tight">Nesting Tree</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-10 font-display text-sm font-semibold text-inksoft">
+        <a href="#projects" class="hover:text-olive-600 transition-colors">Projects</a>
+        <a href="#about" class="hover:text-olive-600 transition-colors">About</a>
+        <a href="#contact" class="hover:text-olive-600 transition-colors">Contact</a>
+      </nav>
+
+      <div class="hidden md:flex items-center">
+        <a href="#enquire" class="font-display font-semibold text-sm bg-ink text-stone px-5 py-2.5 rounded-full hover:bg-inksoft transition-colors">Enquire Now</a>
+      </div>
+
+      <!-- Mobile toggle -->
+      <button id="menu-toggle" class="md:hidden p-2 -mr-2" aria-label="Toggle menu">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden">
+      <nav class="flex flex-col gap-1 pb-6 font-display font-semibold text-base">
+        <a href="#projects" class="py-3 border-b border-line">Projects</a>
+        <a href="#about" class="py-3 border-b border-line">About</a>
+        <a href="#contact" class="py-3 border-b border-line">Contact</a>
+        <a href="#enquire" class="mt-4 text-center bg-ink text-stone px-5 py-3 rounded-full">Enquire Now</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="relative overflow-hidden">
+  <div class="absolute -top-24 -right-32 w-[520px] h-[520px] rounded-full bg-olive-100/40 blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-20 lg:pt-24 lg:pb-28 relative">
+    <div class="grid lg:grid-cols-2 gap-14 lg:gap-10 items-center">
+
+      <!-- Copy -->
+      <div>
+        <span class="inline-flex items-center gap-2 text-xs font-display font-bold uppercase tracking-[0.18em] text-olive-600 bg-olive-50 border border-olive-100 px-3.5 py-1.5 rounded-full">
+          Panvel &amp; Navi Mumbai · Since 2016
+        </span>
+
+        <h1 class="font-display font-extrabold text-[2.6rem] leading-[1.08] tracking-tight mt-6 sm:text-5xl lg:text-[3.4rem] lg:leading-[1.06]">
+          Homes designed<br class="hidden lg:block" /> with more to<br class="hidden lg:block" /> live for.
+        </h1>
+
+        <p class="mt-6 text-muted text-lg leading-relaxed max-w-md">
+          Every Nesting Tree project is built with significantly more on-site amenities than the building next door — so you get a better everyday life, not just a bigger address.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center gap-4">
+          <a href="#projects" class="font-display font-semibold bg-ink text-stone px-6 py-3.5 rounded-full hover:bg-inksoft transition-colors">Explore Our Projects</a>
+          <a href="#enquire" class="font-display font-semibold border border-line px-6 py-3.5 rounded-full hover:border-ink transition-colors">Enquire Now</a>
+        </div>
+
+        <!-- Mini trust strip -->
+        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
+          <div class="flex items-center gap-1.5"><span class="font-display font-bold text-ink">5</span><span class="text-muted">Projects</span></div>
+          <span class="w-px h-4 bg-line hidden sm:block"></span>
+          <div class="flex items-center gap-1.5"><span class="font-display font-bold text-ink">3</span><span class="text-muted">Delivered</span></div>
+          <span class="w-px h-4 bg-line hidden sm:block"></span>
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-olive-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span class="text-muted">MahaRERA Registered</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image placeholder -->
+      <div class="relative">
+        <div class="relative aspect-[5/4.5] w-full rounded-3xl border border-line bg-placeholder overflow-hidden">
+          <span class="corner top-4 left-4 border-t-2 border-l-2"></span>
+          <span class="corner top-4 right-4 border-t-2 border-r-2"></span>
+          <span class="corner bottom-4 left-4 border-b-2 border-l-2"></span>
+          <span class="corner bottom-4 right-4 border-b-2 border-r-2"></span>
+          <div class="flex h-full w-full flex-col items-center justify-center gap-3 placeholder-icon">
+            <svg class="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+            <span class="font-display text-xs font-bold uppercase tracking-[0.2em]">[Building Elevation]</span>
+          </div>
+        </div>
+
+        <!-- Floating stat chip -->
+        <div class="absolute -bottom-6 -left-6 bg-card border border-line rounded-2xl shadow-lg shadow-ink/5 px-5 py-4 flex items-center gap-3 max-w-[230px]">
+          <span class="shrink-0 w-10 h-10 rounded-full bg-olive-50 flex items-center justify-center">
+            <svg class="w-5 h-5 text-olive-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/></svg>
+          </span>
+          <p class="font-display text-sm font-bold leading-tight">15+ amenities built into every project</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED PROJECTS ============ -->
+<section id="projects" class="max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-28">
+  <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+    <div>
+      <span class="text-xs font-display font-bold uppercase tracking-[0.18em] text-olive-600">Our Projects</span>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight mt-3">Built in Panvel &amp; Navi Mumbai</h2>
+      <p class="text-muted mt-3 max-w-lg">Three delivered, two underway — every project follows the same standard: more amenities, better daily living.</p>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="inline-flex items-center gap-1 bg-placeholder rounded-full p-1 self-start">
+      <button class="tab-btn" data-filter="all" aria-selected="true" onclick="filterProjects('all', this)">
+        <span class="font-display text-sm font-semibold px-4 py-2 rounded-full block">All</span>
+      </button>
+      <button class="tab-btn" data-filter="ongoing" aria-selected="false" onclick="filterProjects('ongoing', this)">
+        <span class="font-display text-sm font-semibold px-4 py-2 rounded-full block">Ongoing</span>
+      </button>
+      <button class="tab-btn" data-filter="delivered" aria-selected="false" onclick="filterProjects('delivered', this)">
+        <span class="font-display text-sm font-semibold px-4 py-2 rounded-full block">Delivered</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="project-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-7">
+
+    <!-- Card template (repeated) -->
+    <!-- 1 -->
+    <article class="card-row group" data-status="delivered">
+      <div class="relative aspect-[4/3] rounded-2xl border border-line bg-placeholder overflow-hidden">
+        <span class="corner top-3 left-3 border-t-2 border-l-2"></span>
+        <span class="corner top-3 right-3 border-t-2 border-r-2"></span>
+        <span class="corner bottom-3 left-3 border-b-2 border-l-2"></span>
+        <span class="corner bottom-3 right-3 border-b-2 border-r-2"></span>
+        <div class="flex h-full w-full flex-col items-center justify-center gap-2 placeholder-icon">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+          <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Project Image]</span>
+        </div>
+        <span class="absolute top-3 left-3 bg-ink text-stone text-xs font-display font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+          Delivered
+        </span>
+      </div>
+      <div class="pt-5">
+        <h3 class="font-display font-bold text-lg">Nesting Tree Elina</h3>
+        <p class="flex items-center gap-1.5 text-sm text-muted mt-1">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+          Panvel
+        </p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Lift</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">CCTV</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Rooftop Gym</span>
+        </div>
+        <a href="#" class="inline-flex items-center gap-1.5 font-display font-semibold text-sm mt-5 group-hover:gap-2.5 transition-all">
+          View Details <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="card-row group" data-status="delivered">
+      <div class="relative aspect-[4/3] rounded-2xl border border-line bg-placeholder overflow-hidden">
+        <span class="corner top-3 left-3 border-t-2 border-l-2"></span>
+        <span class="corner top-3 right-3 border-t-2 border-r-2"></span>
+        <span class="corner bottom-3 left-3 border-b-2 border-l-2"></span>
+        <span class="corner bottom-3 right-3 border-b-2 border-r-2"></span>
+        <div class="flex h-full w-full flex-col items-center justify-center gap-2 placeholder-icon">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+          <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Project Image]</span>
+        </div>
+        <span class="absolute top-3 left-3 bg-ink text-stone text-xs font-display font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+          Delivered
+        </span>
+      </div>
+      <div class="pt-5">
+        <h3 class="font-display font-bold text-lg">Nesting Tree Crest</h3>
+        <p class="flex items-center gap-1.5 text-sm text-muted mt-1">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+          Kharghar Road, Panvel
+        </p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Lift</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Security</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Parking</span>
+        </div>
+        <a href="#" class="inline-flex items-center gap-1.5 font-display font-semibold text-sm mt-5 group-hover:gap-2.5 transition-all">
+          View Details <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="card-row group" data-status="delivered">
+      <div class="relative aspect-[4/3] rounded-2xl border border-line bg-placeholder overflow-hidden">
+        <span class="corner top-3 left-3 border-t-2 border-l-2"></span>
+        <span class="corner top-3 right-3 border-t-2 border-r-2"></span>
+        <span class="corner bottom-3 left-3 border-b-2 border-l-2"></span>
+        <span class="corner bottom-3 right-3 border-b-2 border-r-2"></span>
+        <div class="flex h-full w-full flex-col items-center justify-center gap-2 placeholder-icon">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+          <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Project Image]</span>
+        </div>
+        <span class="absolute top-3 left-3 bg-ink text-stone text-xs font-display font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 13l4 4L19 7"/></svg>
+          Delivered
+        </span>
+      </div>
+      <div class="pt-5">
+        <h3 class="font-display font-bold text-lg">Nesting Tree Meadow</h3>
+        <p class="flex items-center gap-1.5 text-sm text-muted mt-1">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+          Taloja, Navi Mumbai
+        </p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Lift</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">CCTV</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Play Area</span>
+        </div>
+        <a href="#" class="inline-flex items-center gap-1.5 font-display font-semibold text-sm mt-5 group-hover:gap-2.5 transition-all">
+          View Details <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="card-row group" data-status="ongoing">
+      <div class="relative aspect-[4/3] rounded-2xl border border-line bg-placeholder overflow-hidden">
+        <span class="corner top-3 left-3 border-t-2 border-l-2"></span>
+        <span class="corner top-3 right-3 border-t-2 border-r-2"></span>
+        <span class="corner bottom-3 left-3 border-b-2 border-l-2"></span>
+        <span class="corner bottom-3 right-3 border-b-2 border-r-2"></span>
+        <div class="flex h-full w-full flex-col items-center justify-center gap-2 placeholder-icon">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+          <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Project Image]</span>
+        </div>
+        <span class="absolute top-3 left-3 bg-olive-50 text-olive-600 border border-olive-100 text-xs font-display font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-olive-600"></span>
+          Ongoing
+        </span>
+      </div>
+      <div class="pt-5">
+        <h3 class="font-display font-bold text-lg">Nesting Tree Skyline</h3>
+        <p class="flex items-center gap-1.5 text-sm text-muted mt-1">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+          Kalamboli, Panvel
+        </p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Lift</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">CCTV</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Rooftop Gym</span>
+        </div>
+        <a href="#" class="inline-flex items-center gap-1.5 font-display font-semibold text-sm mt-5 group-hover:gap-2.5 transition-all">
+          View Details <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 5 -->
+    <article class="card-row group" data-status="ongoing">
+      <div class="relative aspect-[4/3] rounded-2xl border border-line bg-placeholder overflow-hidden">
+        <span class="corner top-3 left-3 border-t-2 border-l-2"></span>
+        <span class="corner top-3 right-3 border-t-2 border-r-2"></span>
+        <span class="corner bottom-3 left-3 border-b-2 border-l-2"></span>
+        <span class="corner bottom-3 right-3 border-b-2 border-r-2"></span>
+        <div class="flex h-full w-full flex-col items-center justify-center gap-2 placeholder-icon">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+          <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Project Image]</span>
+        </div>
+        <span class="absolute top-3 left-3 bg-olive-50 text-olive-600 border border-olive-100 text-xs font-display font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-olive-600"></span>
+          Ongoing
+        </span>
+      </div>
+      <div class="pt-5">
+        <h3 class="font-display font-bold text-lg">Nesting Tree Horizon</h3>
+        <p class="flex items-center gap-1.5 text-sm text-muted mt-1">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+          Panvel
+        </p>
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Lift</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Security</span>
+          <span class="text-xs font-medium text-inksoft bg-placeholder px-2.5 py-1 rounded-md">Community Hall</span>
+        </div>
+        <a href="#" class="inline-flex items-center gap-1.5 font-display font-semibold text-sm mt-5 group-hover:gap-2.5 transition-all">
+          View Details <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- 6: "View all" filler card -->
+    <article class="card-row flex" data-status="all">
+      <a href="#" class="flex flex-col items-center justify-center w-full rounded-2xl border-2 border-dashed border-line hover:border-olive-600 transition-colors aspect-[4/3] sm:aspect-auto gap-3 text-center p-8">
+        <span class="w-12 h-12 rounded-full bg-olive-50 flex items-center justify-center">
+          <svg class="w-5 h-5 text-olive-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+        <span class="font-display font-bold">View All Projects</span>
+        <span class="text-sm text-muted">Browse the full Nesting Tree portfolio</span>
+      </a>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ AMENITIES (USP) ============ -->
+<section class="bg-ink text-stone py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="max-w-2xl">
+      <span class="text-xs font-display font-bold uppercase tracking-[0.18em] text-olive-100">Why Nesting Tree</span>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-[2.7rem] tracking-tight mt-3 leading-tight">More amenities. Better everyday living.</h2>
+      <p class="text-stone/60 mt-4 text-lg leading-relaxed">
+        Compare any Nesting Tree project to the building next door — ours simply gives you more to live with, for a little more value.
+      </p>
+    </div>
+
+    <!-- Large feature cards -->
+    <div class="grid lg:grid-cols-3 gap-7 mt-14">
+
+      <div class="bg-inksoft rounded-3xl p-2 border border-white/5">
+        <div class="relative aspect-[16/11] rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+          <span class="corner top-3 left-3 border-t-2 border-l-2" style="border-color:#4A4838"></span>
+          <span class="corner top-3 right-3 border-t-2 border-r-2" style="border-color:#4A4838"></span>
+          <span class="corner bottom-3 left-3 border-b-2 border-l-2" style="border-color:#4A4838"></span>
+          <span class="corner bottom-3 right-3 border-b-2 border-r-2" style="border-color:#4A4838"></span>
+          <div class="flex h-full w-full flex-col items-center justify-center gap-2 text-white/30">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+            <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Rooftop Gym Image]</span>
+          </div>
+        </div>
+        <div class="p-5">
+          <span class="inline-flex w-11 h-11 rounded-full bg-olive-600/20 items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="2" y="9" width="4" height="6" rx="1"/><rect x="18" y="9" width="4" height="6" rx="1"/><line x1="6" y1="12" x2="18" y2="12" stroke-width="2.2"/></svg>
+          </span>
+          <h3 class="font-display font-bold text-xl">Rooftop Gym</h3>
+          <p class="text-stone/60 mt-2 text-sm leading-relaxed">A fully equipped fitness space with skyline views — no separate gym membership needed.</p>
+        </div>
+      </div>
+
+      <div class="bg-inksoft rounded-3xl p-2 border border-white/5">
+        <div class="relative aspect-[16/11] rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+          <span class="corner top-3 left-3 border-t-2 border-l-2" style="border-color:#4A4838"></span>
+          <span class="corner top-3 right-3 border-t-2 border-r-2" style="border-color:#4A4838"></span>
+          <span class="corner bottom-3 left-3 border-b-2 border-l-2" style="border-color:#4A4838"></span>
+          <span class="corner bottom-3 right-3 border-b-2 border-r-2" style="border-color:#4A4838"></span>
+          <div class="flex h-full w-full flex-col items-center justify-center gap-2 text-white/30">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+            <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Amenity Photo]</span>
+          </div>
+        </div>
+        <div class="p-5">
+          <span class="inline-flex w-11 h-11 rounded-full bg-olive-600/20 items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.5"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M5.6 18.4l1.8-1.8M16.6 7.4l1.8-1.8"/></svg>
+          </span>
+          <h3 class="font-display font-bold text-xl">Terrace Access</h3>
+          <p class="text-stone/60 mt-2 text-sm leading-relaxed">Open-air terrace space for residents to unwind, host, or simply get fresh air at home.</p>
+        </div>
+      </div>
+
+      <div class="bg-inksoft rounded-3xl p-2 border border-white/5">
+        <div class="relative aspect-[16/11] rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
+          <span class="corner top-3 left-3 border-t-2 border-l-2" style="border-color:#4A4838"></span>
+          <span class="corner top-3 right-3 border-t-2 border-r-2" style="border-color:#4A4838"></span>
+          <span class="corner bottom-3 left-3 border-b-2 border-l-2" style="border-color:#4A4838"></span>
+          <span class="corner bottom-3 right-3 border-b-2 border-r-2" style="border-color:#4A4838"></span>
+          <div class="flex h-full w-full flex-col items-center justify-center gap-2 text-white/30">
+            <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 4.5-4.5 3 3 5-5.5 4.5 4.5"/></svg>
+            <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em]">[Amenity Photo]</span>
+          </div>
+        </div>
+        <div class="p-5">
+          <span class="inline-flex w-11 h-11 rounded-full bg-olive-600/20 items-center justify-center mb-4">
+            <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="16" r="2.6"/><path d="M14 6l6 4-6 4z" stroke-linejoin="round"/><path d="M14 6v14"/></svg>
+          </span>
+          <h3 class="font-display font-bold text-xl">Children&rsquo;s Play Area</h3>
+          <p class="text-stone/60 mt-2 text-sm leading-relaxed">A dedicated, safe space for kids — designed in, not an afterthought squeezed into a corner.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Compact icon grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-7">
+
+      <div class="flex items-start gap-4 bg-inksoft rounded-2xl p-5 border border-white/5">
+        <span class="shrink-0 w-11 h-11 rounded-full bg-olive-600/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="18" rx="1.5"/><path d="M10 8l2-1.5L14 8M10 16l2 1.5L14 16"/></svg>
+        </span>
+        <div>
+          <h4 class="font-display font-bold">Lift / Elevator</h4>
+          <p class="text-stone/55 text-sm mt-1">Every building, every floor — no walk-ups.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-inksoft rounded-2xl p-5 border border-white/5">
+        <span class="shrink-0 w-11 h-11 rounded-full bg-olive-600/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="10" width="13" height="7" rx="2.5"/><circle cx="8" cy="13.5" r="1.8"/><path d="M16 11.5 21 9v9l-5-2.5z" stroke-linejoin="round"/></svg>
+        </span>
+        <div>
+          <h4 class="font-display font-bold">CCTV Surveillance</h4>
+          <p class="text-stone/55 text-sm mt-1">Common areas monitored around the clock.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-inksoft rounded-2xl p-5 border border-white/5">
+        <span class="shrink-0 w-11 h-11 rounded-full bg-olive-600/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </span>
+        <div>
+          <h4 class="font-display font-bold">24×7 Security</h4>
+          <p class="text-stone/55 text-sm mt-1">Trained personnel on-site, day and night.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-inksoft rounded-2xl p-5 border border-white/5">
+        <span class="shrink-0 w-11 h-11 rounded-full bg-olive-600/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 16V8h3.2a2.6 2.6 0 1 1 0 5.2H9"/></svg>
+        </span>
+        <div>
+          <h4 class="font-display font-bold">Dedicated Parking</h4>
+          <p class="text-stone/55 text-sm mt-1">Allocated, secured parking for residents.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-inksoft rounded-2xl p-5 border border-white/5">
+        <span class="shrink-0 w-11 h-11 rounded-full bg-olive-600/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M14.7 14.3A4.8 4.8 0 0 1 21 20"/></svg>
+        </span>
+        <div>
+          <h4 class="font-display font-bold">Community Spaces</h4>
+          <p class="text-stone/55 text-sm mt-1">Halls and lounges for residents to gather.</p>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-4 bg-inksoft rounded-2xl p-5 border border-white/5">
+        <span class="shrink-0 w-11 h-11 rounded-full bg-olive-600/20 flex items-center justify-center">
+          <svg class="w-5 h-5 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z" stroke-linejoin="round"/></svg>
+        </span>
+        <div>
+          <h4 class="font-display font-bold">Power Backup</h4>
+          <p class="text-stone/55 text-sm mt-1">Backup supply for lifts and common areas.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST SECTION ============ -->
+<section id="about" class="py-20 lg:py-24 border-b border-line">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-xl mx-auto mb-14">
+      <span class="text-xs font-display font-bold uppercase tracking-[0.18em] text-olive-600">Track Record</span>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight mt-3">Built on consistency, not hype.</h2>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-line border border-line rounded-3xl overflow-hidden">
+      <div class="p-8 text-center">
+        <p class="font-display font-extrabold text-4xl lg:text-5xl tracking-tight">2016</p>
+        <p class="text-muted text-sm mt-2 font-medium">Established</p>
+      </div>
+      <div class="p-8 text-center">
+        <p class="font-display font-extrabold text-4xl lg:text-5xl tracking-tight">5</p>
+        <p class="text-muted text-sm mt-2 font-medium">Projects</p>
+      </div>
+      <div class="p-8 text-center">
+        <p class="font-display font-extrabold text-4xl lg:text-5xl tracking-tight">3</p>
+        <p class="text-muted text-sm mt-2 font-medium">Delivered</p>
+      </div>
+      <div class="p-8 text-center">
+        <p class="font-display font-extrabold text-4xl lg:text-5xl tracking-tight">2</p>
+        <p class="text-muted text-sm mt-2 font-medium">Ongoing</p>
+      </div>
+    </div>
+
+    <div class="mt-7 flex items-center justify-center gap-3 border border-olive-100 bg-olive-50 rounded-2xl px-6 py-4 max-w-md mx-auto">
+      <svg class="w-5 h-5 text-olive-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3l7 3v6c0 5-3 8-7 9-4-1-7-4-7-9V6l7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+      <p class="font-display font-semibold text-sm text-inksoft">MahaRERA Registered <span class="text-muted font-medium">— Reg. No. PXXXXXXXXXXXX (sample)</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA SECTION ============ -->
+<section id="enquire" class="relative overflow-hidden bg-olive-dark">
+  <div class="absolute inset-0 opacity-[0.06]" style="background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px); background-size: 48px 48px;"></div>
+  <div class="max-w-4xl mx-auto px-6 lg:px-10 py-20 lg:py-24 text-center relative">
+    <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight text-stone leading-tight">Looking for a home with more to offer?</h2>
+    <p class="text-stone/70 mt-4 text-lg max-w-md mx-auto">Talk to our team about ongoing projects in Panvel and Navi Mumbai.</p>
+    <div class="mt-9 flex flex-wrap items-center justify-center gap-4">
+      <a href="#contact" class="font-display font-semibold bg-stone text-ink px-7 py-3.5 rounded-full hover:bg-white transition-colors">Enquire Now</a>
+      <a href="#projects" class="font-display font-semibold border border-stone/30 text-stone px-7 py-3.5 rounded-full hover:bg-white/10 transition-colors">View All Projects</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" class="bg-ink text-stone">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+
+      <div class="lg:col-span-1">
+        <a href="#" class="flex items-center gap-2.5">
+          <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/5 border border-white/10">
+            <svg viewBox="0 0 128 128" class="w-5 h-5 text-olive-100" fill="currentColor">
+              <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
+            </svg>
+          </span>
+          <span class="font-display font-bold text-lg">Nesting Tree</span>
+        </a>
+        <p class="text-stone/55 text-sm mt-4 leading-relaxed max-w-[220px]">Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities since 2016.</p>
+        <div class="flex items-center gap-3 mt-6">
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10">IG</a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10">FB</a>
+          <a href="#" class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10">IN</a>
+        </div>
+      </div>
+
+      <div>
+        <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Company</h5>
+        <ul class="space-y-3 text-sm font-medium">
+          <li><a href="#projects" class="hover:text-olive-100">Projects</a></li>
+          <li><a href="#about" class="hover:text-olive-100">About Us</a></li>
+          <li><a href="#contact" class="hover:text-olive-100">Contact</a></li>
+          <li><a href="#" class="hover:text-olive-100">Careers</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Projects</h5>
+        <ul class="space-y-3 text-sm font-medium text-stone/80">
+          <li>Nesting Tree Elina</li>
+          <li>Nesting Tree Crest</li>
+          <li>Nesting Tree Meadow</li>
+          <li>Nesting Tree Skyline</li>
+          <li>Nesting Tree Horizon</li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Contact</h5>
+        <ul class="space-y-3 text-sm font-medium text-stone/80">
+          <li class="flex items-start gap-2.5">
+            <svg class="w-4 h-4 mt-0.5 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg>
+            [Office Address], Panvel, Navi Mumbai – 410206
+          </li>
+          <li class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v14H4z"/><path d="m4 6 8 7 8-7"/></svg>
+            hello@nestingtree.in
+          </li>
+          <li class="flex items-center gap-2.5">
+            <svg class="w-4 h-4 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"/></svg>
+            +91 98765 43210
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40">
+      <p>&copy; 2026 Nesting Tree. All rights reserved.</p>
+      <p>MahaRERA Reg. No. PXXXXXXXXXXXX (sample placeholder)</p>
+      <div class="flex items-center gap-5">
+        <a href="#" class="hover:text-stone/70">Privacy Policy</a>
+        <a href="#" class="hover:text-stone/70">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+
+  function filterProjects(status, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', 'false'));
+    btn.setAttribute('aria-selected', 'true');
+    document.querySelectorAll('#project-grid .card-row').forEach(card => {
+      const cardStatus = card.getAttribute('data-status');
+      const show = status === 'all' || cardStatus === status || cardStatus === 'all';
+      card.style.display = show ? '' : 'none';
+    });
+  }
+</script>
+
+</body>
+</html>
