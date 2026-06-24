@@ -201,7 +201,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
         </div>
 
         <a
-          href="#projects"
+          href={`/projects/${featured.slug}`}
           class="group inline-flex items-center gap-2 font-display font-bold uppercase tracking-[0.06em] text-sm mt-9"
         >
           Explore {featured.name}
@@ -243,7 +243,10 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
         {
           mosaic.map(({ p, cls }) => (
-            <a href="#contact" class={`group relative overflow-hidden rounded-[3px] bg-ink ${cls}`}>
+            <a
+              href={["shikhar", "rudra", "dhruva"].includes(p.slug) ? `/projects/${p.slug}` : "#contact"}
+              class={`group relative overflow-hidden rounded-[3px] bg-ink ${cls}`}
+            >
               <img
                 src={p.image}
                 alt={`${p.name} — ${p.location}`}
@@ -522,7 +525,16 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
             {
               projects.map((p) => (
                 <li>
-                  {p.name} — {p.status}
+                  <a
+                    href={
+                      ["shikhar", "rudra", "dhruva"].includes(p.slug)
+                        ? `/projects/${p.slug}`
+                        : "#projects"
+                    }
+                    class="hover:text-olive-100 transition-colors"
+                  >
+                    {p.name} — {p.status}
+                  </a>
                 </li>
               ))
             }

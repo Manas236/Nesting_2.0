@@ -1,0 +1,884 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { brand, contact, projects } from "../../data/site";
+import {
+  shikhar,
+  sales,
+  heroStats,
+  overview,
+  unitTypes,
+  amenityGroups,
+  emergencySystems,
+  safetyCards,
+  advantages,
+} from "../../data/shikhar";
+
+/* ---------- Line-icon set (24×24, stroke currentColor) ----------
+   Keyed to the `icon` fields in src/data/shikhar.ts. Kept here as
+   presentation, the way the homepage keeps its amenity icons.     */
+const icons: Record<string, string> = {
+  tower: `<rect x="7" y="3" width="10" height="18" rx="1"/><path d="M4 21h16"/><path d="M10.5 7h.01M13.5 7h.01M10.5 11h.01M13.5 11h.01M10.5 15h.01M13.5 15h.01"/>`,
+  elevator: `<rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M12 2.5v19"/><path d="m9.6 8.5-1.1 1.6h2.2z"/><path d="m9.6 15.5-1.1-1.6h2.2z"/><path d="M14.5 9h2.5M14.5 12h2.5M14.5 15h2.5"/>`,
+  stretcher: `<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M12 9.5v5M9.5 12h5"/>`,
+  lobby: `<path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M4 21h16"/><path d="M14.2 12h.01"/>`,
+  parking: `<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9.5 16.5v-9h3.4a2.8 2.8 0 0 1 0 5.6H9.5"/>`,
+  contract: `<path d="M6.5 3h7.5l4 4v13.5h-11.5z"/><path d="M14 3v4h4"/><path d="m9.3 13.8 1.6 1.6 3.4-3.6"/>`,
+  gym: `<path d="M6.5 8v8M3.5 9.8v4.4M17.5 8v8M20.5 9.8v4.4M6.5 12h11"/>`,
+  rooftop: `<circle cx="12" cy="12.5" r="3.2"/><path d="M12 4.5v2M5 12.5H3.2M20.8 12.5H19M6.9 7.4 5.7 6.2M18.3 6.2l-1.2 1.2"/><path d="M3 20.5h18"/>`,
+  people: `<circle cx="9" cy="8.5" r="2.5"/><circle cx="16" cy="9.5" r="2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M15.5 14c2.6 0 4.5 2 4.5 4.5"/>`,
+  deck: `<path d="M4 9.5h16M5.4 9.5 6.4 5.5h11.2l1 4M4 20.5h16M7.5 9.5v11M12 9.5v11M16.5 9.5v11"/>`,
+  star: `<path d="m12 4 2.3 5 5.4.5-4.1 3.6 1.3 5.3L12 16.6 7.1 18.4l1.3-5.3-4.1-3.6 5.4-.5z"/>`,
+  tiles: `<rect x="3.5" y="3.5" width="17" height="17" rx="1"/><path d="M3.5 12h17M12 3.5v17"/>`,
+  faucet: `<path d="M12 3.5c2.6 3.7 4.2 6.2 4.2 8.3a4.2 4.2 0 0 1-8.4 0c0-2.1 1.6-4.6 4.2-8.3z"/>`,
+  window: `<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M12 3v18M4 12h16"/>`,
+  grill: `<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M9 4v16M14 4v16M4 9h16M4 14h16"/>`,
+  bolt: `<path d="M13 3 5 13.5h5.5L9 21l8-10.5h-5.5z"/>`,
+  waterproof: `<path d="M12 3 5 6v5c0 4.6 3 8.1 7 9 4-.9 7-4.4 7-9V6z"/><path d="M12 9.5c1.2 1.6 2 2.7 2 3.7a2 2 0 0 1-4 0c0-1 .8-2.1 2-3.7z"/>`,
+  flame: `<path d="M12 22a6 6 0 0 0 6-6c0-4-3-5.2-3-9 0 0-3.2 2-3.2 5.2 0-1.8-1.3-3.2-1.3-3.2C8.3 6.6 6 9 6 12.5A6 6 0 0 0 12 22z"/>`,
+  sprinkler: `<path d="M3 7h18M12 4v3M8.5 11l-1 3M12 12v3.5M15.5 11l1 3"/>`,
+  alarm: `<path d="M10.2 5.2a2 2 0 0 1 3.6 0c2.9 1 3.7 3.6 3.7 6.8v3l1.5 2H5l1.5-2v-3c0-3.2.8-5.8 3.7-6.8z"/><path d="M10 21a2 2 0 0 0 4 0"/>`,
+  cctv: `<rect x="3" y="7.5" width="12" height="9" rx="2"/><path d="m15 11 6-3v8l-6-3z"/><path d="M9 16.5v2.5"/>`,
+  refuge: `<path d="M12 3 5 6v5c0 4.6 3 8.1 7 9 4-.9 7-4.4 7-9V6z"/><path d="m9.3 12 1.8 1.8 3.4-3.6"/>`,
+  firedoor: `<path d="M7 21V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v17"/><path d="M5 21h14"/><circle cx="14" cy="12" r=".9"/>`,
+  stairs: `<path d="M4 20h4v-4h4v-4h4v-4h4"/>`,
+};
+
+const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
+const pin = `<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/>`;
+
+const navLinks = [
+  { label: "Overview", href: "#overview" },
+  { label: "Units", href: "#units" },
+  { label: "Amenities", href: "#amenities" },
+  { label: "Safety", href: "#safety" },
+];
+
+const pageTitle = `Shikhar — G+10 Landmark Tower, Karanjade · ${brand.name}`;
+const pageDesc =
+  "Shikhar by Nesting Tree — a landmark G+10 residential tower in Karanjade, Navi Mumbai. 66 homes & shops, 1BHK / 1RK / 1BHK+Terrace, amenity-first living. MahaRERA PM1270002502760.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <!-- ============================ NAVBAR ============================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="flex items-center justify-between h-[72px] lg:h-20">
+        <a href="/" class="flex items-center gap-3 shrink-0">
+          <img
+            src={brand.logoMark}
+            alt={`${brand.name} logo`}
+            width="36"
+            height="42"
+            class="h-9 w-auto lg:h-10 drop-shadow-sm"
+          />
+          <span
+            class="nav-wordmark font-display font-extrabold text-lg lg:text-xl tracking-tight leading-none"
+            >Nesting&nbsp;Tree</span
+          >
+        </a>
+
+        <nav
+          class="hidden md:flex items-center gap-8 lg:gap-10 font-display text-[13px] font-bold uppercase tracking-[0.08em]"
+        >
+          {
+            navLinks.map((item) => (
+              <a href={item.href} class="nav-link hover:opacity-70 transition-opacity">
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <a
+          href="#enquire"
+          class="nav-cta hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
+          >Enquire Now</a
+        >
+
+        <button id="menu-toggle" class="md:hidden p-2 -mr-2" aria-label="Toggle menu">
+          <svg
+            class="nav-toggle-icon w-6 h-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg
+          >
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="md:hidden bg-stone/95 -mx-5 sm:-mx-6 px-5 sm:px-6 rounded-b-lg">
+        <nav
+          class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide text-ink"
+        >
+          {
+            navLinks.map((item) => (
+              <a href={item.href} class="mobile-link py-3.5 border-b border-line">
+                {item.label}
+              </a>
+            ))
+          }
+          <a
+            href="#enquire"
+            class="mobile-link mt-4 text-center bg-ink text-stone px-5 py-3.5 rounded-[2px]"
+            >Enquire Now</a
+          >
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ HERO ============================ -->
+  <section id="top" class="relative h-[100svh] min-h-[680px] w-full overflow-hidden bg-ink">
+    <img
+      src={shikhar.hero}
+      alt="Shikhar — landmark residential tower by Nesting Tree, Karanjade"
+      class="absolute top-0 left-0 w-full h-[116%] object-cover object-[center_14%] lg:object-[center_6%]"
+      fetchpriority="high"
+    />
+    <!-- top scrim for nav legibility + bottom scrim for copy -->
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-ink/45 via-transparent to-transparent"></div>
+
+    <div
+      class="relative h-full max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col justify-end pb-16 lg:pb-24"
+    >
+      <!-- breadcrumb -->
+      <nav class="font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 mb-7">
+        <a href="/#projects" class="hover:text-white transition-colors">Projects</a>
+        <span class="mx-2.5 text-white/35">/</span>
+        <span class="text-olive-100">Shikhar</span>
+      </nav>
+
+      <!-- status + rera pills -->
+      <div class="flex flex-wrap items-center gap-2.5 mb-7">
+        <span
+          class="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.14em] bg-olive text-white px-3.5 py-1.5 rounded-[2px]"
+        >
+          <span class="w-1.5 h-1.5 rounded-full bg-olive-100"></span>
+          {shikhar.status}
+        </span>
+        <span
+          class="font-display text-[11px] font-bold uppercase tracking-[0.14em] bg-white/12 text-white border border-white/25 px-3.5 py-1.5 rounded-[2px] backdrop-blur-sm"
+        >
+          MahaRERA {shikhar.maharera}
+        </span>
+      </div>
+
+      <h1
+        class="font-display font-black text-white text-[3.5rem] sm:text-8xl lg:text-[8.5rem] leading-[0.9] tracking-tight"
+      >
+        Shikhar
+      </h1>
+      <p class="text-white/80 text-lg sm:text-xl lg:text-2xl mt-7 max-w-2xl leading-relaxed">
+        A landmark residential tower — the tallest building in the neighbourhood.
+      </p>
+
+      <p class="flex items-start gap-2.5 text-white/65 text-sm sm:text-base mt-8 max-w-xl leading-relaxed">
+        <svg
+          class="w-4.5 h-4.5 mt-0.5 shrink-0 text-olive-100"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          set:html={pin}
+        ></svg>
+        {shikhar.address}
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================== HEADLINE STATS BAND ====================== -->
+  <section class="bg-ink text-stone border-t border-white/10">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="grid grid-cols-2 lg:grid-cols-4">
+        {
+          heroStats.map((s, i) => (
+            <div
+              class={`py-12 lg:py-16 px-2 sm:px-4 lg:px-8 ${
+                i % 2 === 1 ? "border-l border-white/10" : ""
+              } ${i >= 2 ? "border-t border-white/10 lg:border-t-0" : ""} ${
+                i !== 0 ? "lg:border-l lg:border-white/10" : ""
+              }`}
+            >
+              <p class="font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none">
+                {s.figure}
+              </p>
+              <p class="font-display text-xs sm:text-sm font-bold uppercase tracking-[0.16em] text-olive-100 mt-4">
+                {s.label}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ OVERVIEW ============================ -->
+  <section id="overview" class="bg-stone py-24 lg:py-32 scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
+        <!-- main column -->
+        <div class="lg:col-span-8">
+          <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+            >Project overview</span
+          >
+          <h2
+            class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] max-w-2xl"
+          >
+            A landmark residential tower
+          </h2>
+          <p class="text-muted text-lg sm:text-xl leading-relaxed mt-7 max-w-2xl">
+            {overview.intro}
+          </p>
+
+          <!-- key facts -->
+          <dl class="mt-12 border-t border-line">
+            {
+              overview.facts.map((f) => (
+                <div class="grid sm:grid-cols-3 gap-2 sm:gap-8 py-6 border-b border-line">
+                  <dt class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted pt-1">
+                    {f.label}
+                  </dt>
+                  <dd class="sm:col-span-2 font-display font-semibold text-lg lg:text-xl tracking-tight text-ink">
+                    {f.value}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+
+          <!-- unit mix -->
+          <div class="mt-14">
+            <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
+              >Unit mix</span
+            >
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-line border border-line mt-5">
+              {
+                overview.unitMix.map((u) => (
+                  <div class="bg-card p-6 lg:p-8">
+                    <p class="font-display font-black text-4xl lg:text-5xl tracking-tight text-ink leading-none">
+                      {u.figure}
+                    </p>
+                    <p class="text-muted text-sm leading-snug mt-3">{u.label}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- location & connectivity -->
+          <div class="mt-14 bg-olive-50 border border-olive-100 rounded-[3px] p-8 lg:p-10">
+            <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
+              >Location & connectivity</span
+            >
+            <p class="text-inksoft text-lg leading-relaxed mt-4 max-w-2xl">
+              {overview.connectivity}
+            </p>
+            <a
+              href={shikhar.mapsUrl}
+              target="_blank"
+              rel="noopener"
+              class="group inline-flex items-center gap-2 font-display font-bold uppercase tracking-[0.06em] text-sm text-olive-600 mt-7"
+            >
+              <svg
+                class="w-4 h-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                set:html={pin}
+              ></svg>
+              View on Google Maps
+              <svg
+                class="w-4 h-4 transition-transform group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                set:html={arrow}
+              ></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- sticky enquiry rail -->
+        <aside class="lg:col-span-4">
+          <div class="lg:sticky lg:top-28">
+            <div class="bg-ink text-stone rounded-[4px] p-8 lg:p-9">
+              <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-100"
+                >Ready to book?</span
+              >
+              <p class="font-display font-black text-2xl lg:text-3xl tracking-tight mt-3 leading-tight">
+                Talk to the Shikhar sales team.
+              </p>
+              <p class="text-stone/60 text-base leading-relaxed mt-4">
+                Get current availability, pricing and a walkthrough of the tower.
+              </p>
+
+              <a
+                href={sales.phoneHref}
+                class="flex items-center gap-4 mt-8 pt-7 border-t border-white/10 group"
+              >
+                <span
+                  class="w-11 h-11 rounded-full bg-olive/25 border border-olive-100/30 flex items-center justify-center shrink-0 text-olive-100"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path
+                      d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"
+                    ></path></svg
+                  >
+                </span>
+                <span>
+                  <span class="block font-display text-[11px] font-bold uppercase tracking-[0.16em] text-stone/50"
+                    >{sales.name} · Sales</span
+                  >
+                  <span class="block font-display font-bold text-xl tracking-tight group-hover:text-olive-100 transition-colors"
+                    >{sales.phone}</span
+                  >
+                </span>
+              </a>
+
+              <a
+                href="#enquire"
+                class="block text-center font-display font-bold uppercase tracking-[0.06em] text-sm bg-white text-ink px-6 py-4 rounded-[2px] mt-8 hover:bg-stone transition-colors"
+                >Enquire about Shikhar</a
+              >
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ UNIT TYPES ============================ -->
+  <section id="units" class="bg-card py-24 lg:py-32 border-t border-line scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="max-w-3xl mb-16 lg:mb-24">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >Floor plans</span
+        >
+        <h2
+          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+        >
+          Three ways to call Shikhar home.
+        </h2>
+        <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
+          From the popular 1BHK to limited terrace homes — every layout is planned for light,
+          privacy and easy daily living.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-24 lg:gap-32">
+        {
+          unitTypes.map((u, i) => (
+            <article class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              {/* floor-plan render */}
+              <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+                <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
+                <div class="relative bg-stone border border-line rounded-[3px] p-4 sm:p-6 lg:p-8">
+                  <img
+                    src={u.plan}
+                    alt={`Shikhar ${u.type} floor plan — ${u.series}`}
+                    class="w-full h-auto object-contain rounded-[2px] mix-blend-multiply"
+                    loading="lazy"
+                  />
+                  <span class="absolute top-7 left-7 font-display text-[11px] font-bold uppercase tracking-[0.14em] bg-ink text-stone px-3 py-1.5 rounded-[2px]">
+                    Floor plan
+                  </span>
+                </div>
+              </div>
+
+              {/* details */}
+              <div class={i % 2 === 1 ? "lg:order-1" : ""}>
+                <div class="flex flex-wrap items-center gap-3">
+                  <h3 class="font-display font-black text-4xl lg:text-5xl tracking-tight">
+                    {u.type}
+                  </h3>
+                  <span class="font-display text-xs font-bold uppercase tracking-[0.12em] bg-olive-100 text-olive-dark px-3 py-1.5 rounded-full">
+                    {u.units}
+                  </span>
+                </div>
+                <p class="font-display text-sm font-bold uppercase tracking-[0.16em] text-olive-600 mt-4">
+                  {u.series}
+                </p>
+                <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{u.blurb}</p>
+
+                <ul class="mt-7 flex flex-col gap-3 max-w-md">
+                  {u.features.map((f) => (
+                    <li class="flex items-start gap-3 text-ink">
+                      <svg
+                        class="w-5 h-5 mt-0.5 shrink-0 text-olive-600"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m5 12.5 4 4 10-10" />
+                      </svg>
+                      <span class="text-base leading-snug">{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* room dimensions */}
+                <div class="mt-9 border-t border-line max-w-md">
+                  <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted pt-5 pb-1">
+                    Room dimensions
+                  </p>
+                  <dl>
+                    {u.rooms.map((r) => (
+                      <div class="flex items-baseline justify-between gap-4 py-3 border-b border-line">
+                        <dt class="text-muted text-base">{r.room}</dt>
+                        <dd class="font-display font-semibold tracking-tight text-ink text-base tabular-nums">
+                          {r.dim}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== AMENITIES — HERO USP ===================== -->
+  <section id="amenities" class="bg-stone py-24 lg:py-32 scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="max-w-3xl mb-16 lg:mb-20">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >The Nesting Tree standard</span
+        >
+        <h2
+          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+        >
+          Amenities aren’t a list here. They’re the reason to live here.
+        </h2>
+        <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
+          Everything below is built into Shikhar — from the tower itself to the finish on your
+          walls. The marquee features are sized to match.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-16 lg:gap-20">
+        {
+          amenityGroups.map((g) => (
+            <div>
+              <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-line pb-5 mb-8">
+                <h3 class="font-display font-black text-2xl lg:text-3xl tracking-tight">
+                  {g.group}
+                </h3>
+                <p class="font-display text-sm font-semibold text-muted tracking-tight">
+                  {g.caption}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 auto-rows-fr">
+                {g.items.map((a) => (
+                  <div
+                    class={`group relative flex flex-col rounded-[4px] p-7 lg:p-9 transition-colors ${
+                      a.featured
+                        ? "sm:col-span-2 lg:col-span-2 bg-ink text-stone"
+                        : "bg-card border border-line hover:border-olive-100"
+                    }`}
+                  >
+                    <span
+                      class={`flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 ${
+                        a.featured
+                          ? "bg-olive text-white"
+                          : "bg-olive-50 text-olive-600 group-hover:bg-olive group-hover:text-white transition-colors"
+                      }`}
+                    >
+                      <svg
+                        class="w-7 h-7"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        set:html={icons[a.icon]}
+                      />
+                    </span>
+                    <h4
+                      class={`font-display font-bold tracking-tight mt-6 ${
+                        a.featured ? "text-2xl lg:text-3xl max-w-md" : "text-xl"
+                      }`}
+                    >
+                      {a.name}
+                    </h4>
+                    <p
+                      class={`leading-relaxed mt-3 ${
+                        a.featured
+                          ? "text-stone/65 text-lg max-w-lg"
+                          : "text-muted text-base"
+                      }`}
+                    >
+                      {a.desc}
+                    </p>
+                    {a.featured && (
+                      <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 mt-auto pt-7">
+                        Signature feature
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SAFETY (DARK SECTION) ===================== -->
+  <section id="safety" class="bg-ink text-stone py-24 lg:py-32 scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="max-w-3xl mb-16 lg:mb-20">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100"
+          >Safety & emergency systems</span
+        >
+        <h2
+          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+        >
+          Your safety is non-negotiable.
+        </h2>
+        <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6">
+          Shikhar is built with a comprehensive emergency and safety infrastructure — a standard
+          rarely found in buildings of this scale.
+        </p>
+      </div>
+
+      <!-- emergency systems row -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-[3px] overflow-hidden">
+        {
+          emergencySystems.map((s) => (
+            <div class="bg-ink flex items-center gap-4 p-7 lg:p-8">
+              <span class="flex items-center justify-center w-11 h-11 rounded-[2px] bg-olive/25 text-olive-100 shrink-0">
+                <svg
+                  class="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  set:html={icons[s.icon]}
+                />
+              </span>
+              <span class="font-display font-semibold text-base lg:text-lg tracking-tight leading-snug">
+                {s.name}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- safety cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7 mt-7 lg:mt-7">
+        {
+          safetyCards.map((c) => (
+            <div class="bg-white/[0.04] border border-white/10 rounded-[4px] p-8 lg:p-9 hover:border-olive-100/40 transition-colors">
+              <span class="flex items-center justify-center w-14 h-14 rounded-[3px] bg-olive text-white">
+                <svg
+                  class="w-7 h-7"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  set:html={icons[c.icon]}
+                />
+              </span>
+              <h3 class="font-display font-bold text-xl tracking-tight mt-6">{c.name}</h3>
+              <p class="text-stone/60 text-base leading-relaxed mt-3">{c.desc}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NESTING TREE ADVANTAGE ===================== -->
+  <section class="bg-olive-50 py-24 lg:py-32">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="max-w-3xl">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >Why buy at Shikhar</span
+        >
+        <h2
+          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+        >
+          The Nesting Tree advantage.
+        </h2>
+        <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
+          20 years of building trust — three projects, fully sold out, every one delivered before
+          time.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-olive-100 border border-olive-100 mt-14 lg:mt-16">
+        {
+          advantages.map((a, i) => (
+            <div class="bg-olive-50 p-8 lg:p-10">
+              <span class="font-display font-black text-3xl text-olive/45 leading-none">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 class="font-display font-bold text-xl lg:text-2xl tracking-tight mt-5">
+                {a.title}
+              </h3>
+              <p class="text-muted text-base leading-relaxed mt-3">{a.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ENQUIRY FORM ===================== -->
+  <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
+    <div class="max-w-2xl mx-auto px-5 sm:px-6 text-center">
+      <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+        >Enquire</span
+      >
+      <h2
+        class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+      >
+        Ask about Shikhar.
+      </h2>
+      <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl mx-auto">
+        Share your details and our team will get back to you with availability and pricing. Or call
+        {sales.name} on
+        <a href={sales.phoneHref} class="font-semibold text-olive-600 hover:text-olive-dark transition-colors"
+          >{sales.phone}</a
+        >.
+      </p>
+
+      <form class="mt-12 text-left" action="#" method="post">
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div class="flex flex-col gap-2">
+            <label for="name" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Full name</label
+            >
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              placeholder="Your name"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="phone" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Phone</label
+            >
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              required
+              placeholder="Mobile number"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="email" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Email</label
+            >
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="project" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Project</label
+            >
+            <select
+              id="project"
+              name="project"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition appearance-none"
+            >
+              {
+                projects.map((p) => (
+                  <option value={p.slug} selected={p.slug === "shikhar"}>
+                    {p.name}
+                  </option>
+                ))
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 mt-5">
+          <label for="message" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+            >Message <span class="font-medium normal-case tracking-normal text-mutedlight">(optional)</span></label
+          >
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            placeholder="Which unit type are you interested in?"
+            class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition resize-y"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full mt-7 font-display font-bold uppercase tracking-[0.06em] text-sm bg-ink text-stone px-7 py-4 rounded-[2px] hover:bg-inksoft transition-colors"
+          >Send enquiry</button
+        >
+        <p class="text-mutedlight text-xs leading-relaxed mt-4 text-center">
+          By submitting, you agree to be contacted about Shikhar by Nesting Tree.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-ink text-stone">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
+      <h3
+        class="font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+      >
+        NESTING TREE
+      </h3>
+    </div>
+
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div>
+          <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
+            Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities
+            since {brand.foundedYear}.
+          </p>
+          <div class="flex items-center gap-3 mt-6">
+            {
+              contact.socials.map((s) => (
+                <a
+                  href={s.href}
+                  class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors"
+                >
+                  {s.label}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div>
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            This project
+          </h5>
+          <ul class="space-y-3 text-sm font-medium">
+            {
+              navLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="hover:text-olive-100 transition-colors">
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Explore
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            <li><a href="/" class="hover:text-olive-100 transition-colors">Home</a></li>
+            <li><a href="/#projects" class="hover:text-olive-100 transition-colors">All projects</a></li>
+            <li><a href="/#journey" class="hover:text-olive-100 transition-colors">Our journey</a></li>
+            <li><a href="#enquire" class="hover:text-olive-100 transition-colors">Enquire</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Shikhar sales
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            <li class="flex items-start gap-2.5">
+              <svg
+                class="w-4 h-4 mt-0.5 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                set:html={pin}
+              ></svg>
+              {shikhar.address}
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                ><path
+                  d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"
+                ></path></svg
+              >
+              <a href={sales.phoneHref} class="hover:text-olive-100 transition-colors"
+                >{sales.name} — {sales.phone}</a
+              >
+            </li>
+            <li class="text-stone/55">MahaRERA {shikhar.maharera}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40"
+      >
+        <p>&copy; {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
+        <p>{contact.maharera}</p>
+        <div class="flex items-center gap-5">
+          <a href="/" class="hover:text-stone/70 transition-colors">Back to home</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    const header = document.getElementById("site-header");
+    const onScroll = () =>
+      header.classList.toggle("is-scrolled", window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    toggle.addEventListener("click", () => menu.classList.toggle("open"));
+    menu.querySelectorAll(".mobile-link").forEach((link) =>
+      link.addEventListener("click", () => menu.classList.remove("open"))
+    );
+  </script>
+</BaseLayout>

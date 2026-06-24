@@ -4,12 +4,14 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
 const {
   title = "Nesting Tree — Residential Developer · Panvel & Navi Mumbai",
   description =
     "Nesting Tree builds amenity-first homes across Panvel & Navi Mumbai. Rooftop gyms, terraces, lifts, security and parking — built in, not bolted on. Delivering since 2019.",
+  image = "/images/projects/ShikharElevationFinal.jpeg",
 } = Astro.props;
 ---
 
@@ -27,7 +29,7 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/images/projects/ShikharElevationFinal.jpeg" />
+    <meta property="og:image" content={image} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
