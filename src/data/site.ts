@@ -123,35 +123,61 @@ export const featuredSlug = "shikhar";
 export const amenities = [
   {
     no: "01",
-    kicker: "Rooftop & Terrace",
-    title: "Open-air living, above the city.",
+    kicker: "Rooftop Access",
+    title: "A rooftop you can use in any weather.",
     body:
-      "A rooftop gym and open terrace built into the building itself — no separate membership, no separate commute. Just take the lift up.",
-    featured: "Rooftop Gym · Terrace Access",
+      "A sheltered rooftop deck — open on the sides to the breeze and the view, but covered overhead. Sit out and take in the scene without worrying about the sun or the rain.",
+    featured: "Sheltered Rooftop · Terrace Access",
+    image: "/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg",
+    objectPosition: "center 60%",
   },
   {
     no: "02",
-    kicker: "Family & Community",
-    title: "A childhood that doesn’t wait for the park.",
+    kicker: "Aerial View",
+    title: "A skyline you can actually stand in.",
     body:
-      "A dedicated play area for children and community spaces for residents to gather — designed into the building, not squeezed into a leftover corner.",
-    featured: "Children’s Play Area · Community Spaces",
+      "From the terrace, the view opens up over Panvel — uninterrupted, above the rooftops, the kind of outlook a ground-floor balcony can’t give you.",
+    featured: "Panoramic Skyline Views · Open-Air Terrace",
+    image: "/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg",
+    objectPosition: "center center",
   },
   {
     no: "03",
     kicker: "Safety & Access",
     title: "Security that never clocks out.",
     body:
-      "CCTV-monitored common areas, round-the-clock trained security and a lift to every floor — the fundamentals, done properly.",
-    featured: "CCTV Surveillance · 24×7 Security · Lift",
+      "CCTV-monitored common areas and round-the-clock trained security — the fundamentals, done properly.",
+    featured: "CCTV Surveillance · 24×7 Security",
   },
   {
     no: "04",
-    kicker: "Everyday Convenience",
-    title: "The small things, already sorted.",
+    kicker: "Dedicated Parking",
+    title: "A parking spot that’s actually yours.",
     body:
-      "Dedicated parking and power backup for common areas and lifts — so the building keeps working, even when the city doesn’t.",
-    featured: "Dedicated Parking · Power Backup",
+      "Covered parking on the ground floor — space for the two-wheeler or the car, out of the sun and the rain. No circling the lane, no fighting for a spot on the road.",
+    featured: "Covered Parking · Two-Wheeler & Car",
+    image: "/images/Project_Images/Rudra/Parking/IMG20260627112838.jpeg",
+    objectPosition: "center 60%",
+  },
+  {
+    no: "05",
+    kicker: "Lift Access",
+    title: "A lift to every floor, always running.",
+    body:
+      "A proper passenger lift to every floor, backed by power for the common areas — so getting home never comes down to the stairs or the grid.",
+    featured: "Lift to Every Floor · Power Backup",
+    image: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg",
+    objectPosition: "center 65%",
+  },
+  {
+    no: "06",
+    kicker: "Spacious Corridors",
+    title: "Common spaces that never feel cramped.",
+    body:
+      "Wide, well-lit corridors and landings finished in glossy tile — room to move, whether you’re carrying the groceries up or seeing guests out.",
+    featured: "Wide Landings · Bright & Tiled",
+    image: "/images/Project_Images/Dhruva/Corridor/IMG20260627113731.jpeg",
+    objectPosition: "center center",
   },
 ];
 

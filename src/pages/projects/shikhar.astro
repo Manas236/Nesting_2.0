@@ -133,7 +133,7 @@ const pageDesc =
     <img
       src={shikhar.hero}
       alt="Shikhar — landmark residential tower by Nesting Tree, Karanjade"
-      class="absolute top-0 left-0 w-full h-[116%] object-cover object-[center_14%] lg:object-[center_6%]"
+      class="hero-img-reveal absolute top-0 left-0 w-full h-[116%] object-cover object-[center_14%] lg:object-[center_6%]"
       fetchpriority="high"
     />
     <!-- top scrim for nav legibility + bottom scrim for copy -->
@@ -145,14 +145,14 @@ const pageDesc =
       class="relative h-full max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col justify-end pb-16 lg:pb-24"
     >
       <!-- breadcrumb -->
-      <nav class="font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 mb-7">
+      <nav class="hero-rise font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 mb-7" style="--rise-d:0.15s">
         <a href="/#projects" class="hover:text-white transition-colors">Projects</a>
         <span class="mx-2.5 text-white/35">/</span>
         <span class="text-olive-100">Shikhar</span>
       </nav>
 
       <!-- status + rera pills -->
-      <div class="flex flex-wrap items-center gap-2.5 mb-7">
+      <div class="hero-rise flex flex-wrap items-center gap-2.5 mb-7" style="--rise-d:0.28s">
         <span
           class="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.14em] bg-olive text-white px-3.5 py-1.5 rounded-[2px]"
         >
@@ -167,15 +167,16 @@ const pageDesc =
       </div>
 
       <h1
-        class="font-display font-black text-white text-[3.5rem] sm:text-8xl lg:text-[8.5rem] leading-[0.9] tracking-tight"
+        class="hero-rise font-display font-black text-white text-[3.5rem] sm:text-8xl lg:text-[8.5rem] leading-[0.9] tracking-tight"
+        style="--rise-d:0.4s"
       >
         Shikhar
       </h1>
-      <p class="text-white/80 text-lg sm:text-xl lg:text-2xl mt-7 max-w-2xl leading-relaxed">
+      <p class="hero-rise text-white/80 text-lg sm:text-xl lg:text-2xl mt-7 max-w-2xl leading-relaxed" style="--rise-d:0.54s">
         A landmark residential tower — the tallest building in the neighbourhood.
       </p>
 
-      <p class="flex items-start gap-2.5 text-white/65 text-sm sm:text-base mt-8 max-w-xl leading-relaxed">
+      <p class="hero-rise flex items-start gap-2.5 text-white/65 text-sm sm:text-base mt-8 max-w-xl leading-relaxed" style="--rise-d:0.66s">
         <svg
           class="w-4.5 h-4.5 mt-0.5 shrink-0 text-olive-100"
           viewBox="0 0 24 24"
@@ -198,11 +199,12 @@ const pageDesc =
         {
           heroStats.map((s, i) => (
             <div
-              class={`py-12 lg:py-16 px-2 sm:px-4 lg:px-8 ${
+              class={`reveal py-12 lg:py-16 px-2 sm:px-4 lg:px-8 ${
                 i % 2 === 1 ? "border-l border-white/10" : ""
               } ${i >= 2 ? "border-t border-white/10 lg:border-t-0" : ""} ${
                 i !== 0 ? "lg:border-l lg:border-white/10" : ""
               }`}
+              style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}
             >
               <p class="font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none">
                 {s.figure}
@@ -223,20 +225,20 @@ const pageDesc =
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
         <!-- main column -->
         <div class="lg:col-span-8">
-          <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
             >Project overview</span
           >
           <h2
-            class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] max-w-2xl"
+            class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] max-w-2xl" style="--reveal-d:0.08s"
           >
             A landmark residential tower
           </h2>
-          <p class="text-muted text-lg sm:text-xl leading-relaxed mt-7 max-w-2xl">
+          <p class="reveal text-muted text-lg sm:text-xl leading-relaxed mt-7 max-w-2xl" style="--reveal-d:0.16s">
             {overview.intro}
           </p>
 
           <!-- key facts -->
-          <dl class="mt-12 border-t border-line">
+          <dl class="reveal mt-12 border-t border-line">
             {
               overview.facts.map((f) => (
                 <div class="grid sm:grid-cols-3 gap-2 sm:gap-8 py-6 border-b border-line">
@@ -252,7 +254,7 @@ const pageDesc =
           </dl>
 
           <!-- unit mix -->
-          <div class="mt-14">
+          <div class="reveal mt-14">
             <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
               >Unit mix</span
             >
@@ -271,7 +273,7 @@ const pageDesc =
           </div>
 
           <!-- location & connectivity -->
-          <div class="mt-14 bg-olive-50 border border-olive-100 rounded-[3px] p-8 lg:p-10">
+          <div class="reveal mt-14 bg-olive-50 border border-olive-100 rounded-[3px] p-8 lg:p-10">
             <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
               >Location & connectivity</span
             >
@@ -312,7 +314,7 @@ const pageDesc =
         <!-- sticky enquiry rail -->
         <aside class="lg:col-span-4">
           <div class="lg:sticky lg:top-28">
-            <div class="bg-ink text-stone rounded-[4px] p-8 lg:p-9">
+            <div class="reveal reveal-right bg-ink text-stone rounded-[4px] p-8 lg:p-9">
               <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-100"
                 >Ready to book?</span
               >
@@ -368,7 +370,7 @@ const pageDesc =
   <!-- ============================ UNIT TYPES ============================ -->
   <section id="units" class="bg-card py-24 lg:py-32 border-t border-line scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="max-w-3xl mb-16 lg:mb-24">
+      <div class="reveal max-w-3xl mb-16 lg:mb-24">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >Floor plans</span
         >
@@ -386,7 +388,7 @@ const pageDesc =
       <div class="flex flex-col gap-24 lg:gap-32">
         {
           unitTypes.map((u, i) => (
-            <article class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <article class="reveal grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               {/* floor-plan render */}
               <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
@@ -464,7 +466,7 @@ const pageDesc =
   <!-- ===================== AMENITIES — HERO USP ===================== -->
   <section id="amenities" class="bg-stone py-24 lg:py-32 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="max-w-3xl mb-16 lg:mb-20">
+      <div class="reveal max-w-3xl mb-16 lg:mb-20">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >The Nesting Tree standard</span
         >
@@ -483,7 +485,7 @@ const pageDesc =
         {
           amenityGroups.map((g) => (
             <div>
-              <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-line pb-5 mb-8">
+              <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-line pb-5 mb-8">
                 <h3 class="font-display font-black text-2xl lg:text-3xl tracking-tight">
                   {g.group}
                 </h3>
@@ -493,13 +495,14 @@ const pageDesc =
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 auto-rows-fr">
-                {g.items.map((a) => (
+                {g.items.map((a, i) => (
                   <div
-                    class={`group relative flex flex-col rounded-[4px] p-7 lg:p-9 transition-colors ${
+                    class={`reveal group relative flex flex-col rounded-[4px] p-7 lg:p-9 transition-colors ${
                       a.featured
                         ? "sm:col-span-2 lg:col-span-2 bg-ink text-stone"
                         : "bg-card border border-line hover:border-olive-100"
                     }`}
+                    style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
                   >
                     <span
                       class={`flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 ${
@@ -553,7 +556,7 @@ const pageDesc =
   <!-- ===================== SAFETY (DARK SECTION) ===================== -->
   <section id="safety" class="bg-ink text-stone py-24 lg:py-32 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="max-w-3xl mb-16 lg:mb-20">
+      <div class="reveal max-w-3xl mb-16 lg:mb-20">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100"
           >Safety & emergency systems</span
         >
@@ -571,8 +574,8 @@ const pageDesc =
       <!-- emergency systems row -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-[3px] overflow-hidden">
         {
-          emergencySystems.map((s) => (
-            <div class="bg-ink flex items-center gap-4 p-7 lg:p-8">
+          emergencySystems.map((s, i) => (
+            <div class="reveal bg-ink flex items-center gap-4 p-7 lg:p-8" style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}>
               <span class="flex items-center justify-center w-11 h-11 rounded-[2px] bg-olive/25 text-olive-100 shrink-0">
                 <svg
                   class="w-6 h-6"
@@ -596,8 +599,8 @@ const pageDesc =
       <!-- safety cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-7 mt-7 lg:mt-7">
         {
-          safetyCards.map((c) => (
-            <div class="bg-white/[0.04] border border-white/10 rounded-[4px] p-8 lg:p-9 hover:border-olive-100/40 transition-colors">
+          safetyCards.map((c, i) => (
+            <div class="reveal bg-white/[0.04] border border-white/10 rounded-[4px] p-8 lg:p-9 hover:border-olive-100/40 transition-colors" style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}>
               <span class="flex items-center justify-center w-14 h-14 rounded-[3px] bg-olive text-white">
                 <svg
                   class="w-7 h-7"
@@ -622,7 +625,7 @@ const pageDesc =
   <!-- ===================== NESTING TREE ADVANTAGE ===================== -->
   <section class="bg-olive-50 py-24 lg:py-32">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="max-w-3xl">
+      <div class="reveal max-w-3xl">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >Why buy at Shikhar</span
         >
@@ -640,7 +643,7 @@ const pageDesc =
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-olive-100 border border-olive-100 mt-14 lg:mt-16">
         {
           advantages.map((a, i) => (
-            <div class="bg-olive-50 p-8 lg:p-10">
+            <div class="reveal bg-olive-50 p-8 lg:p-10" style={`--reveal-d:${(i * 0.07).toFixed(2)}s`}>
               <span class="font-display font-black text-3xl text-olive/45 leading-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -657,7 +660,7 @@ const pageDesc =
 
   <!-- ===================== ENQUIRY FORM ===================== -->
   <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
-    <div class="max-w-2xl mx-auto px-5 sm:px-6 text-center">
+    <div class="reveal max-w-2xl mx-auto px-5 sm:px-6 text-center">
       <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
         >Enquire</span
       >
@@ -763,7 +766,7 @@ const pageDesc =
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
       <h3
-        class="font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+        class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
       >
         NESTING TREE
       </h3>
@@ -771,7 +774,7 @@ const pageDesc =
 
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
-        <div>
+        <div class="reveal">
           <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
             Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities
             since {brand.foundedYear}.
@@ -790,7 +793,7 @@ const pageDesc =
           </div>
         </div>
 
-        <div>
+        <div class="reveal" style="--reveal-d:0.08s">
           <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
             This project
           </h5>
@@ -807,7 +810,7 @@ const pageDesc =
           </ul>
         </div>
 
-        <div>
+        <div class="reveal" style="--reveal-d:0.16s">
           <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
             Explore
           </h5>
@@ -819,7 +822,7 @@ const pageDesc =
           </ul>
         </div>
 
-        <div>
+        <div class="reveal" style="--reveal-d:0.24s">
           <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
             Shikhar sales
           </h5>
@@ -880,5 +883,24 @@ const pageDesc =
     menu.querySelectorAll(".mobile-link").forEach((link) =>
       link.addEventListener("click", () => menu.classList.remove("open"))
     );
+
+    // Scroll-reveal: fade/lift elements in as they enter the viewport.
+    // Only wired up when the head guard enabled reveal-on (JS + motion OK).
+    if (document.documentElement.classList.contains("reveal-on")) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              obs.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
+      document
+        .querySelectorAll(".reveal, .reveal-img")
+        .forEach((el) => io.observe(el));
+    }
   </script>
 </BaseLayout>

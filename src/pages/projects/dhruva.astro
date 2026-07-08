@@ -19,6 +19,7 @@ const icons: Record<string, string> = {
   tower: `<rect x="7" y="3" width="10" height="18" rx="1"/><path d="M4 21h16"/><path d="M10.5 7h.01M13.5 7h.01M10.5 11h.01M13.5 11h.01M10.5 15h.01M13.5 15h.01"/>`,
   elevator: `<rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M12 2.5v19"/><path d="m9.6 8.5-1.1 1.6h2.2z"/><path d="m9.6 15.5-1.1-1.6h2.2z"/><path d="M14.5 9h2.5M14.5 12h2.5M14.5 15h2.5"/>`,
   lobby: `<path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M4 21h16"/><path d="M14.2 12h.01"/>`,
+  stairs: `<path d="M3 21h4v-4h4v-4h4v-4h4v-4h2"/><path d="M3 21v-2"/>`,
   parking: `<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M9.5 16.5v-9h3.4a2.8 2.8 0 0 1 0 5.6H9.5"/>`,
   waterproof: `<path d="M12 3 5 6v5c0 4.6 3 8.1 7 9 4-.9 7-4.4 7-9V6z"/><path d="M12 9.5c1.2 1.6 2 2.7 2 3.7a2 2 0 0 1-4 0c0-1 .8-2.1 2-3.7z"/>`,
   gym: `<path d="M6.5 8v8M3.5 9.8v4.4M17.5 8v8M20.5 9.8v4.4M6.5 12h11"/>`,
@@ -125,7 +126,7 @@ const pageDesc =
     <img
       src={dhruva.hero}
       alt="Dhruva — delivered corner-plot residential & commercial building by Nesting Tree, Karanjade"
-      class="absolute top-0 left-0 w-full h-[116%] object-cover object-[center_30%] lg:object-[center_22%]"
+      class="hero-img-reveal absolute top-0 left-0 w-full h-[116%] object-cover object-[center_30%] lg:object-[center_22%]"
       fetchpriority="high"
     />
     <!-- top scrim for nav legibility + bottom scrim for copy -->
@@ -137,14 +138,14 @@ const pageDesc =
       class="relative h-full max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col justify-end pb-16 lg:pb-24"
     >
       <!-- breadcrumb -->
-      <nav class="font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 mb-7">
+      <nav class="hero-rise font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 mb-7" style="--rise-d:0.15s">
         <a href="/#projects" class="hover:text-white transition-colors">Projects</a>
         <span class="mx-2.5 text-white/35">/</span>
         <span class="text-olive-100">Dhruva</span>
       </nav>
 
       <!-- status + proof pills -->
-      <div class="flex flex-wrap items-center gap-2.5 mb-7">
+      <div class="hero-rise flex flex-wrap items-center gap-2.5 mb-7" style="--rise-d:0.28s">
         <span
           class="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.14em] bg-olive text-white px-3.5 py-1.5 rounded-[2px]"
         >
@@ -166,15 +167,16 @@ const pageDesc =
       </div>
 
       <h1
-        class="font-display font-black text-white text-[3.5rem] sm:text-8xl lg:text-[8.5rem] leading-[0.9] tracking-tight"
+        class="hero-rise font-display font-black text-white text-[3.5rem] sm:text-8xl lg:text-[8.5rem] leading-[0.9] tracking-tight"
+        style="--rise-d:0.4s"
       >
         Dhruva
       </h1>
-      <p class="text-white/80 text-lg sm:text-xl lg:text-2xl mt-7 max-w-2xl leading-relaxed">
+      <p class="hero-rise text-white/80 text-lg sm:text-xl lg:text-2xl mt-7 max-w-2xl leading-relaxed" style="--rise-d:0.54s">
         {dhruva.tagline}
       </p>
 
-      <p class="flex items-start gap-2.5 text-white/65 text-sm sm:text-base mt-8 max-w-xl leading-relaxed">
+      <p class="hero-rise flex items-start gap-2.5 text-white/65 text-sm sm:text-base mt-8 max-w-xl leading-relaxed" style="--rise-d:0.66s">
         <svg
           class="w-4.5 h-4.5 mt-0.5 shrink-0 text-olive-100"
           viewBox="0 0 24 24"
@@ -197,11 +199,12 @@ const pageDesc =
         {
           heroStats.map((s, i) => (
             <div
-              class={`py-12 lg:py-16 px-2 sm:px-4 lg:px-8 ${
+              class={`reveal py-12 lg:py-16 px-2 sm:px-4 lg:px-8 ${
                 i % 2 === 1 ? "border-l border-white/10" : ""
               } ${i >= 2 ? "border-t border-white/10 lg:border-t-0" : ""} ${
                 i !== 0 ? "lg:border-l lg:border-white/10" : ""
               }`}
+              style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}
             >
               <p class="font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none">
                 {s.figure}
@@ -222,20 +225,20 @@ const pageDesc =
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
         <!-- main column -->
         <div class="lg:col-span-8">
-          <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
             >Project overview</span
           >
           <h2
-            class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] max-w-2xl"
+            class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] max-w-2xl" style="--reveal-d:0.08s"
           >
             A delivered corner-plot landmark
           </h2>
-          <p class="text-muted text-lg sm:text-xl leading-relaxed mt-7 max-w-2xl">
+          <p class="reveal text-muted text-lg sm:text-xl leading-relaxed mt-7 max-w-2xl" style="--reveal-d:0.16s">
             {overview.intro}
           </p>
 
           <!-- key facts -->
-          <dl class="mt-12 border-t border-line">
+          <dl class="reveal mt-12 border-t border-line">
             {
               overview.facts.map((f) => (
                 <div class="grid sm:grid-cols-3 gap-2 sm:gap-8 py-6 border-b border-line">
@@ -251,7 +254,7 @@ const pageDesc =
           </dl>
 
           <!-- space mix -->
-          <div class="mt-14">
+          <div class="reveal mt-14">
             <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
               >Space mix</span
             >
@@ -270,7 +273,7 @@ const pageDesc =
           </div>
 
           <!-- highlights at a glance -->
-          <div class="mt-14">
+          <div class="reveal mt-14">
             <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
               >Highlights at a glance</span
             >
@@ -296,7 +299,7 @@ const pageDesc =
           </div>
 
           <!-- location & connectivity -->
-          <div class="mt-14 bg-olive-50 border border-olive-100 rounded-[3px] p-8 lg:p-10">
+          <div class="reveal mt-14 bg-olive-50 border border-olive-100 rounded-[3px] p-8 lg:p-10">
             <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
               >Location & connectivity</span
             >
@@ -337,7 +340,7 @@ const pageDesc =
         <!-- sticky "completed & sold out" rail -->
         <aside class="lg:col-span-4">
           <div class="lg:sticky lg:top-28">
-            <div class="bg-ink text-stone rounded-[4px] p-8 lg:p-9">
+            <div class="reveal reveal-right bg-ink text-stone rounded-[4px] p-8 lg:p-9">
               <span class="inline-flex items-center gap-2 font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-100"
                 >Completed & sold out</span
               >
@@ -409,7 +412,7 @@ const pageDesc =
   <!-- ============================ FLOOR PLANS ============================ -->
   <section id="floorplans" class="bg-card py-24 lg:py-32 border-t border-line scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="max-w-3xl mb-16 lg:mb-24">
+      <div class="reveal max-w-3xl mb-16 lg:mb-24">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >Floor plans</span
         >
@@ -427,7 +430,7 @@ const pageDesc =
       <div class="flex flex-col gap-24 lg:gap-32">
         {
           floorPlans.map((fp, i) => (
-            <article class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <article class="reveal grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
               {/* floor-plan render */}
               <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
@@ -482,7 +485,7 @@ const pageDesc =
   <!-- ===================== AMENITIES — HERO USP ===================== -->
   <section id="amenities" class="bg-stone py-24 lg:py-32 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="max-w-3xl mb-16 lg:mb-20">
+      <div class="reveal max-w-3xl mb-16 lg:mb-20">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >The Nesting Tree standard</span
         >
@@ -501,7 +504,7 @@ const pageDesc =
         {
           amenityGroups.map((g) => (
             <div>
-              <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-line pb-5 mb-8">
+              <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-line pb-5 mb-8">
                 <h3 class="font-display font-black text-2xl lg:text-3xl tracking-tight">
                   {g.group}
                 </h3>
@@ -510,56 +513,138 @@ const pageDesc =
                 </p>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 auto-rows-fr">
-                {g.items.map((a) => (
-                  <div
-                    class={`group relative flex flex-col rounded-[4px] p-7 lg:p-9 transition-colors ${
-                      a.featured
-                        ? "sm:col-span-2 lg:col-span-2 bg-ink text-stone"
-                        : "bg-card border border-line hover:border-olive-100"
-                    }`}
-                  >
-                    <span
-                      class={`flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 ${
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-flow-dense gap-5 lg:gap-7 auto-rows-fr">
+                {g.items.map((a, i) =>
+                  a.featured && a.images ? (
+                    /* full-width featured card: compact header + full-bleed
+                       photo diptych. Both 4:3 shots sit near-uncropped. */
+                    <div class="reveal group relative overflow-hidden flex flex-col rounded-[4px] sm:col-span-2 lg:col-span-3 bg-ink text-stone" style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}>
+                      <div class="flex flex-col sm:flex-row sm:items-start gap-5 lg:gap-7 p-7 lg:p-9">
+                        <span class="flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 bg-olive text-white">
+                          <svg
+                            class="w-7 h-7"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            set:html={icons[a.icon]}
+                          />
+                        </span>
+                        <div class="flex-1">
+                          <h4 class="font-display font-bold tracking-tight text-2xl lg:text-3xl max-w-2xl">
+                            {a.name}
+                          </h4>
+                          <p class="leading-relaxed mt-3 text-stone/65 text-lg max-w-3xl">
+                            {a.desc}
+                          </p>
+                        </div>
+                        <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 shrink-0 sm:pt-1.5">
+                          Signature feature
+                        </span>
+                      </div>
+                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 lg:gap-1.5">
+                        {a.images.map((src, idx) => (
+                          <div class="relative aspect-[4/3] overflow-hidden">
+                            <img
+                              src={src}
+                              alt={`${a.name} — Dhruva`}
+                              loading="lazy"
+                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                              style={`object-position: ${a.objectPositions?.[idx] ?? "center"};`}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : a.featured && a.image ? (
+                    /* full-width featured card: text + photo, side by side */
+                    <div class="reveal group relative overflow-hidden flex flex-col lg:flex-row rounded-[4px] sm:col-span-2 lg:col-span-3 lg:min-h-[440px] bg-ink text-stone" style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}>
+                      <div class="flex flex-col p-7 lg:p-9 lg:w-1/2 lg:max-w-2xl">
+                        <span class="flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 bg-olive text-white">
+                          <svg
+                            class="w-7 h-7"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            set:html={icons[a.icon]}
+                          />
+                        </span>
+                        <h4 class="font-display font-bold tracking-tight mt-6 text-2xl lg:text-3xl max-w-md">
+                          {a.name}
+                        </h4>
+                        <p class="leading-relaxed mt-3 text-stone/65 text-lg max-w-lg">
+                          {a.desc}
+                        </p>
+                        <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 mt-auto pt-7">
+                          Signature feature
+                        </span>
+                      </div>
+                      <div class="relative w-full aspect-[3/2] lg:aspect-auto lg:w-1/2">
+                        <img
+                          src={a.image}
+                          alt={a.name}
+                          loading="lazy"
+                          class="absolute inset-0 w-full h-full object-cover"
+                          style={`object-position: ${a.objectPosition ?? "center"};`}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      class={`reveal group relative flex flex-col rounded-[4px] p-7 lg:p-9 transition-colors ${
                         a.featured
-                          ? "bg-olive text-white"
-                          : "bg-olive-50 text-olive-600 group-hover:bg-olive group-hover:text-white transition-colors"
+                          ? "sm:col-span-2 lg:col-span-2 bg-ink text-stone"
+                          : "bg-card border border-line hover:border-olive-100"
                       }`}
+                      style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
                     >
-                      <svg
-                        class="w-7 h-7"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.5"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        set:html={icons[a.icon]}
-                      />
-                    </span>
-                    <h4
-                      class={`font-display font-bold tracking-tight mt-6 ${
-                        a.featured ? "text-2xl lg:text-3xl max-w-md" : "text-xl"
-                      }`}
-                    >
-                      {a.name}
-                    </h4>
-                    <p
-                      class={`leading-relaxed mt-3 ${
-                        a.featured
-                          ? "text-stone/65 text-lg max-w-lg"
-                          : "text-muted text-base"
-                      }`}
-                    >
-                      {a.desc}
-                    </p>
-                    {a.featured && (
-                      <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 mt-auto pt-7">
-                        Signature feature
+                      <span
+                        class={`flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 ${
+                          a.featured
+                            ? "bg-olive text-white"
+                            : "bg-olive-50 text-olive-600 group-hover:bg-olive group-hover:text-white transition-colors"
+                        }`}
+                      >
+                        <svg
+                          class="w-7 h-7"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          set:html={icons[a.icon]}
+                        />
                       </span>
-                    )}
-                  </div>
-                ))}
+                      <h4
+                        class={`font-display font-bold tracking-tight mt-6 ${
+                          a.featured ? "text-2xl lg:text-3xl max-w-md" : "text-xl"
+                        }`}
+                      >
+                        {a.name}
+                      </h4>
+                      <p
+                        class={`leading-relaxed mt-3 ${
+                          a.featured
+                            ? "text-stone/65 text-lg max-w-lg"
+                            : "text-muted text-base"
+                        }`}
+                      >
+                        {a.desc}
+                      </p>
+                      {a.featured && (
+                        <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 mt-auto pt-7">
+                          Signature feature
+                        </span>
+                      )}
+                    </div>
+                  )
+                )}
               </div>
             </div>
           ))
@@ -572,7 +657,7 @@ const pageDesc =
   <section id="developer" class="bg-ink text-stone py-24 lg:py-32 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
       <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
-        <div class="lg:col-span-5">
+        <div class="reveal reveal-left lg:col-span-5">
           <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100"
             >About the developer</span
           >
@@ -589,8 +674,8 @@ const pageDesc =
 
         <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5 lg:gap-7">
           {
-            developerNotes.map((n) => (
-              <div class="bg-white/[0.04] border border-white/10 rounded-[4px] p-8 lg:p-9 hover:border-olive-100/40 transition-colors">
+            developerNotes.map((n, i) => (
+              <div class="reveal bg-white/[0.04] border border-white/10 rounded-[4px] p-8 lg:p-9 hover:border-olive-100/40 transition-colors" style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}>
                 <span class="font-display text-xs font-bold uppercase tracking-[0.16em] text-olive-100">
                   {n.label}
                 </span>
@@ -606,7 +691,7 @@ const pageDesc =
   <!-- ===================== WHY DHRUVA ===================== -->
   <section class="bg-olive-50 py-24 lg:py-32">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="max-w-3xl">
+      <div class="reveal max-w-3xl">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >Why Dhruva</span
         >
@@ -624,7 +709,7 @@ const pageDesc =
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-olive-100 border border-olive-100 mt-14 lg:mt-16">
         {
           whyDhruva.map((r, i) => (
-            <div class="bg-olive-50 p-8 lg:p-10">
+            <div class="reveal bg-olive-50 p-8 lg:p-10" style={`--reveal-d:${(i * 0.07).toFixed(2)}s`}>
               <span class="font-display font-black text-3xl text-olive/45 leading-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
@@ -641,7 +726,7 @@ const pageDesc =
 
   <!-- ===================== ENQUIRY FORM ===================== -->
   <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
-    <div class="max-w-2xl mx-auto px-5 sm:px-6 text-center">
+    <div class="reveal max-w-2xl mx-auto px-5 sm:px-6 text-center">
       <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
         >Enquire</span
       >
@@ -747,7 +832,7 @@ const pageDesc =
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
       <h3
-        class="font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+        class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
       >
         NESTING TREE
       </h3>
@@ -755,7 +840,7 @@ const pageDesc =
 
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
-        <div>
+        <div class="reveal">
           <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
             Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities
             since {brand.foundedYear}.
@@ -774,7 +859,7 @@ const pageDesc =
           </div>
         </div>
 
-        <div>
+        <div class="reveal" style="--reveal-d:0.08s">
           <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
             This project
           </h5>
@@ -791,7 +876,7 @@ const pageDesc =
           </ul>
         </div>
 
-        <div>
+        <div class="reveal" style="--reveal-d:0.16s">
           <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
             Explore
           </h5>
@@ -803,7 +888,7 @@ const pageDesc =
           </ul>
         </div>
 
-        <div>
+        <div class="reveal" style="--reveal-d:0.24s">
           <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
             Dhruva sales
           </h5>
@@ -864,5 +949,24 @@ const pageDesc =
     menu.querySelectorAll(".mobile-link").forEach((link) =>
       link.addEventListener("click", () => menu.classList.remove("open"))
     );
+
+    // Scroll-reveal: fade/lift elements in as they enter the viewport.
+    // Only wired up when the head guard enabled reveal-on (JS + motion OK).
+    if (document.documentElement.classList.contains("reveal-on")) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              obs.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
+      document
+        .querySelectorAll(".reveal, .reveal-img")
+        .forEach((el) => io.observe(el));
+    }
   </script>
 </BaseLayout>

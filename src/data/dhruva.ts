@@ -61,7 +61,7 @@ export const overview = {
     "Corner plot with road frontage on two sides",
     "500 sq. m. plot — large, well-ventilated homes",
     "8-person high-speed automatic elevator",
-    "Wide staircase & large entrance lobby",
+    "Wide staircase & wide corridors",
     "UPVC windows (sound-proof living)",
     "Rooftop community sit-out",
     "Stack parking",
@@ -105,13 +105,13 @@ export const floorPlans: FloorPlan[] = [
     label: "Residential — 6 flats per floor",
     plan: "/images/projects/dhruva/plan-fourth.jpg",
     blurb:
-      "Each upper floor carries three 1BHK and three 1RK apartments off a large entrance lobby, served by an 8-person automatic elevator and a wide staircase. Top-floor homes add private terraces.",
+      "Each upper floor carries three 1BHK and three 1RK apartments off a wide corridor, served by an 8-person automatic elevator and a wide staircase. Top-floor homes add private terraces.",
     points: [
       "3 × 1BHK per floor",
       "3 × 1RK per floor",
       "1BHK + terrace homes (top floor)",
       "8-person automatic elevator",
-      "Wide staircase & large lobby",
+      "Wide staircase & wide corridors",
       "UPVC windows throughout",
     ],
   },
@@ -124,6 +124,18 @@ export type Amenity = {
   name: string;
   desc: string;
   featured?: boolean;
+  /* Featured cards may carry a photo; it renders as a full-width
+     image + text card. objectPosition tunes the crop (portrait
+     source into a landscape slot). */
+  image?: string;
+  objectPosition?: string;
+  /* A featured card may instead carry two (or more) photos, which
+     render as a full-bleed diptych beneath a compact text header.
+     Used for the wide staircase / wide corridors feature — both
+     source shots are 4:3, so they sit side by side almost uncropped.
+     objectPositions[i] tunes each panel's crop. */
+  images?: string[];
+  objectPositions?: string[];
 };
 
 export type AmenityGroup = {
@@ -148,11 +160,20 @@ export const amenityGroups: AmenityGroup[] = [
         name: "High-speed elevator (8-person)",
         desc: "An 8-person high-speed automatic lift serving every upper floor.",
         featured: true,
+        image: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg",
+        // portrait shot — bias low so the full lift doors stay in frame
+        objectPosition: "center 80%",
       },
       {
-        icon: "lobby",
-        name: "Wide staircase & large lobby",
-        desc: "A generous lobby and wide staircase make every floor easy to reach.",
+        icon: "stairs",
+        name: "Wide staircase & wide corridors",
+        desc: "Green-marble stairs with steel railings rise beside broad, tiled corridors — generous, light-filled circulation that makes every floor easy to reach and airy to move through.",
+        featured: true,
+        images: [
+          "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg",
+          "/images/Project_Images/Dhruva/Corridor/IMG20260627113731.jpeg",
+        ],
+        objectPositions: ["center", "center"],
       },
       {
         icon: "parking",

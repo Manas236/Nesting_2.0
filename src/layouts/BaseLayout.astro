@@ -37,6 +37,18 @@ const {
       href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Enable scroll-reveal only when JS + motion are available, so
+         no-JS and reduced-motion users always see fully rendered content.
+         Set in <head> to avoid any flash of pre-animation state. -->
+    <script is:inline>
+      if (
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+        "IntersectionObserver" in window
+      ) {
+        document.documentElement.classList.add("reveal-on");
+      }
+    </script>
   </head>
   <body class="text-ink antialiased">
     <slot />
