@@ -32,6 +32,7 @@ export const contact = {
 };
 
 export const nav = [
+  { label: "About", href: "/about" },
   { label: "Projects", href: "#projects" },
   { label: "Amenities", href: "#amenities" },
   { label: "Journey", href: "#journey" },

@@ -184,34 +184,34 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
       <div
         class="lg:col-span-2 flex flex-col justify-center px-5 sm:px-6 lg:px-14 py-14 lg:py-0 order-1 lg:order-2"
       >
-        <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600" style="--reveal-d:0.05s"
+        <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-brick" style="--reveal-d:0.05s"
           >Featured Project — {featured.statusLabel}</span
         >
-        <h2 class="reveal font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight mt-4" style="--reveal-d:0.13s">
+        <h2 class="reveal font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight mt-4 text-brick" style="--reveal-d:0.13s">
           {featured.name.toUpperCase()}
         </h2>
-        <p class="reveal font-display font-bold text-muted uppercase tracking-wide text-sm mt-3" style="--reveal-d:0.21s">
+        <p class="reveal font-display font-bold text-brick/70 uppercase tracking-wide text-sm mt-3" style="--reveal-d:0.21s">
           {featured.location}
         </p>
-        <p class="reveal text-muted text-base sm:text-lg leading-relaxed mt-6 max-w-md" style="--reveal-d:0.29s">
+        <p class="reveal text-ink/70 text-base sm:text-lg leading-relaxed mt-6 max-w-md" style="--reveal-d:0.29s">
           {featured.blurb}
         </p>
 
         <div
-          class="reveal mt-8 flex flex-col gap-3.5 text-sm font-display font-semibold border-t border-line pt-6 max-w-md" style="--reveal-d:0.37s"
+          class="reveal mt-8 flex flex-col gap-3.5 text-sm font-display font-semibold border-t border-brick/20 pt-6 max-w-md" style="--reveal-d:0.37s"
         >
           <div class="flex justify-between">
-            <span class="text-muted font-medium uppercase tracking-wide text-xs">Status</span><span
+            <span class="text-brick/60 font-medium uppercase tracking-wide text-xs">Status</span><span
               >{featured.status}</span
             >
           </div>
           <div class="flex justify-between">
-            <span class="text-muted font-medium uppercase tracking-wide text-xs">Location</span><span
+            <span class="text-brick/60 font-medium uppercase tracking-wide text-xs">Location</span><span
               >{featured.location}</span
             >
           </div>
           <div class="flex justify-between">
-            <span class="text-muted font-medium uppercase tracking-wide text-xs">MahaRERA</span><span
+            <span class="text-brick/60 font-medium uppercase tracking-wide text-xs">MahaRERA</span><span
               >Registered</span
             >
           </div>
@@ -219,7 +219,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
 
         <a
           href={`/projects/${featured.slug}`}
-          class="reveal group inline-flex items-center gap-2 font-display font-bold uppercase tracking-[0.06em] text-sm mt-9" style="--reveal-d:0.45s"
+          class="reveal group inline-flex items-center gap-2 font-display font-bold uppercase tracking-[0.06em] text-sm mt-9 text-brick hover:text-brick-dark transition-colors" style="--reveal-d:0.45s"
         >
           Explore {featured.name}
           <svg

@@ -20,6 +20,11 @@
   --color-olive-600: #5c6638;
   --color-olive-dark: #3f4729;
 
+  /* Shikhar elevation accents — maroon arch + warm beige walls */
+  --color-brick: #6e2d38;
+  --color-brick-dark: #55212a;
+  --color-sand: #e9e0cd;
+
   --font-display: "Archivo", "Inter", sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
 }

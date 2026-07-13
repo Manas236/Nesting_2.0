@@ -1,0 +1,448 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { brand, contact, projects } from "../data/site";
+import { about } from "../data/about";
+
+// Absolute links so the header/footer work from this standalone route
+// (in-page anchors resolve against the home page, not /about).
+const navLinks = [
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Amenities", href: "/#amenities" },
+  { label: "Journey", href: "/#journey" },
+  { label: "Contact", href: "/#contact" },
+];
+---
+
+<BaseLayout
+  title="About — Nesting Tree · Residential Developer, Panvel & Navi Mumbai"
+  description="Founded in 2019 and backed by K.D. Construction, Nesting Tree builds amenity-first, clear-title homes across Panvel & Navi Mumbai. Read our story, vision and mission."
+>
+  <!-- ============================ NAVBAR ============================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="flex items-center justify-between h-[72px] lg:h-20">
+        <a href="/" class="flex items-center gap-3 shrink-0">
+          <img
+            src={brand.logoMark}
+            alt={`${brand.name} logo`}
+            width="36"
+            height="42"
+            class="h-9 w-auto lg:h-10 drop-shadow-sm"
+          />
+          <span
+            class="nav-wordmark font-display font-extrabold text-lg lg:text-xl tracking-tight leading-none"
+            >Nesting&nbsp;Tree</span
+          >
+        </a>
+
+        <nav
+          class="hidden md:flex items-center gap-9 lg:gap-11 font-display text-[13px] font-bold uppercase tracking-[0.08em]"
+        >
+          {
+            navLinks.map((item) => (
+              <a
+                href={item.href}
+                aria-current={item.href === "/about" ? "page" : undefined}
+                class={`nav-link hover:opacity-70 transition-opacity ${
+                  item.href === "/about" ? "border-b-2 border-olive pb-1" : ""
+                }`}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <a
+          href="/#contact"
+          class="nav-cta hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
+          >Enquire Now</a
+        >
+
+        <button id="menu-toggle" class="md:hidden p-2 -mr-2" aria-label="Toggle menu">
+          <svg
+            class="nav-toggle-icon w-6 h-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg
+          >
+        </button>
+      </div>
+
+      <div id="mobile-menu" class="md:hidden bg-stone/95 -mx-5 sm:-mx-6 px-5 sm:px-6 rounded-b-lg">
+        <nav
+          class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide text-ink"
+        >
+          {
+            navLinks.map((item) => (
+              <a href={item.href} class="mobile-link py-3.5 border-b border-line">
+                {item.label}
+              </a>
+            ))
+          }
+          <a
+            href="/#contact"
+            class="mobile-link mt-4 text-center bg-ink text-stone px-5 py-3.5 rounded-[2px]"
+            >Enquire Now</a
+          >
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ MASTHEAD ============================ -->
+  <section class="relative bg-ink text-stone overflow-hidden">
+    <div class="absolute inset-0 blueprint-dark opacity-60"></div>
+
+    <div
+      class="relative max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-36 sm:pt-40 lg:pt-52 pb-16 lg:pb-24"
+    >
+      <span
+        class="hero-rise font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.24em] text-olive-100 block"
+        style="--rise-d:0.1s">{about.kicker}</span
+      >
+      <h1
+        class="hero-rise font-display font-black text-white text-[2.75rem] sm:text-6xl lg:text-[6rem] leading-[0.95] tracking-tight mt-5 max-w-4xl"
+        style="--rise-d:0.22s"
+      >
+        {about.title}
+      </h1>
+      <p
+        class="hero-rise text-white/70 text-base sm:text-lg lg:text-xl mt-7 max-w-2xl leading-relaxed"
+        style="--rise-d:0.36s"
+      >
+        {about.lede}
+      </p>
+      <p
+        class="hero-fade font-display text-[11px] font-bold uppercase tracking-[0.2em] text-white/45 mt-10 flex flex-wrap gap-x-3 gap-y-1 items-center"
+        style="--fade-d:0.6s"
+      >
+        <span>Est. {brand.foundedYear}</span><span class="text-white/25">·</span>
+        <span>{brand.region}</span><span class="text-white/25">·</span>
+        <span>{contact.maharera}</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================ OUR STORY ============================ -->
+  <section class="bg-stone py-20 lg:py-28">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="grid lg:grid-cols-12 gap-y-10 lg:gap-x-12">
+        <div class="lg:col-span-4">
+          <span
+            class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+            >{about.story.label}</span
+          >
+          <h2
+            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05]"
+            style="--reveal-d:0.08s"
+          >
+            {about.story.heading}
+          </h2>
+        </div>
+
+        <div class="lg:col-span-8 lg:pl-4">
+          <p
+            class="reveal text-ink text-lg sm:text-xl lg:text-2xl leading-relaxed font-medium max-w-2xl"
+            style="--reveal-d:0.12s"
+          >
+            {about.story.lead}
+          </p>
+          <div class="reveal grid sm:grid-cols-2 gap-x-10 gap-y-6 mt-8 max-w-2xl" style="--reveal-d:0.2s">
+            {
+              about.story.paragraphs.map((para) => (
+                <p class="text-muted text-base sm:text-lg leading-relaxed">{para}</p>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- At-a-glance spec strip (editorial, not a boxed table) -->
+      <div class="reveal mt-14 lg:mt-16 border-t border-line pt-8 lg:pt-10">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >At a Glance</span
+        >
+        <dl class="grid grid-cols-2 lg:grid-cols-4 gap-y-8 mt-7 lg:divide-x lg:divide-line">
+          {
+            about.story.facts.map((f, i) => (
+              <div
+                class={`lg:px-8 ${i === 0 ? "lg:pl-0" : ""} ${
+                  i === about.story.facts.length - 1 ? "lg:pr-0" : ""
+                }`}
+              >
+                <dt class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                  {f.k}
+                </dt>
+                <dd class="font-display font-black text-xl lg:text-2xl tracking-tight mt-2 text-ink">
+                  {f.v}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= VISION & MISSION ======================= -->
+  <section class="bg-olive-100 py-20 lg:py-28">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="grid lg:grid-cols-12 gap-y-14 lg:gap-x-16">
+        <!-- Sticky editorial intro -->
+        <div class="lg:col-span-4 lg:sticky lg:top-28 self-start">
+          <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+            >What Drives Us</span
+          >
+          <h2
+            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] text-ink"
+            style="--reveal-d:0.08s"
+          >
+            The principles behind every home we build.
+          </h2>
+          <p
+            class="reveal text-olive-dark/75 text-base sm:text-lg leading-relaxed mt-6 max-w-sm"
+            style="--reveal-d:0.16s"
+          >
+            {about.principlesIntro}
+          </p>
+        </div>
+
+        <!-- Stacked statements -->
+        <div class="lg:col-span-8 lg:pl-6">
+          {
+            about.principles.map((p, i) => (
+              <article
+                class={`reveal ${
+                  i > 0 ? "mt-12 pt-12 lg:mt-16 lg:pt-16 border-t border-olive-600/25" : ""
+                }`}
+                style={`--reveal-d:${(i * 0.12).toFixed(2)}s`}
+              >
+                <div class="flex items-baseline gap-4 sm:gap-6">
+                  <span class="font-display text-5xl sm:text-6xl lg:text-7xl font-black text-olive-600 leading-none tabular-nums">
+                    {p.no}
+                  </span>
+                  <h3 class="font-display font-black text-2xl sm:text-3xl lg:text-4xl tracking-tight text-ink">
+                    {p.kicker}
+                  </h3>
+                </div>
+                <p class="text-ink/75 text-lg sm:text-xl lg:text-[1.6rem] lg:leading-[1.5] leading-relaxed mt-6 lg:mt-7 max-w-2xl font-medium">
+                  {p.body}
+                </p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CAREERS ============================ -->
+  <section id="careers" class="bg-stone py-20 lg:py-28">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="grid lg:grid-cols-12 gap-y-8 lg:gap-x-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <span
+            class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+            >{about.careers.label}</span
+          >
+          <h2
+            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] max-w-xl"
+            style="--reveal-d:0.08s"
+          >
+            {about.careers.heading}
+          </h2>
+        </div>
+        <p
+          class="reveal lg:col-span-5 text-muted text-base sm:text-lg leading-relaxed"
+          style="--reveal-d:0.16s"
+        >
+          {about.careers.body}
+        </p>
+      </div>
+
+      <div class="reveal mt-10 flex flex-wrap items-center gap-4" style="--reveal-d:0.24s">
+        <a
+          href={`mailto:${about.careers.email}?subject=Career%20enquiry%20—%20Nesting%20Tree`}
+          class="font-display font-bold uppercase tracking-[0.06em] text-sm bg-ink text-stone px-7 py-4 rounded-[2px] hover:bg-inksoft transition-colors"
+          >Apply Now</a
+        >
+        <a
+          href={`mailto:${about.careers.email}`}
+          class="font-display font-semibold text-sm text-olive-600 hover:text-olive-dark transition-colors"
+          >{about.careers.email}</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-ink text-stone">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
+      <h3
+        class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+      >
+        NESTING TREE
+      </h3>
+    </div>
+
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="reveal">
+          <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
+            Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities
+            since {brand.foundedYear}.
+          </p>
+          <div class="flex items-center gap-3 mt-6">
+            {
+              contact.socials.map((s) => (
+                <a
+                  href={s.href}
+                  class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors"
+                >
+                  {s.label}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.08s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Explore
+          </h5>
+          <ul class="space-y-3 text-sm font-medium">
+            {
+              navLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="hover:text-olive-100 transition-colors">
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.16s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Projects
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            {
+              projects.map((p) => (
+                <li>
+                  <a
+                    href={
+                      ["shikhar", "rudra", "dhruva"].includes(p.slug)
+                        ? `/projects/${p.slug}`
+                        : "/#projects"
+                    }
+                    class="hover:text-olive-100 transition-colors"
+                  >
+                    {p.name} — {p.status}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.24s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Contact
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            <li class="flex items-start gap-2.5">
+              <svg
+                class="w-4 h-4 mt-0.5 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                ><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"></path><circle
+                  cx="12"
+                  cy="9"
+                  r="2.2"></circle></svg
+              >
+              {contact.address}
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"><path d="M4 5h16v14H4z"></path><path d="m4 6 8 7 8-7"></path></svg
+              >
+              <a href={`mailto:${contact.email}`} class="hover:text-olive-100 transition-colors"
+                >{contact.email}</a
+              >
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                ><path
+                  d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"
+                ></path></svg
+              >
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} class="hover:text-olive-100 transition-colors"
+                >{contact.phone}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40"
+      >
+        <p>&copy; {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
+        <p>{contact.maharera}</p>
+        <div class="flex items-center gap-5">
+          <a href="#" class="hover:text-stone/70 transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-stone/70 transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    const header = document.getElementById("site-header");
+    const onScroll = () =>
+      header.classList.toggle("is-scrolled", window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    toggle.addEventListener("click", () => menu.classList.toggle("open"));
+    menu.querySelectorAll(".mobile-link").forEach((link) =>
+      link.addEventListener("click", () => menu.classList.remove("open"))
+    );
+
+    // Scroll-reveal: fade/lift elements in as they enter the viewport.
+    if (document.documentElement.classList.contains("reveal-on")) {
+      const revealTargets = document.querySelectorAll(".reveal, .reveal-img");
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              obs.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
+      revealTargets.forEach((el) => io.observe(el));
+    }
+  </script>
+</BaseLayout>

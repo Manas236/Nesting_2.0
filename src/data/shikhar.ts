@@ -253,6 +253,137 @@ export const amenityGroups: AmenityGroup[] = [
   },
 ];
 
+/* ---------- Amenity climb — "ride the peak" milestones ----------
+   The 17 amenities above, curated into 6 stages that read as a climb
+   from the base (B1) to the summit (G+10). Each stage is one waypoint
+   on the mountain trail and one panel on the right. `at` is the marker
+   position as a percentage of the pinned image (x from left, y from
+   top) — tune these to wherever the ridge sits in your photo.
+   `featured` shows the Signature flag; `points` lists the amenities
+   folded into that stage.                                          */
+export type AmenityStage = {
+  floor: string;
+  stage: string;
+  category: string;
+  blurb: string;
+  icon: string;
+  featured?: boolean;
+  points: string[];
+  at: { x: number; y: number };
+};
+
+export const amenityStages: AmenityStage[] = [
+  {
+    floor: "B1",
+    stage: "Built to last",
+    category: "Foundation",
+    icon: "waterproof",
+    blurb: "Before anything rises, the promises that protect it — backed in writing, bought straight from the owner.",
+    points: ["Water-proofing guarantee", "No tri-party agreement — buy direct"],
+    at: { x: 10.3, y: 92.3 },
+  },
+  {
+    floor: "01",
+    stage: "Strong foundation",
+    category: "Structure",
+    icon: "tower",
+    featured: true,
+    blurb: "The tallest structure in Karanjade, with the vertical transport a G+10 landmark demands.",
+    points: [
+      "G+10 — tallest in the neighbourhood",
+      "3 high-speed automatic elevators",
+      "1 dedicated stretcher elevator",
+      "Ample 2W & 4W parking",
+    ],
+    at: { x: 21.5, y: 76.0 },
+  },
+  {
+    floor: "03",
+    stage: "Modern interiors",
+    category: "Interiors",
+    icon: "tiles",
+    blurb: "Branded finishes fitted as standard — the details you live with every day, done right.",
+    points: [
+      "Branded vitrified tile flooring",
+      "Branded bathroom fittings",
+      "UPVC windows & external grills",
+      "All electric fittings",
+    ],
+    at: { x: 22.9, y: 60.7 },
+  },
+  {
+    floor: "05",
+    stage: "Community living",
+    category: "Shared spaces",
+    icon: "people",
+    blurb: "Wide, considered common areas that make the building feel shared, not just stacked.",
+    points: [
+      "Spacious lobby & common areas",
+      "Multi-purpose common room",
+      "Premium, hotel-grade lobby",
+    ],
+    at: { x: 28.7, y: 47.1 },
+  },
+  {
+    floor: "08",
+    stage: "Lifestyle spaces",
+    category: "Lifestyle",
+    icon: "gym",
+    featured: true,
+    blurb: "Room to move and unwind without leaving home — from the gym floor to your own deck.",
+    points: [
+      "Fully equipped gymnasium",
+      "Large decks in select apartments",
+    ],
+    at: { x: 27.8, y: 31.3 },
+  },
+  {
+    floor: "10",
+    stage: "Rooftop amenities",
+    category: "The summit",
+    icon: "rooftop",
+    featured: true,
+    blurb: "An open rooftop made for evenings, festivals and the whole building — the peak of Shikhar.",
+    points: ["Rooftop amenities for gatherings"],
+    at: { x: 33.6, y: 18.9 },
+  },
+];
+
+/* ---------- Construction / build progress ----------
+   Reflects the live status: structure complete, internals underway.
+   `state` drives the stepper styling in the page.               */
+export const buildProgress: {
+  phase: string;
+  detail: string;
+  state: "done" | "current" | "upcoming";
+}[] = [
+  {
+    phase: "Foundation",
+    detail: "Excavation and foundation cast — set on a corner plot.",
+    state: "done",
+  },
+  {
+    phase: "RCC structure",
+    detail: "The full G+10 frame is complete — already the tallest nearby.",
+    state: "done",
+  },
+  {
+    phase: "Internal work",
+    detail: "Plastering, plumbing and electrical in full swing across floors.",
+    state: "current",
+  },
+  {
+    phase: "Finishing",
+    detail: "Branded flooring, fittings and final finishes.",
+    state: "upcoming",
+  },
+  {
+    phase: "Handover",
+    detail: "Possession, registration and keys.",
+    state: "upcoming",
+  },
+];
+
 /* ---------- Safety & emergency systems (dark section) ---------- */
 export const emergencySystems: { icon: string; name: string }[] = [
   { icon: "flame", name: "Proven fire-fighting system" },

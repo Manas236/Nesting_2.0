@@ -258,6 +258,102 @@ export const amenityGroups: AmenityGroup[] = [
   },
 ];
 
+/* ---------- Star-trail waypoints — the pinned "Dhruva does not move" section ----------
+   Dhruva is Polaris, the fixed point the sky wheels around. On desktop the
+   amenities read as six waypoints on a slowly turning ring; below `lg` (and
+   under reduced motion) the amenityGroups bento grid above is the fallback.
+   All 16 amenity cards survive here as checklist bullets — nothing dropped.
+   Sequence runs clockwise from 6 o'clock: 01 bottom → 04 top → 06 lower-right.
+   `icon` keys map to the line-icon set in the page. Ring positions are pure
+   geometry (§ 60° apart), so no per-waypoint coordinates are needed.        */
+export type SkyWaypoint = {
+  index: string;
+  label: string;
+  icon: string;
+  title: string;
+  sub: string;
+  badge?: string;
+  points: string[];
+};
+
+export const skyWaypoints: SkyWaypoint[] = [
+  {
+    index: "01",
+    label: "Street level",
+    icon: "corner",
+    title: "A corner that everything passes",
+    sub: "Six road-facing shops and a premium lobby open onto twin frontage — the busiest edge of the plot, by design.",
+    points: [
+      "Six road-facing commercial shops",
+      "Twin road frontage on a corner plot",
+      "Premium entrance lobby",
+    ],
+  },
+  {
+    index: "02",
+    label: "Built to stand",
+    icon: "tower",
+    badge: "Signature",
+    title: "G+4 R+C on 500 sq. m.",
+    sub: "A G+4 R+C frame on a 500 sq. m. corner plot, water-proofed inside and out, with stack parking below.",
+    points: [
+      "G+4 R+C structure on a 500 sq. m. corner plot",
+      "External and internal water-proofing",
+      "Stack parking on the ground floor",
+    ],
+  },
+  {
+    index: "03",
+    label: "Circulation",
+    icon: "elevator",
+    badge: "Signature",
+    title: "Room to move",
+    sub: "An 8-person automatic lift, a green-marble staircase and broad tiled corridors move the whole building with ease.",
+    points: [
+      "High-speed 8-person automatic elevator",
+      "Green-marble staircase with steel railings",
+      "Broad, tiled, light-filled corridors",
+    ],
+  },
+  {
+    index: "04",
+    label: "Rooftop and shared spaces",
+    icon: "rooftop",
+    badge: "Signature",
+    title: "The still point",
+    sub: "The open rooftop, the multi-purpose room and the fitness centre — the calm centre the rest of the day turns around.",
+    points: [
+      "Open rooftop community sit-out",
+      "Multi-purpose room on the ground floor",
+      "Fitness centre",
+    ],
+  },
+  {
+    index: "05",
+    label: "Inside the homes",
+    icon: "tiles",
+    title: "Fitted, not finished later",
+    sub: "Branded tiles and fittings, sound-proofing windows and a bathroom loft — in place before you get the keys, not after.",
+    points: [
+      "Sound-proofing UPVC windows",
+      "Branded vitrified tile flooring",
+      "Branded WC and bathroom fittings",
+      "Internal lofts in the bathroom",
+    ],
+  },
+  {
+    index: "06",
+    label: "Ready to move in",
+    icon: "fan",
+    title: "Handover-ready",
+    sub: "Lights, fans and factory-fitted grills already in place. Open the door and move in.",
+    points: [
+      "Internal lights and fans pre-installed",
+      "Factory-fitted external grills on every opening",
+    ],
+  },
+];
+
 /* ---------- About the developer (dark section) ---------- */
 export const developerNotes: { label: string; body: string }[] = [
   {
