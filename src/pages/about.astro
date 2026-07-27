@@ -1,104 +1,63 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { brand, contact, projects } from "../data/site";
+import SiteHeader from "../components/SiteHeader.astro";
+
+import { brand, contact, projects, journey } from "../data/site";
 import { about } from "../data/about";
 
 // Absolute links so the header/footer work from this standalone route
 // (in-page anchors resolve against the home page, not /about).
-const navLinks = [
-  { label: "About", href: "/about" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Amenities", href: "/#amenities" },
-  { label: "Journey", href: "/#journey" },
+// "The Standard" (amenities) is product content and lives on /projects,
+// alongside the buildings it describes — hence the cross-page anchor.
+const footerLinks = [
+  { label: "Home", href: "/" },
+  { label: "Projects", href: "/projects" },
+  { label: "The Standard", href: "/projects#amenities" },
+  { label: "Journey", href: "#journey" },
   { label: "Contact", href: "/#contact" },
+];
+
+// Masthead film. The Rudra elevation doubles as the poster so the first paint
+// is instant and reduced-motion visitors still get a still frame.
+const mastheadVideo = "/images/projects/about.mp4";
+const mastheadPoster = "/images/projects/Rudra.jpg";
+
+// On-this-page jump links. This page is now purely the company story.
+const sections = [
+  { label: "Story", href: "#story" },
+  { label: "Founder", href: "#founder" },
+  { label: "Vision", href: "#vision" },
+  { label: "Journey", href: "#journey" },
 ];
 ---
 
 <BaseLayout
-  title="About — Nesting Tree · Residential Developer, Panvel & Navi Mumbai"
-  description="Founded in 2019 and backed by K.D. Construction, Nesting Tree builds amenity-first, clear-title homes across Panvel & Navi Mumbai. Read our story, vision and mission."
+  title="About — Nesting Tree · Residential Developer, Karanjade, Navi Mumbai"
+  description="Backed by two decades of Navi Mumbai housing (since 2004) and the engineering pedigree of K.D. Construction, Nesting Tree builds amenity-first, clear-title homes in Karanjade. Read our story, vision and mission."
 >
   <!-- ============================ NAVBAR ============================ -->
-  <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="flex items-center justify-between h-[72px] lg:h-20">
-        <a href="/" class="flex items-center gap-3 shrink-0">
-          <img
-            src={brand.logoMark}
-            alt={`${brand.name} logo`}
-            width="36"
-            height="42"
-            class="h-9 w-auto lg:h-10 drop-shadow-sm"
-          />
-          <span
-            class="nav-wordmark font-display font-extrabold text-lg lg:text-xl tracking-tight leading-none"
-            >Nesting&nbsp;Tree</span
-          >
-        </a>
-
-        <nav
-          class="hidden md:flex items-center gap-9 lg:gap-11 font-display text-[13px] font-bold uppercase tracking-[0.08em]"
-        >
-          {
-            navLinks.map((item) => (
-              <a
-                href={item.href}
-                aria-current={item.href === "/about" ? "page" : undefined}
-                class={`nav-link hover:opacity-70 transition-opacity ${
-                  item.href === "/about" ? "border-b-2 border-olive pb-1" : ""
-                }`}
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-
-        <a
-          href="/#contact"
-          class="nav-cta hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
-          >Enquire Now</a
-        >
-
-        <button id="menu-toggle" class="md:hidden p-2 -mr-2" aria-label="Toggle menu">
-          <svg
-            class="nav-toggle-icon w-6 h-6"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg
-          >
-        </button>
-      </div>
-
-      <div id="mobile-menu" class="md:hidden bg-stone/95 -mx-5 sm:-mx-6 px-5 sm:px-6 rounded-b-lg">
-        <nav
-          class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide text-ink"
-        >
-          {
-            navLinks.map((item) => (
-              <a href={item.href} class="mobile-link py-3.5 border-b border-line">
-                {item.label}
-              </a>
-            ))
-          }
-          <a
-            href="/#contact"
-            class="mobile-link mt-4 text-center bg-ink text-stone px-5 py-3.5 rounded-[2px]"
-            >Enquire Now</a
-          >
-        </nav>
-      </div>
-    </div>
-  </header>
+  <SiteHeader sections={sections} />
 
   <!-- ============================ MASTHEAD ============================ -->
-  <section class="relative bg-ink text-stone overflow-hidden">
-    <div class="absolute inset-0 blueprint-dark opacity-60"></div>
+  <section
+    class="relative h-[100svh] min-h-[620px] w-full bg-ink text-stone overflow-hidden"
+  >
+    <video
+      class="hero-img-reveal absolute top-0 left-0 w-full h-full object-cover object-[60%_center] sm:object-center"
+      src={mastheadVideo}
+      poster={mastheadPoster}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-label="Nesting Tree homes and residents in Karanjade, Navi Mumbai"></video>
+    <!-- layered scrims: nav legibility (top), copy (bottom), headline (left) -->
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/25 to-ink/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/25 to-transparent"></div>
 
     <div
-      class="relative max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-36 sm:pt-40 lg:pt-52 pb-16 lg:pb-24"
+      class="relative h-full max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col justify-end pb-16 lg:pb-24"
     >
       <span
         class="hero-rise font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.24em] text-olive-100 block"
@@ -120,7 +79,7 @@ const navLinks = [
         class="hero-fade font-display text-[11px] font-bold uppercase tracking-[0.2em] text-white/45 mt-10 flex flex-wrap gap-x-3 gap-y-1 items-center"
         style="--fade-d:0.6s"
       >
-        <span>Est. {brand.foundedYear}</span><span class="text-white/25">·</span>
+        <span>Building since {brand.legacyYear}</span><span class="text-white/25">·</span>
         <span>{brand.region}</span><span class="text-white/25">·</span>
         <span>{contact.maharera}</span>
       </p>
@@ -128,56 +87,77 @@ const navLinks = [
   </section>
 
   <!-- ============================ OUR STORY ============================ -->
-  <section class="bg-stone py-20 lg:py-28">
+  <section id="story" class="bg-stone py-16 sm:py-20 lg:py-28 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="grid lg:grid-cols-12 gap-y-10 lg:gap-x-12">
+      <!-- Eyebrow sits above the grid so the headline and the lead paragraph
+           share the same top edge across both columns. -->
+      <span
+        class="reveal font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-olive-600 flex items-center gap-3"
+      >
+        <span class="h-px w-8 bg-olive-600/50" aria-hidden="true"></span>
+        {about.story.label}
+      </span>
+
+      <div class="grid lg:grid-cols-12 gap-y-8 lg:gap-x-16 mt-5 lg:mt-7">
+        <!-- Heading rail. Sticks alongside the copy on large screens so the
+             section title stays anchored while the story scrolls past. -->
         <div class="lg:col-span-4">
-          <span
-            class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
-            >{about.story.label}</span
-          >
           <h2
-            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05]"
+            class="reveal lg:sticky lg:top-28 font-display font-black text-[2rem] sm:text-4xl lg:text-5xl tracking-tight leading-[1.05] text-balance lg:pt-1"
             style="--reveal-d:0.08s"
           >
             {about.story.heading}
           </h2>
         </div>
 
-        <div class="lg:col-span-8 lg:pl-4">
+        <div class="lg:col-span-8">
+          <!-- Lead: set apart with an olive rule so the wall of copy has an
+               entry point on small screens. -->
           <p
-            class="reveal text-ink text-lg sm:text-xl lg:text-2xl leading-relaxed font-medium max-w-2xl"
+            class="reveal text-ink text-[1.0625rem] sm:text-xl lg:text-[1.375rem] leading-[1.6] font-medium max-w-[62ch] border-l-2 border-olive/40 pl-5 sm:pl-6"
             style="--reveal-d:0.12s"
           >
             {about.story.lead}
           </p>
-          <div class="reveal grid sm:grid-cols-2 gap-x-10 gap-y-6 mt-8 max-w-2xl" style="--reveal-d:0.2s">
+
+          <div
+            class="reveal mt-8 sm:mt-10 max-w-[62ch] lg:max-w-none grid lg:grid-cols-2 gap-y-5 lg:gap-x-12"
+            style="--reveal-d:0.2s"
+          >
             {
               about.story.paragraphs.map((para) => (
-                <p class="text-muted text-base sm:text-lg leading-relaxed">{para}</p>
+                <p class="text-muted text-[0.9375rem] sm:text-base lg:text-[1.0625rem] leading-[1.75]">
+                  {para}
+                </p>
               ))
             }
           </div>
         </div>
       </div>
 
-      <!-- At-a-glance spec strip (editorial, not a boxed table) -->
-      <div class="reveal mt-14 lg:mt-16 border-t border-line pt-8 lg:pt-10">
-        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
-          >At a Glance</span
+      <!-- At-a-glance spec strip. Stacked rows on phones (long values get the
+           full width), a 4-up divided strip from lg. -->
+      <div class="reveal mt-12 sm:mt-14 lg:mt-20">
+        <span
+          class="font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-olive-600 flex items-center gap-3"
         >
-        <dl class="grid grid-cols-2 lg:grid-cols-4 gap-y-8 mt-7 lg:divide-x lg:divide-line">
+          <span class="h-px w-8 bg-olive-600/50" aria-hidden="true"></span>
+          At a Glance
+        </span>
+        <dl
+          class="grid sm:grid-cols-2 lg:grid-cols-4 mt-5 sm:mt-7 border-t border-line lg:divide-x lg:divide-line"
+        >
           {
             about.story.facts.map((f, i) => (
               <div
-                class={`lg:px-8 ${i === 0 ? "lg:pl-0" : ""} ${
-                  i === about.story.facts.length - 1 ? "lg:pr-0" : ""
-                }`}
+                class={`py-4 sm:py-5 lg:py-6 border-b border-line lg:border-b-0 lg:px-8 ${
+                  i === 0 ? "lg:pl-0" : ""
+                } ${i === about.story.facts.length - 1 ? "lg:pr-0" : ""}`}
               >
-                <dt class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                <dt class="font-display text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] text-mutedlight">
                   {f.k}
                 </dt>
-                <dd class="font-display font-black text-xl lg:text-2xl tracking-tight mt-2 text-ink">
+                <dd class="font-display font-black text-lg sm:text-xl lg:text-2xl tracking-tight mt-1.5 lg:mt-2 text-ink leading-tight">
                   {f.v}
                 </dd>
               </div>
@@ -188,8 +168,104 @@ const navLinks = [
     </div>
   </section>
 
+  <!-- ===================== FOUNDER / LEADERSHIP ===================== -->
+  <section
+    id="founder"
+    class="relative bg-ink text-stone py-20 lg:py-28 overflow-hidden scroll-mt-20"
+  >
+    <div class="absolute inset-0 blueprint-dark opacity-50"></div>
+
+    <div class="relative max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="grid lg:grid-cols-12 gap-y-12 lg:gap-x-16 items-stretch">
+        <!-- Founder portrait -->
+        <div class="lg:col-span-5">
+          <div
+            class="reveal-img relative aspect-[4/5] lg:aspect-auto lg:h-full min-h-[26rem] w-full max-w-md lg:max-w-none mx-auto lg:mx-0 overflow-hidden rounded-[3px] blueprint-dark border border-white/10"
+          >
+            <img
+              src="/images/Kd_Sir.JPG"
+              alt={`${about.founder.name}, ${about.founder.role} of Nesting Tree`}
+              width="2793"
+              height="4160"
+              loading="lazy"
+              decoding="async"
+              class="absolute inset-0 h-full w-full object-cover object-[center_18%]"
+            />
+            <!-- Bottom gradient so the caption stays legible over the photo -->
+            <div
+              class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/85 via-black/45 to-transparent"
+            ></div>
+            <span
+              class="tick top-5 left-5 border-t-2 border-l-2"
+              style="border-color:rgba(255,255,255,.35)"></span>
+            <span
+              class="tick bottom-5 right-5 border-b-2 border-r-2"
+              style="border-color:rgba(255,255,255,.35)"></span>
+            <div class="absolute inset-x-0 bottom-0 px-7 pb-7 flex flex-col">
+              <span
+                class="font-display font-black text-2xl lg:text-3xl text-white tracking-tight"
+                >{about.founder.name}</span
+              >
+              <span
+                class="font-display text-[11px] font-bold uppercase tracking-[0.2em] text-olive-100 mt-2"
+                >{about.founder.role}</span
+              >
+              <span
+                class="font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50 mt-4 pt-4 border-t border-white/15"
+                >{about.founder.tenure}</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Story column -->
+        <div class="lg:col-span-7 lg:pl-4">
+          <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100"
+            >{about.founder.label}</span
+          >
+          <h2
+            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] max-w-xl"
+            style="--reveal-d:0.08s"
+          >
+            {about.founder.heading}
+          </h2>
+          <p
+            class="reveal text-white text-lg sm:text-xl lg:text-2xl leading-relaxed font-medium mt-6 max-w-xl"
+            style="--reveal-d:0.14s"
+          >
+            {about.founder.lead}
+          </p>
+          <div class="reveal mt-6 space-y-5 max-w-xl" style="--reveal-d:0.2s">
+            {
+              about.founder.paragraphs.map((para) => (
+                <p class="text-stone/60 text-base sm:text-lg leading-relaxed">{para}</p>
+              ))
+            }
+          </div>
+
+          <!-- Values triad — integrity, grit, intelligence -->
+          <dl
+            class="reveal grid sm:grid-cols-3 gap-x-8 gap-y-8 mt-10 pt-8 border-t border-white/10"
+            style="--reveal-d:0.28s"
+          >
+            {
+              about.founder.values.map((v) => (
+                <div>
+                  <dt class="font-display font-black text-lg lg:text-xl tracking-tight text-olive-100">
+                    {v.k}
+                  </dt>
+                  <dd class="text-stone/55 text-sm leading-relaxed mt-2">{v.v}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ======================= VISION & MISSION ======================= -->
-  <section class="bg-olive-100 py-20 lg:py-28">
+  <section id="vision" class="bg-olive-100 py-20 lg:py-28 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
       <div class="grid lg:grid-cols-12 gap-y-14 lg:gap-x-16">
         <!-- Sticky editorial intro -->
@@ -232,6 +308,21 @@ const navLinks = [
                 <p class="text-ink/75 text-lg sm:text-xl lg:text-[1.6rem] lg:leading-[1.5] leading-relaxed mt-6 lg:mt-7 max-w-2xl font-medium">
                   {p.body}
                 </p>
+                {p.points && (
+                  <ul class="mt-7 lg:mt-8 space-y-4 max-w-2xl">
+                    {p.points.map((point) => (
+                      <li class="flex gap-3.5 sm:gap-4">
+                        <span
+                          class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-olive-600"
+                          aria-hidden="true"
+                        />
+                        <span class="text-ink/75 text-base sm:text-lg lg:text-xl leading-relaxed">
+                          {point}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </article>
             ))
           }
@@ -240,41 +331,47 @@ const navLinks = [
     </div>
   </section>
 
-  <!-- ============================ CAREERS ============================ -->
-  <section id="careers" class="bg-stone py-20 lg:py-28">
+  <!-- ===================== JOURNEY / TIMELINE ===================== -->
+  <section id="journey" class="bg-stone py-20 lg:py-28 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="grid lg:grid-cols-12 gap-y-8 lg:gap-x-12 lg:items-end">
-        <div class="lg:col-span-7">
-          <span
-            class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
-            >{about.careers.label}</span
-          >
-          <h2
-            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] max-w-xl"
-            style="--reveal-d:0.08s"
-          >
-            {about.careers.heading}
-          </h2>
-        </div>
-        <p
-          class="reveal lg:col-span-5 text-muted text-base sm:text-lg leading-relaxed"
-          style="--reveal-d:0.16s"
+      <div class="max-w-3xl">
+        <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >Our Journey</span
         >
-          {about.careers.body}
+        <h2
+          class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]" style="--reveal-d:0.1s"
+        >
+          Building since {brand.legacyYear}. One standard throughout.
+        </h2>
+        <p
+          class="reveal font-display text-sm font-semibold uppercase tracking-[0.06em] text-muted mt-6 flex flex-wrap gap-x-3 gap-y-2 items-center" style="--reveal-d:0.2s"
+        >
+          <span>Est. {brand.legacyYear} · Nesting Tree since {brand.foundedYear}</span><span class="text-concrete">·</span>
+          <span>Karanjade, Navi Mumbai</span><span class="text-concrete">·</span>
+          <span>Delivered &amp; Ongoing</span><span class="text-concrete">·</span>
+          <span>{contact.maharera}</span>
         </p>
       </div>
 
-      <div class="reveal mt-10 flex flex-wrap items-center gap-4" style="--reveal-d:0.24s">
-        <a
-          href={`mailto:${about.careers.email}?subject=Career%20enquiry%20—%20Nesting%20Tree`}
-          class="font-display font-bold uppercase tracking-[0.06em] text-sm bg-ink text-stone px-7 py-4 rounded-[2px] hover:bg-inksoft transition-colors"
-          >Apply Now</a
-        >
-        <a
-          href={`mailto:${about.careers.email}`}
-          class="font-display font-semibold text-sm text-olive-600 hover:text-olive-dark transition-colors"
-          >{about.careers.email}</a
-        >
+      <div class="mt-14 lg:mt-20 border-t border-line">
+        {
+          journey.map((m) => (
+            <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 lg:py-10 border-b border-line items-baseline">
+              <div class="lg:col-span-3">
+                <span class="font-display font-black text-5xl lg:text-6xl tracking-tight text-ink">
+                  {m.year}
+                </span>
+              </div>
+              <div class="lg:col-span-4">
+                <h3 class="font-display font-bold text-xl lg:text-2xl tracking-tight">{m.title}</h3>
+                <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-olive-600 mt-2">
+                  {m.place}
+                </p>
+              </div>
+              <p class="lg:col-span-5 text-muted text-base lg:text-lg leading-relaxed">{m.body}</p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -293,8 +390,8 @@ const navLinks = [
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
         <div class="reveal">
           <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
-            Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities
-            since {brand.foundedYear}.
+            Residential developer in Karanjade, Navi Mumbai, building homes with more amenities
+            since {brand.legacyYear}.
           </p>
           <div class="flex items-center gap-3 mt-6">
             {
@@ -316,7 +413,7 @@ const navLinks = [
           </h5>
           <ul class="space-y-3 text-sm font-medium">
             {
-              navLinks.map((item) => (
+              footerLinks.map((item) => (
                 <li>
                   <a href={item.href} class="hover:text-olive-100 transition-colors">
                     {item.label}
@@ -336,11 +433,7 @@ const navLinks = [
               projects.map((p) => (
                 <li>
                   <a
-                    href={
-                      ["shikhar", "rudra", "dhruva"].includes(p.slug)
-                        ? `/projects/${p.slug}`
-                        : "/#projects"
-                    }
+                    href={`/projects/${p.slug}`}
                     class="hover:text-olive-100 transition-colors"
                   >
                     {p.name} — {p.status}
@@ -415,19 +508,6 @@ const navLinks = [
   </footer>
 
   <script is:inline>
-    const header = document.getElementById("site-header");
-    const onScroll = () =>
-      header.classList.toggle("is-scrolled", window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    const toggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("mobile-menu");
-    toggle.addEventListener("click", () => menu.classList.toggle("open"));
-    menu.querySelectorAll(".mobile-link").forEach((link) =>
-      link.addEventListener("click", () => menu.classList.remove("open"))
-    );
-
     // Scroll-reveal: fade/lift elements in as they enter the viewport.
     if (document.documentElement.classList.contains("reveal-on")) {
       const revealTargets = document.querySelectorAll(".reveal, .reveal-img");

@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import QrBlock from "../../components/QrBlock.astro";
+import ProjectGallery from "../../components/ProjectGallery.astro";
 import { brand, contact, projects } from "../../data/site";
 import {
   shikhar,
@@ -13,6 +16,7 @@ import {
   emergencySystems,
   safetyCards,
   advantages,
+  gallery,
 } from "../../data/shikhar";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
@@ -46,22 +50,21 @@ const icons: Record<string, string> = {
 };
 
 const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
+const check = `<path d="m5 12.5 4 4 10-10"/>`;
 const pin = `<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/>`;
 
-const navLinks = [
+const sections = [
   { label: "Overview", href: "#overview" },
   { label: "Units", href: "#units" },
   { label: "Progress", href: "#progress" },
   { label: "Amenities", href: "#amenities" },
   { label: "Safety", href: "#safety" },
+  { label: "Gallery", href: "#gallery" },
 ];
 
-/* Mountain photo for the amenity climb. Drop your file at this path
-   (public/images/projects/shikhar/peak.jpg) — a gradient stands in
-   until it exists. Ideal: landscape, peak in the left-centre, hazy
-   right side. Then nudge each stage's `at:{x,y}` in shikhar.ts so the
-   markers sit on the ridge. */
-const peakImage = "/images/projects/shikhar/peak.jpg";
+/* Hero film. The still render stays on as the poster, so the first paint is
+   instant and reduced-motion visitors keep the premium frame. */
+const heroVideo = "/images/projects/Shikhar_Backdrop.mp4";
 
 const pageTitle = `Shikhar — G+10 Landmark Tower, Karanjade · ${brand.name}`;
 const pageDesc =
@@ -70,82 +73,21 @@ const pageDesc =
 
 <BaseLayout title={pageTitle} description={pageDesc}>
   <!-- ============================ NAVBAR ============================ -->
-  <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="flex items-center justify-between h-[72px] lg:h-20">
-        <a href="/" class="flex items-center gap-3 shrink-0">
-          <img
-            src={brand.logoMark}
-            alt={`${brand.name} logo`}
-            width="36"
-            height="42"
-            class="h-9 w-auto lg:h-10 drop-shadow-sm"
-          />
-          <span
-            class="nav-wordmark font-display font-extrabold text-lg lg:text-xl tracking-tight leading-none"
-            >Nesting&nbsp;Tree</span
-          >
-        </a>
-
-        <nav
-          class="hidden md:flex items-center gap-8 lg:gap-10 font-display text-[13px] font-bold uppercase tracking-[0.08em]"
-        >
-          {
-            navLinks.map((item) => (
-              <a href={item.href} class="nav-link hover:opacity-70 transition-opacity">
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-
-        <a
-          href="#enquire"
-          class="nav-cta hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
-          >Enquire Now</a
-        >
-
-        <button id="menu-toggle" class="md:hidden p-2 -mr-2" aria-label="Toggle menu">
-          <svg
-            class="nav-toggle-icon w-6 h-6"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg
-          >
-        </button>
-      </div>
-
-      <div id="mobile-menu" class="md:hidden bg-stone/95 -mx-5 sm:-mx-6 px-5 sm:px-6 rounded-b-lg">
-        <nav
-          class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide text-ink"
-        >
-          {
-            navLinks.map((item) => (
-              <a href={item.href} class="mobile-link py-3.5 border-b border-line">
-                {item.label}
-              </a>
-            ))
-          }
-          <a
-            href="#enquire"
-            class="mobile-link mt-4 text-center bg-ink text-stone px-5 py-3.5 rounded-[2px]"
-            >Enquire Now</a
-          >
-        </nav>
-      </div>
-    </div>
-  </header>
+  <SiteHeader sections={sections} ctaHref="#enquire" />
 
   <!-- ============================ HERO ============================ -->
   <section id="top" class="relative h-[100svh] min-h-[680px] w-full overflow-hidden bg-ink">
-    <img
-      src={shikhar.hero}
-      alt="Shikhar — landmark residential tower by Nesting Tree, Karanjade"
-      class="hero-img-reveal absolute top-0 left-0 w-full h-[116%] object-cover object-[center_14%] lg:object-[center_6%]"
-      fetchpriority="high"
-    />
+    <video
+      id="hero-video"
+      class="hero-img-reveal absolute top-0 left-0 w-full h-full object-cover object-[center_14%] lg:object-[center_6%]"
+      src={heroVideo}
+      poster={shikhar.hero}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-label="Shikhar — landmark residential tower by Nesting Tree, Karanjade"></video>
     <!-- top scrim for nav legibility + bottom scrim for copy -->
     <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-transparent"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent"></div>
@@ -156,7 +98,7 @@ const pageDesc =
     >
       <!-- breadcrumb -->
       <nav class="hero-rise font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 mb-7" style="--rise-d:0.15s">
-        <a href="/#projects" class="hover:text-white transition-colors">Projects</a>
+        <a href="/projects" class="hover:text-white transition-colors">Projects</a>
         <span class="mx-2.5 text-white/35">/</span>
         <span class="text-olive-100">Shikhar</span>
       </nav>
@@ -592,59 +534,24 @@ const pageDesc =
           The climb to the top of Karanjade.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Six stages, ground to summit — every amenity in Shikhar, built in as you rise. Scroll to
-          make the climb.
+          Six stages, ground to summit — every amenity in Shikhar, built in as you rise.
         </p>
       </div>
     </div>
 
-    {/* ===== Ride the peak: pinned mountain + scroll-driven amenity climb ===== */}
-    <div class="climb mt-14 lg:mt-16" data-climb>
-      {/* Mobile: static peak banner (the pinned climb is desktop-only) */}
-      <div class="climb-canvas lg:hidden relative h-56 overflow-hidden">
-        <img src={peakImage} alt="" class="climb-img" loading="lazy" onerror="this.style.display='none'" />
-        <span class="climb-scrim" aria-hidden="true" />
-      </div>
-
-      <div class="lg:grid lg:grid-cols-[minmax(0,57%)_minmax(0,43%)]">
-        {/* LEFT — the mountain, pinned on desktop; trail lights up as you climb */}
-        <div class="hidden lg:block">
-          <div class="climb-canvas sticky top-0 h-screen overflow-hidden">
-            <img src={peakImage} alt="Mountain peak — Shikhar rising above Karanjade" class="climb-img" onerror="this.style.display='none'" />
-            <span class="climb-scrim" aria-hidden="true" />
-
-            {/* dashed trail through every waypoint — drawn in real pixels by
-                JS (data-trail) so it lands exactly on the dots and dashes
-                stay even at any size; the lit copy reveals up to the active stage */}
-            <svg class="climb-trail" data-trail aria-hidden="true">
-              <path class="climb-trail-base" data-trail-base />
-              <path class="climb-trail-lit" data-trail-lit pathLength="1" />
-            </svg>
-
-            {/* waypoint markers */}
-            {amenityStages.map((s, i) => (
-              <div class="cmark" data-marker={i} data-x={s.at.x} data-y={s.at.y} style={`left:${s.at.x}%;top:${s.at.y}%`}>
-                <span class="cmark-dot" />
-                <span class="cmark-label"><b>{s.floor}</b>{s.stage}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* RIGHT — one panel per stage; the centred one is "active" */}
-        <ol class="climb-stages">
-          {amenityStages.map((s, i) => (
-            <li class="cstage" data-index={i}>
-              <div class="cstage-rail" aria-hidden="true"><span class="cstage-dot" /></div>
-              <div class="cstage-body">
-                <div class="cstage-meta">
-                  <span class="cstage-floor">{s.floor}</span>
-                  <span class="cstage-cat">{s.category}</span>
-                  {s.featured && <span class="cstage-flag">Signature</span>}
-                </div>
-                <span class="cstage-icon">
+    {/* ===== The six stages, ground to summit ===== */}
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 mt-14 lg:mt-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
+        {
+          amenityStages.map((s, i) => (
+            <article
+              class="reveal flex flex-col bg-stone border border-line rounded-[4px] p-7 lg:p-8 hover:border-olive-100 transition-colors"
+              style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
+            >
+              <div class="flex items-start justify-between gap-4">
+                <span class="flex items-center justify-center w-12 h-12 rounded-[3px] bg-olive-50 text-olive-600 shrink-0">
                   <svg
-                    class="w-7 h-7"
+                    class="w-6 h-6"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -654,33 +561,54 @@ const pageDesc =
                     set:html={icons[s.icon]}
                   />
                 </span>
-                <h3 class="cstage-title font-display font-black tracking-tight">{s.stage}</h3>
-                <p class="cstage-blurb">{s.blurb}</p>
-                <ul class="cstage-list">
-                  {s.points.map((p) => (
-                    <li>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-                <a href="#amenities-all" class="cstage-btn font-display">
-                  Explore amenities
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={arrow} />
-                </a>
+                <div class="flex flex-col items-end gap-2">
+                  <span class="font-display font-black text-2xl tracking-tight text-olive-600/80 tabular-nums leading-none">
+                    {s.floor}
+                  </span>
+                  {s.featured && (
+                    <span class="font-display text-[9px] font-bold uppercase tracking-[0.16em] bg-olive-100 text-olive-dark px-2 py-0.5 rounded-full">
+                      Signature
+                    </span>
+                  )}
+                </div>
               </div>
-            </li>
-          ))}
-        </ol>
+
+              <p class="font-display text-[10px] font-bold uppercase tracking-[0.18em] text-muted mt-6">
+                {s.category}
+              </p>
+              <h3 class="font-display font-black text-xl lg:text-2xl tracking-tight mt-2 leading-tight">
+                {s.stage}
+              </h3>
+              <p class="text-muted text-base leading-relaxed mt-3">{s.blurb}</p>
+
+              <ul class="mt-6 pt-6 border-t border-line flex flex-col gap-3">
+                {s.points.map((p) => (
+                  <li class="flex items-start gap-2.5 text-ink">
+                    <svg
+                      class="w-4 h-4 mt-1 shrink-0 text-olive-600"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      set:html={check}
+                    />
+                    <span class="text-[15px] leading-snug">{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
       </div>
     </div>
 
-    {/* ===== Full amenity list — target of the "Explore amenities" button ===== */}
+    {/* ===== Full amenity list ===== */}
     <div
       id="amenities-all"
-      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-24 lg:py-32 border-t border-line scroll-mt-20"
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-24 lg:py-32 mt-24 lg:mt-32 border-t border-line scroll-mt-20"
     >
       <div class="reveal max-w-3xl mb-14 lg:mb-16">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
@@ -825,6 +753,16 @@ const pageDesc =
     </div>
   </section>
 
+  <!-- ===================== GALLERY ===================== -->
+  <ProjectGallery
+    project="Shikhar"
+    items={gallery}
+    lead="Real photographs from the Shikhar site — the rising high-rise and its surroundings, shot on site during construction."
+  />
+
+  <!-- ===================== QR CODE ===================== -->
+  <QrBlock project="Shikhar" />
+
   <!-- ===================== ENQUIRY FORM ===================== -->
   <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
     <div class="reveal max-w-2xl mx-auto px-5 sm:px-6 text-center">
@@ -844,7 +782,7 @@ const pageDesc =
         >.
       </p>
 
-      <form class="mt-12 text-left" action="#" method="post">
+      <form class="mt-12 text-left" action="/api/contact" method="POST">
         <div class="grid sm:grid-cols-2 gap-5">
           <div class="flex flex-col gap-2">
             <label for="name" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
@@ -943,8 +881,8 @@ const pageDesc =
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
         <div class="reveal">
           <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
-            Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities
-            since {brand.foundedYear}.
+            Residential developer in Karanjade, Navi Mumbai, building homes with more amenities
+            since {brand.legacyYear}.
           </p>
           <div class="flex items-center gap-3 mt-6">
             {
@@ -966,7 +904,7 @@ const pageDesc =
           </h5>
           <ul class="space-y-3 text-sm font-medium">
             {
-              navLinks.map((item) => (
+              sections.map((item) => (
                 <li>
                   <a href={item.href} class="hover:text-olive-100 transition-colors">
                     {item.label}
@@ -983,7 +921,7 @@ const pageDesc =
           </h5>
           <ul class="space-y-3 text-sm font-medium text-stone/80">
             <li><a href="/" class="hover:text-olive-100 transition-colors">Home</a></li>
-            <li><a href="/#projects" class="hover:text-olive-100 transition-colors">All projects</a></li>
+            <li><a href="/projects" class="hover:text-olive-100 transition-colors">All projects</a></li>
             <li><a href="/#journey" class="hover:text-olive-100 transition-colors">Our journey</a></li>
             <li><a href="#enquire" class="hover:text-olive-100 transition-colors">Enquire</a></li>
           </ul>
@@ -1037,381 +975,15 @@ const pageDesc =
     </div>
   </footer>
 
-  <style>
-    /* ============================================================
-       Ride-the-peak amenities. A mountain photo is pinned on the left;
-       a dashed trail threads six waypoints from base to summit. As each
-       stage panel on the right scrolls to centre, its marker lights up
-       and the trail fills behind it. Typography stays on Tailwind; this
-       owns the mechanics: image, scrim, trail, markers, active/dim.
-       ============================================================ */
-
-    /* --- The pinned mountain canvas --- */
-    .climb-canvas {
-      /* gradient stands in until peak.jpg lands */
-      background: linear-gradient(155deg, #b9c0a8 0%, #d7dac9 45%, var(--color-card) 100%);
-    }
-    .climb-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: 40% center;
-    }
-    .climb-scrim {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(
-          to right,
-          rgba(15, 18, 10, 0.28) 0%,
-          rgba(15, 18, 10, 0) 34%,
-          rgba(244, 242, 236, 0) 58%,
-          var(--color-card) 100%
-        ),
-        linear-gradient(to bottom, rgba(15, 18, 10, 0.22), rgba(15, 18, 10, 0) 34%);
-    }
-    /* Mobile banner: the right-fade above only makes sense beside the
-       desktop text column. Here the image is full-width with nothing to
-       its right, so drop the fade and just darken the base for the flag. */
-    @media (max-width: 1023px) {
-      .climb-scrim {
-        background: linear-gradient(
-          to bottom,
-          rgba(15, 18, 10, 0.28) 0%,
-          rgba(15, 18, 10, 0) 32%,
-          rgba(15, 18, 10, 0) 60%,
-          rgba(15, 18, 10, 0.42) 100%
-        );
-      }
-    }
-
-    /* --- Dashed summit trail --- */
-    .climb-trail {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: visible;
-    }
-    .climb-trail-base {
-      fill: none;
-      stroke: rgba(255, 255, 255, 0.85);
-      stroke-width: 4;
-      stroke-linecap: round;
-      /* round dots (near-zero dash + round cap), evenly spaced in px */
-      stroke-dasharray: 0.01 15;
-      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
-    }
-    .climb-trail-lit {
-      fill: none;
-      stroke: var(--color-olive);
-      stroke-width: 4;
-      stroke-linecap: round;
-      /* pathLength=1 → one full-length dash we reveal via dashoffset */
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
-      filter: drop-shadow(0 0 5px rgba(110, 122, 69, 0.95));
-      transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* --- Summit flag --- */
-    .climb-flag {
-      position: absolute;
-      transform: translate(-8%, -100%);
-      display: flex;
-      align-items: flex-end;
-      gap: 0.5rem;
-      pointer-events: none;
-    }
-    .climb-flag-icon {
-      width: 26px;
-      height: 26px;
-      color: var(--color-olive);
-      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
-    }
-    .climb-flag-label {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.15;
-      padding-bottom: 1px;
-      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.6);
-    }
-    .climb-flag-label b {
-      font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: 0.02em;
-      color: #fff;
-    }
-    .climb-flag-label span {
-      font-size: 0.66rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: rgba(255, 255, 255, 0.88);
-    }
-
-    /* --- Waypoint markers --- */
-    .cmark {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      white-space: nowrap;
-      pointer-events: none;
-    }
-    .cmark-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
-      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-        background 0.45s, border-color 0.45s, box-shadow 0.45s;
-    }
-    .cmark-label {
-      font-size: 0.82rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
-      transition: color 0.4s;
-    }
-    .cmark-label b {
-      font-weight: 800;
-      margin-right: 0.5rem;
-      letter-spacing: 0.04em;
-    }
-    /* climbed past → filled; current → big glow; ahead → faint (default) */
-    .cmark.done .cmark-dot {
-      background: var(--color-olive);
-      border-color: #fff;
-    }
-    .cmark.current .cmark-dot {
-      background: var(--color-olive);
-      border-color: #fff;
-      transform: scale(1.6);
-      box-shadow: 0 0 0 5px rgba(110, 122, 69, 0.35),
-        0 0 20px 4px rgba(110, 122, 69, 0.7);
-    }
-    .cmark.current .cmark-label {
-      color: #fff;
-    }
-    .climb-live .cmark:not(.done):not(.current) .cmark-label {
-      color: rgba(255, 255, 255, 0.62);
-    }
-
-    /* --- Right column: stage panels --- */
-    .climb-stages {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .cstage {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 1.25rem;
-      padding: 2rem 0;
-    }
-    @media (min-width: 1024px) {
-      .cstage {
-        grid-template-columns: 1fr;
-        min-height: 100vh;
-        align-content: center;
-        padding: 0 1rem 0 3.5rem;
-      }
-    }
-
-    /* Mobile climb rail (no pin) */
-    .cstage-rail {
-      position: relative;
-    }
-    .cstage-rail::before {
-      content: "";
-      position: absolute;
-      left: 5px;
-      top: 8px;
-      bottom: -2rem;
-      width: 2px;
-      background: var(--color-line);
-    }
-    .cstage:last-child .cstage-rail::before {
-      display: none;
-    }
-    .cstage-dot {
-      position: relative;
-      z-index: 1;
-      display: block;
-      width: 12px;
-      height: 12px;
-      margin-top: 6px;
-      border-radius: 50%;
-      background: var(--color-card);
-      border: 2px solid var(--color-line);
-      transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
-    }
-    @media (min-width: 1024px) {
-      .cstage-rail {
-        display: none;
-      }
-    }
-
-    .cstage-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      flex-wrap: wrap;
-    }
-    .cstage-floor {
-      font-variant-numeric: tabular-nums;
-      font-weight: 800;
-      font-size: 1.05rem;
-      letter-spacing: 0.05em;
-      color: var(--color-olive-600);
-    }
-    .cstage-cat {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--color-muted);
-    }
-    .cstage-flag {
-      font-size: 0.62rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--color-olive-dark);
-      background: var(--color-olive-100);
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-    }
-    .cstage-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 3.25rem;
-      height: 3.25rem;
-      margin-top: 1.4rem;
-      border-radius: 3px;
-      background: var(--color-olive-50);
-      color: var(--color-olive-600);
-      transition: background 0.4s, color 0.4s, transform 0.4s;
-    }
-    .cstage-title {
-      font-size: clamp(1.9rem, 3.6vw, 3.1rem);
-      line-height: 1.03;
-      margin-top: 1.1rem;
-    }
-    .cstage-blurb {
-      color: var(--color-muted);
-      font-size: clamp(1.05rem, 1.4vw, 1.2rem);
-      line-height: 1.6;
-      margin-top: 1rem;
-      max-width: 38ch;
-    }
-    .cstage-list {
-      list-style: none;
-      margin: 1.5rem 0 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-    .cstage-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      font-size: 0.98rem;
-      color: var(--color-ink);
-    }
-    .cstage-list svg {
-      width: 1.1rem;
-      height: 1.1rem;
-      flex-shrink: 0;
-      margin-top: 0.15rem;
-      color: var(--color-olive);
-    }
-    .cstage-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 2rem;
-      padding: 0.85rem 1.4rem;
-      border-radius: 3px;
-      background: var(--color-olive);
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: background 0.3s, transform 0.3s;
-    }
-    .cstage-btn:hover {
-      background: var(--color-olive-600);
-      transform: translateY(-1px);
-    }
-    .cstage-btn svg {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    /* JS-on: dim inactive stages on desktop, spotlight the active one */
-    .climb-live .cstage {
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @media (min-width: 1024px) {
-      .climb-live .cstage {
-        opacity: 0.22;
-        transform: translateY(10px);
-      }
-      .climb-live .cstage.is-active {
-        opacity: 1;
-        transform: none;
-      }
-    }
-    .cstage.is-active .cstage-icon {
-      background: var(--color-olive);
-      color: #fff;
-      transform: scale(1.06);
-    }
-    .cstage.is-active .cstage-dot {
-      background: var(--color-olive);
-      border-color: var(--color-olive);
-      box-shadow: 0 0 0 4px rgba(110, 122, 69, 0.16);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .climb-trail-lit,
-      .cmark-dot,
-      .cmark-label,
-      .cstage,
-      .cstage-icon,
-      .cstage-dot,
-      .cstage-btn {
-        transition: none;
-      }
-    }
-  </style>
-
   <script is:inline>
-    const header = document.getElementById("site-header");
-    const onScroll = () =>
-      header.classList.toggle("is-scrolled", window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    const toggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("mobile-menu");
-    toggle.addEventListener("click", () => menu.classList.toggle("open"));
-    menu.querySelectorAll(".mobile-link").forEach((link) =>
-      link.addEventListener("click", () => menu.classList.remove("open"))
-    );
+    // Hero film holds on its poster frame for reduced-motion visitors.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const heroVideo = document.getElementById("hero-video");
+      if (heroVideo) {
+        heroVideo.removeAttribute("autoplay");
+        heroVideo.pause();
+      }
+    }
 
     // Scroll-reveal: fade/lift elements in as they enter the viewport.
     // Only wired up when the head guard enabled reveal-on (JS + motion OK).
@@ -1431,84 +1003,5 @@ const pageDesc =
         .querySelectorAll(".reveal, .reveal-img")
         .forEach((el) => io.observe(el));
     }
-
-    // Ride the peak: light up the waypoint for whichever stage panel is
-    // centred in the viewport, and fill the trail up to it.
-    (function () {
-      const sec = document.querySelector("[data-climb]");
-      if (!sec) return;
-      const stages = Array.from(sec.querySelectorAll(".cstage"));
-      const markers = Array.from(sec.querySelectorAll(".cmark"));
-      const lit = sec.querySelector("[data-trail-lit]");
-      if (!stages.length) return;
-
-      sec.classList.add("climb-live");
-
-      // Waypoint coordinates as percentages of the pinned image.
-      const pts = markers.map((m) => ({
-        x: parseFloat(m.dataset.x),
-        y: parseFloat(m.dataset.y),
-      }));
-
-      const trail = sec.querySelector("[data-trail]");
-      const base = sec.querySelector("[data-trail-base]");
-      const canvas = trail ? trail.closest(".climb-canvas") : null;
-
-      // Draw the trail in real pixels so it lands on the dots and keeps
-      // even dashes; recompute the per-waypoint length fractions for fill.
-      let frac = pts.map(() => 0);
-      function drawTrail() {
-        if (!canvas || !base) return;
-        const w = canvas.clientWidth;
-        const h = canvas.clientHeight;
-        if (!w || !h) return;
-        const px = pts.map((p) => ({ x: (p.x / 100) * w, y: (p.y / 100) * h }));
-        const d = px
-          .map((p, i) => `${i ? "L" : "M"} ${p.x.toFixed(1)} ${p.y.toFixed(1)}`)
-          .join(" ");
-        base.setAttribute("d", d);
-        if (lit) lit.setAttribute("d", d);
-        let total = 0;
-        const cum = [0];
-        for (let i = 1; i < px.length; i++) {
-          total += Math.hypot(px[i].x - px[i - 1].x, px[i].y - px[i - 1].y);
-          cum.push(total);
-        }
-        frac = cum.map((c) => (total ? c / total : 0));
-      }
-
-      let active = -1;
-      function setActive(i) {
-        active = i;
-        stages.forEach((s, idx) => s.classList.toggle("is-active", idx === i));
-        markers.forEach((m, idx) => {
-          m.classList.toggle("done", idx < i);
-          m.classList.toggle("current", idx === i);
-        });
-        if (lit) lit.style.strokeDashoffset = String(1 - (frac[i] || 0));
-      }
-
-      const io = new IntersectionObserver(
-        (entries) => {
-          let target = null;
-          for (const e of entries) if (e.isIntersecting) target = e.target;
-          if (target) setActive(Number(target.dataset.index));
-        },
-        { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
-      );
-      stages.forEach((s) => io.observe(s));
-
-      // Redraw + light the first stage so the section never opens all-dimmed.
-      drawTrail();
-      setActive(0);
-      window.addEventListener(
-        "resize",
-        () => {
-          drawTrail();
-          if (active >= 0) setActive(active);
-        },
-        { passive: true }
-      );
-    })();
   </script>
 </BaseLayout>

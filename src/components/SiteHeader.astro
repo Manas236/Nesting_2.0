@@ -1,0 +1,165 @@
+---
+/* ---------------------------------------------------------------------------
+   SiteHeader — the single source of truth for the site navbar.
+
+   Every page renders this component, so the global links, spacing, entrance
+   animation and transparent→solid scroll behaviour are identical everywhere.
+   Page-specific section jump links (Overview / Units / Amenities …) are passed
+   in via `sections` and render as a secondary strip *below* the global row,
+   rather than replacing the global links the way the old per-page copies did.
+--------------------------------------------------------------------------- */
+import { brand, nav, contact } from "../data/site";
+
+interface Props {
+  /** Optional in-page jump links, rendered as a sub-nav strip. */
+  sections?: { label: string; href: string }[];
+  /** Unused for the CTA now — kept for backwards compatibility. */
+  ctaHref?: string;
+}
+
+const { sections = [] } = Astro.props;
+
+// "Enquire Now" is a one-tap contact action: it opens the visitor's email
+// app on desktop and the phone dialer on touch devices. The href defaults to
+// email (works everywhere, no JS); the inline script below swaps it to the
+// tel: link on coarse-pointer (touch) devices.
+const mailHref = `mailto:${contact.email}?subject=${encodeURIComponent(
+  "Enquiry — Nesting Tree"
+)}`;
+const telHref = `tel:${contact.phone.replace(/\s/g, "")}`;
+
+const path = Astro.url.pathname;
+const isHome = path === "/";
+
+// Hash-only hrefs (#contact) only resolve on the home page; from anywhere else
+// they have to point back at the home page's section.
+const resolve = (href: string) => (href.startsWith("#") && !isHome ? `/${href}` : href);
+
+// /projects/shikhar should still light up the "Projects" link.
+const isActive = (href: string) => {
+  if (href.startsWith("#")) return false;
+  if (href === "/") return isHome;
+  return path === href || path.startsWith(`${href}/`);
+};
+
+const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
+---
+
+<header id="site-header" class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+    <div class="flex items-center justify-between h-[72px] lg:h-20">
+      <a href="/" class="nav-animate flex flex-col items-center gap-1 shrink-0" style="--nav-d:0.15s">
+        <img
+          src={brand.logoMark}
+          alt={`${brand.name} logo`}
+          width="36"
+          height="42"
+          class="h-8 w-auto lg:h-9 drop-shadow-sm"
+        />
+        <span
+          class="nav-wordmark font-display font-extrabold text-sm lg:text-base tracking-tight leading-none text-center"
+          >Nesting<br />Tree</span
+        >
+      </a>
+
+      <nav
+        class="hidden md:flex items-center gap-9 lg:gap-11 font-display text-[13px] font-bold uppercase tracking-[0.08em]"
+      >
+        {
+          nav.map((item, i) => (
+            <a
+              href={resolve(item.href)}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              class:list={["nav-link", "nav-animate", { "is-current": isActive(item.href) }]}
+              style={`--nav-d:${(0.3 + i * 0.08).toFixed(2)}s`}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <a
+        href={mailHref}
+        data-cta-mail={mailHref}
+        data-cta-tel={telHref}
+        class="js-cta nav-cta nav-animate hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
+        style={`--nav-d:${ctaDelay}s`}>Enquire Now</a
+      >
+
+      <button
+        id="menu-toggle"
+        class="nav-animate md:hidden p-2 -mr-2"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        style="--nav-d:0.3s"
+      >
+        <svg
+          class="nav-toggle-icon w-6 h-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg
+        >
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="md:hidden -mx-5 sm:-mx-6 px-5 sm:px-6 rounded-b-lg">
+      <nav class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide">
+        {
+          nav.map((item) => (
+            <a
+              href={resolve(item.href)}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              class="mobile-link py-3.5"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+        <a
+          href={mailHref}
+          data-cta-mail={mailHref}
+          data-cta-tel={telHref}
+          class="js-cta mobile-cta mobile-link mt-4 text-center px-5 py-3.5 rounded-[2px]"
+          >Enquire Now</a
+        >
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  (() => {
+    // "Enquire Now" opens email on desktop, the dialer on touch devices.
+    // Default href is the mailto: link; swap to tel: on coarse-pointer devices.
+    const isTouch =
+      window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+    if (isTouch) {
+      document.querySelectorAll(".js-cta").forEach((el) => {
+        const tel = el.getAttribute("data-cta-tel");
+        if (tel) el.setAttribute("href", tel);
+      });
+    }
+
+    const header = document.getElementById("site-header");
+    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    toggle.addEventListener("click", () => {
+      const open = menu.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+    menu.querySelectorAll(".mobile-link").forEach((link) =>
+      link.addEventListener("click", () => {
+        menu.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      })
+    );
+  })();
+</script>

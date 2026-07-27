@@ -1,0 +1,151 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { projects, contact } from "../data/site";
+
+// Rendered on demand so it can read the ?project / ?status query.
+export const prerender = false;
+
+const params = Astro.url.searchParams;
+const isError = params.get("status") === "error";
+const project = projects.find((p) => p.slug === params.get("project"));
+
+// A clean night render of Nesting Tree — the fallback when no (or an unknown)
+// project is supplied, e.g. someone opens /thank-you directly.
+const FALLBACK_ART = {
+  image: "/images/Project_Images/Dhruva/Render/dhruva-startrail-scene.png",
+  objectPosition: "center",
+};
+
+// Reuse the catalogue render + tuned crop for each project. Dhruva's catalogue
+// image carries a watermark/placeholder, so swap in its clean night render.
+const artOverrides: Record<string, { image: string; objectPosition: string }> = {
+  dhruva: FALLBACK_ART,
+};
+const art = project
+  ? artOverrides[project.slug] ?? {
+      image: project.image,
+      objectPosition: project.objectPosition,
+    }
+  : FALLBACK_ART;
+
+const pageTitle = isError
+  ? "Something went wrong — Nesting Tree"
+  : "Thank you — Nesting Tree";
+---
+
+<BaseLayout title={pageTitle}>
+  <SiteHeader />
+
+  <main class="min-h-screen grid lg:grid-cols-2 bg-ink text-stone">
+    <!-- ===== Building render (top on mobile, left on desktop) ===== -->
+    <div class="relative bg-ink h-[42vh] min-h-[300px] lg:h-screen lg:min-h-0 overflow-hidden">
+      <img
+        src={art.image}
+        alt={project ? `${project.name} by Nesting Tree` : "A Nesting Tree residence"}
+        class="absolute inset-0 w-full h-full object-cover"
+        style={`object-position: ${art.objectPosition};`}
+      />
+      <!-- soft edge into the text panel + a floor gradient for depth -->
+      <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/25"></div>
+      <div
+        class="hidden lg:block absolute inset-y-0 right-0 w-40 bg-gradient-to-r from-transparent to-ink"
+      >
+      </div>
+      {
+        project && (
+          <div class="absolute bottom-6 left-6 lg:bottom-10 lg:left-10">
+            <p class="font-display text-[11px] font-bold uppercase tracking-[0.2em] text-stone/70">
+              {project.statusLabel}
+            </p>
+            <p class="font-display font-black text-2xl lg:text-3xl text-white leading-none mt-1.5">
+              {project.name}
+            </p>
+            <p class="text-stone/70 text-sm mt-1.5">{project.location}</p>
+          </div>
+        )
+      }
+    </div>
+
+    <!-- ===== Message panel ===== -->
+    <div class="flex items-center px-6 sm:px-10 lg:px-16 py-16 lg:py-0">
+      <div class="max-w-lg">
+        {
+          isError ? (
+            <>
+              <p class="font-display text-xs font-bold uppercase tracking-[0.2em] text-stone/60 mb-5">
+                Enquiry not sent
+              </p>
+              <h1 class="font-display font-black text-4xl sm:text-5xl leading-[1.05]">
+                Sorry — we couldn't save your enquiry.
+              </h1>
+              <p class="text-stone/75 text-lg leading-relaxed mt-6">
+                Please try again in a moment, or reach us directly on
+                <a
+                  href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                  class="text-olive-100 font-semibold underline underline-offset-4 hover:text-white transition-colors"
+                >
+                  {contact.phone}
+                </a>
+                .
+              </p>
+            </>
+          ) : (
+            <>
+              <p class="font-display text-xs font-bold uppercase tracking-[0.2em] text-stone/60 mb-5">
+                Enquiry received
+              </p>
+              <h1 class="font-display font-black text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.03]">
+                Thank you — we'll be in touch.
+              </h1>
+              <p class="text-stone/75 text-lg leading-relaxed mt-6">
+                {project ? (
+                  <>
+                    Your enquiry about <span class="text-white font-semibold">{project.name}</span>{" "}
+                    in {project.location} has reached the Nesting Tree team. We'll get back to you
+                    shortly.
+                  </>
+                ) : (
+                  <>
+                    Your enquiry has reached the Nesting Tree team. We'll get back to you shortly.
+                  </>
+                )}{" "}
+                If it's urgent, call us on
+                <a
+                  href={`tel:${contact.phone.replace(/\s/g, "")}`}
+                  class="text-olive-100 font-semibold underline underline-offset-4 hover:text-white transition-colors"
+                >
+                  {contact.phone}
+                </a>
+                .
+              </p>
+            </>
+          )
+        }
+
+        <div class="mt-10 flex flex-wrap items-center gap-3.5">
+          {
+            project && !isError && (
+              <a
+                href={`/projects/${project.slug}`}
+                class="font-display font-bold uppercase tracking-[0.06em] text-sm bg-white text-ink px-7 py-4 rounded-[2px] hover:bg-stone transition-colors"
+              >
+                Explore {project.name}
+              </a>
+            )
+          }
+          <a
+            href="/projects"
+            class="font-display font-bold uppercase tracking-[0.06em] text-sm border border-white/40 text-white px-7 py-4 rounded-[2px] hover:bg-white/10 transition-colors"
+            >All projects</a
+          >
+          <a
+            href="/"
+            class="font-display font-bold uppercase tracking-[0.06em] text-sm text-stone/70 px-3 py-4 hover:text-white transition-colors"
+            >Home</a
+          >
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

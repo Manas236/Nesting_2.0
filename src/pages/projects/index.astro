@@ -1,0 +1,481 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+
+import { brand, contact, projects, stats, amenities } from "../../data/site";
+
+// Standalone route → absolute links; in-page anchors resolve to the home page.
+
+const footerLinks = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "The Standard", href: "#amenities" },
+  { label: "Contact", href: "/#contact" },
+];
+
+// On-this-page jump links: the standard every building is held to, then the
+// buildings themselves.
+const sections = [
+  { label: "Projects", href: "#catalogue" },
+  { label: "The Standard", href: "#amenities" },
+];
+
+// Line-icon fallbacks for amenities with no photograph yet (currently "03").
+const amenityIcons: Record<string, string> = {
+  "01": `<rect x="2" y="9" width="4" height="6" rx="1"/><rect x="18" y="9" width="4" height="6" rx="1"/><line x1="6" y1="12" x2="18" y2="12" stroke-width="2"/>`,
+  "02": `<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>`,
+  "03": `<rect x="2.5" y="9" width="13" height="7" rx="2"/><circle cx="8" cy="12.5" r="1.8"/><path d="M16 10.5 21 8v9l-5-2.5z" stroke-linejoin="round"/>`,
+  "04": `<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 16V8h3.2a2.6 2.6 0 1 1 0 5.2H9"/>`,
+  "05": `<rect x="4" y="2.5" width="16" height="19" rx="2"/><path d="M12 2.5v19"/><path d="M9.4 10 8 8l-1.4 2"/><path d="M14.6 14 16 16l1.4-2"/>`,
+  "06": `<path d="M3 21 9 17.5V6.5L3 3zM21 21l-6-3.5V6.5L21 3z"/><path d="M9 12h6"/>`,
+};
+
+// Ongoing / delivered bands, derived from status so a new project lands in
+// the right band the moment it's added to site.ts. This is the full catalogue
+// — the home page only teases a curated few.
+const portfolio = [
+  {
+    kicker: "Ongoing",
+    caption: "Under construction in Karanjade, Navi Mumbai — booking now or pre-launch.",
+    items: projects.filter((p) => p.status === "Ongoing"),
+  },
+  {
+    kicker: "Delivered",
+    caption: "Completed, sold out and handed over in Karanjade, Navi Mumbai.",
+    items: projects.filter((p) => p.status === "Delivered"),
+  },
+];
+
+const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
+
+// Masthead film. The Dhruva elevation doubles as the poster so the first paint
+// is instant and reduced-motion visitors still get a still frame.
+const mastheadVideo = "/images/projects/construction.mp4";
+const mastheadPoster = "/images/projects/Dhruva-Elevation_image.jpg";
+
+const pageTitle = `Projects — Ongoing & Delivered Residences · ${brand.name}`;
+const pageDesc =
+  "The complete Nesting Tree portfolio in Karanjade, Navi Mumbai — ongoing and delivered residences, each built to the same amenity-first standard. Explore every project.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc}>
+  <!-- ============================ NAVBAR ============================ -->
+  <SiteHeader sections={sections} />
+
+  <!-- ============================ MASTHEAD ============================ -->
+  <section
+    class="relative h-[100svh] min-h-[620px] w-full bg-ink text-stone overflow-hidden"
+  >
+    <video
+      class="hero-img-reveal absolute top-0 left-0 w-full h-full object-cover object-[60%_center] sm:object-center"
+      src={mastheadVideo}
+      poster={mastheadPoster}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-label="Nesting Tree residences under construction in Karanjade, Navi Mumbai"></video>
+    <!-- layered scrims: nav legibility (top), copy (bottom), headline (left) -->
+    <div class="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/25 to-ink/70"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/25 to-transparent"></div>
+
+    <div
+      class="relative h-full max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col justify-end pb-16 lg:pb-24"
+    >
+      <span
+        class="hero-rise font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.24em] text-olive-100 block"
+        style="--rise-d:0.1s">Our Portfolio</span
+      >
+      <h1
+        class="hero-rise font-display font-black text-white text-[2.75rem] sm:text-6xl lg:text-[6rem] leading-[0.95] tracking-tight mt-5 max-w-4xl"
+        style="--rise-d:0.22s"
+      >
+        Every home we've built.
+      </h1>
+      <p
+        class="hero-rise text-white/70 text-base sm:text-lg lg:text-xl mt-7 max-w-2xl leading-relaxed"
+        style="--rise-d:0.36s"
+      >
+        Ongoing and delivered residences in Karanjade, Navi Mumbai — each built to the same
+        amenity-first standard. Pick one to walk through it in detail.
+      </p>
+
+      <dl
+        class="hero-fade grid grid-cols-3 gap-4 mt-12 max-w-lg border-t border-white/10 pt-8"
+        style="--fade-d:0.6s"
+      >
+        <div>
+          <dt class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
+            Residences
+          </dt>
+          <dd class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-2">
+            {stats.projects}
+          </dd>
+        </div>
+        <div>
+          <dt class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
+            Delivered
+          </dt>
+          <dd class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-2">
+            {stats.delivered}
+          </dd>
+        </div>
+        <div>
+          <dt class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
+            Ongoing
+          </dt>
+          <dd class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-2">
+            {stats.ongoing}
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== FULL CATALOGUE =====================
+       Leads the page: a projects/portfolio page shows the listings first,
+       since that's what the visitor came for. "The Standard" follows below
+       as the proof behind the buildings. -->
+  <section id="catalogue" class="bg-stone py-20 lg:py-28 scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="flex flex-col gap-16 lg:gap-24">
+        {
+          portfolio.map((group) => (
+            <div>
+              <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 border-b border-line pb-5 mb-10">
+                <div class="flex items-center gap-3.5">
+                  <h2 class="font-display font-black text-3xl lg:text-4xl tracking-tight">
+                    {group.kicker}
+                  </h2>
+                  <span
+                    class={`font-display text-[11px] font-bold uppercase tracking-[0.14em] px-3 py-1.5 rounded-full ${
+                      group.kicker === "Ongoing"
+                        ? "bg-olive text-white"
+                        : "bg-olive-50 text-olive-600"
+                    }`}
+                  >
+                    {group.items.length}{" "}
+                    {group.items.length === 1 ? "project" : "projects"}
+                  </span>
+                </div>
+                <p class="text-muted text-sm sm:text-base max-w-md sm:text-right leading-relaxed">
+                  {group.caption}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
+                {group.items.map((p, i) => (
+                  <a
+                    href={`/projects/${p.slug}`}
+                    class="reveal group relative overflow-hidden rounded-[3px] bg-ink h-[86vw] sm:h-[380px] lg:h-[500px]"
+                    style={`--reveal-d:${(i * 0.09).toFixed(2)}s`}
+                  >
+                    <img
+                      src={p.image}
+                      alt={`${p.name} — ${p.location}`}
+                      loading="lazy"
+                      class="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
+                      style={`object-position: ${p.objectPosition};`}
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/25 to-ink/5" />
+                    <span
+                      class={`absolute top-4 left-4 font-display text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-[2px] ${
+                        p.status === "Ongoing"
+                          ? "bg-olive text-white"
+                          : "bg-stone/90 text-ink"
+                      }`}
+                    >
+                      {p.statusLabel}
+                    </span>
+                    <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7">
+                      <h3 class="font-display font-black text-2xl lg:text-3xl text-white tracking-tight">
+                        {p.name}
+                      </h3>
+                      <p class="text-white/65 text-sm mt-1">{p.location}</p>
+                      <p class="text-white/70 text-sm leading-relaxed mt-3 max-w-sm max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-out group-hover:max-h-40 group-hover:opacity-100">
+                        {p.blurb}
+                      </p>
+                      <span class="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.16em] text-olive-100 mt-4">
+                        View Project
+                        <svg
+                          class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          set:html={arrow}
+                        />
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THE STANDARD (amenities) =====================
+       Follows the catalogue: the buildings come first, then the proof of the
+       "amenity-first standard" the masthead claims. Product content, housed
+       here rather than on /about because these amenities describe the homes
+       above. A light card grid — it previously ran as six full-bleed ink rows,
+       ~2,600px of unbroken black that dominated its whole page. -->
+  <section id="amenities" class="bg-olive-50 py-20 lg:py-28 scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="max-w-3xl">
+        <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >The Nesting Tree Standard</span
+        >
+        <h2
+          class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] text-ink"
+          style="--reveal-d:0.1s"
+        >
+          Amenities aren’t a feature here. They’re the whole point.
+        </h2>
+        <p
+          class="reveal text-muted text-base sm:text-lg mt-6 max-w-xl leading-relaxed"
+          style="--reveal-d:0.2s"
+        >
+          You pay a little more for a Nesting Tree home — and you get more than four walls. This is
+          what comes built into every building above.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4 mt-12 lg:mt-16">
+        {
+          amenities.map((a, i) => (
+            <article
+              class="reveal bg-card border border-line rounded-[3px] overflow-hidden flex flex-col"
+              style={`--reveal-d:${((i % 3) * 0.08).toFixed(2)}s`}
+            >
+              <div class="relative aspect-[4/3] overflow-hidden bg-concrete">
+                {a.image ? (
+                  <img
+                    src={a.image}
+                    alt={`${a.kicker} — ${a.title}`}
+                    loading="lazy"
+                    class="absolute inset-0 w-full h-full object-cover"
+                    style={`object-position: ${a.objectPosition ?? "center"};`}
+                  />
+                ) : (
+                  <div class="absolute inset-0 blueprint-light flex flex-col items-center justify-center gap-2.5 text-ink/35">
+                    <svg
+                      class="w-8 h-8"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      set:html={amenityIcons[a.no]}
+                    />
+                    <span class="font-display text-[10px] font-bold uppercase tracking-[0.18em]">
+                      {a.kicker} Imagery
+                    </span>
+                  </div>
+                )}
+                <span class="absolute top-3 left-3 font-display font-black text-[11px] tracking-[0.1em] bg-ink/85 text-stone px-2 py-1 rounded-[2px] tabular-nums">
+                  {a.no}
+                </span>
+              </div>
+
+              <div class="p-6 lg:p-7 flex flex-col flex-1">
+                <span class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-olive-600">
+                  {a.kicker}
+                </span>
+                <h3 class="font-display font-black text-xl lg:text-2xl tracking-tight mt-2 text-ink leading-tight">
+                  {a.title}
+                </h3>
+                <p class="text-muted text-sm sm:text-base leading-relaxed mt-3 flex-1">{a.body}</p>
+                <p class="font-display text-[10px] font-bold uppercase tracking-[0.12em] text-olive-dark mt-5 pt-4 border-t border-line">
+                  {a.featured}
+                </p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="bg-olive-100 py-20 lg:py-28">
+    <div
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8"
+    >
+      <div>
+        <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >Enquire</span
+        >
+        <h2
+          class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 max-w-2xl leading-[1.05] text-ink"
+          style="--reveal-d:0.1s"
+        >
+          Found one you'd like to stand inside?
+        </h2>
+      </div>
+      <a
+        href="/#contact"
+        class="reveal font-display font-bold uppercase tracking-[0.06em] text-sm bg-ink text-stone px-8 py-4 rounded-[2px] hover:bg-inksoft transition-colors shrink-0"
+        style="--reveal-d:0.2s"
+        >Book a Site Visit</a
+      >
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-ink text-stone">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
+      <h3
+        class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+      >
+        NESTING TREE
+      </h3>
+    </div>
+
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="reveal">
+          <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
+            Residential developer in Karanjade, Navi Mumbai, building homes with more amenities
+            since {brand.legacyYear}.
+          </p>
+          <div class="flex items-center gap-3 mt-6">
+            {
+              contact.socials.map((s) => (
+                <a
+                  href={s.href}
+                  class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors"
+                >
+                  {s.label}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.08s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Explore
+          </h5>
+          <ul class="space-y-3 text-sm font-medium">
+            {
+              footerLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="hover:text-olive-100 transition-colors">
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.16s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Projects
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            {
+              projects.map((p) => (
+                <li>
+                  <a
+                    href={`/projects/${p.slug}`}
+                    class="hover:text-olive-100 transition-colors"
+                  >
+                    {p.name} — {p.status}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.24s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Contact
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            <li class="flex items-start gap-2.5">
+              <svg
+                class="w-4 h-4 mt-0.5 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                ><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"></path><circle
+                  cx="12"
+                  cy="9"
+                  r="2.2"></circle></svg
+              >
+              {contact.address}
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"><path d="M4 5h16v14H4z"></path><path d="m4 6 8 7 8-7"></path></svg
+              >
+              <a href={`mailto:${contact.email}`} class="hover:text-olive-100 transition-colors"
+                >{contact.email}</a
+              >
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                ><path
+                  d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"
+                ></path></svg
+              >
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} class="hover:text-olive-100 transition-colors"
+                >{contact.phone}</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40"
+      >
+        <p>&copy; {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
+        <p>{contact.maharera}</p>
+        <div class="flex items-center gap-5">
+          <a href="#" class="hover:text-stone/70 transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-stone/70 transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    if (document.documentElement.classList.contains("reveal-on")) {
+      const revealTargets = document.querySelectorAll(".reveal, .reveal-img");
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              obs.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
+      revealTargets.forEach((el) => io.observe(el));
+    }
+  </script>
+</BaseLayout>

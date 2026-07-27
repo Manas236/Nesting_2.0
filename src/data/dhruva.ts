@@ -17,7 +17,7 @@ export const dhruva = {
   tagline:
     "A completed, sold-out corner-plot building — 24 homes and 6 shops, delivered and handed over.",
   address:
-    "Sector R3, Plot no. 104, Karanjade, Panvel, Vadghar, Maharashtra 410206",
+    "Plot no. 104, Sector R3, Karanjade, Panvel, 410206",
   hero: "/images/projects/Dhruva-Elevation_image.jpg",
   // extra status pills shown alongside the "Completed" pill in the hero
   pills: ["All flats sold", "Society formed"],
@@ -72,7 +72,7 @@ export const overview = {
     "Multi-purpose room & fitness centre",
   ],
   connectivity:
-    "Dhruva sits on a corner plot in Karanjade, Pushpak — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Panvel area.",
+    "Dhruva sits on a corner plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
 /* ---------- Floor plans (2, alternating image / detail rows) ---------- */
@@ -358,11 +358,11 @@ export const skyWaypoints: SkyWaypoint[] = [
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2005.",
+    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2004.",
   },
   {
-    label: "Built for Pushpak Nagar",
-    body: "Focused on Pushpak Nagar, with an emphasis on quality construction and a professional home-buying experience.",
+    label: "Built for Karanjade",
+    body: "Focused on Karanjade, with an emphasis on quality construction and a professional home-buying experience.",
   },
   {
     label: "A delivered track record",
@@ -400,4 +400,33 @@ export const whyDhruva: { title: string; body: string }[] = [
     title: "Corner plot advantage",
     body: "Twin road frontage, wide ventilation and a prominent street presence.",
   },
+];
+
+/* ---------- Gallery — real on-site photographs ----------
+   Complete set of documentary photos for this project (renders and
+   near-duplicate "(1)" variants excluded). Generated from the folders
+   under public/images/Project_Images/Dhruva/. Rendered by
+   <ProjectGallery/> on the project page and on /gallery — real
+   photography only, never renders or stock. */
+export const gallery: { src: string; alt: string; category: string }[] = [
+  { src: "/images/Project_Images/Dhruva/Exterior/DSC_0005.jpeg", alt: "Dhruva — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Dhruva/Exterior/DSC_0006.jpeg", alt: "Dhruva — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Dhruva/Exterior/IMG20260627112705.jpeg", alt: "Dhruva — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0015.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0017.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0025.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0036.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0045.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/IMG20260627113437.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/IMG20260627113444.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Aerial_View/IMG20260627115053.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Dhruva/Lobby/DSC_0199.jpeg", alt: "Dhruva — ground-floor entrance lobby", category: "Lobby" },
+  { src: "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg", alt: "Dhruva — ground-floor entrance lobby", category: "Lobby" },
+  { src: "/images/Project_Images/Dhruva/Lobby/IMG20260627140500.jpeg", alt: "Dhruva — ground-floor entrance lobby", category: "Lobby" },
+  { src: "/images/Project_Images/Dhruva/Corridor/corridor.png", alt: "Dhruva — bright tiled common corridor", category: "Corridor" },
+  { src: "/images/Project_Images/Dhruva/Corridor/DSC_0049.jpeg", alt: "Dhruva — bright tiled common corridor", category: "Corridor" },
+  { src: "/images/Project_Images/Dhruva/Corridor/IMG20260627113731.jpeg", alt: "Dhruva — bright tiled common corridor", category: "Corridor" },
+  { src: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg", alt: "Dhruva — passenger lift serving every floor", category: "Lift" },
+  { src: "/images/Project_Images/Dhruva/Lift/IMG20260627140541.jpeg", alt: "Dhruva — passenger lift serving every floor", category: "Lift" },
 ];

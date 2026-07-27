@@ -76,6 +76,63 @@ body {
   color: var(--color-stone);
 }
 
+/* Active page marker — an underline that sits under the link without
+   shifting it, so the nav row keeps the same height on every page. */
+#site-header .nav-link {
+  position: relative;
+}
+#site-header .nav-link.is-current::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  background-color: var(--color-olive-100);
+  transition: background-color 0.3s ease;
+}
+#site-header.is-scrolled .nav-link.is-current::after {
+  background-color: var(--color-olive);
+}
+
+/* Sub-nav: in-page section links on long pages. Tracks the same
+   transparent-over-hero → solid-on-scroll treatment as the global row. */
+#site-header .subnav-link {
+  color: rgba(255, 255, 255, 0.6);
+  position: relative;
+  transition: color 0.3s ease;
+}
+#site-header .subnav-link:hover,
+#site-header .subnav-link.is-current {
+  color: #ffffff;
+}
+#site-header.is-scrolled .subnav-link {
+  color: rgba(20, 19, 15, 0.5);
+}
+#site-header.is-scrolled .subnav-link:hover,
+#site-header.is-scrolled .subnav-link.is-current {
+  color: var(--color-ink);
+}
+#site-header .subnav-link.is-current::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -8px;
+  height: 2px;
+  background-color: var(--color-olive-100);
+  transition: background-color 0.3s ease;
+}
+#site-header.is-scrolled .subnav-link.is-current::after {
+  background-color: var(--color-olive);
+}
+#section-nav {
+  scrollbar-width: none;
+}
+#section-nav::-webkit-scrollbar {
+  display: none;
+}
+
 /* ----- Designed placeholder: architectural blueprint hatch ----- */
 .blueprint-light {
   background-color: var(--color-concrete);
@@ -105,7 +162,19 @@ body {
   height: 18px;
 }
 
-/* ----- Mobile menu ----- */
+/* Oversized outlined display type — used sparingly as an editorial
+   watermark behind the "Difference" pillars. */
+.text-hollow {
+  color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+  text-stroke: 1.5px currentColor;
+}
+
+/* ----- Mobile menu -----
+   Tracks the same transparent-over-hero → solid-on-scroll treatment as the
+   global row. Over the hero the panel is glass so the film reads through it;
+   once scrolled the header itself is cream, so the panel simply sits on that
+   and the links flip to ink. */
 #mobile-menu {
   max-height: 0;
   opacity: 0;
@@ -113,8 +182,50 @@ body {
   transition: max-height 0.3s ease, opacity 0.25s ease;
 }
 #mobile-menu.open {
-  max-height: 420px;
+  max-height: 80vh;
   opacity: 1;
+  overflow-y: auto;
+}
+
+#mobile-menu .mobile-link {
+  border-bottom: 1px solid var(--color-line);
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+#mobile-menu .mobile-cta {
+  border-bottom: 0;
+  background-color: var(--color-ink);
+  color: var(--color-stone);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+#mobile-menu .mobile-link,
+#mobile-menu .mobile-subhead {
+  color: var(--color-ink);
+}
+#mobile-menu .mobile-subhead {
+  color: rgba(20, 19, 15, 0.4);
+}
+#mobile-menu .mobile-sublink {
+  color: rgba(20, 19, 15, 0.7);
+}
+
+/* Over the hero: glass panel, light type — matching .nav-link's white state. */
+#site-header:not(.is-scrolled) #mobile-menu {
+  background-color: rgba(20, 19, 15, 0.4);
+  backdrop-filter: blur(12px);
+}
+#site-header:not(.is-scrolled) #mobile-menu .mobile-link {
+  color: #ffffff;
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+#site-header:not(.is-scrolled) #mobile-menu .mobile-subhead {
+  color: rgba(255, 255, 255, 0.45);
+}
+#site-header:not(.is-scrolled) #mobile-menu .mobile-sublink {
+  color: rgba(255, 255, 255, 0.7);
+}
+#site-header:not(.is-scrolled) #mobile-menu .mobile-cta {
+  background-color: #ffffff;
+  color: var(--color-ink);
 }
 
 /* ============================================================
@@ -224,4 +335,83 @@ body {
 .reveal-on .reveal-img.in-view {
   opacity: 1;
   transform: none;
+}
+
+/* ============================================================
+   Unified component layer
+   One button language and one chip language, drawn only from the
+   established palette (ink · stone · olive), so every module reads
+   as the same design system — a refinement, not a new identity.
+   ============================================================ */
+
+/* ---- Buttons ---- */
+.btn {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 1rem 1.75rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+/* On ink grounds */
+.btn-primary-dark {
+  background: #ffffff;
+  color: var(--color-ink);
+}
+.btn-primary-dark:hover {
+  background: var(--color-stone);
+}
+.btn-ghost-dark {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+}
+.btn-ghost-dark:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+/* On stone / sand grounds */
+.btn-primary-light {
+  background: var(--color-ink);
+  color: var(--color-stone);
+}
+.btn-primary-light:hover {
+  background: var(--color-inksoft);
+}
+.btn-ghost-light {
+  border-color: rgba(20, 19, 15, 0.25);
+  color: var(--color-ink);
+}
+.btn-ghost-light:hover {
+  background: var(--color-ink);
+  color: var(--color-stone);
+  border-color: var(--color-ink);
+}
+
+/* ---- Chips / badges ---- */
+.chip {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0.5rem 0.875rem;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+.chip-dark {
+  color: var(--color-olive-100);
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.chip-light {
+  color: var(--color-olive-dark);
+  background: var(--color-olive-50);
+  border-color: var(--color-olive-100);
 }

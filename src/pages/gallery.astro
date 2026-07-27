@@ -1,0 +1,686 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import { brand, contact, projects } from "../data/site";
+import { galleryGroups } from "../data/galleries";
+
+/* Site-wide gallery. Each project shows a symmetric 5-photo preview
+   mosaic that opens a lightbox over that project's FULL photo set —
+   a compact "preview → see all" pattern rather than a long masonry.
+   Reads entirely from src/data/galleries.ts (each project's own
+   `gallery` export) — no image paths live in this file. */
+
+const footerLinks = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Contact", href: "/#contact" },
+];
+
+const PREVIEW = 5; // photos shown in each project's preview mosaic
+
+// Hero backdrop — a real aerial from Shaurya: a plane on approach over the
+// Karanjade rooftops. Cropped (object-position) to keep both the plane and
+// the buildings in frame across screen sizes.
+const heroImage = "/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg";
+
+const check = `<path d="m5 12.5 4 4 10-10"/>`;
+const pin = `<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/>`;
+
+const pageTitle = `Gallery — Real Photographs of Every Residence · ${brand.name}`;
+const pageDesc =
+  "The Nesting Tree gallery — real, on-site photographs of every residence in Karanjade, Navi Mumbai, grouped by project.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} image={heroImage}>
+  <SiteHeader />
+
+  <!-- ============================ HERO ============================
+       A real aerial from a Nesting Tree rooftop: a plane on final
+       approach over the Karanjade skyline. The crop (object-position
+       68% 32%) keeps the plane (upper right) and the buildings both in
+       frame — on wide screens the vertical middle band is shown; on
+       narrow screens the right side is favoured so the plane stays in.
+       Scrims keep the navbar and the "Gallery" title legible while the
+       sky and the plane stay bright. -->
+  <section class="relative h-[clamp(460px,64vh,660px)] w-full overflow-hidden bg-ink text-stone">
+    <img
+      src={heroImage}
+      alt="Aerial view from a Nesting Tree rooftop — a passenger plane on approach over the Karanjade skyline, Navi Mumbai."
+      class="absolute inset-0 w-full h-full object-cover object-[68%_32%]"
+      fetchpriority="high"
+    />
+
+    <!-- top scrim: legibility for the transparent navbar -->
+    <div class="absolute top-0 inset-x-0 h-44 bg-gradient-to-b from-ink/85 via-ink/25 to-transparent" aria-hidden="true"></div>
+    <!-- bottom scrim: anchors the title over the rooftops -->
+    <div class="absolute bottom-0 inset-x-0 h-2/3 bg-gradient-to-t from-ink via-ink/55 to-transparent" aria-hidden="true"></div>
+    <!-- gentle left scrim to seat the title copy -->
+    <div class="absolute inset-0 bg-gradient-to-r from-ink/45 via-transparent to-transparent" aria-hidden="true"></div>
+
+    <div class="relative h-full max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col">
+      <nav class="font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 pt-28 sm:pt-32 lg:pt-36">
+        <a href="/" class="hover:text-white transition-colors">Home</a>
+        <span class="mx-2.5 text-white/30">/</span>
+        <span class="text-olive-100">Gallery</span>
+      </nav>
+
+      <h1 class="mt-auto pb-10 lg:pb-14 font-display font-black text-white text-6xl sm:text-8xl lg:text-[9rem] leading-[0.85] tracking-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.35)]">
+        Gallery
+      </h1>
+    </div>
+  </section>
+
+  <!-- ==================== STICKY PROJECT JUMP BAR ==================== -->
+  <div class="sticky top-[72px] lg:top-20 z-30 bg-stone/90 backdrop-blur border-b border-line">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="flex items-center gap-2.5 overflow-x-auto py-4 no-scrollbar" aria-label="Jump to a project">
+        {galleryGroups.map((g) => (
+          <a href={`#${g.slug}`} class="jump-chip">
+            {g.name} <span class="jump-count">{g.count}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= GALLERY BODY ========================= -->
+  <main class="bg-stone pb-24 lg:pb-32" data-gallery-root>
+    {galleryGroups.map((g) => {
+      const preview = g.photos.slice(0, PREVIEW);
+      const rest = g.photos.slice(PREVIEW);
+      const more = g.count - preview.length;
+      return (
+        <section id={g.slug} class="gallery-group py-14 lg:py-20 border-b border-line last:border-b-0 scroll-mt-[150px]" data-group={g.slug}>
+          <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+            <!-- heading -->
+            <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-8 lg:mb-10">
+              <div>
+                <div class="flex items-center gap-3 flex-wrap">
+                  <span
+                    class:list={[
+                      "inline-flex items-center gap-1.5 font-display text-[11px] font-bold uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px]",
+                      g.status === "Delivered" ? "bg-olive text-white" : "bg-olive-50 text-olive-dark border border-olive-100",
+                    ]}
+                  >
+                    {g.status === "Delivered" && (
+                      <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" set:html={check} />
+                    )}
+                    {g.statusLabel}
+                  </span>
+                  <span class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-olive-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={pin} />
+                    {g.location}
+                  </span>
+                </div>
+                <h2 class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.02]">
+                  {g.name}
+                </h2>
+              </div>
+              <button
+                type="button"
+                class="view-all group inline-flex items-center gap-2 font-display font-bold uppercase tracking-[0.06em] text-sm text-olive-600 hover:text-olive-dark transition-colors shrink-0"
+                data-view-all={g.slug}
+              >
+                View all {g.count} photos
+                <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </button>
+            </div>
+
+            <!-- 5-photo preview mosaic (opens the full set) -->
+            <div class="preview-mosaic">
+              {preview.map((p, i) => (
+                <a
+                  href={p.src}
+                  class={`preview-item m${i} group`}
+                  data-gallery-item
+                  data-index={i}
+                  data-project={g.name}
+                  aria-label={`View ${g.name} photos — ${p.category}`}
+                >
+                  <img src={p.src} alt={p.alt} loading="lazy" decoding="async" />
+                  <span class="preview-scrim" aria-hidden="true" />
+                  <span class="preview-tag font-display">{p.category}</span>
+                  {i === preview.length - 1 && more > 0 ? (
+                    <span class="preview-more font-display">
+                      <span class="preview-more-num">+{more}</span>
+                      <span class="preview-more-label">more photos</span>
+                    </span>
+                  ) : (
+                    <span class="preview-zoom" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5M11 8v6M8 11h6" />
+                      </svg>
+                    </span>
+                  )}
+                </a>
+              ))}
+            </div>
+
+            <!-- remaining photos: not shown, but available to the lightbox -->
+            <div hidden>
+              {rest.map((p, i) => (
+                <a href={p.src} data-gallery-item data-index={PREVIEW + i} data-project={g.name} data-alt={p.alt} data-category={p.category} />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    })}
+  </main>
+
+  <!-- ========================= LIGHTBOX ========================= -->
+  <div class="lightbox" data-lightbox hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Gallery photo viewer">
+    <button class="lightbox-close" data-lightbox-close type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18" /></svg>
+    </button>
+    <button class="lightbox-nav lightbox-prev" data-lightbox-prev type="button" aria-label="Previous photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6" /></svg>
+    </button>
+    <figure class="lightbox-figure">
+      <img class="lightbox-img" data-lightbox-img src="" alt="" />
+      <figcaption class="lightbox-caption font-display" data-lightbox-caption></figcaption>
+    </figure>
+    <button class="lightbox-nav lightbox-next" data-lightbox-next type="button" aria-label="Next photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+    </button>
+    <span class="lightbox-count font-display" data-lightbox-count></span>
+  </div>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-ink text-stone">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
+      <h3 class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight">
+        NESTING TREE
+      </h3>
+    </div>
+
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div class="reveal">
+          <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
+            Residential developer in Karanjade, Navi Mumbai, building homes with more amenities
+            since {brand.legacyYear}.
+          </p>
+          <div class="flex items-center gap-3 mt-6">
+            {contact.socials.map((s) => (
+              <a href={s.href} class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors">
+                {s.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.08s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Explore</h5>
+          <ul class="space-y-3 text-sm font-medium">
+            {footerLinks.map((item) => (
+              <li>
+                <a href={item.href} class="hover:text-olive-100 transition-colors">{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.16s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Projects</h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            {projects.map((p) => (
+              <li>
+                <a href={`/projects/${p.slug}`} class="hover:text-olive-100 transition-colors">
+                  {p.name} — {p.status}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.24s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">Contact</h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            <li class="flex items-start gap-2.5">
+              <svg class="w-4 h-4 mt-0.5 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" set:html={pin} />
+              {contact.address}
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16v14H4z" /><path d="m4 6 8 7 8-7" /></svg>
+              <a href={`mailto:${contact.email}`} class="hover:text-olive-100 transition-colors">{contact.email}</a>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg class="w-4 h-4 shrink-0 text-olive-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z" /></svg>
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} class="hover:text-olive-100 transition-colors">{contact.phone}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40">
+        <p>&copy; {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
+        <p>{contact.maharera}</p>
+        <div class="flex items-center gap-5">
+          <a href="/" class="hover:text-stone/70 transition-colors">Back to home</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    .no-scrollbar {
+      scrollbar-width: none;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* --- jump chips --- */
+    .jump-chip {
+      flex: none;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--color-muted);
+      background: var(--color-card);
+      border: 1px solid var(--color-line);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    }
+    .jump-chip:hover {
+      color: var(--color-ink);
+      border-color: var(--color-olive-100);
+    }
+    .jump-count {
+      opacity: 0.5;
+      margin-left: 0.15rem;
+    }
+
+    /* --- 5-photo preview mosaic ---
+       Mobile: 2 cols × 3 rows (m0 full-width on top, then a 2×2).
+       Desktop: 4 cols × 2 rows (m0 spans a 2×2 block on the left). */
+    .preview-mosaic {
+      display: grid;
+      gap: 0.6rem;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      aspect-ratio: 4 / 5;
+    }
+    @media (min-width: 640px) {
+      .preview-mosaic {
+        gap: 0.85rem;
+      }
+    }
+    @media (min-width: 768px) {
+      .preview-mosaic {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        aspect-ratio: 21 / 9;
+        gap: 1rem;
+      }
+    }
+
+    .preview-item {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      border-radius: 3px;
+      background: var(--color-card);
+      border: 1px solid var(--color-line);
+      cursor: zoom-in;
+    }
+    .preview-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .preview-item:hover img {
+      transform: scale(1.04);
+    }
+    .m0 {
+      grid-column: span 2;
+    }
+    @media (min-width: 768px) {
+      .m0 {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+    }
+
+    .preview-scrim {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(to top, rgba(15, 18, 10, 0.5) 0%, rgba(15, 18, 10, 0) 45%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .preview-item:hover .preview-scrim {
+      opacity: 1;
+    }
+
+    .preview-tag {
+      position: absolute;
+      left: 0.75rem;
+      bottom: 0.75rem;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #fff;
+      background: rgba(15, 18, 10, 0.5);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      padding: 0.3rem 0.6rem;
+      border-radius: 2px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .preview-item:hover .preview-tag {
+      opacity: 1;
+      transform: none;
+    }
+
+    .preview-zoom {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 2.1rem;
+      height: 2.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: rgba(15, 18, 10, 0.5);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 999px;
+      opacity: 0;
+      transform: scale(0.85);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .preview-zoom svg {
+      width: 1rem;
+      height: 1rem;
+    }
+    .preview-item:hover .preview-zoom {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* "+N more" overlay on the last preview tile */
+    .preview-more {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.1rem;
+      color: #fff;
+      background: rgba(15, 18, 10, 0.55);
+      backdrop-filter: blur(1px);
+      transition: background 0.3s ease;
+    }
+    .preview-item:hover .preview-more {
+      background: rgba(15, 18, 10, 0.68);
+    }
+    .preview-more-num {
+      font-weight: 900;
+      font-size: clamp(1.6rem, 3vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .preview-more-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      opacity: 0.85;
+    }
+
+    /* --- lightbox --- */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      background: rgba(10, 12, 8, 0.94);
+      backdrop-filter: blur(6px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox[hidden] {
+      display: none;
+    }
+    .lightbox.is-open {
+      opacity: 1;
+    }
+    .lightbox-figure {
+      margin: 0;
+      max-width: min(92vw, 1200px);
+      max-height: 86vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 78vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 3px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    }
+    .lightbox-caption {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+    }
+    .lightbox-caption:empty {
+      display: none;
+    }
+    .lightbox-close,
+    .lightbox-nav {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+    .lightbox-close:hover,
+    .lightbox-nav:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    .lightbox-close {
+      top: clamp(1rem, 3vw, 2rem);
+      right: clamp(1rem, 3vw, 2rem);
+      width: 3rem;
+      height: 3rem;
+    }
+    .lightbox-close svg {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+    .lightbox-nav {
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3.25rem;
+      height: 3.25rem;
+    }
+    .lightbox-nav svg {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+    .lightbox-prev {
+      left: clamp(0.75rem, 3vw, 2rem);
+    }
+    .lightbox-next {
+      right: clamp(0.75rem, 3vw, 2rem);
+    }
+    .lightbox-count {
+      position: absolute;
+      bottom: clamp(1rem, 3vw, 2rem);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .preview-item img,
+      .preview-scrim,
+      .preview-tag,
+      .preview-zoom,
+      .preview-more,
+      .lightbox,
+      .jump-chip {
+        transition: none;
+      }
+    }
+  </style>
+
+  <!-- reveal-on scroll (matches the rest of the site) -->
+  <script is:inline>
+    if (document.documentElement.classList.contains("reveal-on")) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              obs.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      );
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    }
+  </script>
+
+  <!-- per-project lightbox -->
+  <script is:inline>
+    (function () {
+      const root = document.querySelector("[data-gallery-root]");
+      const box = document.querySelector("[data-lightbox]");
+      if (!root || !box) return;
+
+      const imgEl = box.querySelector("[data-lightbox-img]");
+      const capEl = box.querySelector("[data-lightbox-caption]");
+      const countEl = box.querySelector("[data-lightbox-count]");
+      const btnClose = box.querySelector("[data-lightbox-close]");
+      const btnPrev = box.querySelector("[data-lightbox-prev]");
+      const btnNext = box.querySelector("[data-lightbox-next]");
+
+      let slides = [];
+      let current = 0;
+      let lastFocused = null;
+
+      // Build the full slide list for one project group (preview + hidden rest).
+      function slidesFor(group) {
+        return Array.from(group.querySelectorAll("[data-gallery-item]")).map((a) => {
+          const tag = a.querySelector(".preview-tag");
+          return {
+            src: a.getAttribute("href"),
+            cap: a.querySelector("img")?.getAttribute("alt") || a.dataset.alt || "",
+            label: `${a.dataset.project} — ${tag ? tag.textContent : a.dataset.category || ""}`,
+          };
+        });
+      }
+
+      function render() {
+        const s = slides[current];
+        if (!s) return;
+        imgEl.setAttribute("src", s.src);
+        imgEl.setAttribute("alt", s.cap);
+        capEl.textContent = s.label;
+        countEl.textContent = `${current + 1} / ${slides.length}`;
+        const single = slides.length < 2;
+        btnPrev.hidden = single;
+        btnNext.hidden = single;
+      }
+
+      function open(group, startIndex) {
+        slides = slidesFor(group);
+        if (!slides.length) return;
+        current = Math.min(Math.max(0, startIndex), slides.length - 1);
+        lastFocused = document.activeElement;
+        render();
+        box.hidden = false;
+        box.setAttribute("aria-hidden", "false");
+        requestAnimationFrame(() => box.classList.add("is-open"));
+        document.body.style.overflow = "hidden";
+        btnClose.focus();
+      }
+
+      function close() {
+        box.classList.remove("is-open");
+        box.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        const finish = () => {
+          box.hidden = true;
+          box.removeEventListener("transitionend", finish);
+        };
+        box.addEventListener("transitionend", finish);
+        setTimeout(() => { if (!box.classList.contains("is-open")) box.hidden = true; }, 350);
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
+      }
+
+      function go(delta) {
+        if (!slides.length) return;
+        current = (current + delta + slides.length) % slides.length;
+        render();
+      }
+
+      // Click a preview tile → open that project's full set at the tile's index.
+      root.addEventListener("click", (e) => {
+        const item = e.target.closest("[data-gallery-item]");
+        if (item && root.contains(item)) {
+          e.preventDefault();
+          const group = item.closest(".gallery-group");
+          open(group, parseInt(item.dataset.index || "0", 10));
+          return;
+        }
+        // "View all N photos" → open the group from the start.
+        const viewAll = e.target.closest("[data-view-all]");
+        if (viewAll) {
+          const group = document.getElementById(viewAll.dataset.viewAll);
+          if (group) open(group, 0);
+        }
+      });
+
+      btnClose.addEventListener("click", close);
+      btnPrev.addEventListener("click", () => go(-1));
+      btnNext.addEventListener("click", () => go(1));
+      box.addEventListener("click", (e) => {
+        if (e.target === box) close();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (box.hidden) return;
+        if (e.key === "Escape") close();
+        else if (e.key === "ArrowLeft") go(-1);
+        else if (e.key === "ArrowRight") go(1);
+      });
+    })();
+  </script>
+</BaseLayout>

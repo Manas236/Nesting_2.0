@@ -1,0 +1,448 @@
+/* ============================================================
+   Shaurya — project detail page content
+   Single source of truth for the Shaurya by Nesting Tree page.
+   A delivered, fully sold-out, purely residential G+4 building
+   on a CORNER PLOT — 8 homes in all (4 × 1BHK + 4 × 1RK), no
+   shops, one automatic high-speed elevator. Tone is "delivered
+   & proven", not "now booking". Edit facts, figures and copy
+   here; the page at src/pages/projects/shaurya.astro reads
+   everything from this file.
+
+   STATUS: completed, handed over and completely sold out.
+   Society formation is in progress. No RERA certification was
+   taken — the project runs on its Commencement (CC) and
+   Occupancy (OC) Certificates — so nothing here claims MahaRERA
+   registration.
+
+   Now supplied (from the render set added Jul 2026):
+     · Plot No. 74, on an 11 m wide road    → shaurya.address
+     · 1BHK & 1RK room dimensions           → unitTypes
+     · 1BHK carpet area (19.316 sq.m)        → unitTypes[0].features
+     · Ground / typical-floor / terrace plans → floorPlans
+     · Two overhead water tanks (5,040 + 7,875 L) → amenityGroups
+
+   Still outstanding (renders as "Insufficient information"):
+     · Pincode for the full postal address
+     · A dedicated 1RK layout render (the 1RK is shown within the
+       typical-floor plan; its own unit card image stays pending)
+     · Interior finishing spec (tiles, fittings, windows)
+     · Confirm the sales contact — Vipin is carried over from
+       the other project files and is unverified for Shaurya.
+
+   Icon keys reference the line-icon set defined inside the page.
+   ============================================================ */
+
+/** Marks a field we have not been given. Rendered as a muted
+    placeholder, never as a fact. Delete the TBD once you fill it in. */
+export const TBD = "Insufficient information";
+
+export const shaurya = {
+  name: "Shaurya",
+  status: "Completed",
+  // No RERA certification taken — project runs on its CC & OC certificates.
+  // Kept as TBD so the hero's MahaRERA pill stays hidden; the real approval
+  // status is shown as a fact in `overview.facts` and the footer (`approvals`).
+  maharera: TBD,
+  approvals: "Commencement (CC) & Occupancy (OC) Certificates obtained · not RERA-registered",
+  tagline:
+    "A completed, sold-out G+4 on a corner plot — eight purely residential homes, delivered and handed over.",
+  // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
+  // Plot number from the ground-floor plan; sector not supplied for this
+  // project, so the sector segment is omitted rather than guessed.
+  address: "Plot no. 74, Sector R2, Karanjade, Panvel, 410206",
+  hero: "/images/projects/shaurya/Shaurya_Elevation.png",
+  heroPosition: "center 25%",
+  // extra status pills shown alongside the "Completed" pill in the hero
+  pills: ["All flats sold", "Society forming"],
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Shaurya+Nesting+Tree+Karanjade+Panvel+Navi+Mumbai",
+};
+
+/* ---------- Sales / office contact ----------
+   Carried over from the other project files — confirm before use. */
+export const sales = {
+  name: "Vipin",
+  phone: "95940 79317",
+  phoneHref: "tel:+919594079317",
+  office: "1313, Realtech Park, Sector 30A, Vashi",
+};
+
+/* ---------- Headline stats band (4 figures) ---------- */
+export const heroStats = [
+  { figure: "G+4", label: "Storeys" },
+  { figure: "8", label: "Homes" },
+  { figure: "1", label: "High-speed lift" },
+  { figure: "Corner", label: "Plot" },
+];
+
+/* ---------- Overview ---------- */
+export const overview = {
+  intro:
+    "A G+4 residential building on a corner plot — eight homes in all, four 1BHK apartments and four 1RK homes, with no shops and a single automatic high-speed elevator. Completed, handed over and fully sold out, with the residents' society now being formed.",
+  facts: [
+    { label: "Status", value: "Completed & handed over" },
+    { label: "Sales", value: "Completely sold out" },
+    { label: "Structure", value: "G+4 storey · corner plot" },
+    { label: "Configuration", value: "8 residential homes — 4 × 1BHK + 4 × 1RK" },
+    { label: "Retail", value: "None — purely residential" },
+    { label: "Vertical transport", value: "1 automatic high-speed elevator" },
+    { label: "Approvals", value: "Commencement (CC) & Occupancy (OC) Certificates obtained · not RERA-registered" },
+    { label: "Society", value: "Formation in progress" },
+    { label: "Parking", value: "Stilt parking at the base of the building" },
+    { label: "Frontage", value: "Plot No. 74 · on an 11 m wide road" },
+    { label: "Address", value: shaurya.address },
+  ],
+  unitMix: [
+    { figure: "8", label: "Total homes" },
+    { figure: "4", label: "1BHK apartments" },
+    { figure: "4", label: "1RK homes" },
+    { figure: "1", label: "Automatic lift" },
+  ],
+  connectivity:
+    "Shaurya sits on a corner plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
+};
+
+/* ---------- Unit types — the home layouts ----------
+   We know the two types and their counts and nothing else, so
+   `series`, `features` and `rooms` are gaps the page renders as
+   such. `plan` points at the placeholder SVGs that already ship
+   in public/images/projects/shaurya/; `planPending` flags them
+   on the page so a placeholder never reads as a plan. Fill
+   `rooms` ({ room, dim }) and the dimensions table appears; fill
+   `features` and the tick-list appears. Both are hidden while
+   empty rather than faked.                                       */
+export type UnitType = {
+  type: string;
+  units: string;
+  series: string;
+  plan: string;
+  planPending?: boolean;
+  blurb: string;
+  features: string[];
+  rooms: { room: string; dim: string }[];
+};
+
+export const unitTypes: UnitType[] = [
+  {
+    type: "1BHK",
+    units: "4 homes",
+    series: "Flat 101 · one per floor",
+    plan: "/images/projects/shaurya/Shaurya_1BHK_Plan.png",
+    blurb:
+      "Four of Shaurya's eight homes are one-bedroom apartments — flat 101 on each floor. A separate bedroom, its own kitchen and a living room opening onto a private balcony.",
+    features: [
+      "Carpet area — 19.316 sq.m (≈ 208 sq.ft)",
+      "Private balcony off the living room",
+      "Separate bedroom & kitchen",
+      "Chajja weather projections over the windows",
+    ],
+    rooms: [
+      { room: "Living", dim: "2.60 × 3.60 m" },
+      { room: "Bed room", dim: "2.10 × 2.60 m" },
+      { room: "Kitchen", dim: "2.15 × 1.70 m" },
+      { room: "W.C.", dim: "1.20 × 1.00 m" },
+    ],
+  },
+  {
+    type: "1RK",
+    units: "4 homes",
+    series: "Flat 102 · one per floor",
+    // No standalone 1RK render was supplied — the 1RK is drawn as
+    // flat 102 inside the typical-floor plan (see `floorPlans`), so
+    // this card's image stays a flagged placeholder while the room
+    // dimensions below are real.
+    plan: "/images/projects/shaurya/gallery-2.svg",
+    planPending: true,
+    blurb:
+      "The other four homes are efficient 1RK layouts — flat 102 on each floor. Compact, single-room living with a full 4.2-metre living room, and a bath and WC kept separate.",
+    features: [
+      "Separate bath and WC",
+      "Full-width 4.2 m living room",
+      "Chajja weather projections over the windows",
+    ],
+    rooms: [
+      { room: "Living", dim: "4.20 × 2.60 m" },
+      { room: "Kitchen", dim: "2.15 × 1.70 m" },
+      { room: "Toilet", dim: "1.60 × 2.50 m" },
+      { room: "Bath", dim: "1.25 × 1.20 m" },
+    ],
+  },
+];
+
+/* ---------- Floor plans ----------
+   All three drawings supplied as real renders (Jul 2026), so none
+   carry `planPending`. Dimensions are as drawn — the Shaurya set is
+   drawn in METRES at 1:100, unlike Prithvi's foot-inch drawings.
+   The page at src/pages/projects/shaurya.astro maps this array. */
+export type FloorPlan = {
+  title: string;
+  label: string;
+  plan: string;
+  planPending?: boolean;
+  blurb: string;
+  points: string[];
+};
+
+export const floorPlans: FloorPlan[] = [
+  {
+    title: "Ground floor",
+    label: "Stilt parking & the building core",
+    plan: "/images/projects/shaurya/Shaurya_Ground_Plan.png",
+    blurb:
+      "No shops and no homes at street level — the ground floor is given over to the residents. Stilt parking fills the plot behind a sliding gate, with the lift, staircase, lobby and machine room held at the back.",
+    points: [
+      "Stilt parking for residents",
+      "Sliding gate off an 11 m wide road",
+      "Lift + staircase core",
+      "Lobby — 2.50 × 2.10 m",
+      "Machine room",
+      "Common toilet & W.C.",
+    ],
+  },
+  {
+    title: "Typical floor",
+    label: "Residential — floors 1 to 4",
+    plan: "/images/projects/shaurya/Shaurya_Floor_Plan.png",
+    blurb:
+      "Two homes to a floor, four floors over — that is the whole building. Flat 101 is the 1BHK and flat 102 the 1RK, both reached off a small shared lobby at the lift.",
+    points: [
+      "2 homes per floor — 1BHK + 1RK",
+      "Flat 101 — 1BHK with balcony",
+      "Flat 102 — 1RK",
+      "Shared lobby — 1.50 × 2.25 m",
+      "1 automatic high-speed lift",
+      "8 homes across floors 1–4",
+    ],
+  },
+  {
+    title: "Terrace",
+    label: "Above the fourth floor",
+    plan: "/images/projects/shaurya/Shaurya_Terrace_Plan.png",
+    blurb:
+      "An open terrace over the whole footprint, with the building's water storage and lift machinery tucked into one corner and planters run along the parapet.",
+    points: [
+      "Open terrace",
+      "O.H. water tank — 5,040 litres (domestic)",
+      "O.H. water tank — 7,875 litres (domestic)",
+      "Lift machine room",
+      "Planters along the parapet",
+    ],
+  },
+];
+
+/* ---------- The valour read — the page's creative ----------
+   Shaurya (शौर्य) means valour. The section reads the NAME the same
+   way Prithvi reads "earth" and Ishaan reads the north-east corner:
+   a building shows courage not in what it promises but in what it
+   stands behind. Written entirely from the facts we have (G+4 ·
+   corner plot · 8 homes = 4 × 1BHK + 4 × 1RK · purely residential ·
+   completed & sold out), so none of it goes stale.
+
+   NOTE: this is a reading of the NAME, not a claim beyond the facts.
+   Keep it that way when editing. The Prithvi equivalent is `levels`;
+   Ishaan's is also `levels`.                                       */
+export type Level = {
+  marker: string;
+  title: string;
+  category: string;
+  icon: string;
+  featured?: boolean;
+  blurb: string;
+  points: string[];
+};
+
+export const levels: Level[] = [
+  {
+    marker: "8",
+    title: "Eight homes, no more",
+    category: "Purely residential",
+    icon: "lobby",
+    featured: true,
+    blurb:
+      "Shaurya carries no shops. Eight homes — four 1BHK and four 1RK — and the whole of the building belongs to the families who live in it.",
+    points: ["8 homes — 4 × 1BHK + 4 × 1RK", "No commercial units — purely residential"],
+  },
+  {
+    marker: "G+4",
+    title: "It holds the corner",
+    category: "The stance",
+    icon: "tower",
+    blurb:
+      "Four floors on a corner plot — a small building that takes a prominent, exposed position and owns it, with one automatic high-speed lift serving every floor.",
+    points: ["G+4 structure on a corner plot", "One automatic high-speed elevator"],
+  },
+  {
+    marker: "100%",
+    title: "Courage, proven",
+    category: "Delivered & sold",
+    icon: "star",
+    featured: true,
+    blurb:
+      "Shaurya means valour — and here that shows not in a promise but in a finished building: completed, handed over, and every home sold.",
+    points: ["Completed & handed over", "Completely sold out"],
+  },
+];
+
+/* ---------- Amenities — the page's hero USP ----------
+   Filled from the amenity list supplied for Shaurya. Two groups
+   only: the paperwork/ownership story and the building itself.
+   No interior-finishing spec was supplied, so that group is
+   deliberately omitted rather than borrowed from another project.
+   `featured` items render as larger, accent-treated tiles.       */
+export type Amenity = {
+  icon: string;
+  name: string;
+  desc: string;
+  featured?: boolean;
+};
+
+export type AmenityGroup = {
+  group: string;
+  caption: string;
+  items: Amenity[];
+};
+
+export const amenityGroups: AmenityGroup[] = [
+  {
+    group: "Buy with confidence",
+    caption: "What stands behind the purchase.",
+    items: [
+      {
+        icon: "star",
+        name: "Branded residences",
+        desc: "A Nesting Tree address, from a reputed builder with a proven track record.",
+        featured: true,
+      },
+      {
+        icon: "tower",
+        name: "A proven track record",
+        desc: "Purchase from a builder with delivered, handed-over projects in Karanjade, Navi Mumbai.",
+      },
+      {
+        icon: "lobby",
+        name: "100% owner-occupied",
+        desc: "No local gaonwala and no 50:50 agreement — every apartment bought by a family to live in, not to rent.",
+      },
+      {
+        icon: "window",
+        name: "Direct from the landowner",
+        desc: "No tri-party agreement — purchased directly from the landowner. The strongest paperwork, with no legal hassles.",
+      },
+    ],
+  },
+  {
+    group: "Building & society",
+    caption: "A quiet, purely residential corner-plot home.",
+    items: [
+      {
+        icon: "elevator",
+        name: "Automatic high-speed elevator",
+        desc: "One automatic high-speed elevator, for safety and comfort.",
+        featured: true,
+      },
+      {
+        icon: "parking",
+        name: "Ample parking",
+        desc: "Stilt parking at the base of the building — room to park without circling for a spot.",
+      },
+      {
+        icon: "tower",
+        name: "Purely residential",
+        desc: "Eight homes and no shops — a quiet, wholly residential building on a corner plot.",
+      },
+      {
+        icon: "rooftop",
+        name: "Open terrace",
+        desc: "An open terrace over the full footprint, with planters along the parapet.",
+      },
+      {
+        icon: "waterproof",
+        name: "12,915 litres of water storage",
+        desc: "Two overhead domestic tanks — 5,040 and 7,875 litres — feeding every home below.",
+      },
+      {
+        icon: "grill",
+        name: "Rule-based society living",
+        desc: "A managed, rule-based society — order kept for everyone who lives here.",
+      },
+    ],
+  },
+];
+
+/** Retained for parity with the prithvi/ishaan pattern — the amenity
+    schedule above is filled, so the "Still needed" fallback panel on
+    the page never renders. Left empty on purpose. */
+export const amenitiesNeeded: string[] = [];
+
+/* ---------- About the developer (dark section) ----------
+   Brand-level facts, consistent with rudra.ts / dhruva.ts.       */
+export const developerNotes: { label: string; body: string }[] = [
+  {
+    label: "Two decades of lineage",
+    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2004.",
+  },
+  {
+    label: "Built for Karanjade",
+    body: "Focused on Karanjade, with an emphasis on quality construction and a professional home-buying experience.",
+  },
+  {
+    label: "A delivered track record",
+    body: "Rudra, Dhruva and Shaurya are complete and handed over to their residents.",
+  },
+  {
+    label: "A proven portfolio",
+    body: "Lush Meadows (16-storey, Kharghar) and Gopala (Vashi) are appreciated for quality, timely completion and amenities.",
+  },
+];
+
+/* ---------- Why Shaurya (6 cards) ---------- */
+export const whyShaurya: { title: string; body: string }[] = [
+  {
+    title: "Delivered & handed over",
+    body: "Shaurya is complete; every home handed over to its buyer.",
+  },
+  {
+    title: "Completely sold out",
+    body: "All eight homes at Shaurya are fully sold.",
+  },
+  {
+    title: "Society forming",
+    body: "The residents' society is being formed to manage the building day-to-day.",
+  },
+  {
+    title: "100% owner-occupied",
+    body: "No gaonwala and no 50:50 — every home bought by a family to live in, not to rent.",
+  },
+  {
+    title: "Clean, direct paperwork",
+    body: "Bought straight from the landowner with no tri-party agreement — strong paperwork, no legal hassles.",
+  },
+  {
+    title: "Purely residential corner plot",
+    body: "Eight homes, no shops, and an automatic high-speed lift on a corner plot.",
+  },
+];
+
+/* ---------- Gallery — real on-site photographs ----------
+   Complete set of documentary photos for this project (renders and
+   near-duplicate "(1)" variants excluded). Generated from the folders
+   under public/images/Project_Images/Shaurya/. Rendered by
+   <ProjectGallery/> on the project page and on /gallery — real
+   photography only, never renders or stock. */
+export const gallery: { src: string; alt: string; category: string }[] = [
+  { src: "/images/Project_Images/Shaurya/Exterior/DSC_0118%20(1).jpeg", alt: "Shaurya — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shaurya/Exterior/IMG20260627130433.jpeg", alt: "Shaurya — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shaurya/Exterior/IMG20260627130449.jpeg", alt: "Shaurya — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shaurya/IMG20260627134928.jpeg", alt: "Shaurya — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shaurya/Aerial_View/DSC_0129.jpeg", alt: "Shaurya — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shaurya/Aerial_View/DSC_0169.jpeg", alt: "Shaurya — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shaurya/Aerial_View/DSC_0175.jpeg", alt: "Shaurya — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg", alt: "Shaurya — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shaurya/Aerial_View/DSC_0183(1).jpeg", alt: "Shaurya — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shaurya/Aerial_View/IMG20260627130853.jpeg", alt: "Shaurya — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shaurya/Corridor/IMG20260627130757.jpeg", alt: "Shaurya — bright tiled common corridor", category: "Corridor" },
+  { src: "/images/Project_Images/Shaurya/Parking/IMG20260627130526.jpeg", alt: "Shaurya — covered ground-floor parking", category: "Parking" },
+  { src: "/images/Project_Images/Shaurya/Parking/IMG20260627130600.jpeg", alt: "Shaurya — covered ground-floor parking", category: "Parking" },
+  { src: "/images/Project_Images/Shaurya/Parking/IMG20260627130611.jpeg", alt: "Shaurya — covered ground-floor parking", category: "Parking" },
+  { src: "/images/Project_Images/Shaurya/Rooftop/IMG20260627130905.jpeg", alt: "Shaurya — open rooftop terrace", category: "Rooftop" },
+];

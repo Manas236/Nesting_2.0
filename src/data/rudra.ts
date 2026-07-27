@@ -16,7 +16,7 @@ export const rudra = {
   tagline:
     "Nesting Tree's first delivered project — a completed, sold-out G+4 building with 20 homes and 4 shops.",
   address:
-    "Plot no. 166, Sector R2, Karanjade, Uran–Panvel Rd, Panvel, Vadghar, Maharashtra 410206",
+    "Plot no. 166, Sector R2, Karanjade, Panvel, 410206",
   hero: "/images/projects/Rudra.jpg",
   // extra status pills shown alongside the "Completed" pill in the hero
   pills: ["All flats sold", "Society formed"],
@@ -72,7 +72,7 @@ export const overview = {
     "Electric back-up",
   ],
   connectivity:
-    "Rudra sits on a road-facing plot in Karanjade, Pushpak — a fast-growing residential pocket of Navi Mumbai with strong connectivity across the Mumbai–Pune corridor and the wider Panvel area.",
+    "Rudra sits on a road-facing plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
 /* ---------- Floor plans (2, alternating image / detail rows) ---------- */
@@ -280,11 +280,11 @@ export const amenityGroups: AmenityGroup[] = [
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2005.",
+    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2004.",
   },
   {
-    label: "Built for Pushpak Nagar",
-    body: "Created to focus exclusively on Pushpak Nagar, with quality construction and a professional home-buying experience.",
+    label: "Built for Karanjade",
+    body: "Created to focus exclusively on Karanjade, with quality construction and a professional home-buying experience.",
   },
   {
     label: "The first delivered project",
@@ -316,10 +316,36 @@ export const whyRudra: { title: string; body: string }[] = [
   },
   {
     title: "Where Nesting Tree began",
-    body: "Rudra is the brand's earliest delivered project at Pushpak Nagar.",
+    body: "Rudra is the brand's earliest delivered project at Karanjade.",
   },
   {
     title: "Road-facing commercial",
     body: "Four shops front the busy 9 m road, giving prominent street presence.",
   },
+];
+
+/* ---------- Gallery — real on-site photographs ----------
+   Complete set of documentary photos for this project (renders and
+   near-duplicate "(1)" variants excluded). Generated from the folders
+   under public/images/Project_Images/Rudra/. Rendered by
+   <ProjectGallery/> on the project page and on /gallery — real
+   photography only, never renders or stock. */
+export const gallery: { src: string; alt: string; category: string }[] = [
+  { src: "/images/Project_Images/Rudra/Exterior/DSC_0057.jpeg", alt: "Rudra — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Rudra/Exterior/IMG20260627114444.jpeg", alt: "Rudra — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Rudra/Exterior/IMG20260627115556.jpeg", alt: "Rudra — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Rudra/Aerial_View/DSC_0074.jpeg", alt: "Rudra — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Rudra/Aerial_View/DSC_0134.jpeg", alt: "Rudra — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Rudra/Aerial_View/DSC_0137.jpeg", alt: "Rudra — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Rudra/Aerial_View/DSC_0145.jpeg", alt: "Rudra — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Rudra/Aerial_View/IMG20260627115021.jpeg", alt: "Rudra — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Rudra/Entrance/IMG20260627114735.jpeg", alt: "Rudra — building entrance and approach", category: "Entrance" },
+  { src: "/images/Project_Images/Rudra/Entrance/IMG20260627115504.jpeg", alt: "Rudra — building entrance and approach", category: "Entrance" },
+  { src: "/images/Project_Images/Rudra/Corridor/IMG20260627115230.jpeg", alt: "Rudra — bright tiled common corridor", category: "Corridor" },
+  { src: "/images/Project_Images/Rudra/Corridor/IMG20260627115309.jpeg", alt: "Rudra — bright tiled common corridor", category: "Corridor" },
+  { src: "/images/Project_Images/Rudra/Lift/DSC_0065.jpeg", alt: "Rudra — passenger lift serving every floor", category: "Lift" },
+  { src: "/images/Project_Images/Rudra/Parking/IMG20260627112838.jpeg", alt: "Rudra — covered ground-floor parking", category: "Parking" },
+  { src: "/images/Project_Images/Rudra/Parking/IMG20260627114620.jpeg", alt: "Rudra — covered ground-floor parking", category: "Parking" },
+  { src: "/images/Project_Images/Rudra/Rooftop/IMG20260627115043.jpeg", alt: "Rudra — open rooftop terrace", category: "Rooftop" },
+  { src: "/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg", alt: "Rudra — open rooftop terrace", category: "Rooftop" },
 ];

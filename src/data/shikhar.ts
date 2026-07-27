@@ -13,7 +13,7 @@ export const shikhar = {
   maharera: "PM1270002502760",
   tagline: "A landmark residential tower — the tallest building in the neighbourhood.",
   address:
-    "Sector R2, Plot no. 73, Karanjade, Panvel, Vadghar, Maharashtra 410206",
+    "Plot no. 73, Sector R2, Karanjade, Panvel, 410206",
   hero: "/images/projects/ShikharElevationFinal.jpeg",
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=Shikhar+Nesting+Tree+Karanjade+Panvel+Navi+Mumbai",
@@ -51,7 +51,7 @@ export const overview = {
     { figure: "8", label: "Commercial shops" },
   ],
   connectivity:
-    "Shikhar sits on a corner plot in Karanjade, Pushpak — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Panvel area.",
+    "Shikhar sits on a corner plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
 /* ---------- Unit types (3, each with a floor-plan render) ---------- */
@@ -441,4 +441,26 @@ export const advantages: { title: string; body: string }[] = [
     title: "Branded residences",
     body: "Branded fittings, tiles and premium finishing throughout.",
   },
+];
+
+/* ---------- Gallery — real on-site photographs ----------
+   Complete set of documentary photos for this project (renders and
+   near-duplicate "(1)" variants excluded). Generated from the folders
+   under public/images/Project_Images/Shikhar/. Rendered by
+   <ProjectGallery/> on the project page and on /gallery — real
+   photography only, never renders or stock. */
+export const gallery: { src: string; alt: string; category: string }[] = [
+  { src: "/images/Project_Images/Shikhar/Exterior/DSC_0108.jpeg", alt: "Shikhar — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shikhar/Exterior/DSC_0113.jpeg", alt: "Shikhar — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shikhar/Exterior/DSC_0114.jpeg", alt: "Shikhar — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shikhar/Exterior/IMG20260627130037.jpeg", alt: "Shikhar — exterior of the building", category: "Exterior" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/DSC_0153.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/DSC_0161.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/DSC_0166.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/DSC_0183.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/IMG20260627132223.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/IMG20260627132240.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/IMG20260627132537.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Aerial_View/IMG20260627133708.jpeg", alt: "Shikhar — aerial view over the rooftop and surroundings", category: "Aerial view" },
+  { src: "/images/Project_Images/Shikhar/Interior/IMG20260627131512.jpeg", alt: "Shikhar — interior of a home", category: "Interior" },
 ];

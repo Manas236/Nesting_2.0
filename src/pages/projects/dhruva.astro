@@ -1,5 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import SiteHeader from "../../components/SiteHeader.astro";
+import QrBlock from "../../components/QrBlock.astro";
+import ProjectGallery from "../../components/ProjectGallery.astro";
 import { brand, contact, projects } from "../../data/site";
 import {
   dhruva,
@@ -11,6 +14,7 @@ import {
   skyWaypoints,
   developerNotes,
   whyDhruva,
+  gallery,
 } from "../../data/dhruva";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
@@ -40,22 +44,17 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
 const pin = `<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/>`;
 const check = `<path d="m5 12.5 4 4 10-10"/>`;
 
-const navLinks = [
+const sections = [
   { label: "Overview", href: "#overview" },
   { label: "Floor plans", href: "#floorplans" },
   { label: "Amenities", href: "#amenities" },
+  { label: "Gallery", href: "#gallery" },
   { label: "About", href: "#developer" },
 ];
 
-/* ---------- Star-trail section ----------
-   The pinned "Dhruva does not move" section renders an opaque square night
-   composite (baked star-trails) with a sage ring + waypoint markers drawn
-   OVER it. The ring is concentric with the BUILDING inside the composite,
-   not the canvas box: it lives in the composite's own pixel space via an SVG
-   whose viewBox matches the image, so alignment holds at every width with no
-   JS. Ring geometry (centre, radius, arc span, building bbox) is calibrated
-   in `.dsky-stage` CSS custom properties and read by the client script; see
-   the `?ring=debug` overlay to re-tune those numbers on a real screen.      */
+/* Hero film. The still render stays on as the poster, so the first paint is
+   instant and reduced-motion visitors keep the premium frame. */
+const heroVideo = "/images/projects/Dhruva_Backdrop.mp4";
 
 const pageTitle = `Dhruva — Delivered Corner-Plot Residential & Commercial, Karanjade · ${brand.name}`;
 const pageDesc =
@@ -64,82 +63,21 @@ const pageDesc =
 
 <BaseLayout title={pageTitle} description={pageDesc} image={dhruva.hero}>
   <!-- ============================ NAVBAR ============================ -->
-  <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
-    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="flex items-center justify-between h-[72px] lg:h-20">
-        <a href="/" class="flex items-center gap-3 shrink-0">
-          <img
-            src={brand.logoMark}
-            alt={`${brand.name} logo`}
-            width="36"
-            height="42"
-            class="h-9 w-auto lg:h-10 drop-shadow-sm"
-          />
-          <span
-            class="nav-wordmark font-display font-extrabold text-lg lg:text-xl tracking-tight leading-none"
-            >Nesting&nbsp;Tree</span
-          >
-        </a>
-
-        <nav
-          class="hidden md:flex items-center gap-8 lg:gap-10 font-display text-[13px] font-bold uppercase tracking-[0.08em]"
-        >
-          {
-            navLinks.map((item) => (
-              <a href={item.href} class="nav-link hover:opacity-70 transition-opacity">
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-
-        <a
-          href="#enquire"
-          class="nav-cta hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
-          >Enquire Now</a
-        >
-
-        <button id="menu-toggle" class="md:hidden p-2 -mr-2" aria-label="Toggle menu">
-          <svg
-            class="nav-toggle-icon w-6 h-6"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.6"
-            stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg
-          >
-        </button>
-      </div>
-
-      <div id="mobile-menu" class="md:hidden bg-stone/95 -mx-5 sm:-mx-6 px-5 sm:px-6 rounded-b-lg">
-        <nav
-          class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide text-ink"
-        >
-          {
-            navLinks.map((item) => (
-              <a href={item.href} class="mobile-link py-3.5 border-b border-line">
-                {item.label}
-              </a>
-            ))
-          }
-          <a
-            href="#enquire"
-            class="mobile-link mt-4 text-center bg-ink text-stone px-5 py-3.5 rounded-[2px]"
-            >Enquire Now</a
-          >
-        </nav>
-      </div>
-    </div>
-  </header>
+  <SiteHeader sections={sections} ctaHref="#enquire" />
 
   <!-- ============================ HERO ============================ -->
   <section id="top" class="relative h-[100svh] min-h-[680px] w-full overflow-hidden bg-ink">
-    <img
-      src={dhruva.hero}
-      alt="Dhruva — delivered corner-plot residential & commercial building by Nesting Tree, Karanjade"
-      class="hero-img-reveal absolute top-0 left-0 w-full h-[116%] object-cover object-[center_30%] lg:object-[center_22%]"
-      fetchpriority="high"
-    />
+    <video
+      id="hero-video"
+      class="hero-img-reveal absolute top-0 left-0 w-full h-full object-cover object-[center_30%] lg:object-[center_22%]"
+      src={heroVideo}
+      poster={dhruva.hero}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-label="Dhruva — delivered corner-plot residential & commercial building by Nesting Tree, Karanjade"></video>
     <!-- top scrim for nav legibility + bottom scrim for copy -->
     <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-transparent"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent"></div>
@@ -150,7 +88,7 @@ const pageDesc =
     >
       <!-- breadcrumb -->
       <nav class="hero-rise font-display text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-white/65 mb-7" style="--rise-d:0.15s">
-        <a href="/#projects" class="hover:text-white transition-colors">Projects</a>
+        <a href="/projects" class="hover:text-white transition-colors">Projects</a>
         <span class="mx-2.5 text-white/35">/</span>
         <span class="text-olive-100">Dhruva</span>
       </nav>
@@ -512,302 +450,19 @@ const pageDesc =
       </div>
     </div>
 
-    {/* Phone — the same star-trail image the desktop pins live, shown as a
-        static banner (the interactive ring needs a wide viewport). Its
-        top-right corner and bottom edge dissolve into the cream page. */}
-    <div class="lg:hidden max-w-[1600px] mx-auto px-5 sm:px-6">
-      <figure class="dsky-mobile">
-        <img
-          src="/images/Project_Images/Dhruva/Render/dhruva-startrail-square.png"
-          alt="Star-trails wheeling around the still Dhruva building — the fixed point"
-          width="1080"
-          height="1080"
-          loading="lazy"
-        />
-        <span class="dsky-mobile-fade" aria-hidden="true"></span>
-      </figure>
-    </div>
-
-    {/* Below lg — the amenity bento grid is kept as the mobile layout (radial
-        ring geometry does not survive a narrow viewport). */}
-    <div class="lg:hidden max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-14 pb-24">
-      <div class="flex flex-col gap-16">
+    {/* ===== The six waypoints, street level to handover ===== */}
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
         {
-          amenityGroups.map((g) => (
-            <div>
-              <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-line pb-5 mb-8">
-                <h3 class="font-display font-black text-2xl lg:text-3xl tracking-tight">
-                  {g.group}
-                </h3>
-                <p class="font-display text-sm font-semibold text-muted tracking-tight">
-                  {g.caption}
-                </p>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-flow-dense gap-5 lg:gap-7 auto-rows-fr">
-                {g.items.map((a, i) =>
-                  a.featured && a.images ? (
-                    /* full-width featured card: compact header + full-bleed
-                       photo diptych. Both 4:3 shots sit near-uncropped. */
-                    <div class="reveal group relative overflow-hidden flex flex-col rounded-[4px] sm:col-span-2 lg:col-span-3 bg-ink text-stone" style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}>
-                      <div class="flex flex-col sm:flex-row sm:items-start gap-5 lg:gap-7 p-7 lg:p-9">
-                        <span class="flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 bg-olive text-white">
-                          <svg
-                            class="w-7 h-7"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            set:html={icons[a.icon]}
-                          />
-                        </span>
-                        <div class="flex-1">
-                          <h4 class="font-display font-bold tracking-tight text-2xl lg:text-3xl max-w-2xl">
-                            {a.name}
-                          </h4>
-                          <p class="leading-relaxed mt-3 text-stone/65 text-lg max-w-3xl">
-                            {a.desc}
-                          </p>
-                        </div>
-                        <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 shrink-0 sm:pt-1.5">
-                          Signature feature
-                        </span>
-                      </div>
-                      <div class="grid grid-cols-1 sm:grid-cols-2 gap-1 lg:gap-1.5">
-                        {a.images.map((src, idx) => (
-                          <div class="relative aspect-[4/3] overflow-hidden">
-                            <img
-                              src={src}
-                              alt={`${a.name} — Dhruva`}
-                              loading="lazy"
-                              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                              style={`object-position: ${a.objectPositions?.[idx] ?? "center"};`}
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ) : a.featured && a.image ? (
-                    /* full-width featured card: text + photo, side by side */
-                    <div class="reveal group relative overflow-hidden flex flex-col lg:flex-row rounded-[4px] sm:col-span-2 lg:col-span-3 lg:min-h-[440px] bg-ink text-stone" style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}>
-                      <div class="flex flex-col p-7 lg:p-9 lg:w-1/2 lg:max-w-2xl">
-                        <span class="flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 bg-olive text-white">
-                          <svg
-                            class="w-7 h-7"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            set:html={icons[a.icon]}
-                          />
-                        </span>
-                        <h4 class="font-display font-bold tracking-tight mt-6 text-2xl lg:text-3xl max-w-md">
-                          {a.name}
-                        </h4>
-                        <p class="leading-relaxed mt-3 text-stone/65 text-lg max-w-lg">
-                          {a.desc}
-                        </p>
-                        <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 mt-auto pt-7">
-                          Signature feature
-                        </span>
-                      </div>
-                      <div class="relative w-full aspect-[3/2] lg:aspect-auto lg:w-1/2">
-                        <img
-                          src={a.image}
-                          alt={a.name}
-                          loading="lazy"
-                          class="absolute inset-0 w-full h-full object-cover"
-                          style={`object-position: ${a.objectPosition ?? "center"};`}
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <div
-                      class={`reveal group relative flex flex-col rounded-[4px] p-7 lg:p-9 transition-colors ${
-                        a.featured
-                          ? "sm:col-span-2 lg:col-span-2 bg-ink text-stone"
-                          : "bg-card border border-line hover:border-olive-100"
-                      }`}
-                      style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
-                    >
-                      <span
-                        class={`flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 ${
-                          a.featured
-                            ? "bg-olive text-white"
-                            : "bg-olive-50 text-olive-600 group-hover:bg-olive group-hover:text-white transition-colors"
-                        }`}
-                      >
-                        <svg
-                          class="w-7 h-7"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          set:html={icons[a.icon]}
-                        />
-                      </span>
-                      <h4
-                        class={`font-display font-bold tracking-tight mt-6 ${
-                          a.featured ? "text-2xl lg:text-3xl max-w-md" : "text-xl"
-                        }`}
-                      >
-                        {a.name}
-                      </h4>
-                      <p
-                        class={`leading-relaxed mt-3 ${
-                          a.featured
-                            ? "text-stone/65 text-lg max-w-lg"
-                            : "text-muted text-base"
-                        }`}
-                      >
-                        {a.desc}
-                      </p>
-                      {a.featured && (
-                        <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 mt-auto pt-7">
-                          Signature feature
-                        </span>
-                      )}
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-
-    {/* lg+ — the pinned star-trail: you stay still, the sky wheels around the
-        building. Scroll rotates the arc field and walks the olive arc; the
-        building never moves. Enabled only when JS adds `.is-live`
-        (reduced motion / no-JS fall back to the vertical panel list below). */}
-    <div class="hidden lg:block dsky" data-dsky>
-      <div class="dsky-inner">
-        {/* LEFT 55% — the sky (decorative, aria-hidden) */}
-        <div class="dsky-left">
-          <div class="dsky-canvas">
-            {/* right-edge fade into cream — sits BEHIND the composite so it
-                only softens the sky margins into the copy panel; it never
-                washes the building or the ring (which read crisp on top). */}
-            <span class="dsky-fade" aria-hidden="true"></span>
-
-            {/* The composite and the ring share ONE pixel space: the stage box
-                carries the composite's exact aspect (1080×1080) and the SVG
-                viewBox matches it, so every ring coordinate is expressed in
-                composite pixels. The ring therefore stays concentric with the
-                BUILDING at any width, with no JS. All four ring numbers live
-                as the CSS custom properties below — nudge them there, or use
-                the `?ring=debug` overlay to re-tune on a real screen. */}
-            <div
-              class="dsky-stage"
-              data-dsky-stage
-              style="--ring-cx:547; --ring-cy:560; --ring-r:458; --ring-span:125; --b-left:179; --b-right:931; --b-top:374; --b-bottom:1038;"
+          skyWaypoints.map((w, i) => (
+            <article
+              class="reveal flex flex-col bg-card border border-line rounded-[4px] p-7 lg:p-8 hover:border-olive-100 transition-colors"
+              style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
             >
-              {/* dark sky fill under the photo — matches its corner sky so the
-                  feathered edges have nothing lighter to reveal */}
-              <span class="dsky-skyfill" aria-hidden="true"></span>
-              <img
-                class="dsky-building"
-                src="/images/Project_Images/Dhruva/Render/dhruva-startrail-square.png"
-                alt=""
-              />
-
-              {/* Rotating star-trail layer — the streak render with its navy
-                  backdrop knocked out to transparency (…-alpha.png), so it
-                  overlays the sky with NO tint and its turning corners never
-                  seam. The wrapper carries the FIXED roofline fade so streaks
-                  stop above the building; only the inner <img> rotates, spun
-                  around the pole by scroll. Lives only when `.is-live` (the
-                  pinned desktop pane). */}
-              <span class="dsky-trailwrap" aria-hidden="true">
-                <img
-                  class="dsky-trail"
-                  data-dsky-trail
-                  src="/images/Project_Images/Dhruva/Render/star-trail-animation-alpha.png"
-                  alt=""
-                  loading="lazy"
-                />
-              </span>
-
-              <svg
-                class="dsky-ring"
-                viewBox="0 0 1080 1080"
-                fill="none"
-                aria-hidden="true"
-                data-dsky-ring
-              >
-                <defs>
-                  {/* Both open ends sit low, so a single vertical gradient
-                      dissolves them into the tree line while the apex + sides
-                      stay solid. y1/y2 (apex→end) are set by the client script
-                      so the fade tracks the live ring numbers. */}
-                  <linearGradient
-                    id="dsky-ends"
-                    data-dsky-grad
-                    gradientUnits="userSpaceOnUse"
-                    x1="0"
-                    y1="102"
-                    x2="0"
-                    y2="823"
-                  >
-                    <stop offset="0" stop-opacity="1"></stop>
-                    <stop offset="0.82" stop-opacity="1"></stop>
-                    <stop offset="1" stop-opacity="0"></stop>
-                  </linearGradient>
-                </defs>
-                {/* paths (d) are built by the client script from the CSS vars */}
-                <path class="dsky-track-bloom" data-dsky-bloom></path>
-                <path class="dsky-track" data-dsky-track></path>
-                <path
-                  class="dsky-progress"
-                  data-dsky-progress
-                  pathLength="1"
-                  stroke-dasharray="1"
-                  stroke-dashoffset="1"
-                ></path>
-                <g class="dsky-debug" data-dsky-debug></g>
-              </svg>
-
-              {/* waypoint markers — real buttons, placed on the ring by JS in
-                  the stage's own pixel space (percent of the square box == the
-                  composite pixel ÷ viewBox), painted above the ring. */}
-              {skyWaypoints.map((w, i) => (
-                <button class="dmark" data-dmark={i} type="button" aria-label={`Go to ${w.label}`}>
-                  <span class="dmark-num">{w.index}</span>
-                  <span class="dmark-dot"></span>
-                </button>
-              ))}
-            </div>
-
-            {/* right-edge dissolve into the cream copy column beside it —
-                the Shikhar look. Canvas-level (full pane height) so it fades
-                the whole right edge into the page whether the square fills the
-                column or centres with a dark margin; sits above the composite
-                so the star-trail + ring melt into the text column on the right.
-                Tunable via the --rightfade-start / --rightfade-end knobs. */}
-            <span class="dsky-rightfade" aria-hidden="true"></span>
-          </div>
-        </div>
-
-        {/* RIGHT 45% — one panel per waypoint; the centred one is active */}
-        <ol class="dsky-stages">
-          {skyWaypoints.map((w, i) => (
-            <li class="dstage" data-index={i}>
-              <div class="dstage-body">
-                <div class="dstage-meta">
-                  <span class="dstage-index">{w.index}</span>
-                  <span class="dstage-label">{w.label}</span>
-                  {w.badge && <span class="dstage-badge">{w.badge}</span>}
-                </div>
-                <span class="dstage-icon">
+              <div class="flex items-start justify-between gap-4">
+                <span class="flex items-center justify-center w-12 h-12 rounded-[3px] bg-olive-50 text-olive-600 shrink-0">
                   <svg
-                    class="w-7 h-7"
+                    class="w-6 h-6"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -817,42 +472,89 @@ const pageDesc =
                     set:html={icons[w.icon]}
                   />
                 </span>
-                <h3 class="dstage-title font-display font-black tracking-tight">{w.title}</h3>
-                <p class="dstage-sub">{w.sub}</p>
-                <ul class="dstage-list">
-                  {w.points.map((p) => (
-                    <li>
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                        set:html={check}
-                      />
-                      <span>{p}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a href="#enquire" class="dstage-cta font-display">
-                  Enquire about Dhruva
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                    set:html={arrow}
-                  />
-                </a>
+                <div class="flex flex-col items-end gap-2">
+                  <span class="font-display font-black text-2xl tracking-tight text-olive-600/80 tabular-nums leading-none">
+                    {w.index}
+                  </span>
+                  {w.badge && (
+                    <span class="font-display text-[9px] font-bold uppercase tracking-[0.16em] bg-olive-100 text-olive-dark px-2 py-0.5 rounded-full">
+                      {w.badge}
+                    </span>
+                  )}
+                </div>
               </div>
-            </li>
-          ))}
-        </ol>
+
+              <p class="font-display text-[10px] font-bold uppercase tracking-[0.18em] text-muted mt-6">
+                {w.label}
+              </p>
+              <h3 class="font-display font-black text-xl lg:text-2xl tracking-tight mt-2 leading-tight">
+                {w.title}
+              </h3>
+              <p class="text-muted text-base leading-relaxed mt-3">{w.sub}</p>
+
+              <ul class="mt-6 pt-6 border-t border-line flex flex-col gap-3">
+                {w.points.map((p) => (
+                  <li class="flex items-start gap-2.5 text-ink">
+                    <svg
+                      class="w-4 h-4 mt-1 shrink-0 text-olive-600"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                      set:html={check}
+                    />
+                    <span class="text-[15px] leading-snug">{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* ===== Full amenity list ===== */}
+    <div
+      id="amenities-all"
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-24 lg:py-32 mt-24 lg:mt-32 border-t border-line scroll-mt-20"
+    >
+      <div class="reveal max-w-3xl mb-14 lg:mb-16">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >The full spec</span
+        >
+        <h3 class="font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05]">
+          Every amenity, in full.
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+        {amenityGroups.map((g, gi) => (
+          <div class="reveal" style={`--reveal-d:${(gi * 0.08).toFixed(2)}s`}>
+            <h4 class="font-display font-black text-xl tracking-tight border-b border-line pb-3 mb-5">
+              {g.group}
+            </h4>
+            <ul class="flex flex-col gap-4">
+              {g.items.map((a) => (
+                <li class="flex items-start gap-3">
+                  <span class="flex items-center justify-center w-8 h-8 rounded-[2px] bg-olive-50 text-olive-600 shrink-0">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={icons[a.icon]} />
+                  </span>
+                  <p class="font-display font-semibold text-sm tracking-tight leading-snug pt-1">
+                    {a.name}
+                    {a.featured && (
+                      <span class="ml-2 align-middle font-display text-[9px] font-bold uppercase tracking-[0.16em] bg-olive-100 text-olive-dark px-1.5 py-0.5 rounded-full">
+                        Signature
+                      </span>
+                    )}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -871,7 +573,7 @@ const pageDesc =
             Built by Nesting Tree.
           </h2>
           <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6 max-w-md">
-            Dhruva is one of Nesting Tree's delivered projects in Pushpak Nagar — backed by
+            Dhruva is one of Nesting Tree's delivered projects in Karanjade — backed by
             Kailash Developers' two decades in Navi Mumbai real estate.
           </p>
         </div>
@@ -928,6 +630,16 @@ const pageDesc =
     </div>
   </section>
 
+  <!-- ===================== GALLERY ===================== -->
+  <ProjectGallery
+    project="Dhruva"
+    items={gallery}
+    lead="Real photographs from Dhruva — the delivered landmark, its lobby, corridors and rooftop, shot on site."
+  />
+
+  <!-- ===================== QR CODE ===================== -->
+  <QrBlock project="Dhruva" />
+
   <!-- ===================== ENQUIRY FORM ===================== -->
   <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
     <div class="reveal max-w-2xl mx-auto px-5 sm:px-6 text-center">
@@ -947,7 +659,7 @@ const pageDesc =
         >.
       </p>
 
-      <form class="mt-12 text-left" action="#" method="post">
+      <form class="mt-12 text-left" action="/api/contact" method="POST">
         <div class="grid sm:grid-cols-2 gap-5">
           <div class="flex flex-col gap-2">
             <label for="name" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
@@ -1046,8 +758,8 @@ const pageDesc =
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
         <div class="reveal">
           <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
-            Residential developer in Panvel &amp; Navi Mumbai, building homes with more amenities
-            since {brand.foundedYear}.
+            Residential developer in Karanjade, Navi Mumbai, building homes with more amenities
+            since {brand.legacyYear}.
           </p>
           <div class="flex items-center gap-3 mt-6">
             {
@@ -1069,7 +781,7 @@ const pageDesc =
           </h5>
           <ul class="space-y-3 text-sm font-medium">
             {
-              navLinks.map((item) => (
+              sections.map((item) => (
                 <li>
                   <a href={item.href} class="hover:text-olive-100 transition-colors">
                     {item.label}
@@ -1086,7 +798,7 @@ const pageDesc =
           </h5>
           <ul class="space-y-3 text-sm font-medium text-stone/80">
             <li><a href="/" class="hover:text-olive-100 transition-colors">Home</a></li>
-            <li><a href="/#projects" class="hover:text-olive-100 transition-colors">All projects</a></li>
+            <li><a href="/projects" class="hover:text-olive-100 transition-colors">All projects</a></li>
             <li><a href="/#journey" class="hover:text-olive-100 transition-colors">Our journey</a></li>
             <li><a href="#enquire" class="hover:text-olive-100 transition-colors">Enquire</a></li>
           </ul>
@@ -1141,18 +853,14 @@ const pageDesc =
   </footer>
 
   <script is:inline>
-    const header = document.getElementById("site-header");
-    const onScroll = () =>
-      header.classList.toggle("is-scrolled", window.scrollY > 40);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-
-    const toggle = document.getElementById("menu-toggle");
-    const menu = document.getElementById("mobile-menu");
-    toggle.addEventListener("click", () => menu.classList.toggle("open"));
-    menu.querySelectorAll(".mobile-link").forEach((link) =>
-      link.addEventListener("click", () => menu.classList.remove("open"))
-    );
+    // Hero film holds on its poster frame for reduced-motion visitors.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const heroVideo = document.getElementById("hero-video");
+      if (heroVideo) {
+        heroVideo.removeAttribute("autoplay");
+        heroVideo.pause();
+      }
+    }
 
     // Scroll-reveal: fade/lift elements in as they enter the viewport.
     // Only wired up when the head guard enabled reveal-on (JS + motion OK).
@@ -1174,660 +882,4 @@ const pageDesc =
     }
   </script>
 
-  <style>
-    /* ============================================================
-       Dhruva — "does not move": a pinned star-trail section. You stay
-       still; the sky wheels around the building (Polaris, the fixed
-       point). Desktop (lg+) + motion only — below lg the amenity bento
-       grid above is the layout, and under reduced motion / no-JS the
-       panels fall back to a plain vertical list. The pinned, rotating
-       behaviour is switched on only once JS adds `.is-live`.
-       ============================================================ */
-
-    /* --- Right column: waypoint panels --- */
-    .dsky-stages {
-      list-style: none;
-      margin: 0 auto;
-      padding: 0 1.5rem 2rem;
-      max-width: 780px; /* readable column for the static fallback */
-    }
-    .dsky-left {
-      display: none; /* the sky is decorative; shown only when live */
-    }
-
-    /* Static (non-live) panel — a plain, fully readable block */
-    .dstage {
-      padding: 2.75rem 0;
-      border-bottom: 1px solid var(--color-line);
-    }
-    .dstage:last-child {
-      border-bottom: 0;
-    }
-    .dstage-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      flex-wrap: wrap;
-    }
-    .dstage-index {
-      font-family: var(--font-display);
-      font-variant-numeric: tabular-nums;
-      font-weight: 800;
-      font-size: 1.05rem;
-      letter-spacing: 0.05em;
-      color: var(--color-olive-600);
-    }
-    .dstage-label {
-      font-family: var(--font-display);
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--color-muted);
-    }
-    .dstage-badge {
-      font-family: var(--font-display);
-      font-size: 0.62rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--color-olive-dark);
-      background: var(--color-olive-100);
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-    }
-    .dstage-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 3.25rem;
-      height: 3.25rem;
-      margin-top: 1.4rem;
-      border-radius: 3px;
-      background: var(--color-olive);
-      color: #fff;
-    }
-    .dstage-title {
-      font-size: clamp(1.9rem, 3.4vw, 3rem);
-      line-height: 1.03;
-      margin-top: 1.1rem;
-    }
-    .dstage-sub {
-      color: var(--color-muted);
-      font-size: clamp(1.05rem, 1.35vw, 1.2rem);
-      line-height: 1.6;
-      margin-top: 1rem;
-      max-width: 42ch;
-    }
-    .dstage-list {
-      list-style: none;
-      margin: 1.5rem 0 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
-    }
-    .dstage-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      font-size: 0.98rem;
-      color: var(--color-ink);
-    }
-    .dstage-list svg {
-      width: 1.1rem;
-      height: 1.1rem;
-      flex-shrink: 0;
-      margin-top: 0.15rem;
-      color: var(--color-olive);
-    }
-    .dstage-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 2rem;
-      padding: 0.85rem 1.4rem;
-      border-radius: 3px;
-      background: var(--color-olive);
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      transition: background 0.3s, transform 0.3s;
-    }
-    .dstage-cta:hover {
-      background: var(--color-olive-600);
-      transform: translateY(-1px);
-    }
-    .dstage-cta svg {
-      width: 1rem;
-      height: 1rem;
-    }
-
-    /* --- The sky canvas: an opaque night composite with a sage ring drawn
-       over it. The composite and the ring share ONE coordinate space, so the
-       ring is concentric with the building, not the canvas box. --- */
-    .dsky-canvas {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0c0e2d; /* seam-matched to the composite's own top-corner sky */
-    }
-
-    /* The shared pixel space. A square box (the composite's 1:1 aspect) sized
-       to fit both the column width and the viewport height; object-fit:contain
-       makes the image fill it exactly, and the ring's SVG viewBox (1080×1080)
-       maps 1:1 onto it — so every ring coordinate is a composite pixel. */
-    .dsky-stage {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      width: min(100%, 88vh);
-      container-type: inline-size; /* markers + dots size against the box */
-    }
-    /* Sky fill BEHIND the photo (over .dsky-fade, under the img). It paints the
-       composite's own corner-sky colour right up to the photo's edge, so when
-       the photo feathers there is nothing lighter to reveal — no halo. Anchored
-       to the stage, it eases out to the pane's existing sky at its corners. */
-    .dsky-skyfill {
-      position: absolute;
-      inset: -16%;
-      pointer-events: none;
-      background: radial-gradient(
-        farthest-corner at 50% 50%,
-        #0d0f2d 0 76%,
-        transparent 100%
-      );
-    }
-    .dsky-building {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      /* Feather all four edges into the sky so the square boundary dissolves.
-         Ramps are asymmetric: the bottom is shallow (last ~10%) so the tree line
-         (y≈720) and the arc ends (y≈823) stay fully opaque and dissolve INTO the
-         trees, not into a fade. Percentages are nudgeable custom properties. */
-      --feather-top: 7%;
-      --feather-bottom: 10%;
-      --feather-left: 6%;
-      --feather-right: 6%;
-      -webkit-mask-image:
-        linear-gradient(to bottom, transparent 0, #000 var(--feather-top)),
-        linear-gradient(to top, transparent 0, #000 var(--feather-bottom)),
-        linear-gradient(to right, transparent 0, #000 var(--feather-left)),
-        linear-gradient(to left, transparent 0, #000 var(--feather-right));
-      -webkit-mask-composite: source-in;
-      mask-image:
-        linear-gradient(to bottom, transparent 0, #000 var(--feather-top)),
-        linear-gradient(to top, transparent 0, #000 var(--feather-bottom)),
-        linear-gradient(to right, transparent 0, #000 var(--feather-left)),
-        linear-gradient(to left, transparent 0, #000 var(--feather-right));
-      mask-composite: intersect;
-    }
-    .dsky-ring {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      overflow: visible;
-      pointer-events: none;
-    }
-    .dsky-ring stop {
-      stop-color: var(--color-olive);
-    }
-    /* fixed sage track + its soft bloom, both dissolving at the low open ends */
-    .dsky-track-bloom {
-      stroke: url(#dsky-ends);
-      stroke-width: 9;
-      stroke-opacity: 0.22;
-      stroke-linecap: round;
-      filter: blur(4px);
-    }
-    .dsky-track {
-      stroke: url(#dsky-ends);
-      stroke-width: 3;
-      stroke-opacity: 0.55;
-      stroke-linecap: round;
-    }
-    /* the traveled arc — grows from the first marker as you scroll */
-    .dsky-progress {
-      stroke: url(#dsky-ends);
-      stroke-width: 3.4;
-      stroke-opacity: 0.95;
-      stroke-linecap: round;
-      filter: drop-shadow(0 0 5px rgba(110, 122, 69, 0.9));
-    }
-
-    .dsky-fade {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(
-        to right,
-        rgba(14, 17, 48, 0.25) 0%,
-        rgba(14, 17, 48, 0) 30%,
-        rgba(244, 242, 236, 0) 58%,
-        var(--color-stone) 100%
-      );
-    }
-
-    /* Right-side dissolve INTO the cream copy column beside it — the Shikhar
-       look. Canvas-level + full-height, so the pane's right edge always melts
-       into the page: it covers the star-trail's right side and, when the square
-       centres (leaving a dark margin), that margin too — no hard navy band
-       against the copy.
-
-       The catch: the square is `min(100%, 88vh)` and CENTRED, so its right edge
-       (and the dark margin beside it) slides left on short/wide viewports and
-       sits flush-right on tall ones. A fixed % start can't win — low enough to
-       cover the margin when centred would wash the ring when it fills the pane.
-       So we anchor the fade's LEFT edge to the square's own geometry instead:
-
-           --sq        : half the centred square's width, in canvas units. Mirrors
-                         the stage's `min(100%, 88vh)` (halved → min(50%, 44vh)).
-           --fade-from : where the cream STARTS, as a fraction of the half-square
-                         measured out from centre. The ring's rightmost point is
-                         at ~0.86; 0.88 clears it by a hair. The fade is fully
-                         transparent AT the start, so the ring stays untouched.
-                         (At full width this resolves to 50%+0.88·50% = 94% — the
-                         old safe value — and slides left as the square shrinks,
-                         swallowing the navy margin.) Raise toward 1 to hug the
-                         edge tighter; lower to eat further into the pane.
-           --fade-solid: where it reaches full cream, as a fraction of the span
-                         from the start to the canvas edge. Lower = cream sooner. */
-    .dsky-rightfade {
-      --sq: min(50%, 44vh);
-      --fade-from: 0.88;
-      --fade-solid: 45%;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: calc(50% + var(--fade-from) * var(--sq));
-      pointer-events: none;
-      background: linear-gradient(
-        to right,
-        rgba(244, 242, 236, 0) 0,
-        var(--color-stone) var(--fade-solid)
-      );
-    }
-
-    /* Rotating star-trail render (…-alpha.png — navy backdrop knocked out to
-       transparency). The wrapper is FIXED and just carries the roofline fade so
-       the streaks stop above the building; because the layer is transparent it
-       overlays the sky with no tint, so no blend mode is needed and the turning
-       square never seams. The inner <img> is the only thing that rotates. */
-    .dsky-trailwrap {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
-      /* trails fade out just above the rooflines (~34%), same idea as the old
-         SVG sky mask, so they read across the open sky and never paint the
-         building. This mask is on the FIXED wrapper, so it stays level while
-         the image below turns. */
-      -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 30%, transparent 37%);
-      mask-image: linear-gradient(to bottom, #000 0, #000 30%, transparent 37%);
-    }
-    .dsky-trail {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      display: block;
-      transform-origin: 50.6% 51.9%; /* the ring pole (cx547, cy560 of 1080) */
-      transform: rotate(0deg) scale(1.08); /* slight overscan keeps streaks in frame as it turns */
-      will-change: transform;
-    }
-
-    /* --- Phone: the star-trail as a static banner (desktop pins it live) --- */
-    .dsky-mobile {
-      position: relative;
-      margin: 0;
-      border-radius: 4px;
-      overflow: hidden;
-      background: #0c0e2d; /* seam-matched to the composite's corner sky */
-    }
-    .dsky-mobile img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-    /* transition gradient — top-right corner + bottom edge fade into cream */
-    .dsky-mobile-fade {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(
-          130% 72% at 100% 0%,
-          var(--color-stone) 0%,
-          rgba(244, 242, 236, 0) 46%
-        ),
-        linear-gradient(
-          to top,
-          var(--color-stone) 0%,
-          rgba(244, 242, 236, 0) 18%
-        );
-    }
-
-    /* --- Waypoint markers (ring buttons) — olive discs sitting on the track,
-       with a single warm-white glowing marker for the active waypoint. --- */
-    .dmark {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      width: max(28px, 3cqw);
-      height: max(28px, 3cqw);
-      display: grid;
-      place-items: center;
-      background: none;
-      border: 0;
-      padding: 0;
-      margin: 0;
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .dmark-dot {
-      width: max(14px, 2.33cqw);
-      height: max(14px, 2.33cqw);
-      border-radius: 50%;
-      background: #7d8e43;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
-      transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .dmark-num {
-      position: absolute;
-      transform: translateY(calc(-1.4cqw - 13px));
-      font-family: var(--font-display);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: rgba(244, 242, 236, 0.85);
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    /* active = lit: warm-white core, pale-lime rim, double halo, larger */
-    .dmark.current .dmark-dot {
-      background: #fff8e3;
-      box-shadow:
-        inset 0 0 0 2px #c9d98a,
-        0 0 18px 2px rgba(214, 232, 150, 0.55),
-        0 0 40px 6px rgba(255, 250, 220, 0.35);
-      transform: scale(1.35);
-    }
-    .dmark.current .dmark-num {
-      opacity: 1;
-      color: #fff;
-    }
-    .dmark:focus-visible {
-      outline: 2px solid #fff;
-      outline-offset: 3px;
-      border-radius: 50%;
-    }
-
-    /* --- Calibration overlay (?ring=debug only; dead code otherwise) --- */
-    .dsky-debug {
-      display: none;
-    }
-    .dsky-debug.on {
-      display: block;
-    }
-    .dsky-readout {
-      position: fixed;
-      left: 12px;
-      bottom: 12px;
-      z-index: 60;
-      font-family: var(--font-display);
-      font-size: 12px;
-      line-height: 1.5;
-      color: #d6e896;
-      background: rgba(6, 8, 24, 0.85);
-      border: 1px solid rgba(214, 232, 150, 0.35);
-      border-radius: 4px;
-      padding: 8px 12px;
-      white-space: pre;
-      pointer-events: none;
-    }
-
-    /* --- LIVE: JS on + motion OK → pin + two columns + spotlight --- */
-    .dsky.is-live .dsky-inner {
-      display: grid;
-      grid-template-columns: minmax(0, 55%) minmax(0, 45%);
-    }
-    .dsky.is-live .dsky-left {
-      display: block;
-    }
-    .dsky.is-live .dsky-canvas {
-      /* --header-h matches the fixed header (lg:h-20 = 5rem). Padding the pinned
-         pane by it drops the whole square below the nav — the composite clears
-         the header instead of tucking under it. At ≥667px tall the square keeps
-         its size (88vh still fits the reduced height); it only shrinks on very
-         short viewports, where clipping would otherwise look worse. */
-      --header-h: 5rem;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding-top: var(--header-h);
-    }
-    .dsky.is-live .dsky-stages {
-      max-width: none;
-      margin: 0;
-      padding: 0;
-    }
-    .dsky.is-live .dstage {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0 2.5rem 0 3.75rem;
-      border-bottom: 0;
-      opacity: 0.22;
-      transform: translateY(10px);
-      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .dsky.is-live .dstage.is-active {
-      opacity: 1;
-      transform: none;
-    }
-    .dsky.is-live .dstage-icon {
-      transition: transform 0.4s;
-    }
-    .dsky.is-live .dstage.is-active .dstage-icon {
-      transform: scale(1.06);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .dmark-dot,
-      .dmark-num,
-      .dstage,
-      .dstage-icon,
-      .dstage-cta {
-        transition: none;
-      }
-    }
-  </style>
-
-  <script>
-    // Dhruva star-trail: an opaque night composite with a sage ring drawn over
-    // it, both in the composite's own pixel space (SVG viewBox == image), so the
-    // ring stays concentric with the BUILDING. Scroll grows the progress arc and
-    // the active marker walks the fixed track. Panel/observer plumbing lives in
-    // scripts/waypoints.ts.
-    import { initWaypoints } from "../../scripts/waypoints";
-
-    const root = document.querySelector<HTMLElement>("[data-dsky]");
-    // `reveal-on` is set by the head guard only when JS is on AND motion is
-    // allowed — the exact gate we want for pinning + the walking marker.
-    if (root && document.documentElement.classList.contains("reveal-on")) {
-      const canvas = root.querySelector<HTMLElement>(".dsky-canvas");
-      const stage = root.querySelector<HTMLElement>("[data-dsky-stage]");
-      const track = root.querySelector<SVGPathElement>("[data-dsky-track]");
-      const bloom = root.querySelector<SVGPathElement>("[data-dsky-bloom]");
-      const progress = root.querySelector<SVGPathElement>("[data-dsky-progress]");
-      const grad = root.querySelector<SVGLinearGradientElement>("[data-dsky-grad]");
-      const debugG = root.querySelector<SVGGElement>("[data-dsky-debug]");
-      const trail = root.querySelector<HTMLImageElement>("[data-dsky-trail]");
-      const markers = Array.from(root.querySelectorAll<HTMLElement>("[data-dmark]"));
-      const stages = Array.from(root.querySelectorAll<HTMLElement>(".dstage"));
-
-      const VB = 1080; // composite viewBox size (square)
-      const ANGLES = [-108, -69, -30, 30, 69, 108]; // 01…06: up the left, down the right
-      const debug =
-        new URLSearchParams(location.search).get("ring") === "debug";
-
-      if (canvas && stage && track && bloom && progress && grad) {
-        root.classList.add("is-live");
-
-        const num = (name: string, fallback: number): number => {
-          const v = parseFloat(getComputedStyle(stage).getPropertyValue(name));
-          return Number.isFinite(v) ? v : fallback;
-        };
-        // point on the ring at `deg` measured from vertical, clockwise positive
-        const pt = (cx: number, cy: number, r: number, deg: number): [number, number] => {
-          const t = (deg * Math.PI) / 180;
-          return [cx + r * Math.sin(t), cy - r * Math.cos(t)];
-        };
-        // open arc from −span to +span, drawn the long way over the apex
-        const arcPath = (cx: number, cy: number, r: number, span: number): string => {
-          const [x0, y0] = pt(cx, cy, r, -span);
-          const [x1, y1] = pt(cx, cy, r, span);
-          const large = 2 * span > 180 ? 1 : 0;
-          return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
-        };
-
-        // Build the ring + markers from the four CSS custom properties. Runs
-        // once on load; in debug it re-runs each frame so live var edits show.
-        const build = (): void => {
-          const cx = num("--ring-cx", 547);
-          const cy = num("--ring-cy", 560);
-          const r = num("--ring-r", 458);
-          const span = num("--ring-span", 125);
-
-          const d = arcPath(cx, cy, r, span);
-          track.setAttribute("d", d);
-          bloom.setAttribute("d", d);
-          progress.setAttribute("d", d);
-
-          // vertical end-fade spans apex → the (equal-height) open ends
-          grad.setAttribute("y1", String(cy - r));
-          grad.setAttribute("y2", String(cy - r * Math.cos((span * Math.PI) / 180)));
-
-          // markers: percent of the square stage == composite pixel ÷ viewBox
-          markers.forEach((m, i) => {
-            const [x, y] = pt(cx, cy, r, ANGLES[i] ?? 0);
-            m.style.left = `${(x / VB) * 100}%`;
-            m.style.top = `${(y / VB) * 100}%`;
-          });
-
-          if (debug) drawDebug(cx, cy, r);
-        };
-
-        // --- calibration overlay (?ring=debug) — dead code otherwise ---
-        const svgns = "http://www.w3.org/2000/svg";
-        let readout: HTMLDivElement | null = null;
-        const mk = (
-          name: string,
-          attrs: Record<string, string | number>
-        ): SVGElement => {
-          const el = document.createElementNS(svgns, name);
-          for (const k in attrs) el.setAttribute(k, String(attrs[k]));
-          return el;
-        };
-        function drawDebug(cx: number, cy: number, r: number): void {
-          if (!debugG) return;
-          debugG.classList.add("on");
-          debugG.replaceChildren();
-          const bl = num("--b-left", 0);
-          const br = num("--b-right", VB);
-          const bt = num("--b-top", 0);
-          const bb = num("--b-bottom", VB);
-          debugG.appendChild(
-            mk("rect", { x: bl, y: bt, width: br - bl, height: bb - bt,
-              fill: "none", stroke: "#ff5db1", "stroke-width": 1 })
-          );
-          debugG.appendChild(
-            mk("circle", { cx, cy, r, fill: "none",
-              stroke: "#7cd7ff", "stroke-width": 1, "stroke-dasharray": "6 6" })
-          );
-          debugG.appendChild(mk("line", { x1: cx - 16, y1: cy, x2: cx + 16, y2: cy, stroke: "#ff5db1", "stroke-width": 1 }));
-          debugG.appendChild(mk("line", { x1: cx, y1: cy - 16, x2: cx, y2: cy + 16, stroke: "#ff5db1", "stroke-width": 1 }));
-          ANGLES.forEach((a, i) => {
-            const [x, y] = pt(cx, cy, r, a);
-            const t = mk("text", { x: x + 14, y: y + 5, fill: "#d6e896", "font-size": 22, "font-family": "monospace" });
-            t.textContent = String(i + 1).padStart(2, "0");
-            debugG.appendChild(t);
-          });
-          if (!readout) {
-            readout = document.createElement("div");
-            readout.className = "dsky-readout";
-            document.body.appendChild(readout);
-          }
-          readout.textContent =
-            `ring  cx ${cx.toFixed(0)}   cy ${cy.toFixed(0)}   r ${r.toFixed(0)}\n` +
-            `bbox  L ${bl}  R ${br}  T ${bt}  B ${bb}`;
-        }
-
-        initWaypoints(root, {
-          panelSelector: ".dstage",
-          markerSelector: "[data-dmark]",
-          onActive(i) {
-            markers.forEach((m, idx) =>
-              m.setAttribute("aria-current", idx === i ? "true" : "false")
-            );
-          },
-        });
-
-        // Marker buttons navigate independent of scroll position (keyboard OK).
-        markers.forEach((m, i) =>
-          m.addEventListener("click", () =>
-            stages[i]?.scrollIntoView({ behavior: "smooth", block: "center" })
-          )
-        );
-
-        // Continuous scroll progress → progress-arc growth (start end → far end)
-        // and the trail's rotation: the star-trail render wheels around the pole
-        // by up to TRAIL_SWEEP° across the pinned scroll while the building holds
-        // (transform-origin pins it to the pole; the scale keeps the turning
-        // square's edges out of the open sky).
-        const TRAIL_SWEEP = 22; // degrees; positive = clockwise (matches the sky's wheel)
-        let ticking = false;
-        const onScroll = (): void => {
-          if (ticking) return;
-          ticking = true;
-          requestAnimationFrame(() => {
-            const rect = root.getBoundingClientRect();
-            const total = root.offsetHeight - window.innerHeight;
-            const p =
-              total > 0 ? Math.min(1, Math.max(0, -rect.top / total)) : 0;
-            progress.style.strokeDashoffset = String(1 - p);
-            if (trail)
-              trail.style.transform =
-                `rotate(${(p * TRAIL_SWEEP).toFixed(2)}deg) scale(1.08)`;
-            ticking = false;
-          });
-        };
-
-        build();
-        onScroll();
-        window.addEventListener("scroll", onScroll, { passive: true });
-        window.addEventListener("resize", build, { passive: true });
-        if (debug) {
-          const loop = () => {
-            build();
-            requestAnimationFrame(loop);
-          };
-          requestAnimationFrame(loop);
-        }
-      }
-    }
-  </script>
 </BaseLayout>
