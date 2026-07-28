@@ -26,8 +26,6 @@
      · A dedicated 1RK layout render (the 1RK is shown within the
        typical-floor plan; its own unit card image stays pending)
      · Interior finishing spec (tiles, fittings, windows)
-     · Confirm the sales contact — Vipin is carried over from
-       the other project files and is unverified for Shaurya.
 
    Icon keys reference the line-icon set defined inside the page.
    ============================================================ */
@@ -59,7 +57,9 @@ export const shaurya = {
 };
 
 /* ---------- Sales / office contact ----------
-   Carried over from the other project files — confirm before use. */
+   Vipin is the single point of contact for every Nesting Tree project,
+   and for Nesting Tree itself — confirmed by the owner. The same block
+   appears in each project file. */
 export const sales = {
   name: "Vipin",
   phone: "95940 79317",
@@ -147,12 +147,10 @@ export const unitTypes: UnitType[] = [
     type: "1RK",
     units: "4 homes",
     series: "Flat 102 · one per floor",
-    // No standalone 1RK render was supplied — the 1RK is drawn as
-    // flat 102 inside the typical-floor plan (see `floorPlans`), so
-    // this card's image stays a flagged placeholder while the room
-    // dimensions below are real.
-    plan: "/images/projects/shaurya/gallery-2.svg",
-    planPending: true,
+    // Shaurya_1RK_Plan.png is a typical-floor render rather than a
+    // single-unit one — the 1RK reads as the flat with the 4.20 × 2.60
+    // living room, shown alongside the 1BHK.
+    plan: "/images/projects/shaurya/Shaurya_1RK_Plan.png",
     blurb:
       "The other four homes are efficient 1RK layouts — flat 102 on each floor. Compact, single-room living with a full 4.2-metre living room, and a bath and WC kept separate.",
     features: [
@@ -379,7 +377,7 @@ export const amenitiesNeeded: string[] = [];
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2004.",
+    body: "Nesting Tree, established in 2019, is a venture of K.D. Construction — in real estate since 2004.",
   },
   {
     label: "Built for Karanjade",

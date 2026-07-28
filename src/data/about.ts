@@ -30,7 +30,7 @@ export const about = {
       { k: "Building homes", v: "Since 2004" },
       { k: "Parent Company", v: "K.D. Construction" },
       { k: "Region", v: "Karanjade, Navi Mumbai" },
-      { k: "Standard", v: "Clear-title · MahaRERA" },
+      { k: "Standard", v: "Clear-title · MahaRERA where registered" },
     ],
   },
 

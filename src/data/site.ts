@@ -14,7 +14,7 @@
 export const brand = {
   name: "Nesting Tree",
   // The Nesting Tree BRAND launched in 2019. `legacyYear` is when the founder
-  // (Kailash Gindodia / Kailash Developers) entered housing — Gopala, Vashi, 2004.
+  // (Kailash Gindodia / K.D. Construction) entered housing — Gopala, Vashi, 2004.
   // Use `legacyYear` for experience / track-record / "years building" claims,
   // and `foundedYear` only for statements specifically about the Nesting Tree
   // entity ("Nesting Tree est. 2019"). Never present 2019 as the total record.
@@ -228,10 +228,10 @@ export const amenities = [
 export const journey = [
   {
     year: "2004",
-    title: "Kailash Developers enters real estate",
+    title: "K.D. Construction enters real estate",
     place: "Vashi, Navi Mumbai",
     body:
-      "Where the housing story begins. Kailash Developers' first residential project — Gopala, a building in Vashi on a CIDCO tender plot — the start of two decades of homes across Vashi, Kharghar and, later, Karanjade.",
+      "Where the housing story begins. K.D. Construction's first residential project — Gopala, a building in Vashi on a CIDCO tender plot — the start of two decades of homes across Vashi, Kharghar and, later, Karanjade.",
   },
   {
     year: "2019",

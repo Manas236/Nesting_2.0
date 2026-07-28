@@ -358,7 +358,7 @@ export const skyWaypoints: SkyWaypoint[] = [
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2004.",
+    body: "Nesting Tree, established in 2019, is a venture of K.D. Construction — in real estate since 2004.",
   },
   {
     label: "Built for Karanjade",

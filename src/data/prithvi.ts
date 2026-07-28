@@ -26,8 +26,6 @@
        ground-floor render supplied depicts a residential layout
        (flats, no shops), so it is deliberately NOT used here —
        it would contradict the confirmed retail ground floor.
-     · Confirm the sales contact — Vipin is carried over from
-       shikhar.ts / dhruva.ts and is unverified for this project.
 
    Icon keys reference the line-icon set defined inside the page.
    ============================================================ */
@@ -57,7 +55,9 @@ export const prithvi = {
 };
 
 /* ---------- Sales contact ----------
-   Carried over from the other project files — confirm before launch. */
+   Vipin is the single point of contact for every Nesting Tree project,
+   and for Nesting Tree itself — confirmed by the owner. The same block
+   appears in each project file. */
 export const sales = {
   name: "Vipin",
   phone: "95940 79317",
@@ -394,7 +394,7 @@ export const amenitiesNeeded: string[] = [];
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2004.",
+    body: "Nesting Tree, established in 2019, is a venture of K.D. Construction — in real estate since 2004.",
   },
   {
     label: "Built for Karanjade",

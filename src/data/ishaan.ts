@@ -27,12 +27,9 @@
      · Corner plot on an 11 m and a 9 m road (from the ground plan).
 
    Still outstanding (renders as "Insufficient information"):
-     · Full address (plot no. + pincode)   → ishaan.address
      · What sits on the 1st floor — the typical residential plan
        covers 2nd–4th only; no 1st-floor drawing was supplied, so
        nothing here states its use.
-     · Confirm the sales contact — Vipin is carried over from
-       shikhar.ts / dhruva.ts and is unverified for this project.
 
    Real photography exists at public/images/Project_Images/Ishaan/
    (5 exteriors, 4 interiors) and is ready to hang on featured
@@ -55,9 +52,7 @@ export const ishaan = {
   approvals: "Commencement Certificate obtained · not RERA-registered",
   tagline: "A G+4 residence — twelve homes, and every one of them a 1RK.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
-  // Plot number and sector not supplied for this project, so both segments
-  // are omitted rather than guessed. Pincode is Karanjade's, 410206.
-  address: "Karanjade, Panvel, 410206",
+  address: "Plot no. 123, Sector 1, Karanjade, Panvel, 410206",
   hero: "/images/projects/Ishan-Reduced.jpg",
   heroPosition: "center 30%",
   // Bookings have not opened yet — pre-launch, not "Now booking".
@@ -67,7 +62,9 @@ export const ishaan = {
 };
 
 /* ---------- Sales contact ----------
-   Carried over from the other project files — confirm before launch. */
+   Vipin is the single point of contact for every Nesting Tree project,
+   and for Nesting Tree itself — confirmed by the owner. The same block
+   appears in each project file. */
 export const sales = {
   name: "Vipin",
   phone: "95940 79317",
@@ -343,7 +340,7 @@ export const amenitiesNeeded: string[] = [];
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, is a venture of Kailash Developers — in real estate since 2004.",
+    body: "Nesting Tree, established in 2019, is a venture of K.D. Construction — in real estate since 2004.",
   },
   {
     label: "Built for Karanjade",

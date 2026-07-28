@@ -37,24 +37,16 @@ const icons: Record<string, string> = {
   wall: `<rect x="3.5" y="5" width="17" height="14" rx="1"/><path d="M3.5 9.7h17M3.5 14.3h17M9 5v4.7M15 5v4.7M6 9.7v4.6M12 9.7v4.6M18 9.7v4.6M9 14.3V19M15 14.3V19"/>`,
 };
 
+/* The marquee amenities, lifted out of the grouped schedule so the top of the
+   amenities section can lead with them as cards. The full grouped list still
+   prints below in `#amenities-all`, same as every other project page. */
+const signatureAmenities = amenityGroups.flatMap((g) =>
+  g.items.filter((a) => a.featured).map((a) => ({ ...a, group: g.group }))
+);
+
 const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
 const pin = `<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/>`;
 const check = `<path d="m5 12.5 4 4 10-10"/>`;
-
-/* ---------- Scroll-scrubbed reel ----------
-   Rudra2.mp4 is scrubbed by scroll instead of playing on its own — scroll
-   through the pinned section IS the video timeline. Each badge fades in
-   when the clip's currentTime crosses its `t` (seconds) and stays until
-   the next takes over. Timestamps: 00:01 / 00:05 / 00:08 / 00:10 (same as
-   Prithvi — adjust the `t` values freely; copy is placeholder). The video
-   is served all-keyframe (Rudra2-scrub.mp4) so the scrub stays smooth. */
-const reelVideo = "/images/projects/Rudra2-scrub.mp4";
-const reelBadges = [
-  { t: 1, kicker: "Arrival", title: "Rudra, Karanjade", sub: "Where Nesting Tree began" },
-  { t: 5, kicker: "Street level", title: "Four shops & parking", sub: "The ground floor" },
-  { t: 8, kicker: "The homes", title: "Twenty above", sub: "One 1BHK, four 1RK layouts" },
-  { t: 10, kicker: "Delivered", title: "Sold out & society-formed", sub: "The first proof" },
-];
 
 const sections = [
   { label: "Overview", href: "#overview" },
@@ -65,8 +57,7 @@ const sections = [
 ];
 
 /* Hero film. The still render stays on as the poster, so the first paint is
-   instant and reduced-motion visitors keep the premium frame. Distinct from
-   `reelVideo` above, which is the scroll-scrubbed clip further down the page. */
+   instant and reduced-motion visitors keep the premium frame. */
 const heroVideo = "/images/projects/Rudrar_Backdrop.mp4";
 
 const pageTitle = `Rudra — Delivered G+4 Residential & Commercial, Karanjade · ${brand.name}`;
@@ -444,56 +435,6 @@ const pageDesc =
     </div>
   </section>
 
-  <!-- ===================== SCROLL-SCRUBBED REEL =====================
-       Rudra2.mp4 is pinned; scroll scrubs its timeline. Badges cross-fade
-       at the supplied timestamps. Gated on `reveal-on` (JS + motion OK) —
-       otherwise it falls back to a plain looping muted video. -->
-  <section id="reel" class="pvid bg-ink" data-pvid data-reel-video={reelVideo} aria-label="Rudra walkthrough">
-    <div class="pvid-sticky">
-      <video
-        class="pvid-video"
-        data-reel-el
-        src={reelVideo}
-        muted
-        playsinline
-        preload="auto"
-        loop
-        poster={rudra.hero}
-      ></video>
-
-      <!-- readability scrims -->
-      <div class="pvid-scrim" aria-hidden="true"></div>
-
-      <!-- section eyebrow -->
-      <div class="pvid-head">
-        <span class="pvid-eyebrow font-display">The walkthrough</span>
-      </div>
-
-      <!-- cross-fading badges (only the active one shows when live) -->
-      <div class="pvid-badges" data-reel-badges>
-        {
-          reelBadges.map((b, i) => (
-            <figure class="pvid-badge" data-reel-badge data-t={b.t} data-index={i}>
-              <figcaption>
-                <span class="pvid-badge-kicker font-display">{b.kicker}</span>
-                <span class="pvid-badge-title font-display">{b.title}</span>
-                <span class="pvid-badge-sub">{b.sub}</span>
-              </figcaption>
-            </figure>
-          ))
-        }
-      </div>
-
-      <!-- timeline ticks — one per badge, fills as the scrub passes each -->
-      <div class="pvid-ticks" data-reel-ticks aria-hidden="true">
-        {reelBadges.map((_, i) => <span class="pvid-tick" data-index={i} />)}
-      </div>
-
-      <!-- scroll hint (fades once scrubbing starts) -->
-      <span class="pvid-hint font-display" data-reel-hint>Scroll to play</span>
-    </div>
-  </section>
-
   <!-- ===================== HOME CONFIGURATIONS ===================== -->
   <section id="homes" class="bg-stone py-24 lg:py-32 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
@@ -545,10 +486,12 @@ const pageDesc =
     </div>
   </section>
 
-  <!-- ===================== AMENITIES — HERO USP ===================== -->
-  <section id="amenities" class="bg-card py-24 lg:py-32 border-t border-line scroll-mt-20">
-    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="reveal max-w-3xl mb-16 lg:mb-20">
+  <!-- ===================== AMENITIES =====================
+       Same two-part shape as every other project page: the marquee
+       features as cards, then the full grouped schedule below. -->
+  <section id="amenities" class="bg-card border-t border-line scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-24 lg:pt-32">
+      <div class="reveal max-w-3xl">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >The Nesting Tree standard</span
         >
@@ -562,72 +505,97 @@ const pageDesc =
           structure itself to the finish on the walls. The marquee features are sized to match.
         </p>
       </div>
+    </div>
 
-      <div class="flex flex-col gap-16 lg:gap-20">
+    {/* ===== The marquee features ===== */}
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 mt-14 lg:mt-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-7">
         {
-          amenityGroups.map((g) => (
-            <div>
-              <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 border-b border-line pb-5 mb-8">
-                <h3 class="font-display font-black text-2xl lg:text-3xl tracking-tight">
-                  {g.group}
-                </h3>
-                <p class="font-display text-sm font-semibold text-muted tracking-tight">
-                  {g.caption}
-                </p>
+          signatureAmenities.map((a, i) => (
+            <article
+              class="reveal flex flex-col bg-stone border border-line rounded-[4px] p-7 lg:p-8 hover:border-olive-100 transition-colors"
+              style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
+            >
+              <div class="flex items-start justify-between gap-4">
+                <span class="flex items-center justify-center w-12 h-12 rounded-[3px] bg-olive-50 text-olive-600 shrink-0">
+                  <svg
+                    class="w-6 h-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    set:html={icons[a.icon]}
+                  />
+                </span>
+                <span class="font-display text-[9px] font-bold uppercase tracking-[0.16em] bg-olive-100 text-olive-dark px-2 py-0.5 rounded-full">
+                  Signature
+                </span>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-7 auto-rows-fr">
-                {g.items.map((a, i) => (
-                  <div
-                    class={`reveal group relative flex flex-col rounded-[4px] p-7 lg:p-9 transition-colors ${
-                      a.featured
-                        ? "sm:col-span-2 lg:col-span-2 bg-ink text-stone"
-                        : "bg-stone border border-line hover:border-olive-100"
-                    }`}
-                    style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
-                  >
-                    <span
-                      class={`flex items-center justify-center w-14 h-14 rounded-[3px] shrink-0 ${
-                        a.featured
-                          ? "bg-olive text-white"
-                          : "bg-olive-50 text-olive-600 group-hover:bg-olive group-hover:text-white transition-colors"
-                      }`}
-                    >
+              <p class="font-display text-[10px] font-bold uppercase tracking-[0.18em] text-muted mt-6">
+                {a.group}
+              </p>
+              <h3 class="font-display font-black text-xl lg:text-2xl tracking-tight mt-2 leading-tight">
+                {a.name}
+              </h3>
+              <p class="text-muted text-base leading-relaxed mt-3">{a.desc}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+
+    {/* ===== Full amenity list ===== */}
+    <div
+      id="amenities-all"
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-24 lg:py-32 mt-24 lg:mt-32 border-t border-line scroll-mt-20"
+    >
+      <div class="reveal max-w-3xl mb-14 lg:mb-16">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >The full spec</span
+        >
+        <h3
+          class="font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05]"
+        >
+          Every amenity, in full.
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
+        {
+          amenityGroups.map((g, gi) => (
+            <div class="reveal" style={`--reveal-d:${(gi * 0.08).toFixed(2)}s`}>
+              <h4 class="font-display font-black text-xl tracking-tight border-b border-line pb-3 mb-5">
+                {g.group}
+              </h4>
+              <ul class="flex flex-col gap-4">
+                {g.items.map((a) => (
+                  <li class="flex items-start gap-3">
+                    <span class="flex items-center justify-center w-8 h-8 rounded-[2px] bg-olive-50 text-olive-600 shrink-0">
                       <svg
-                        class="w-7 h-7"
+                        class="w-4 h-4"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="1.5"
+                        stroke-width="1.6"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         set:html={icons[a.icon]}
                       />
                     </span>
-                    <h4
-                      class={`font-display font-bold tracking-tight mt-6 ${
-                        a.featured ? "text-2xl lg:text-3xl max-w-md" : "text-xl"
-                      }`}
-                    >
+                    <p class="font-display font-semibold text-sm tracking-tight leading-snug pt-1">
                       {a.name}
-                    </h4>
-                    <p
-                      class={`leading-relaxed mt-3 ${
-                        a.featured
-                          ? "text-stone/65 text-lg max-w-lg"
-                          : "text-muted text-base"
-                      }`}
-                    >
-                      {a.desc}
+                      {a.featured && (
+                        <span class="ml-2 align-middle font-display text-[9px] font-bold uppercase tracking-[0.16em] bg-olive-100 text-olive-dark px-1.5 py-0.5 rounded-full">
+                          Signature
+                        </span>
+                      )}
                     </p>
-                    {a.featured && (
-                      <span class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-olive-100 mt-auto pt-7">
-                        Signature feature
-                      </span>
-                    )}
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))
         }
@@ -649,7 +617,7 @@ const pageDesc =
             Built by Nesting Tree.
           </h2>
           <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6 max-w-md">
-            Rudra is where Nesting Tree began in Karanjade — backed by Kailash Developers' two
+            Rudra is where Nesting Tree began in Karanjade — backed by K.D. Construction's two
             decades in Navi Mumbai real estate.
           </p>
         </div>
@@ -928,180 +896,6 @@ const pageDesc =
     </div>
   </footer>
 
-  <style>
-    /* ============================================================
-       Scroll-scrubbed reel. A tall section pins the video; scroll through
-       the section maps 1:1 onto the clip's timeline. Badges cross-fade at
-       the supplied timestamps. Static (no-JS / reduced-motion) fallback:
-       the section collapses to one viewport with a plainly looping video
-       and all badges hidden but the first.
-       ============================================================ */
-    .pvid {
-      position: relative;
-      /* scrub track: the taller this is, the slower/steadier the scrub.
-         ~100vh of it is pinned, the rest is the scroll distance. */
-      height: 360vh;
-    }
-    .pvid-sticky {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .pvid-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background: #0f120a;
-    }
-    .pvid-scrim {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        linear-gradient(to top, rgba(15, 18, 10, 0.72) 0%, rgba(15, 18, 10, 0) 42%),
-        linear-gradient(to bottom, rgba(15, 18, 10, 0.5) 0%, rgba(15, 18, 10, 0) 30%);
-    }
-
-    .pvid-head {
-      position: absolute;
-      top: clamp(1.5rem, 5vh, 3rem);
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      pointer-events: none;
-    }
-    .pvid-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.24em;
-      color: var(--color-olive-100);
-      background: rgba(15, 18, 10, 0.35);
-      backdrop-filter: blur(4px);
-      padding: 0.5rem 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 2px;
-    }
-
-    /* --- badges: stacked lower-left, one shown at a time when live --- */
-    .pvid-badges {
-      position: absolute;
-      left: clamp(1.25rem, 5vw, 4rem);
-      bottom: clamp(3.5rem, 9vh, 6rem);
-      max-width: min(90vw, 30rem);
-    }
-    .pvid-badge {
-      margin: 0;
-      grid-area: 1 / 1;
-    }
-    /* When live, all badges overlap in one cell and we fade between them. */
-    .pvid-live .pvid-badges {
-      display: grid;
-    }
-    .pvid-live .pvid-badge {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      pointer-events: none;
-    }
-    .pvid-live .pvid-badge.is-active {
-      opacity: 1;
-      transform: none;
-    }
-    /* Static fallback: show only the first badge, no overlap. */
-    .pvid:not(.pvid-live) .pvid-badge:not(:first-child) {
-      display: none;
-    }
-
-    .pvid-badge figcaption {
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-      background: rgba(15, 18, 10, 0.44);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-left: 3px solid var(--color-olive);
-      border-radius: 3px;
-      padding: 1.25rem 1.5rem;
-    }
-    .pvid-badge-kicker {
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--color-olive-100);
-    }
-    .pvid-badge-title {
-      font-weight: 900;
-      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-      line-height: 1.02;
-      letter-spacing: -0.01em;
-      color: #fff;
-    }
-    .pvid-badge-sub {
-      font-size: clamp(0.95rem, 1.4vw, 1.1rem);
-      line-height: 1.5;
-      color: rgba(255, 255, 255, 0.72);
-    }
-
-    /* --- timeline ticks --- */
-    .pvid-ticks {
-      position: absolute;
-      right: clamp(1.25rem, 5vw, 4rem);
-      bottom: clamp(3.5rem, 9vh, 6rem);
-      display: flex;
-      gap: 0.5rem;
-    }
-    .pvid-tick {
-      width: 2rem;
-      height: 3px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.28);
-      transition: background 0.35s ease;
-    }
-    .pvid-tick.is-on {
-      background: var(--color-olive-100);
-    }
-    .pvid:not(.pvid-live) .pvid-ticks {
-      display: none;
-    }
-
-    /* --- scroll hint --- */
-    .pvid-hint {
-      position: absolute;
-      left: 50%;
-      bottom: clamp(1rem, 3vh, 2rem);
-      transform: translateX(-50%);
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      color: rgba(255, 255, 255, 0.7);
-      transition: opacity 0.4s ease;
-    }
-    .pvid:not(.pvid-live) .pvid-hint {
-      display: none;
-    }
-    .pvid-hint.is-hidden {
-      opacity: 0;
-    }
-
-    /* Reduced motion: don't pin/scrub — one viewport, plain loop. */
-    @media (prefers-reduced-motion: reduce) {
-      .pvid {
-        height: auto;
-      }
-      .pvid-sticky {
-        position: relative;
-        height: 100vh;
-      }
-    }
-  </style>
-
   <script is:inline>
     // Hero film holds on its poster frame for reduced-motion visitors.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -1130,97 +924,5 @@ const pageDesc =
         .querySelectorAll(".reveal, .reveal-img")
         .forEach((el) => io.observe(el));
     }
-  </script>
-
-  <script is:inline>
-    // Scroll-scrubbed reel: map scroll through the pinned section onto the
-    // clip's currentTime, and cross-fade the badge whose timestamp we've most
-    // recently passed. Only wired up when reveal-on (JS + motion OK); else the
-    // video just loops on its own.
-    (function () {
-      const section = document.querySelector("[data-pvid]");
-      if (!section) return;
-      const video = section.querySelector("[data-reel-el]");
-      const badges = Array.from(section.querySelectorAll("[data-reel-badge]"));
-      const ticks = Array.from(section.querySelectorAll(".pvid-tick"));
-      const hint = section.querySelector("[data-reel-hint]");
-      if (!video) return;
-
-      const live = document.documentElement.classList.contains("reveal-on");
-
-      if (!live) {
-        // Fallback: just play the muted loop.
-        video.autoplay = true;
-        const play = () => video.play().catch(() => {});
-        if (video.readyState >= 2) play();
-        else video.addEventListener("loadeddata", play, { once: true });
-        return;
-      }
-
-      section.classList.add("pvid-live");
-
-      const times = badges.map((b) => parseFloat(b.dataset.t) || 0);
-
-      let duration = 0;
-      let ready = false;
-      video.addEventListener("loadedmetadata", () => {
-        duration = video.duration || 0;
-        ready = true;
-        update(); // paint initial frame/badge
-      });
-      // In case metadata is already available.
-      if (video.readyState >= 1 && video.duration) {
-        duration = video.duration;
-        ready = true;
-      }
-
-      let activeBadge = -1;
-      function setBadge(i) {
-        if (i === activeBadge) return;
-        activeBadge = i;
-        badges.forEach((b, idx) => b.classList.toggle("is-active", idx === i));
-        ticks.forEach((t, idx) => t.classList.toggle("is-on", idx <= i));
-      }
-
-      let raf = 0;
-      function update() {
-        raf = 0;
-        if (!ready || !duration) return;
-        const rect = section.getBoundingClientRect();
-        const scrollable = section.offsetHeight - window.innerHeight;
-        const progress = scrollable > 0 ? clamp(-rect.top / scrollable, 0, 1) : 0;
-
-        // Nudge in a hair from the ends so we always land on a decoded frame.
-        const t = clamp(progress * duration, 0, Math.max(0, duration - 0.05));
-        // Seeking every frame can thrash the decoder — only seek on real change.
-        if (Math.abs(video.currentTime - t) > 0.03) {
-          try {
-            video.currentTime = t;
-          } catch (e) {}
-        }
-
-        // Which badge timestamp have we most recently passed?
-        let idx = -1;
-        for (let i = 0; i < times.length; i++) if (t >= times[i]) idx = i;
-        setBadge(idx);
-
-        if (hint) hint.classList.toggle("is-hidden", progress > 0.02);
-      }
-
-      function onScroll() {
-        if (!raf) raf = requestAnimationFrame(update);
-      }
-
-      // Keep the decoder warm without actually playing.
-      video.pause();
-
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll, { passive: true });
-      update();
-
-      function clamp(v, lo, hi) {
-        return v < lo ? lo : v > hi ? hi : v;
-      }
-    })();
   </script>
 </BaseLayout>
