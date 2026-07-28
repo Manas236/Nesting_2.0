@@ -11,8 +11,22 @@ const {
   title = "Nesting Tree — Residential Developer · Navi Mumbai",
   description =
     "Nesting Tree builds amenity-first homes across Navi Mumbai. Rooftop gyms, terraces, lifts, security and parking — built in, not bolted on. Building homes in Navi Mumbai since 2004.",
-  image = "/images/projects/ShikharElevationFinal.jpeg",
+  // Share-card image. Pass one of the purpose-built 1200×630 cards in
+  // /images/og/ — NOT a hero render. See the note below.
+  image = "/images/og/default.jpg",
 } = Astro.props;
+
+/* ---------- Social share URLs ----------
+   og:image MUST be absolute. A relative path silently produces no preview
+   image on WhatsApp, Facebook and LinkedIn — they do not resolve it against
+   the page. `Astro.site` comes from `site` in astro.config.mjs.
+
+   The images in /images/og/ are built to the 1200×630 card ratio and kept
+   under ~110 KB, because WhatsApp will not render a large image. Do not point
+   these tags at a hero render: those are 1.5–2 MB portrait files, and the
+   architect's title block is baked into the bottom of several of them. */
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -26,10 +40,25 @@ const {
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content={image} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Nesting Tree" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:secure_url" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
