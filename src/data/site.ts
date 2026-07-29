@@ -231,42 +231,42 @@ export const journey = [
     title: "K.D. Construction enters real estate",
     place: "Vashi, Navi Mumbai",
     body:
-      "Where the housing story begins. K.D. Construction's first residential project — Gopala, a building in Vashi on a CIDCO tender plot — the start of two decades of homes across Vashi, Kharghar and, later, Karanjade.",
+      "Where the housing story begins. K.D. Construction's first residential project — Gopala, a building in Vashi on a CIDCO tender plot — the start of two decades of homes across Vashi, Kharghar and beyond.",
   },
   {
     year: "2019",
     title: "Nesting Tree is founded",
-    place: "Karanjade",
+    place: "Navi Mumbai",
     body:
-      "A simple idea — build homes that come with more than four walls — turns into a residential development company in Karanjade.",
+      "A simple idea — build homes that come with more than four walls — turns into a residential development company in Navi Mumbai.",
   },
   {
     year: "2020",
     title: "Rudra delivered",
-    place: "Karanjade",
+    place: "Navi Mumbai",
     body:
       "Our first handover. Lift, CCTV and dedicated parking, delivered as promised and handed over to residents.",
   },
   {
     year: "2021",
     title: "Dhruva delivered",
-    place: "Karanjade",
+    place: "Navi Mumbai",
     body:
       "A curved-corner landmark with rooftop access and ground-floor retail — proof the amenity-first standard scales.",
   },
   {
     year: "2022",
     title: "Shaurya delivered",
-    place: "Karanjade",
+    place: "Navi Mumbai",
     body:
       "A purely residential G+4 on a corner plot — eight homes with an automatic high-speed lift, delivered and fully sold out.",
   },
   {
     year: "Today",
     title: "Three residences underway",
-    place: "Karanjade, Navi Mumbai",
+    place: "Navi Mumbai",
     body:
-      "Shikhar, Prithvi and Ishaan are under construction in Karanjade, Navi Mumbai — built to the same amenity-first standard.",
+      "Shikhar, Prithvi and Ishaan are under construction across Navi Mumbai — built to the same amenity-first standard.",
   },
 ];
 
@@ -274,7 +274,7 @@ export const journey = [
 export const reasons = [
   {
     title: "A track record, not a promise",
-    body: "Two decades of housing behind us — from Gopala in Vashi (2004) to residences delivered and handed over in Karanjade today.",
+    body: "Two decades of housing behind us — from Gopala in Vashi (2004) to residences delivered and handed over in Navi Mumbai today.",
   },
   {
     title: "Possession on time",
@@ -290,7 +290,7 @@ export const reasons = [
   },
   {
     title: "Built to last",
-    body: "Construction quality you can stand inside — and still trust years after handover.",
+    body: "Construction quality you can live in — and still trust years after handover.",
   },
   {
     title: "Better everyday living",
@@ -406,7 +406,7 @@ export const home = {
     // Trust point woven in beside the flagship (was reason #4 + #5).
     trust: {
       k: "Why it holds up",
-      v: "Amenities come standard and the build is made to last — quality you can still stand inside years after handover.",
+      v: "Amenities come standard and the build is made to last — quality that still holds up years after handover.",
     },
     cta: { label: "Discover Shikhar", href: "/projects/shikhar" },
     // Single framed hero render — the strongest premium asset in the repo.

@@ -340,7 +340,7 @@ export const amenitiesNeeded: string[] = [];
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, is a venture of K.D. Construction — in real estate since 2004.",
+    body: "Nesting Tree, established in 2019 — with two decades of real estate lineage behind it, since 2004.",
   },
   {
     label: "Built for Karanjade",
@@ -379,7 +379,7 @@ export const whyIshaan: { title: string; body: string }[] = [
   },
   {
     title: "Built to last",
-    body: "Construction quality you can stand inside — and still trust years after handover.",
+    body: "Construction quality you can live in — and still trust years after handover.",
   },
   {
     title: "Better everyday living",

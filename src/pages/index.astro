@@ -18,10 +18,11 @@ const ongoing = homeFeaturedSlugs
   .map((slug) => projects.find((p) => p.slug === slug))
   .filter(Boolean) as typeof projects;
 
-// Cinematic hero film. The Shikhar render doubles as the poster so the first
-// paint is instant and reduced-motion visitors still get the premium still.
+// Cinematic hero film. No poster on purpose: the render used to flash in as a
+// bright still before the dark opening frame loaded. Now the hero's own ink
+// background shows through while the film loads (and for reduced-motion
+// visitors), so there's nothing to flash — dark blends straight into dark.
 const heroVideo = "/images/projects/homepage_video.mp4";
-const heroPoster = "/images/projects/Shikhar2.png";
 
 const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
 ---
@@ -34,9 +35,8 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
   <section id="top" class="relative h-[100svh] min-h-[620px] w-full overflow-hidden bg-ink">
     <video
       id="hero-video"
-      class="hero-img-reveal absolute top-0 left-0 w-full h-full object-cover object-[65%_center] sm:object-center"
+      class="hero-img-reveal absolute top-0 left-0 w-full h-full object-cover object-[65%_center] sm:object-center bg-ink"
       src={heroVideo}
-      poster={heroPoster}
       autoplay
       muted
       loop

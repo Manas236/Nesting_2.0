@@ -21,15 +21,15 @@ export const about = {
     label: "Our Story",
     heading: "Backed by engineering. Built for living.",
     lead:
-      "Nesting Tree has grown into one of the most trusted residential developers in Karanjade and the wider Navi Mumbai region, with a portfolio spanning affordable, mid-segment and premium homes. Backed by the engineering pedigree of K.D. Construction — a multi-disciplinary infrastructure company known for railway and large-scale infrastructure work — the company pairs technical depth with a genuinely customer-first approach.",
+      "Nesting Tree has grown into one of the most trusted residential developers in Navi Mumbai, with a portfolio spanning affordable, mid-segment and premium homes. Backed by the engineering pedigree of K.D. Construction — a multi-disciplinary infrastructure company known for railway and large-scale infrastructure work — the company pairs technical depth with a genuinely customer-first approach.",
     paragraphs: [
-      "Drawing on its parent company's construction and project-management strength — and more than twenty years of the founder's housing work in Navi Mumbai — Nesting Tree is committed to timely delivery, superior build quality and transparent dealing. It has expanded across multiple residential developments and handed over landmark projects — Dhruva, Rudra and Shaurya — in Karanjade, Navi Mumbai.",
+      "Drawing on its parent company's construction and project-management strength — and more than twenty years of the founder's housing work in Navi Mumbai — Nesting Tree is committed to timely delivery, superior build quality and transparent dealing. It has expanded across multiple residential developments and handed over landmark projects — Dhruva, Rudra and Shaurya — across Navi Mumbai.",
       "That focus — clear-title land, sustainable development, quality construction and real customer satisfaction — has earned the trust of homebuyers and steadily strengthened the company's standing in a competitive market. Every project is designed for modern living, strong connectivity and long-term value, for residents and investors alike.",
     ],
     facts: [
       { k: "Building homes", v: "Since 2004" },
       { k: "Parent Company", v: "K.D. Construction" },
-      { k: "Region", v: "Karanjade, Navi Mumbai" },
+      { k: "Region", v: "Navi Mumbai" },
       { k: "Standard", v: "Clear-title · MahaRERA where registered" },
     ],
   },
@@ -51,7 +51,7 @@ export const about = {
       "Kailash Shankarlal Gindodia, owner of Nesting Tree, has built his journey on determination, hard work and an unwavering commitment to quality construction.",
     paragraphs: [
       "Arriving in Mumbai from Dhule in 1985, he began with a modest CIDCO contract worth ₹2 lakh. Through perseverance and engineering expertise, he steadily expanded his construction business across the Mumbai Metropolitan Region (MMR), executing several government infrastructure projects.",
-      "In 2004 he entered private real estate with Gopala, a residential project in Vashi built on a CIDCO tender plot — the beginning of Nesting Tree's journey as a trusted housing developer. Since then the company has delivered landmark residential projects in Vashi, Kharghar and Karanjade, earning the trust of hundreds of homebuyers.",
+      "In 2004 he entered private real estate with Gopala, a residential project in Vashi built on a CIDCO tender plot — the beginning of Nesting Tree's journey as a trusted housing developer. Since then the company has delivered landmark residential projects in Vashi, Kharghar and beyond, earning the trust of hundreds of homebuyers.",
       "As a first-generation developer, Gindodia has led Nesting Tree with a foundation of integrity, dedication, innovation and customer trust. His vision continues to guide the company in creating quality homes while building lasting relationships with every family it serves.",
     ],
     values: [
