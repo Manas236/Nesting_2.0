@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import QrBlock from "../../components/QrBlock.astro";
@@ -20,7 +20,7 @@ import {
   gallery,
 } from "../../data/shaurya";
 
-/* ---------- Line-icon set (24Ã—24, stroke currentColor) ----------
+/* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/shaurya.ts. Kept here as
    presentation, the way the other project pages keep their icons. */
 const icons: Record<string, string> = {
@@ -56,9 +56,9 @@ const sections = [
    instant and reduced-motion visitors keep the premium frame. */
 const heroVideo = "/images/projects/Shaurya_Backdrop.mp4";
 
-const pageTitle = `Shaurya â€” Delivered G+4 Residential, Karanjade Â· ${brand.name}`;
+const pageTitle = `Shaurya — Delivered G+4 Residential, Karanjade · ${brand.name}`;
 const pageDesc =
-  "Shaurya by Nesting Tree â€” a completed, sold-out, purely residential G+4 building on a corner plot. Eight homes (4 Ã— 1BHK + 4 Ã— 1RK), an automatic high-speed lift and ample parking. Delivered and handed over.";
+  "Shaurya by Nesting Tree — a completed, sold-out, purely residential G+4 building on a corner plot. Eight homes (4 × 1BHK + 4 × 1RK), an automatic high-speed lift and ample parking. Delivered and handed over.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} image="/images/og/shaurya.jpg">
@@ -78,7 +78,7 @@ const pageDesc =
       loop
       playsinline
       preload="auto"
-      aria-label="Shaurya â€” delivered residential building by Nesting Tree, Karanjade"></video>
+      aria-label="Shaurya — delivered residential building by Nesting Tree, Karanjade"></video>
     <!-- top scrim for nav legibility + bottom scrim for copy -->
     <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-transparent"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent"></div>
@@ -159,7 +159,7 @@ const pageDesc =
           set:html={pin}
         ></svg>
         <span class={isTBD(shaurya.address) ? "italic text-white/45" : ""}>
-          {isTBD(shaurya.address) ? `Address â€” ${TBD}` : shaurya.address}
+          {isTBD(shaurya.address) ? `Address — ${TBD}` : shaurya.address}
         </span>
       </p>
     </div>
@@ -332,7 +332,7 @@ const pageDesc =
                 </span>
                 <span>
                   <span class="block font-display text-[11px] font-bold uppercase tracking-[0.16em] text-stone/50"
-                    >{sales.name} Â· Sales</span
+                    >{sales.name} · Sales</span
                   >
                   <span class="block font-display font-bold text-xl tracking-tight group-hover:text-olive-100 transition-colors"
                     >{sales.phone}</span
@@ -379,7 +379,7 @@ const pageDesc =
           Two ways to call Shaurya home.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Four one-bedroom apartments and four 1RK homes â€” eight in all, across the four floors.
+          Four one-bedroom apartments and four 1RK homes — eight in all, across the four floors.
         </p>
       </div>
 
@@ -395,7 +395,7 @@ const pageDesc =
                     src={u.plan}
                     alt={
                       u.planPending
-                        ? `Shaurya ${u.type} â€” layout drawing not yet available`
+                        ? `Shaurya ${u.type} — layout drawing not yet available`
                         : `Shaurya ${u.type} home layout`
                     }
                     class={`w-full h-auto object-contain rounded-[2px] ${
@@ -414,7 +414,7 @@ const pageDesc =
                   </span>
                   {u.planPending && (
                     <p class="text-mutedlight text-xs leading-relaxed mt-4 italic">
-                      Placeholder image â€” the {u.type} layout drawing has not been supplied yet.
+                      Placeholder image — the {u.type} layout drawing has not been supplied yet.
                     </p>
                   )}
                 </div>
@@ -437,11 +437,11 @@ const pageDesc =
                       : "font-display text-sm font-bold uppercase tracking-[0.16em] text-olive-600 mt-4"
                   }
                 >
-                  {isTBD(u.series) ? `Series â€” ${TBD}` : u.series}
+                  {isTBD(u.series) ? `Series — ${TBD}` : u.series}
                 </p>
                 <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{u.blurb}</p>
 
-                {/* key features â€” hidden while empty rather than faked */}
+                {/* key features — hidden while empty rather than faked */}
                 {u.features.length > 0 && (
                   <ul class="mt-7 flex flex-col gap-3 max-w-md">
                     {u.features.map((f) => (
@@ -485,7 +485,7 @@ const pageDesc =
 
                 {u.features.length === 0 && (
                   <p class="text-mutedlight text-sm italic mt-5 max-w-md">
-                    Key features for the {u.type} â€” {TBD}
+                    Key features for the {u.type} — {TBD}
                   </p>
                 )}
               </div>
@@ -499,7 +499,7 @@ const pageDesc =
   <!-- ============================ FLOOR PLANS ============================
        Mirrors the floor-plans section on prithvi.astro. All three Shaurya
        drawings are real renders, so the `planPending` branch below never
-       fires today â€” it is kept for parity with the other project pages. -->
+       fires today — it is kept for parity with the other project pages. -->
   <section id="floorplans" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
       <div class="reveal max-w-3xl mb-16 lg:mb-24">
@@ -529,8 +529,8 @@ const pageDesc =
                     src={fp.plan}
                     alt={
                       fp.planPending
-                        ? `Shaurya ${fp.title} â€” plan drawing not yet available`
-                        : `Shaurya ${fp.title} plan â€” ${fp.label}`
+                        ? `Shaurya ${fp.title} — plan drawing not yet available`
+                        : `Shaurya ${fp.title} plan — ${fp.label}`
                     }
                     class={`w-full h-auto object-contain rounded-[2px] ${
                       fp.planPending ? "opacity-60" : "mix-blend-multiply"
@@ -548,7 +548,7 @@ const pageDesc =
                   </span>
                   {fp.planPending && (
                     <p class="text-mutedlight text-xs leading-relaxed mt-4 italic">
-                      Placeholder image â€” the {fp.title.toLowerCase()} drawing has not been supplied
+                      Placeholder image — the {fp.title.toLowerCase()} drawing has not been supplied
                       yet.
                     </p>
                   )}
@@ -594,14 +594,14 @@ const pageDesc =
     </div>
   </section>
 
-  <!-- ===================== AMENITIES â€” "SHAURYA STANDS ITS GROUND" =====================
+  <!-- ===================== AMENITIES — "SHAURYA STANDS ITS GROUND" =====================
        Matches the prithvi.astro / ishaan.astro pattern: a naming-story
        intro, three "levels" reading cards, then the full grouped amenity
        spec. The level cards use bg-card so they read against this
        bg-stone section (the inverse of prithvi's card section + stone
-       cards â€” same contrast, kept to preserve the page's alternation). -->
+       cards — same contrast, kept to preserve the page's alternation). -->
   <section id="amenities" class="bg-stone border-t border-line scroll-mt-20">
-    {/* Section intro â€” the valour framing. This reads the NAME, not a
+    {/* Section intro — the valour framing. This reads the NAME, not a
         claim beyond the facts we were given. */}
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-24 lg:pt-32">
       <div class="reveal max-w-3xl">
@@ -614,7 +614,7 @@ const pageDesc =
           Shaurya stands its ground.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6 max-w-2xl">
-          Shaurya means valour â€” and a building shows it not in what it promises but in what it
+          Shaurya means valour — and a building shows it not in what it promises but in what it
           stands behind. Eight homes and nothing else, held on a corner plot, and every one of them
           sold and handed over. The courage here is a finished, proven building.
         </p>
@@ -684,7 +684,7 @@ const pageDesc =
       </div>
     </div>
 
-    {/* ===== Full amenity list â€” renders as soon as `amenityGroups` is filled ===== */}
+    {/* ===== Full amenity list — renders as soon as `amenityGroups` is filled ===== */}
     <div
       id="amenities-all"
       class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-24 lg:py-32 mt-24 lg:mt-32 border-t border-line scroll-mt-20"
@@ -738,7 +738,7 @@ const pageDesc =
             ))}
           </div>
         ) : (
-          /* No amenity schedule supplied â€” say so plainly rather than
+          /* No amenity schedule supplied — say so plainly rather than
              invent one. Fill `amenityGroups` in src/data/shaurya.ts and
              this panel is replaced by the grouped list above. */
           <div class="reveal border border-dashed border-line rounded-[4px] p-8 lg:p-12 max-w-3xl">
@@ -747,7 +747,7 @@ const pageDesc =
             </p>
             <p class="text-muted text-base leading-relaxed mt-3">
               The amenity schedule for Shaurya has not been supplied. Rather than borrow another
-              project's list, this block stays empty until the real one arrives â€” then it prints
+              project's list, this block stays empty until the real one arrives — then it prints
               here grouped, the same as every other project page.
             </p>
             <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted mt-8 pt-6 border-t border-line">
@@ -791,7 +791,7 @@ const pageDesc =
             Built by Nesting Tree.
           </h2>
           <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6 max-w-md">
-            Shaurya is one of Nesting Tree's delivered residences in Karanjade â€” drawing on two decades of Navi Mumbai real estate.
+            Shaurya is one of Nesting Tree's delivered residences in Karanjade — drawing on two decades of Navi Mumbai real estate.
           </p>
         </div>
 
@@ -824,7 +824,7 @@ const pageDesc =
           A delivered, sold-out track record.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Shaurya is complete, fully sold and handed over â€” more proof of Nesting Tree's commitment
+          Shaurya is complete, fully sold and handed over — more proof of Nesting Tree's commitment
           to quality, clean paperwork and timely delivery.
         </p>
       </div>
@@ -851,7 +851,7 @@ const pageDesc =
   <ProjectGallery
     project="Shaurya"
     items={gallery}
-    lead="Real photographs from Shaurya â€” the delivered corner-plot residence, its corridors, parking and rooftop, shot on site."
+    lead="Real photographs from Shaurya — the delivered corner-plot residence, its corridors, parking and rooftop, shot on site."
   />
 
   <!-- ===================== QR CODE ===================== -->
@@ -869,7 +869,7 @@ const pageDesc =
         Ask about Shaurya.
       </h2>
       <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl mx-auto">
-        Shaurya is sold out â€” but our team is happy to help with resale enquiries or to walk you
+        Shaurya is sold out — but our team is happy to help with resale enquiries or to walk you
         through other Nesting Tree projects. Or call {sales.name} on{" "}
         <a href={sales.phoneHref} class="font-semibold text-olive-600 hover:text-olive-dark transition-colors"
           >{sales.phone}</a
@@ -944,7 +944,7 @@ const pageDesc =
             id="message"
             name="message"
             rows="4"
-            placeholder="Tell us about your enquiry â€” resale, or another Nesting Tree project."
+            placeholder="Tell us about your enquiry — resale, or another Nesting Tree project."
             class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition resize-y"
           ></textarea>
         </div>
@@ -1036,7 +1036,7 @@ const pageDesc =
                 set:html={pin}
               ></svg>
               <span class={isTBD(shaurya.address) ? "text-stone/45 italic" : ""}>
-                {isTBD(shaurya.address) ? `Address â€” ${TBD}` : shaurya.address}
+                {isTBD(shaurya.address) ? `Address — ${TBD}` : shaurya.address}
               </span>
             </li>
             <li class="flex items-center gap-2.5">
@@ -1051,7 +1051,7 @@ const pageDesc =
                 ></path></svg
               >
               <a href={sales.phoneHref} class="hover:text-olive-100 transition-colors"
-                >{sales.name} â€” {sales.phone}</a
+                >{sales.name} — {sales.phone}</a
               >
             </li>
             <li class="text-stone/55">{shaurya.approvals}</li>

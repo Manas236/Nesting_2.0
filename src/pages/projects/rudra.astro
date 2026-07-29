@@ -1,4 +1,4 @@
-﻿---
+---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import QrBlock from "../../components/QrBlock.astro";
@@ -17,7 +17,7 @@ import {
   gallery,
 } from "../../data/rudra";
 
-/* ---------- Line-icon set (24Ã—24, stroke currentColor) ----------
+/* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/rudra.ts. Kept here as
    presentation, the way the homepage keeps its amenity icons.     */
 const icons: Record<string, string> = {
@@ -60,9 +60,9 @@ const sections = [
    instant and reduced-motion visitors keep the premium frame. */
 const heroVideo = "/images/projects/Rudrar_Backdrop.mp4";
 
-const pageTitle = `Rudra â€” Delivered G+4 Residential & Commercial, Karanjade Â· ${brand.name}`;
+const pageTitle = `Rudra — Delivered G+4 Residential & Commercial, Karanjade · ${brand.name}`;
 const pageDesc =
-  "Rudra by Nesting Tree â€” the company's first delivered project. A completed, sold-out, society-formed G+4 building of 20 homes and 4 shops at Sector R2, Karanjade, Navi Mumbai. MahaRERA P52000026245.";
+  "Rudra by Nesting Tree — the company's first delivered project. A completed, sold-out, society-formed G+4 building of 20 homes and 4 shops at Sector R2, Karanjade, Navi Mumbai. MahaRERA P52000026245.";
 ---
 
 <BaseLayout title={pageTitle} description={pageDesc} image="/images/og/rudra.jpg">
@@ -81,7 +81,7 @@ const pageDesc =
       loop
       playsinline
       preload="auto"
-      aria-label="Rudra â€” delivered residential & commercial building by Nesting Tree, Karanjade"></video>
+      aria-label="Rudra — delivered residential & commercial building by Nesting Tree, Karanjade"></video>
     <!-- top scrim for nav legibility + bottom scrim for copy -->
     <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-transparent"></div>
     <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-transparent"></div>
@@ -328,7 +328,7 @@ const pageDesc =
                 </span>
                 <span>
                   <span class="block font-display text-[11px] font-bold uppercase tracking-[0.16em] text-stone/50"
-                    >{sales.name} Â· Sales</span
+                    >{sales.name} · Sales</span
                   >
                   <span class="block font-display font-bold text-xl tracking-tight group-hover:text-olive-100 transition-colors"
                     >{sales.phone}</span
@@ -375,7 +375,7 @@ const pageDesc =
           How Rudra is laid out.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Shops and parking on the ground floor; five homes â€” one 1BHK and four 1RK â€” on each of
+          Shops and parking on the ground floor; five homes — one 1BHK and four 1RK — on each of
           the four upper floors.
         </p>
       </div>
@@ -390,7 +390,7 @@ const pageDesc =
                 <div class="relative bg-stone border border-line rounded-[3px] p-4 sm:p-6 lg:p-8">
                   <img
                     src={fp.plan}
-                    alt={`Rudra ${fp.title} plan â€” ${fp.label}`}
+                    alt={`Rudra ${fp.title} plan — ${fp.label}`}
                     class="w-full h-auto object-contain rounded-[2px] mix-blend-multiply"
                     loading="lazy"
                   />
@@ -448,7 +448,7 @@ const pageDesc =
           One 1BHK, four 1RK layouts.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Rudra pairs a large 1BHK with a range of efficient 1RK homes â€” from a value 340 sq. ft.
+          Rudra pairs a large 1BHK with a range of efficient 1RK homes — from a value 340 sq. ft.
           layout up to a spacious 450 sq. ft. plan.
         </p>
       </div>
@@ -463,7 +463,7 @@ const pageDesc =
               <div class="relative bg-stone aspect-[4/3] p-5 sm:p-6">
                 <img
                   src={u.img}
-                  alt={`Rudra ${u.name} â€” ${u.size} layout render`}
+                  alt={`Rudra ${u.name} — ${u.size} layout render`}
                   class="w-full h-full object-contain mix-blend-multiply"
                   loading="lazy"
                 />
@@ -501,7 +501,7 @@ const pageDesc =
           Built with more than the basics.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Even as the first project, Rudra was built to the amenity-first standard â€” from the
+          Even as the first project, Rudra was built to the amenity-first standard — from the
           structure itself to the finish on the walls. The marquee features are sized to match.
         </p>
       </div>
@@ -617,7 +617,7 @@ const pageDesc =
             Built by Nesting Tree.
           </h2>
           <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6 max-w-md">
-            Rudra is where Nesting Tree began in Karanjade â€” drawing on two decades of Navi Mumbai real estate.
+            Rudra is where Nesting Tree began in Karanjade — drawing on two decades of Navi Mumbai real estate.
           </p>
         </div>
 
@@ -650,7 +650,7 @@ const pageDesc =
           A delivered, sold-out track record.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Rudra is complete, fully sold and society-formed â€” the first proof of Nesting Tree's
+          Rudra is complete, fully sold and society-formed — the first proof of Nesting Tree's
           commitment to quality and timely delivery.
         </p>
       </div>
@@ -677,7 +677,7 @@ const pageDesc =
   <ProjectGallery
     project="Rudra"
     items={gallery}
-    lead="Real photographs from Rudra â€” the delivered building, its common areas and finishes, shot on site."
+    lead="Real photographs from Rudra — the delivered building, its common areas and finishes, shot on site."
   />
 
   <!-- ===================== QR CODE ===================== -->
@@ -695,7 +695,7 @@ const pageDesc =
         Ask about Rudra.
       </h2>
       <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl mx-auto">
-        Rudra is sold out â€” but our team is happy to help with resale enquiries or to walk you
+        Rudra is sold out — but our team is happy to help with resale enquiries or to walk you
         through other Nesting Tree projects. Or call {sales.name} on{" "}
         <a href={sales.phoneHref} class="font-semibold text-olive-600 hover:text-olive-dark transition-colors"
           >{sales.phone}</a
@@ -770,7 +770,7 @@ const pageDesc =
             id="message"
             name="message"
             rows="4"
-            placeholder="Tell us about your enquiry â€” resale, or another Nesting Tree project."
+            placeholder="Tell us about your enquiry — resale, or another Nesting Tree project."
             class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition resize-y"
           ></textarea>
         </div>
@@ -875,7 +875,7 @@ const pageDesc =
                 ></path></svg
               >
               <a href={sales.phoneHref} class="hover:text-olive-100 transition-colors"
-                >{sales.name} â€” {sales.phone}</a
+                >{sales.name} — {sales.phone}</a
               >
             </li>
             <li class="text-stone/55">MahaRERA {rudra.maharera}</li>
