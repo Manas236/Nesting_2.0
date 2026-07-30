@@ -88,7 +88,7 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Ground floor",
     label: "Retail & common amenities",
-    plan: "/images/projects/dhruva/plan-ground.jpg",
+    plan: "/images/projects/dhruva/Ground_Floor_Plan.png",
     blurb:
       "Six shops face two sides of the corner plot for a wide street frontage, with ample parking, a society office, a fitness centre and a multi-purpose room.",
     points: [
@@ -103,7 +103,7 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Typical upper floor",
     label: "Residential — 6 flats per floor",
-    plan: "/images/projects/dhruva/plan-fourth.jpg",
+    plan: "/images/projects/dhruva/Typical_Floor_Plan_Dhurva.png",
     blurb:
       "Each upper floor carries three 1BHK and three 1RK apartments off a wide corridor, served by an 8-person automatic elevator and a wide staircase. Top-floor homes add private terraces.",
     points: [
@@ -116,6 +116,85 @@ export const floorPlans: FloorPlan[] = [
     ],
   },
 ];
+
+/* ---------- Flat types (2, each with a cutaway render) ----------
+   Floors 1–4 are identical: six homes per floor, three 1BHK and
+   three 1RK, so 12 of each across the building.
+
+   Carpet and balcony figures are the RERA carpet areas printed on
+   the CIDCO-approved building plan (CIDCO/BP-17214/TPO(NM)/2019,
+   approved 16 Dec 2019): units 101–103 are the 1BHK homes
+   (25.04 / 24.13 / 22.06 sq. m. carpet, with 6.90 / 6.85 / 10.21
+   sq. m. of enclosed balcony) and 104–106 are the 1RK homes
+   (22.32 / 21.83 / 22.27 sq. m. carpet, no balcony). Room sizes are
+   the dimensions marked on the typical-floor plan.               */
+export type UnitType = {
+  type: string;
+  units: string;
+  series: string;
+  plan: string;
+  blurb: string;
+  stats: { label: string; value: string }[];
+  features: string[];
+  rooms: { room: string; dim: string }[];
+};
+
+export const unitTypes: UnitType[] = [
+  {
+    type: "1BHK",
+    units: "12 homes",
+    series: "3 per floor · Floors 1 to 4",
+    plan: "/images/projects/dhruva/1BHK_Render_Dhurva.png",
+    blurb:
+      "The larger of Dhruva's two layouts: a separate bedroom off an open living-dining, a kitchen with a full-length counter, a split bath and WC, and an enclosed balcony running the width of the living room.",
+    stats: [
+      { label: "Carpet area", value: "22.06 – 25.04 sq. m. (237 – 269 sq. ft.)" },
+      { label: "Carpet + balcony", value: "30.98 – 32.27 sq. m. (333 – 347 sq. ft.)" },
+      { label: "Homes of this type", value: "12 of 24" },
+    ],
+    features: [
+      "Separate bedroom for privacy",
+      "Split bath and WC — two people, no queue",
+      "Enclosed balcony along the living room",
+      "Kitchen with full-length counter & sink",
+    ],
+    rooms: [
+      { room: "Living", dim: "2.70 × 3.95 m" },
+      { room: "Bedroom", dim: "3.20 × 2.75 m" },
+      { room: "Kitchen", dim: "2.30 × 2.15 m" },
+      { room: "Bath", dim: "1.35 × 1.45 m" },
+      { room: "WC", dim: "1.20 × 1.00 m" },
+    ],
+  },
+  {
+    type: "1RK",
+    units: "12 homes",
+    series: "3 per floor · Floors 1 to 4",
+    plan: "/images/projects/dhruva/1RK_Render_Dhurva.png",
+    blurb:
+      "One open living-and-sleeping space with the kitchen fitted along a single wall, plus a full bath and its own WC. Compact to run, easy to furnish and the same finish schedule as the 1BHK.",
+    stats: [
+      { label: "Carpet area", value: "21.83 – 22.32 sq. m. (235 – 240 sq. ft.)" },
+      { label: "Homes of this type", value: "12 of 24" },
+    ],
+    features: [
+      "Single open living–sleeping space",
+      "Full bath plus a separate WC",
+      "Kitchen fitted along one wall",
+      "Corner variant with a wider 4.49 × 2.75 m living",
+    ],
+    rooms: [
+      { room: "Living", dim: "2.70 × 4.30 m" },
+      { room: "Kitchen", dim: "2.20 × 2.35 m" },
+      { room: "Bath", dim: "1.45 × 1.35 m" },
+      { room: "WC", dim: "1.40 × 1.00 m" },
+    ],
+  },
+];
+
+/* Source line printed under the flat-types section. */
+export const unitTypesNote =
+  "Carpet areas as printed on the CIDCO-approved building plan CIDCO/BP-17214/TPO(NM)/2019, approved 16 December 2019. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- Amenities — the page's hero USP ----------
    `featured` items render as larger, accent-treated tiles.   */

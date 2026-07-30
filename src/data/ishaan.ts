@@ -170,11 +170,33 @@ export const floorPlans: FloorPlan[] = [
    `unitTypes` in shikhar.ts — there is simply one entry, because
    there is one kind of home.
 
-   We know the type and the count and nothing else, so `series`,
-   `features` and `rooms` are gaps the page renders as such. Fill
-   `rooms` in the shikhar.ts format — { room, dim } — and the
-   dimensions table appears; fill `features` and the tick-list
-   appears. Both are hidden while empty rather than faked.        */
+   `features` and `rooms` are hidden while empty rather than faked.
+
+   `stats` carries the RERA carpet areas from the CIDCO-approved plan
+   (CIDCO/BP-19208/TPO(NM & K)/2024/13290, approved 20 Dec 2024). Its
+   carpet-area statement has three rows, not one — the twelve homes
+   are all 1RK, but they come in three sizes:
+
+     101, 201, 301, 401   15.223 sq. m.
+     102, 202, 302, 402   19.080 sq. m.
+     103, 203, 303, 403   16.590 sq. m.
+
+   No enclosed or open balcony area is recorded against any of them.
+
+   TWO THINGS THE DRAWING CONTRADICTS, left as supplied and flagged:
+     · THREE homes per floor over floors 1–4, not four per floor over
+       2–4. Both give twelve, but the header above, `floorPlans` and
+       this card's blurb all say four-per-floor on the typical floors.
+     · The 1st floor is residential and identical to the rest — the
+       drawing has a FIRST FLOOR PLAN with flats 101/102/103 on it.
+       That closes the "what sits on the 1st floor" gap noted above.
+
+   `rooms` below (living 2.75 × 3.15, kitchen 1.70 × 2.75, toilet
+   2.30 × 1.20) sums to 16.098 sq. m. Of the fifteen ways the drawn
+   rooms can be shared between the three flats, that exact triple only
+   ever lands on flat 103 — so the plan on this card is the 16.590
+   home. Not certain enough to print as a single figure, which is why
+   `stats` lists all three series.                                  */
 export type UnitType = {
   type: string;
   units: string;
@@ -182,6 +204,7 @@ export type UnitType = {
   plan: string;
   planPending?: boolean;
   blurb: string;
+  stats: { label: string; value: string }[];
   features: string[];
   rooms: { room: string; dim: string }[];
 };
@@ -194,8 +217,19 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/ishaan/Ishaan_1RK_Plan.png",
     blurb:
       "The one kind of home at Ishaan — a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Four sit on every typical floor; the plan shown is the corner unit.",
+    stats: [
+      { label: "Carpet area — all 12 homes", value: "15.22 – 19.08 sq. m. (164 – 205 sq. ft.)" },
+      { label: "Flats 101 / 201 / 301 / 401", value: "15.22 sq. m. (164 sq. ft.)" },
+      { label: "Flats 102 / 202 / 302 / 402", value: "19.08 sq. m. (205 sq. ft.)" },
+      { label: "Flats 103 / 203 / 303 / 403", value: "16.59 sq. m. (179 sq. ft.)" },
+      { label: "Enclosed balcony", value: "None recorded" },
+    ],
     features: [
-      "RERA carpet area — 17.70 sq.mt (≈ 190 sq.ft)",
+      // The old "RERA carpet area — 17.70 sq.mt (≈ 190 sq.ft)" bullet
+      // was removed: the approved plan records 15.223, 19.080 and
+      // 16.590 — 17.70 matches none of them, and is not their mean
+      // (16.964) either. Leaving it put two different RERA carpet
+      // areas under the same label on one card.
       "Separate kitchen with cooking platform",
       "Attached toilet with WC & washbasin",
       "Private chajja / balcony",
@@ -208,6 +242,10 @@ export const unitTypes: UnitType[] = [
     ],
   },
 ];
+
+/* Source line printed under the unit-types section. */
+export const unitTypesNote =
+  "Carpet areas as printed on the RERA carpet-area statement of the CIDCO-approved building plan CIDCO/BP-19208/TPO(NM & K)/2024/13290, approved 20 December 2024. The statement records no enclosed or open balcony area against any of the twelve homes. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- The clear-corner read — the page's creative ----------
    Ishaan is the name of the north-east: in Vastu, Ishanya is the

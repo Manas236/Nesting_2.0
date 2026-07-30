@@ -147,11 +147,31 @@ export const floorPlans: FloorPlan[] = [
    to see the home, not just the storey it sits on. Same shape as
    `unitTypes` in shikhar.ts.
 
-   We know the type and the count and nothing else, so `series`,
-   `features` and `rooms` are gaps the page renders as such. Fill
-   `rooms` in the shikhar.ts format — { room, dim } — and the
-   dimensions table appears; fill `features` and the tick-list
-   appears. Both are hidden while empty rather than faked.        */
+   `stats` carries the RERA carpet areas from the CIDCO-approved plan
+   (CIDCO/BP-19197/TPO(NM & K)/2024/13266, approved 21 Nov 2024). Its
+   carpet-area statement lists one row per unit series — 27 homes in
+   nine rows, which matches the proforma's "No. of Residential Units:
+   27":
+
+     101,201,301,401,501,601   23.980 sq. m.  (6 homes)
+     102,202,302,402,502,602   27.872         (6)
+     103                       34.116         (1)
+     104                       33.449         (1)
+     203,303,403,503,603,703   29.016         (6)
+     204,304,404,504           29.030         (4)
+     604                       27.816         (1)
+     702                       39.512         (1)
+     704                       26.780         (1)
+
+   Unit 702 is taken as the single 2BHK: the seventh-floor plan draws
+   three kitchens but four bedrooms, so one of 702/703/704 has two
+   bedrooms, and 702 is much the largest of the three. The other 26
+   rows are the 1BHK homes.
+
+   `rooms` still holds the figures supplied with the render set in
+   Jul 2026, not the approved drawing — see the note below `unitTypes`.
+   Fill `features` and the tick-list appears; both features and rooms
+   are hidden while empty rather than faked.                       */
 export type UnitType = {
   type: string;
   units: string;
@@ -159,6 +179,7 @@ export type UnitType = {
   plan: string;
   planPending?: boolean;
   blurb: string;
+  stats: { label: string; value: string }[];
   features: string[];
   rooms: { room: string; dim: string }[];
 };
@@ -171,6 +192,12 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/prithvi/Prithvi_1BHK_Plan.png",
     blurb:
       "The home Prithvi is mostly made of — twenty-six of the building's twenty-seven homes are this one-bedroom plan: a 15-foot living room opening onto a private balcony, a separate kitchen and a bedroom of its own.",
+    stats: [
+      { label: "Carpet area", value: "23.98 – 34.12 sq. m. (258 – 367 sq. ft.)" },
+      { label: "Enclosed balcony", value: "5.32 – 8.15 sq. m. (57 – 88 sq. ft.)" },
+      { label: "Open balcony", value: "5.61 – 9.43 sq. m. (60 – 101 sq. ft.)" },
+      { label: "Homes of this type", value: "26 of 27" },
+    ],
     features: [
       "Private balcony — 4′0″ wide",
       "Separate kitchen",
@@ -190,6 +217,12 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/prithvi/Prithvi_2BHK_Plan.png",
     blurb:
       "The only two-bedroom home in the building. Twenty-six homes share a plan; this one does not — two bedrooms, two toilets, a 15 × 16 living-dining, two balconies and a utility, on a super built-up of 1,380 sq.ft.",
+    stats: [
+      { label: "Carpet area", value: "39.51 sq. m. (425 sq. ft.)" },
+      { label: "Enclosed balcony", value: "6.48 sq. m. (70 sq. ft.)" },
+      { label: "Open balcony", value: "8.98 sq. m. (97 sq. ft.)" },
+      { label: "Homes of this type", value: "1 of 27" },
+    ],
     features: [
       "Carpet area — 795 sq.ft",
       "Balcony area — 80 sq.ft",
@@ -207,6 +240,19 @@ export const unitTypes: UnitType[] = [
     ],
   },
 ];
+
+/* Source line printed under the unit-types section.
+
+   CONFLICT TO RESOLVE BEFORE LAUNCH: the 2BHK `features` above carry
+   "Carpet area — 795 sq.ft" and "Super built-up area — 1,380 sq.ft"
+   from the Jul 2026 render set. The approved plan puts the largest
+   flat in the building at 39.512 sq. m. = 425 sq. ft. carpet, and the
+   whole seventh floor at 178.824 sq. m. = 1,925 sq. ft. of plinth for
+   three flats plus lobby, lift and stair — so 1,380 sq. ft. cannot
+   belong to one of them. The card now states both figures. Decide
+   which is right and drop the other. */
+export const unitTypesNote =
+  "Carpet areas as printed on the CIDCO-approved building plan CIDCO/BP-19197/TPO(NM & K)/2024/13266, approved 21 November 2024. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- The ground-up read — the page's creative ----------
    Prithvi is the earth: the first element, the one everything else

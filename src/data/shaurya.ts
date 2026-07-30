@@ -103,14 +103,30 @@ export const overview = {
 };
 
 /* ---------- Unit types — the home layouts ----------
-   We know the two types and their counts and nothing else, so
-   `series`, `features` and `rooms` are gaps the page renders as
-   such. `plan` points at the placeholder SVGs that already ship
-   in public/images/projects/shaurya/; `planPending` flags them
-   on the page so a placeholder never reads as a plan. Fill
-   `rooms` ({ room, dim }) and the dimensions table appears; fill
-   `features` and the tick-list appears. Both are hidden while
-   empty rather than faked.                                       */
+   `plan` points at the placeholder SVGs that already ship in
+   public/images/projects/shaurya/; `planPending` flags them on the
+   page so a placeholder never reads as a plan. `features` and
+   `rooms` are hidden while empty rather than faked.
+
+   `stats` carries the RERA carpet areas from the CIDCO-approved plan
+   (CIDCO/BP-18395/TPO(NM & K)/2023/12046, approved 6 Mar 2024). Its
+   carpet-area statement has just two rows — two homes on each of
+   floors 1 to 4, which is the 8 units in the occupant-load table and
+   the water-storage calculation:
+
+     101, 201, 301, 401   19.316 sq. m.   no enclosed balcony
+     102, 202, 302, 402   23.845 sq. m.   no enclosed balcony
+
+   SERIES LABELS BELOW ARE THE WRONG WAY ROUND — left as supplied,
+   flagged for the owner. The drawing puts the bedroom in the LARGER
+   home: the light-and-ventilation table sums living 9.360 + bedroom
+   5.460 + kitchen 4.000 + WC 1.200 + bath 1.500 = 21.520 sq. m. of
+   rooms, which cannot sit inside 19.316 sq. m. of carpet. Against
+   23.845 it leaves 2.33 sq. m. for internal walls and the entry
+   passage — and the 1RK's rooms (17.215) against 19.316 leave 2.10,
+   the same allowance. So the 1BHK is flat 102 and the 1RK is flat
+   101, not the reverse. `stats` uses the correct pairing; `series`
+   still says otherwise until the owner confirms the swap.        */
 export type UnitType = {
   type: string;
   units: string;
@@ -118,6 +134,7 @@ export type UnitType = {
   plan: string;
   planPending?: boolean;
   blurb: string;
+  stats: { label: string; value: string }[];
   features: string[];
   rooms: { room: string; dim: string }[];
 };
@@ -130,8 +147,15 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/shaurya/Shaurya_1BHK_Plan.png",
     blurb:
       "Four of Shaurya's eight homes are one-bedroom apartments — flat 101 on each floor. A separate bedroom, its own kitchen and a living room opening onto a private balcony.",
+    stats: [
+      { label: "Carpet area", value: "23.85 sq. m. (257 sq. ft.)" },
+      { label: "Enclosed balcony", value: "None — open balcony only" },
+      { label: "Homes of this type", value: "4 of 8" },
+    ],
     features: [
-      "Carpet area — 19.316 sq.m (≈ 208 sq.ft)",
+      // The old "Carpet area — 19.316 sq.m (≈ 208 sq.ft)" bullet was
+      // removed: 19.316 is the 1RK's carpet, and leaving it here put
+      // two different carpet areas under the same label on one card.
       "Private balcony off the living room",
       "Separate bedroom & kitchen",
       "Chajja weather projections over the windows",
@@ -153,6 +177,11 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/shaurya/Shaurya_1RK_Plan.png",
     blurb:
       "The other four homes are efficient 1RK layouts — flat 102 on each floor. Compact, single-room living with a full 4.2-metre living room, and a bath and WC kept separate.",
+    stats: [
+      { label: "Carpet area", value: "19.32 sq. m. (208 sq. ft.)" },
+      { label: "Enclosed balcony", value: "None — open balcony only" },
+      { label: "Homes of this type", value: "4 of 8" },
+    ],
     features: [
       "Separate bath and WC",
       "Full-width 4.2 m living room",
@@ -166,6 +195,10 @@ export const unitTypes: UnitType[] = [
     ],
   },
 ];
+
+/* Source line printed under the unit-types section. */
+export const unitTypesNote =
+  "Carpet areas as printed on the RERA carpet-area statement of the CIDCO-approved building plan CIDCO/BP-18395/TPO(NM & K)/2023/12046, approved 6 March 2024. The statement records no enclosed-balcony area against either home. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- Floor plans ----------
    All three drawings supplied as real renders (Jul 2026), so none

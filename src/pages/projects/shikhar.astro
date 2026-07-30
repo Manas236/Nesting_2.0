@@ -3,13 +3,15 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 import QrBlock from "../../components/QrBlock.astro";
 import ProjectGallery from "../../components/ProjectGallery.astro";
-import { brand, contact, projects } from "../../data/site";
+import AreaStats from "../../components/AreaStats.astro";
+import { brand, contact, features, projects } from "../../data/site";
 import {
   shikhar,
   sales,
   heroStats,
   overview,
   unitTypes,
+  unitTypesNote,
   buildProgress,
   amenityGroups,
   amenityStages,
@@ -372,6 +374,9 @@ const pageDesc =
                 </p>
                 <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{u.blurb}</p>
 
+                {/* RERA carpet figures from the approved plan */}
+                <AreaStats stats={u.stats} class="mt-8 max-w-md" />
+
                 <ul class="mt-7 flex flex-col gap-3 max-w-md">
                   {u.features.map((f) => (
                     <li class="flex items-start gap-3 text-ink">
@@ -412,6 +417,14 @@ const pageDesc =
           ))
         }
       </div>
+
+      {
+        features.areaStats && (
+          <p class="reveal text-mutedlight text-xs leading-relaxed mt-16 lg:mt-20 max-w-3xl">
+            {unitTypesNote}
+          </p>
+        )
+      }
     </div>
   </section>
 

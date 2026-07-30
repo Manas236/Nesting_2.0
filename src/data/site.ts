@@ -11,6 +11,17 @@
    it in this file — every section reads from here.
    ============================================================ */
 
+/* ---------- Feature flags ----------
+   Kill switches for whole content blocks. Flip one to false and the
+   block disappears from every page that uses it — no markup or data
+   needs deleting, so it can go straight back on later.            */
+export const features = {
+  /** The carpet-area stat strip in each project's flat-types section
+      (<AreaStats/>). false hides the strip and its "areas as per the
+      approved plan" source line on every project page. */
+  areaStats: true,
+};
+
 export const brand = {
   name: "Nesting Tree",
   // The Nesting Tree BRAND launched in 2019. `legacyYear` is when the founder

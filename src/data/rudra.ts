@@ -161,6 +161,43 @@ export const homeConfigs: HomeConfig[] = [
   },
 ];
 
+/* ---------- Carpet schedule — the approved plan's figures ----------
+   Rendered as the <AreaStats/> strip under the home-configurations
+   grid. Straight from the floor-wise carpet-area table on the
+   CIDCO-approved plan (CIDCO/BP-16651/TPO(NM)/2019, scrutinised
+   13 May 2019): 5 homes on each of floors 1–4 = the 20 residential
+   units in the area statement, plus 4 shops on the ground floor.
+
+   It is keyed by unit number, not by the five `homeConfigs` above,
+   deliberately. The drawing labels one BED per floor, so the single
+   1BHK is unit x01; but it never says which of the four 1RK plans is
+   which marketed layout, so the 340 / 425 / 440 / 450 sq. ft. tiles
+   cannot be matched to unit numbers from this document.
+
+   Floors 1–3 are identical. The fourth floor differs on two units:
+   403 is 16.88 (not 17.83) and 405 is 14.07 with no balcony (not
+   16.65 + 1.65), because the top floor sets back for the terrace. */
+export const carpetSchedule: { label: string; value: string }[] = [
+  { label: "1BHK — 101 / 201 / 301 / 401", value: "20.96 sq. m. (226 sq. ft.)" },
+  { label: "1RK — 102 / 202 / 302 / 402", value: "13.25 sq. m. (143 sq. ft.)" },
+  { label: "1RK — 103 / 203 / 303", value: "17.83 sq. m. (192 sq. ft.)" },
+  { label: "1RK — 104 / 204 / 304 / 404", value: "19.38 sq. m. (209 sq. ft.)" },
+  { label: "1RK — 105 / 205 / 305", value: "16.65 sq. m. (179 sq. ft.)" },
+  { label: "Fourth floor — 403 / 405", value: "16.88 / 14.07 sq. m. (182 / 151 sq. ft.)" },
+];
+
+/* Source line printed under the carpet schedule.
+
+   NOTE FOR LATER: the `size` figures on `homeConfigs` above, and the
+   "340–560" line in `overview.spaceMix`, are not carpet areas — the
+   approved plan tops out at 20.96 sq. m. = 226 sq. ft. of carpet, or
+   27.60 sq. m. = 297 sq. ft. carpet-plus-balcony, for the largest
+   home. 340–560 sq. ft. is roughly double the carpet, so it reads as
+   a saleable / super-built-up figure. Same issue as Prithvi's 2BHK.
+   Left as supplied; relabel or replace when the owner confirms. */
+export const carpetScheduleNote =
+  "Carpet areas as printed on the floor-wise carpet-area table of the CIDCO-approved building plan CIDCO/BP-16651/TPO(NM)/2019, scrutinised 13 May 2019. Enclosed balconies add 6.64 sq. m. to unit x01, 6.99 sq. m. to unit x02 and 1.65 sq. m. to units 105 / 205 / 305. Renders are indicative; furniture and finishes are not part of the sale.";
+
 /* ---------- Amenities — the page's hero USP ----------
    `featured` items render as larger, accent-treated tiles.   */
 export type Amenity = {

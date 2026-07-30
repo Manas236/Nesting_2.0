@@ -54,13 +54,30 @@ export const overview = {
     "Shikhar sits on a corner plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
-/* ---------- Unit types (3, each with a floor-plan render) ---------- */
+/* ---------- Unit types (3, each with a floor-plan render) ----------
+   `stats` carries the RERA carpet areas printed on the CIDCO-approved
+   building plan (CIDCO/BP-18416/TPO(NM & K)/2023/12230, approved
+   22 Mar 2024). Its carpet-area statement lists one row per unit
+   series, and the series map to the types below:
+
+     Series 1  101 … 1001   29.647 sq. m. + 2.775 encl. balcony
+     Series 2  102          29.782 + 2.775   (first floor, marginally
+               202 … 1002   29.647 + 2.775    larger than the stack)
+     Series 3  103 … 1003   29.034 + 2.800
+     Series 4  104 … 1004   29.773 + 2.800
+     Series 5  205 … 1005   19.439 + 2.600
+     Series 6  206 … 1006   20.673, no balcony
+
+   Series 1–4 are the 1BHK homes (three of them, on the first floor,
+   carry the wrapping terrace); series 5 and 6 are the 1RK homes,
+   9 units each. 58 flats in total, plus the 8 shops = 66 units.  */
 export type UnitType = {
   type: string;
   units: string;
   series: string;
   plan: string;
   blurb: string;
+  stats: { label: string; value: string }[];
   features: string[];
   rooms: { room: string; dim: string }[];
 };
@@ -73,6 +90,12 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/shikhar/plan-1bhk.jpg",
     blurb:
       "A separate bedroom for privacy, a dual-toilet layout and abundant natural light — the most popular choice at Shikhar.",
+    stats: [
+      { label: "Carpet area", value: "29.03 – 29.78 sq. m. (312 – 320 sq. ft.)" },
+      { label: "Enclosed balcony", value: "2.78 – 2.80 sq. m. (30 sq. ft.)" },
+      { label: "Carpet + balcony", value: "31.83 – 32.56 sq. m. (343 – 350 sq. ft.)" },
+      { label: "Homes of this type", value: "37 of 58" },
+    ],
     features: [
       "Separate bedroom for privacy",
       "Dual-toilet layout",
@@ -81,7 +104,7 @@ export const unitTypes: UnitType[] = [
     rooms: [
       { room: "Bedroom", dim: "2.70 × 3.10 m" },
       { room: "Kitchen", dim: "1.95 × 2.10 m" },
-      { room: "Balcony", dim: "30 sq ft" },
+      { room: "Enclosed balcony", dim: "2.78 × 1.00 m" },
       { room: "Toilet 1", dim: "1.20 × 1.20 m" },
       { room: "Toilet 2", dim: "2.10 × 1.20 m" },
     ],
@@ -93,6 +116,11 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/shikhar/plan-1rk.jpg",
     blurb:
       "Compact luxury living with a space-saving design, dedicated functional zones, integrated storage and abundant natural light.",
+    stats: [
+      { label: "Carpet area", value: "19.44 – 20.67 sq. m. (209 – 222 sq. ft.)" },
+      { label: "Enclosed balcony", value: "2.60 sq. m. (28 sq. ft.) — series 5 only" },
+      { label: "Homes of this type", value: "18 of 58" },
+    ],
     features: [
       "Space-saving design",
       "Dedicated functional zones",
@@ -112,13 +140,18 @@ export const unitTypes: UnitType[] = [
     plan: "/images/projects/shikhar/plan-1bhk-terrace.jpg",
     blurb:
       "Exclusive homes wrapped by a large private terrace, with high-end luxury finishes and a separate bedroom. Limited availability.",
+    stats: [
+      { label: "Carpet area", value: "29.03 sq. m. (312 sq. ft.)" },
+      { label: "Enclosed balcony", value: "2.80 sq. m. (30 sq. ft.)" },
+      { label: "Wrapping terrace", value: "355.66 sq. ft." },
+      { label: "Homes of this type", value: "3 of 58" },
+    ],
     features: [
       "Large wrapping private terrace",
       "High-end luxury finishes",
       "Limited availability",
     ],
     rooms: [
-      { room: "Wrapping terrace", dim: "355.66 sq ft" },
       { room: "Living", dim: "2.78 × 3.10 m" },
       { room: "Kitchen", dim: "1.85 × 2.15 m" },
       { room: "Bedroom", dim: "2.65 × 3.15 m" },
@@ -126,6 +159,10 @@ export const unitTypes: UnitType[] = [
     ],
   },
 ];
+
+/* Source line printed under the unit-types section. */
+export const unitTypesNote =
+  "Carpet areas as printed on the CIDCO-approved building plan CIDCO/BP-18416/TPO(NM & K)/2023/12230, approved 22 March 2024. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- Amenities — the page's hero USP ----------
    `featured` items are rendered as larger, accent-treated tiles.
