@@ -99,7 +99,7 @@ export const projects: Project[] = [
     status: "Ongoing",
     statusLabel: "Now Booking",
     blurb:
-      "The latest Nesting Tree residence — a high-rise built on the same standard as every project before it: more amenities, better daily living, delivered on time.",
+      "The latest Nesting Tree residence, a high-rise built on the same standard as every project before it: more amenities, better daily living, delivered on time.",
     amenities: "Rooftop Gym · Terrace · Lift · CCTV",
     image: "/images/projects/ShikharElevationFinal.jpeg",
     objectPosition: "center 12%",
@@ -112,7 +112,7 @@ export const projects: Project[] = [
     // Under construction; bookings not yet open — hence "Pre-launch", not "Now Booking".
     statusLabel: "Pre-launch",
     blurb:
-      "A corner-plot residence with street-level retail — designed for everyday convenience without leaving the building.",
+      "A corner-plot residence with street-level retail, designed for everyday convenience without leaving the building.",
     amenities: "Lift · CCTV · Fire Safety · Retail",
     image: "/images/projects/Prithvi-Elevation.jpg",
     objectPosition: "center 12%",
@@ -125,7 +125,7 @@ export const projects: Project[] = [
     // Under construction; bookings not yet open — hence "Pre-launch", not "Now Booking".
     statusLabel: "Pre-launch",
     blurb:
-      "A corner-plot residence of twelve 1RK homes — clean contemporary lines and a calm, purely residential address.",
+      "A corner-plot residence of twelve 1RK homes, with clean contemporary lines and a calm, purely residential address.",
     // Only amenities confirmed for Ishaan — no CCTV/terrace supplied for this project.
     amenities: "High-Speed Lift · Parking · Corner Plot",
     image: "/images/projects/Ishan-Reduced.jpg",
@@ -138,7 +138,7 @@ export const projects: Project[] = [
     status: "Delivered",
     statusLabel: "Delivered & Handed Over",
     blurb:
-      "Lift access, CCTV-monitored entrances and dedicated parking — handed over and still running the way it was built.",
+      "Lift access, CCTV-monitored entrances and dedicated parking. Handed over, and still running the way it was built.",
     amenities: "Lift · CCTV · Parking",
     image: "/images/projects/Rudra.jpg",
     objectPosition: "center center",
@@ -150,7 +150,7 @@ export const projects: Project[] = [
     status: "Delivered",
     statusLabel: "Delivered & Handed Over",
     blurb:
-      "A curved-corner landmark with rooftop access, round-the-clock security and ground-floor retail — for residents who wanted more than four walls.",
+      "A curved-corner landmark with rooftop access, round-the-clock security and ground-floor retail. Built for residents who wanted more than four walls.",
     amenities: "Terrace · Security · Retail · Lift",
     image: "/images/projects/Dhruva-Elevation_image.jpg",
     objectPosition: "center 35%",
@@ -162,7 +162,7 @@ export const projects: Project[] = [
     status: "Delivered",
     statusLabel: "Delivered & Handed Over",
     blurb:
-      "A purely residential G+4 on a corner plot — eight homes with an automatic high-speed lift and ample parking. Completed, sold out and handed over.",
+      "A purely residential G+4 on a corner plot: eight homes with an automatic high-speed lift and ample parking. Completed, sold out and handed over.",
     amenities: "High-Speed Lift · Parking · Corner Plot",
     image: "/images/projects/shaurya/Shaurya_Elevation.png",
     objectPosition: "center 25%",
@@ -171,6 +171,64 @@ export const projects: Project[] = [
 
 export const featuredSlug = "shikhar";
 
+/* ---------- Pipeline — projects in approvals, not yet building ----------
+   DELIBERATELY SEPARATE FROM `projects` ABOVE. Read this before moving an
+   entry between the two lists.
+
+   `projects` is the built portfolio, and three site-wide claims are derived
+   from it: `stats.projects` renders as "Nesting Tree residences",
+   `stats.ongoing` renders as "Under construction · Rising right now", and the
+   Ongoing band on /projects is captioned "Under construction … booking now or
+   pre-launch". A project with no Commencement Certificate, no work on site and
+   no homes in it makes all three untrue the moment it joins that array — so it
+   lives here instead and is counted nowhere.
+
+   These entries also carry no `image`, no `slug` and no detail page: there is
+   no render to show and nothing to fill a page with, and a card linking to an
+   empty page is worse than a card that doesn't link. They render as a
+   text-only band on /projects and appear nowhere else — not on the home page
+   (which promises "the ones you can still book into") and not in the footer
+   project list (which links to detail pages).
+
+   NOTHING HERE MAY BE ADVERTISED FOR SALE. An unregistered project predates
+   any MahaRERA number, so these cards state status only — no pricing, no
+   carpet areas, no floor plans, no "enquire"/"book" call to action. Keep it
+   that way until the registration exists.
+
+   MOVING ONE OUT: when a project gets its CC and starts on site, give it a
+   slug, a render and a src/data/<slug>.ts record, move it into `projects` with
+   the right status, and delete it from here.                              */
+export type PipelineProject = {
+  name: string;
+  location: string;
+  statusLabel: string;
+  /** What the project is, in plain terms. Confirmed facts only. */
+  blurb: string;
+  /** Short status lines shown as a list. Each must be independently true. */
+  facts: string[];
+};
+
+export const pipeline: PipelineProject[] = [
+  {
+    // Working reference, not a launch name — 122A is how the plot is known
+    // today. Swap in the real project name when one is decided.
+    name: "122A",
+    // City level only, as with `projects`. The other six are all Karanjade;
+    // this one's locality has NOT been confirmed, so it is not claimed here.
+    location: "Navi Mumbai",
+    statusLabel: "In Approvals",
+    blurb:
+      "Our seventh project, and the first that isn't a residence. A purely commercial building, still being worked out on paper. Approvals and documentation are under way; nothing has started on site.",
+    facts: [
+      "Purely commercial, no residential apartments",
+      "No ground-floor shops",
+      "Commencement Certificate not yet received",
+      "No construction started on site",
+      "Not open for booking",
+    ],
+  },
+];
+
 /* ---------- Amenities — the core USP ---------- */
 export const amenities = [
   {
@@ -178,7 +236,7 @@ export const amenities = [
     kicker: "Rooftop Access",
     title: "A rooftop you can use in any weather.",
     body:
-      "A sheltered rooftop deck — open on the sides to the breeze and the view, but covered overhead. Sit out and take in the scene without worrying about the sun or the rain.",
+      "A sheltered rooftop deck, open on the sides to the breeze and the view but covered overhead. Sit out and take in the scene without worrying about the sun or the rain.",
     featured: "Sheltered Rooftop · Terrace Access",
     image: "/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg",
     objectPosition: "center 60%",
@@ -188,7 +246,7 @@ export const amenities = [
     kicker: "Aerial View",
     title: "A skyline you can actually stand in.",
     body:
-      "From the terrace, the view opens up over Karanjade — uninterrupted, above the rooftops, the kind of outlook a ground-floor balcony can’t give you.",
+      "From the terrace, the view opens up over Karanjade: uninterrupted, above the rooftops, the kind of outlook a ground-floor balcony can’t give you.",
     featured: "Panoramic Skyline Views · Open-Air Terrace",
     image: "/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg",
     objectPosition: "center center",
@@ -198,7 +256,7 @@ export const amenities = [
     kicker: "Safety & Access",
     title: "Security that never clocks out.",
     body:
-      "CCTV-monitored common areas and round-the-clock trained security — the fundamentals, done properly.",
+      "CCTV-monitored common areas, and trained security on site round the clock.",
     featured: "CCTV Surveillance · 24×7 Security",
     image: "/images/projects/security.png",
     objectPosition: "center center",
@@ -208,7 +266,7 @@ export const amenities = [
     kicker: "Dedicated Parking",
     title: "A parking spot that’s actually yours.",
     body:
-      "Covered parking on the ground floor — space for the two-wheeler or the car, out of the sun and the rain. No circling the lane, no fighting for a spot on the road.",
+      "Covered parking on the ground floor, with space for the two-wheeler or the car, out of the sun and the rain. No circling the lane, no fighting for a spot on the road.",
     featured: "Covered Parking · Two-Wheeler & Car",
     image: "/images/Project_Images/Rudra/Parking/IMG20260627112838.jpeg",
     objectPosition: "center 60%",
@@ -218,7 +276,7 @@ export const amenities = [
     kicker: "Lift Access",
     title: "A lift to every floor, always running.",
     body:
-      "A proper passenger lift to every floor, backed by power for the common areas — so getting home never comes down to the stairs or the grid.",
+      "A proper passenger lift to every floor, backed by power for the common areas. Getting home never comes down to the stairs or the grid.",
     featured: "Lift to Every Floor · Power Backup",
     image: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg",
     objectPosition: "center 65%",
@@ -228,7 +286,7 @@ export const amenities = [
     kicker: "Spacious Corridors",
     title: "Common spaces that never feel cramped.",
     body:
-      "Wide, well-lit corridors and landings finished in glossy tile — room to move, whether you’re carrying the groceries up or seeing guests out.",
+      "Room to move, whether you’re carrying the groceries up or seeing guests out. Wide, well-lit corridors and landings, finished in glossy tile.",
     featured: "Wide Landings · Bright & Tiled",
     image: "/images/Project_Images/Dhruva/Corridor/corridor.png",
     objectPosition: "center center",
@@ -242,14 +300,14 @@ export const journey = [
     title: "K.D. Construction enters real estate",
     place: "Vashi, Navi Mumbai",
     body:
-      "Where the housing story begins. K.D. Construction's first residential project — Gopala, a building in Vashi on a CIDCO tender plot — the start of two decades of homes across Vashi, Kharghar and beyond.",
+      "Where the housing story begins. K.D. Construction's first residential project was Gopala, a building in Vashi on a CIDCO tender plot, and the start of two decades of homes across Vashi, Kharghar and beyond.",
   },
   {
     year: "2019",
     title: "Nesting Tree is founded",
     place: "Navi Mumbai",
     body:
-      "A simple idea — build homes that come with more than four walls — turns into a residential development company in Navi Mumbai.",
+      "A simple idea: build homes that come with more than four walls. It turns into a residential development company in Navi Mumbai.",
   },
   {
     year: "2020",
@@ -263,21 +321,21 @@ export const journey = [
     title: "Dhruva delivered",
     place: "Navi Mumbai",
     body:
-      "A curved-corner landmark with rooftop access and ground-floor retail — proof the amenity-first standard scales.",
+      "A curved-corner landmark with rooftop access and ground-floor retail. Proof the amenity-first standard scales.",
   },
   {
     year: "2022",
     title: "Shaurya delivered",
     place: "Navi Mumbai",
     body:
-      "A purely residential G+4 on a corner plot — eight homes with an automatic high-speed lift, delivered and fully sold out.",
+      "A purely residential G+4 on a corner plot: eight homes with an automatic high-speed lift, delivered and fully sold out.",
   },
   {
     year: "Today",
     title: "Three residences underway",
     place: "Navi Mumbai",
     body:
-      "Shikhar, Prithvi and Ishaan are under construction across Navi Mumbai — built to the same amenity-first standard.",
+      "Shikhar, Prithvi and Ishaan are under construction across Navi Mumbai, built to the same amenity-first standard.",
   },
 ];
 
@@ -285,23 +343,23 @@ export const journey = [
 export const reasons = [
   {
     title: "A track record, not a promise",
-    body: "Two decades of housing behind us — from Gopala in Vashi (2004) to residences delivered and handed over in Navi Mumbai today.",
+    body: "Two decades of housing behind us, from Gopala in Vashi (2004) to residences delivered and handed over in Navi Mumbai today.",
   },
   {
     title: "Possession on time",
-    body: "We build to a schedule and hand over on it — the way our delivered projects were.",
+    body: "We build to a schedule and hand over on it, exactly as our delivered projects were.",
   },
   {
     title: "Clear title, clean paperwork",
-    body: "Clear-title land bought directly from the owner — no 50:50 or tri-party agreements, so you buy with confidence.",
+    body: "Clear-title land bought directly from the owner. No 50:50 or tri-party agreements, so you buy with confidence.",
   },
   {
     title: "Amenities as standard",
-    body: "Gym, terrace, lift, CCTV, security and parking — built in, not sold as extras.",
+    body: "Gym, terrace, lift, CCTV, security and parking: built in, not sold as extras.",
   },
   {
     title: "Built to last",
-    body: "Construction quality you can live in — and still trust years after handover.",
+    body: "Construction quality you can live in, and still trust years after handover.",
   },
   {
     title: "Better everyday living",
@@ -337,7 +395,7 @@ export const home = {
     // carried by the sub-copy and the flagship highlight card.
     headline: ["More Building.", "More Living."],
     sub:
-      "Homes across Navi Mumbai built with more than four walls — rooftops, lifts, security and parking, designed in from the first drawing.",
+      "Homes across Navi Mumbai built with more than four walls: rooftops, lifts, security and parking, designed in from the first drawing.",
     primaryCta: { label: "Explore the Residences", href: "/projects" },
     secondaryCta: { label: "Book a Site Visit", href: "#contact" },
   },
@@ -364,8 +422,8 @@ export const home = {
   intro: {
     heading: "A home isn't an asset. It's where a life happens.",
     lead:
-      "Every slab we pour becomes someone's first morning, someone's twentieth year. So we build a little stronger than the drawing asks — for the life we can't yet see.",
-    close: "Homes made to be lived in — for over twenty years, across Navi Mumbai.",
+      "Every slab we pour becomes someone's first morning, someone's twentieth year. So we build a little stronger than the drawing asks, for the life we can't yet see.",
+    close: "Homes made to be lived in. For over twenty years, across Navi Mumbai.",
     // First image anchors the collage (tall); the two that follow stack beside it.
     images: [
       {
@@ -393,7 +451,7 @@ export const home = {
   milestones: {
     eyebrow: "Milestones",
     heading: "Two decades of building, measured in homes.",
-    lead: "The record behind the name — from Vashi in 2004 to the residences rising across Navi Mumbai today.",
+    lead: "The record behind the name, from Vashi in 2004 to the residences rising across Navi Mumbai today.",
     items: [
       { value: "20+", label: "Years building homes", sub: `Since ${brand.legacyYear}` },
       { value: String(stats.projects), label: "Nesting Tree residences", sub: "Across Navi Mumbai" },
@@ -411,13 +469,13 @@ export const home = {
     eyebrow: "The Flagship",
     heading: "Shikhar. Our tallest statement yet.",
     lead:
-      "A landmark high-rise rising above the skyline — every home lifted over the rooftops, every amenity we're known for built in from the ground up.",
+      "A landmark high-rise rising above the skyline. Every home lifted over the rooftops, every amenity we're known for built in from the ground up.",
     body:
       "Shikhar carries the standard forward: a sheltered rooftop you can actually use, a lift to every floor, CCTV-monitored common areas and covered parking that's yours. Not add-ons. The reason to live here.",
     // Trust point woven in beside the flagship (was reason #4 + #5).
     trust: {
       k: "Why it holds up",
-      v: "Amenities come standard and the build is made to last — quality that still holds up years after handover.",
+      v: "Amenities come standard and the build is made to last, with quality that still holds up years after handover.",
     },
     cta: { label: "Discover Shikhar", href: "/projects/shikhar" },
     // Single framed hero render — the strongest premium asset in the repo.
@@ -435,25 +493,25 @@ export const home = {
     eyebrow: "The Nesting Tree Difference",
     heading: ["We don't sell", "flats. We deliver", "joy, built to last."],
     lead:
-      "You pay a little more for a Nesting Tree home — and you get more than a flat. Here's what that's stood on.",
+      "You pay a little more for a Nesting Tree home, and you get more than a flat. Here's what that's stood on.",
     pillars: [
       {
         no: "01",
         title: "A track record, not a promise",
         body:
-          "Two decades of housing behind us — from Vashi and Kharghar to residences delivered and handed over that you can go and stand in front of today.",
+          "Two decades of housing behind us, from Vashi and Kharghar to residences delivered and handed over that you can go and stand in front of today.",
       },
       {
         no: "02",
         title: "Possession on time",
         body:
-          "We build to a schedule and hand over on it — the way every one of our delivered projects was.",
+          "We build to a schedule and hand over on it, the way every one of our delivered projects was.",
       },
       {
         no: "03",
         title: "Clear title, clean paperwork",
         body:
-          "Land bought directly from the owner on a clear title — no 50:50 or tri-party agreements, so you buy with confidence.",
+          "Land bought directly from the owner on a clear title. No 50:50 or tri-party agreements, so you buy with confidence.",
       },
     ],
   },
@@ -465,7 +523,7 @@ export const home = {
     eyebrow: "By The Numbers",
     heading: "Proof, in figures.",
     trust:
-      "Every figure is real — homes handed over or under way, and the two decades of housing behind them. A record, not a projection.",
+      "Every figure is real: homes handed over or under way, and the two decades of housing behind them. A record, not a projection.",
     items: [
       { value: "20+", label: "Years building homes", sub: `Since ${brand.legacyYear}` },
       { value: String(projects.length), label: "Residences", sub: `${stats.delivered} delivered · ${stats.ongoing} ongoing` },
@@ -479,7 +537,7 @@ export const home = {
     eyebrow: "Now Building",
     heading: "The homes rising right now.",
     lead:
-      "Our ongoing residences across Navi Mumbai — the ones you can still book into. The full catalogue, including delivered projects, lives on the projects page.",
+      "Our ongoing residences across Navi Mumbai, the ones you can still book into. The full catalogue, including delivered projects, lives on the projects page.",
     cta: { label: "View All Projects", href: "/projects" },
   },
 
@@ -493,7 +551,7 @@ export const home = {
     eyebrow: "In Their Words",
     heading: "Homes people are glad they chose.",
     lead:
-      "What owners say once the keys are theirs — the paperwork, the possession date, the building they walk into every evening.",
+      "What owners say once the keys are theirs: the paperwork, the possession date, the building they walk into every evening.",
     items: [
       {
         quote:
@@ -513,7 +571,7 @@ export const home = {
       },
       {
         quote:
-          "We saw a few buildings before this one, but Nesting Tree felt right the moment we walked in. The build quality and the open spaces stood out, and the team kept us informed at every step. Booking, paperwork and possession all went smoothly, and today it simply feels like home.",
+          "We had seen a few buildings before this one, and most of them looked good only until you started asking the difficult questions. Nesting Tree was different from the very first visit — the build quality, the open space around the building, and a team that answered plainly instead of pushing us to decide that day. The booking, the agreement and the bank formalities were all handled without us having to chase anyone, and possession came exactly when they said it would. Today it is not a decision we think about any more; it is simply home.",
         name: "Vijay Pagare",
         detail: "Resident",
         photo: "/images/Testimonials/Vijay_Pagare.jpeg",
@@ -521,7 +579,7 @@ export const home = {
       },
       {
         quote:
-          "Buying my first flat felt like a big decision, and the Nesting Tree team made it easy. They were patient with my questions and clear about every stage, from the agreement to the handover. The flat is well built and airy, and I'm genuinely happy with the choice I made.",
+          "Buying my first flat was the biggest decision I had made, and I went into it knowing very little about the process. The team at Nesting Tree never once made me feel rushed — every question, however basic, got a straight answer, and I always knew which stage things were at, from the agreement to the loan to the handover. The flat itself is well built and full of light, with proper ventilation in every room, which is not something you find easily in this budget. It is the one big decision I have never second-guessed.",
         name: "Swapnil",
         detail: "Resident",
         photo: "/images/Testimonials/Swapnil.jpeg",
@@ -529,7 +587,7 @@ export const home = {
       },
       {
         quote:
-          "What I appreciated most was how straightforward everything was — clear pricing, honest answers, no running around. The building is solid and the surroundings are quiet and green. Moving in was effortless, and we've settled in comfortably.",
+          "What I appreciated most was how straightforward the whole thing was. The pricing was clear from the first meeting, the answers stayed honest even when they were not what I wanted to hear, and there was no running around behind documents or approvals at any point. The building itself is solid, the common areas are actually looked after, and the surroundings are quiet and green — you notice it most in the evenings. Moving in was effortless, and we have settled in far more comfortably than we expected to.",
         name: "Uttam",
         detail: "Resident",
         photo: "/images/Testimonials/Uttam.jpeg",
@@ -542,7 +600,7 @@ export const home = {
     eyebrow: "Enquire",
     heading: "Visit a home in person.",
     body:
-      "Book a site visit to an ongoing Nesting Tree residence — clear title, honest paperwork, and a building you can walk through before you decide.",
+      "Book a site visit to an ongoing Nesting Tree residence. Clear title, honest paperwork, and a building you can walk through before you decide.",
     image: "/images/projects/Prithvi-Elevation.jpg",
     imagePos: "center 10%",
   },

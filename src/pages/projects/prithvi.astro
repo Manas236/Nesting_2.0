@@ -4,6 +4,7 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import QrBlock from "../../components/QrBlock.astro";
 import ProjectGallery from "../../components/ProjectGallery.astro";
 import AreaStats from "../../components/AreaStats.astro";
+import BuildProgress from "../../components/BuildProgress.astro";
 import { brand, contact, features, projects } from "../../data/site";
 import {
   TBD,
@@ -13,6 +14,7 @@ import {
   overview,
   unitTypes,
   unitTypesNote,
+  buildProgress,
   floorPlans,
   levels,
   amenityGroups,
@@ -54,6 +56,7 @@ const check = `<path d="m5 12.5 4 4 10-10"/>`;
 const sections = [
   { label: "Overview", href: "#overview" },
   { label: "Units", href: "#units" },
+  { label: "Progress", href: "#progress" },
   { label: "Floor plans", href: "#floorplans" },
   { label: "Amenities", href: "#amenities" },
   { label: "Gallery", href: "#gallery" },
@@ -429,7 +432,7 @@ const pageDesc =
                 <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{u.blurb}</p>
 
                 {/* RERA carpet figures from the approved plan */}
-                <AreaStats stats={u.stats} class="mt-8 max-w-md" />
+                <AreaStats stats={u.stats} heading="Areas — approved plan" class="mt-9 max-w-md" />
 
                 {/* key features — hidden while empty rather than faked */}
                 {u.features.length > 0 && (
@@ -493,6 +496,14 @@ const pageDesc =
       }
     </div>
   </section>
+
+  <!-- ===================== CONSTRUCTION PROGRESS ===================== -->
+  <BuildProgress
+    steps={buildProgress}
+    heading="Two slabs down, six to go."
+    intro="The frame is going up: 2 of the 8 slabs are cast, with 6 more to reach G+7. Here is exactly where Prithvi stands on the way to your keys, with full readiness targeted for December 2027."
+    sectionClass="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20"
+  />
 
   <!-- ============================ FLOOR PLANS ============================ -->
   <section id="floorplans" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
@@ -605,7 +616,7 @@ const pageDesc =
           Prithvi holds the ground.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6 max-w-2xl">
-          Prithvi is the earth — the first element, the one everything else is built on. This
+          Prithvi is the earth, the first element, the one everything else is built on. This
           building reads the same way from the bottom up: a ground floor that belongs to the
           street, seven floors of homes standing on it, and one apartment that is not like the
           rest.
@@ -739,7 +750,7 @@ const pageDesc =
             </p>
             <p class="text-muted text-base leading-relaxed mt-3">
               The amenity schedule for Prithvi has not been supplied. Rather than borrow another
-              project's list, this block stays empty until the real one arrives — then it prints
+              project's list, this block stays empty until the real one arrives. Then it prints
               here grouped as Building, Lifestyle and Interiors, the same as every other project
               page.
             </p>
@@ -784,7 +795,7 @@ const pageDesc =
             Built by Nesting Tree.
           </h2>
           <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6 max-w-md">
-            Prithvi is one of Nesting Tree's residences in Karanjade — drawing on two decades of Navi Mumbai real estate.
+            Prithvi is one of Nesting Tree's residences in Karanjade, drawing on two decades of Navi Mumbai real estate.
           </p>
         </div>
 
@@ -850,7 +861,7 @@ const pageDesc =
   <ProjectGallery
     project="Prithvi"
     items={gallery}
-    lead="Real photographs from the Prithvi site — the corner-plot residence and its surroundings, shot on site during construction."
+    lead="Real photographs from the Prithvi site: the corner-plot residence and its surroundings, shot on site during construction."
   />
 
   <!-- ===================== QR CODE ===================== -->

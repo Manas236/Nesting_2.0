@@ -11,7 +11,7 @@ export const shikhar = {
   name: "Shikhar",
   status: "Ongoing",
   maharera: "PM1270002502760",
-  tagline: "A landmark residential tower — the tallest building in the neighbourhood.",
+  tagline: "A landmark residential tower, the tallest building in the neighbourhood.",
   address:
     "Plot no. 73, Sector R2, Karanjade, Panvel, 410206",
   hero: "/images/projects/ShikharElevationFinal.jpeg",
@@ -51,7 +51,7 @@ export const overview = {
     { figure: "8", label: "Commercial shops" },
   ],
   connectivity:
-    "Shikhar sits on a corner plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
+    "Shikhar sits on a corner plot in Karanjade, a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
 /* ---------- Unit types (3, each with a floor-plan render) ----------
@@ -89,7 +89,7 @@ export const unitTypes: UnitType[] = [
     series: "Series 1 · Modern apartment",
     plan: "/images/projects/shikhar/plan-1bhk.jpg",
     blurb:
-      "A separate bedroom for privacy, a dual-toilet layout and abundant natural light — the most popular choice at Shikhar.",
+      "A separate bedroom for privacy, a dual-toilet layout and abundant natural light. The most popular choice at Shikhar.",
     stats: [
       { label: "Carpet area", value: "29.03 – 29.78 sq. m. (312 – 320 sq. ft.)" },
       { label: "Enclosed balcony", value: "2.78 – 2.80 sq. m. (30 sq. ft.)" },
@@ -188,7 +188,7 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "tower",
         name: "G+10 — tallest in the neighbourhood",
-        desc: "The highest skyline address in Karanjade — presence nothing nearby can match.",
+        desc: "The highest skyline address in Karanjade, with presence nothing nearby can match.",
         featured: true,
       },
       {
@@ -215,7 +215,7 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "contract",
         name: "No tri-party agreement",
-        desc: "Buy directly from the plot owner — no third party in between.",
+        desc: "Buy directly from the plot owner. No third party in between.",
       },
     ],
   },
@@ -315,7 +315,7 @@ export const amenityStages: AmenityStage[] = [
     stage: "Built to last",
     category: "Foundation",
     icon: "waterproof",
-    blurb: "Before anything rises, the promises that protect it — backed in writing, bought straight from the owner.",
+    blurb: "Before anything rises, the promises that protect it: backed in writing, bought straight from the owner.",
     points: ["Water-proofing guarantee", "No tri-party agreement — buy direct"],
     at: { x: 10.3, y: 92.3 },
   },
@@ -339,7 +339,7 @@ export const amenityStages: AmenityStage[] = [
     stage: "Modern interiors",
     category: "Interiors",
     icon: "tiles",
-    blurb: "Branded finishes fitted as standard — the details you live with every day, done right.",
+    blurb: "Branded finishes fitted as standard, the details you live with every day, done right.",
     points: [
       "Branded vitrified tile flooring",
       "Branded bathroom fittings",
@@ -367,7 +367,7 @@ export const amenityStages: AmenityStage[] = [
     category: "Lifestyle",
     icon: "gym",
     featured: true,
-    blurb: "Room to move and unwind without leaving home — from the gym floor to your own deck.",
+    blurb: "Room to move and unwind without leaving home, from the gym floor to your own deck.",
     points: [
       "Fully equipped gymnasium",
       "Large decks in select apartments",
@@ -380,14 +380,15 @@ export const amenityStages: AmenityStage[] = [
     category: "The summit",
     icon: "rooftop",
     featured: true,
-    blurb: "An open rooftop made for evenings, festivals and the whole building — the peak of Shikhar.",
+    blurb: "An open rooftop made for evenings, festivals and the whole building: the peak of Shikhar.",
     points: ["Rooftop amenities for gatherings"],
     at: { x: 33.6, y: 18.9 },
   },
 ];
 
 /* ---------- Construction / build progress ----------
-   Reflects the live status: structure complete, internals underway.
+   Reflects the live status: structure complete (all slabs cast, terrace
+   ready) and finishing works — tiling, plaster, paint — underway.
    `state` drives the stepper styling in the page.               */
 export const buildProgress: {
   phase: string;
@@ -396,21 +397,21 @@ export const buildProgress: {
 }[] = [
   {
     phase: "Foundation",
-    detail: "Excavation and foundation cast — set on a corner plot.",
+    detail: "Excavation and foundation cast, set on a corner plot.",
     state: "done",
   },
   {
     phase: "RCC structure",
-    detail: "The full G+10 frame is complete — already the tallest nearby.",
+    detail: "The full G+10 frame is complete: every slab cast, terrace ready.",
     state: "done",
   },
   {
-    phase: "Internal work",
-    detail: "Plastering, plumbing and electrical in full swing across floors.",
+    phase: "Finishing works",
+    detail: "Tiling, plaster and paint in full swing across the floors.",
     state: "current",
   },
   {
-    phase: "Finishing",
+    phase: "Fittings & fit-out",
     detail: "Branded flooring, fittings and final finishes.",
     state: "upcoming",
   },

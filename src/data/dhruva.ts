@@ -15,7 +15,7 @@ export const dhruva = {
   status: "Completed",
   maharera: "P52000033930",
   tagline:
-    "A completed, sold-out corner-plot building — 24 homes and 6 shops, delivered and handed over.",
+    "A completed, sold-out corner-plot building: 24 homes and 6 shops, delivered and handed over.",
   address:
     "Plot no. 104, Sector R3, Karanjade, Panvel, 410206",
   hero: "/images/projects/Dhruva-Elevation_image.jpg",
@@ -72,7 +72,7 @@ export const overview = {
     "Multi-purpose room & fitness centre",
   ],
   connectivity:
-    "Dhruva sits on a corner plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
+    "Dhruva sits on a corner plot in Karanjade, a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
 /* ---------- Floor plans (2, alternating image / detail rows) ---------- */
@@ -231,7 +231,7 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "tower",
         name: "G+4 R+C on a 500 sq. m. corner plot",
-        desc: "A mixed-use G+4 building on a large corner plot — homes above, shops at street level.",
+        desc: "A mixed-use G+4 building on a large corner plot, with homes above and shops at street level.",
         featured: true,
       },
       {
@@ -246,7 +246,7 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "stairs",
         name: "Wide staircase & wide corridors",
-        desc: "Green-marble stairs with steel railings rise beside broad, tiled corridors — generous, light-filled circulation that makes every floor easy to reach and airy to move through.",
+        desc: "Green-marble stairs with steel railings rise beside broad, tiled corridors. Generous, light-filled circulation that makes every floor easy to reach and airy to move through.",
         featured: true,
         images: [
           "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg",
@@ -361,7 +361,7 @@ export const skyWaypoints: SkyWaypoint[] = [
     label: "Street level",
     icon: "corner",
     title: "A corner that everything passes",
-    sub: "Six road-facing shops and a premium lobby open onto twin frontage — the busiest edge of the plot, by design.",
+    sub: "Six road-facing shops and a premium lobby open onto twin frontage, the busiest edge of the plot, by design.",
     points: [
       "Six road-facing commercial shops",
       "Twin road frontage on a corner plot",
@@ -400,7 +400,7 @@ export const skyWaypoints: SkyWaypoint[] = [
     icon: "rooftop",
     badge: "Signature",
     title: "The still point",
-    sub: "The open rooftop, the multi-purpose room and the fitness centre — the calm centre the rest of the day turns around.",
+    sub: "The open rooftop, the multi-purpose room and the fitness centre: the calm centre the rest of the day turns around.",
     points: [
       "Open rooftop community sit-out",
       "Multi-purpose room on the ground floor",
@@ -412,7 +412,7 @@ export const skyWaypoints: SkyWaypoint[] = [
     label: "Inside the homes",
     icon: "tiles",
     title: "Fitted, not finished later",
-    sub: "Branded tiles and fittings, sound-proofing windows and a bathroom loft — in place before you get the keys, not after.",
+    sub: "Branded tiles and fittings, sound-proofing windows and a bathroom loft, all in place before you get the keys, not after.",
     points: [
       "Sound-proofing UPVC windows",
       "Branded vitrified tile flooring",
@@ -437,7 +437,7 @@ export const skyWaypoints: SkyWaypoint[] = [
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019 — with two decades of real estate lineage behind it, since 2004.",
+    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
   },
   {
     label: "Built for Karanjade",
@@ -469,7 +469,7 @@ export const whyDhruva: { title: string; body: string }[] = [
   },
   {
     title: "MahaRERA registered",
-    body: "Registered under MahaRERA P52000033930 — clean title, watertight paperwork.",
+    body: "Registered under MahaRERA P52000033930. Clean title, watertight paperwork.",
   },
   {
     title: "Branded residences",

@@ -14,7 +14,7 @@ export const rudra = {
   status: "Completed",
   maharera: "P52000026245",
   tagline:
-    "Nesting Tree's first delivered project — a completed, sold-out G+4 building with 20 homes and 4 shops.",
+    "Nesting Tree's first delivered project: a completed, sold-out G+4 building with 20 homes and 4 shops.",
   address:
     "Plot no. 166, Sector R2, Karanjade, Panvel, 410206",
   hero: "/images/projects/Rudra.jpg",
@@ -43,7 +43,7 @@ export const heroStats = [
 /* ---------- Overview ---------- */
 export const overview = {
   intro:
-    "A G+4 structure of 20 residential homes and 4 commercial shops at Sector R2, Karanjade — Nesting Tree's earliest project, now delivered, fully sold and society-formed.",
+    "A G+4 structure of 20 residential homes and 4 commercial shops at Sector R2, Karanjade. Nesting Tree's earliest project, now delivered, fully sold and society-formed.",
   facts: [
     { label: "Status", value: "Completed & delivered" },
     { label: "Structure", value: "G+4 storeys" },
@@ -72,7 +72,7 @@ export const overview = {
     "Electric back-up",
   ],
   connectivity:
-    "Rudra sits on a road-facing plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
+    "Rudra sits on a road-facing plot in Karanjade, a fast-growing residential pocket of Navi Mumbai with strong connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
 /* ---------- Floor plans (2, alternating image / detail rows) ---------- */
@@ -117,66 +117,162 @@ export const floorPlans: FloorPlan[] = [
   },
 ];
 
-/* ---------- Home configurations (5 unit renders, gallery grid) ----------
-   `span` controls the editorial sizing on the lg 6-col grid.            */
-export type HomeConfig = {
-  name: string;
-  size: string;
-  img: string;
-  span: string;
+/* ---------- Unit types (5, each with a layout render) ----------
+   Same shape as every other project page: the page maps this array
+   into alternating render / detail rows, not a card grid.
+
+   Five layouts, one of each on every upper floor, four upper floors
+   = the 20 homes in the area statement.
+
+   NO `stats` AND NO `rooms` ON THESE ROWS, DELIBERATELY. Both exist
+   on the approved plan but only per UNIT NUMBER, and the drawing
+   never says which 1RK render is which unit — see the note on
+   `carpetSchedule` below. The per-unit room schedule read off the
+   fourth-floor drawing is recorded there so nobody has to redo it;
+   attach it here once the owner confirms the pairing.            */
+export type UnitType = {
+  type: string;
+  units: string;
+  series: string;
+  plan: string;
+  blurb: string;
+  features: string[];
   featured?: boolean;
 };
 
-export const homeConfigs: HomeConfig[] = [
+export const unitTypes: UnitType[] = [
   {
-    name: "Grand 1 BHK",
-    size: "560 sq. ft.",
-    img: "/images/projects/rudra/unit-1bhk-560.jpg",
-    span: "lg:col-span-3",
+    type: "Grand 1 BHK",
+    units: "560 sq. ft.",
+    series: "4 homes · one on every floor",
+    plan: "/images/projects/rudra/unit-1bhk-560.jpg",
+    blurb:
+      "The one home on each floor with a separate bedroom. The living room and the bedroom each open onto their own enclosed balcony, the kitchen runs along the window wall, and the bath and WC are kept as two separate rooms off the passage.",
+    features: [
+      "Separate bedroom",
+      "Two enclosed balconies",
+      "Separate bath and WC",
+      "Kitchen on the window wall",
+      "Living opens to the balcony",
+      "Units 101 / 201 / 301 / 401",
+    ],
     featured: true,
   },
   {
-    name: "Large 1 RK",
-    size: "450 sq. ft.",
-    img: "/images/projects/rudra/unit-1rk-450.jpg",
-    span: "lg:col-span-3",
+    type: "Large 1 RK",
+    units: "450 sq. ft.",
+    series: "4 homes · one on every floor",
+    plan: "/images/projects/rudra/unit-1rk-450.jpg",
+    blurb:
+      "The largest of the four 1RK layouts, a single living space wide enough to hold a full sitting area and a dining spot, with the kitchen set apart in its own bay and a second enclosed balcony beside it.",
+    features: [
+      "Widest 1RK living space",
+      "Kitchen in its own bay",
+      "Two enclosed balconies",
+      "Attached bathroom",
+      "Sitting and dining zones",
+      "Largest of the 1RK plans",
+    ],
   },
   {
-    name: "Spacious 1 RK",
-    size: "440 sq. ft.",
-    img: "/images/projects/rudra/unit-1rk-440.jpg",
-    span: "lg:col-span-2",
+    type: "Spacious 1 RK",
+    units: "440 sq. ft.",
+    series: "4 homes · one on every floor",
+    plan: "/images/projects/rudra/unit-1rk-440.jpg",
+    blurb:
+      "A near-square plan that keeps the kitchen on the far wall and the living area by the balcony, so the two never cross. The bathroom sits off the middle of the home rather than at the end of a passage.",
+    features: [
+      "Kitchen on the far wall",
+      "Living beside the balcony",
+      "Full-width enclosed balcony",
+      "Attached bathroom",
+      "Square plan, easy to furnish",
+      "Bathroom off the middle",
+    ],
   },
   {
-    name: "Spacious 1 RK",
-    size: "425 sq. ft.",
-    img: "/images/projects/rudra/unit-1rk-425.jpg",
-    span: "lg:col-span-2",
+    type: "Spacious 1 RK",
+    units: "425 sq. ft.",
+    series: "4 homes · one on every floor",
+    plan: "/images/projects/rudra/unit-1rk-425.jpg",
+    blurb:
+      "The same rooms in a slightly tighter footprint. Living at the front by the balcony, kitchen and bathroom pushed to the back. The split keeps the sitting area clear of the working end of the home.",
+    features: [
+      "Living front, kitchen back",
+      "Enclosed balcony off the living",
+      "Second balcony at the kitchen",
+      "Attached bathroom",
+      "Entry clear of the sitting area",
+      "Same rooms, tighter footprint",
+    ],
   },
   {
-    name: "Value 1 RK",
-    size: "340 sq. ft.",
-    img: "/images/projects/rudra/unit-1rk-340.jpg",
-    span: "lg:col-span-2",
+    type: "Value 1 RK",
+    units: "340 sq. ft.",
+    series: "4 homes · one on every floor",
+    plan: "/images/projects/rudra/unit-1rk-340.jpg",
+    blurb:
+      "The most efficient home in the building. Everything sits off one room: sofa and television on one side, the kitchen counter on the other, the balcony straight ahead and the bathroom to the side.",
+    features: [
+      "The most efficient layout",
+      "Defined zones in one room",
+      "Enclosed balcony off the living",
+      "Kitchen counter on one wall",
+      "Attached bathroom",
+      "Smallest of the five layouts",
+    ],
   },
 ];
 
 /* ---------- Carpet schedule — the approved plan's figures ----------
-   Rendered as the <AreaStats/> strip under the home-configurations
-   grid. Straight from the floor-wise carpet-area table on the
-   CIDCO-approved plan (CIDCO/BP-16651/TPO(NM)/2019, scrutinised
-   13 May 2019): 5 homes on each of floors 1–4 = the 20 residential
-   units in the area statement, plus 4 shops on the ground floor.
+   Rendered as the one shared <AreaStats/> strip that closes the
+   home-configurations section. Straight from the floor-wise
+   carpet-area table on the CIDCO-approved plan
+   (CIDCO/BP-16651/TPO(NM)/2019, scrutinised 13 May 2019): 5 homes on
+   each of floors 1–4 = the 20 residential units in the area
+   statement, plus 4 shops on the ground floor.
 
-   It is keyed by unit number, not by the five `homeConfigs` above,
+   It is keyed by unit number, not by the five `unitTypes` above,
    deliberately. The drawing labels one BED per floor, so the single
    1BHK is unit x01; but it never says which of the four 1RK plans is
-   which marketed layout, so the 340 / 425 / 440 / 450 sq. ft. tiles
-   cannot be matched to unit numbers from this document.
+   which marketed layout, so the 340 / 425 / 440 / 450 sq. ft. rows
+   cannot be matched to unit numbers from this document. That is why
+   `unitTypes` carries no per-layout carpet figure and no per-layout
+   room table — the strip below covers the whole floor at once.
 
    Floors 1–3 are identical. The fourth floor differs on two units:
    403 is 16.88 (not 17.83) and 405 is 14.07 with no balcony (not
-   16.65 + 1.65), because the top floor sets back for the terrace. */
+   16.65 + 1.65), because the top floor sets back for the terrace.
+
+   ROOM SCHEDULE, read off the fourth-floor drawing (metres), kept
+   here so the extraction does not have to be redone. Attach these to
+   `unitTypes` as a `rooms` field — the way Shikhar and Shaurya do —
+   once the owner says which render is which unit:
+
+     401  1BHK  living 2.75×4.50 · bed 2.80×2.90 · kitchen 2.00×1.80
+                bath 1.20×1.35 · WC 0.90×1.35 · E.D 1.25×0.90
+                enc. balconies 2.90×1.10 and 3.05×1.15
+     402  1RK   living 2.75×3.40 · kitchen 2.60×2.05 · bath 1.64×1.20
+                WC 1.20×0.90 · enc. balcony 2.90×1.10
+     403  1RK   living 3.79×3.00 · kitchen 1.89×1.79 · toilet 2.20×1.20
+                WC 1.20×0.90 · natural-light shaft 1.05×0.95
+     404  1RK   living 2.75×3.55 · kitchen 2.60×1.90 · bath 1.64×1.20
+                WC 1.20×0.90
+     405  1RK   living 2.75×3.55 · bath 1.20×1.55 · WC 0.90×1.38
+                natural-light shaft 1.95×2.60 · no kitchen labelled
+
+   Floors 1–3 differ slightly, per the 3D typical-floor render:
+   x01 living 2.75×4.30 and bed 2.80×2.50; x02 living 2.75×4.20;
+   x03 living 3.76×3.00; x04 and x05 living 2.75×3.65.
+
+   FLAG FOR THE OWNER: these room figures do not reconcile with the
+   carpet figures below. Unit 401's rooms alone sum to ~26.4 sq. m.
+   against a recorded carpet of 20.96, and 402's to ~19.8 against
+   13.25 — carpet should be the larger number, since it also takes in
+   the internal passage. Either the carpet table was read from an
+   earlier revision of the plan or the rows are mis-assigned. Worth
+   re-checking against the approved drawing before these figures are
+   relied on. */
 export const carpetSchedule: { label: string; value: string }[] = [
   { label: "1BHK — 101 / 201 / 301 / 401", value: "20.96 sq. m. (226 sq. ft.)" },
   { label: "1RK — 102 / 202 / 302 / 402", value: "13.25 sq. m. (143 sq. ft.)" },
@@ -188,7 +284,7 @@ export const carpetSchedule: { label: string; value: string }[] = [
 
 /* Source line printed under the carpet schedule.
 
-   NOTE FOR LATER: the `size` figures on `homeConfigs` above, and the
+   NOTE FOR LATER: the `units` figures on `unitTypes` above, and the
    "340–560" line in `overview.spaceMix`, are not carpet areas — the
    approved plan tops out at 20.96 sq. m. = 226 sq. ft. of carpet, or
    27.60 sq. m. = 297 sq. ft. carpet-plus-balcony, for the largest
@@ -221,7 +317,7 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "tower",
         name: "G+4 residential + commercial",
-        desc: "A mixed-use G+4 building — homes above, shops and parking at street level.",
+        desc: "A mixed-use G+4 building, with homes above and shops and parking at street level.",
         featured: true,
       },
       {
@@ -317,7 +413,7 @@ export const amenityGroups: AmenityGroup[] = [
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019 — with two decades of real estate lineage behind it, since 2004.",
+    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
   },
   {
     label: "Built for Karanjade",
@@ -325,7 +421,7 @@ export const developerNotes: { label: string; body: string }[] = [
   },
   {
     label: "The first delivered project",
-    body: "Rudra is Nesting Tree's first delivered project — a G+4 residential + commercial building at Sector R2, Karanjade.",
+    body: "Rudra is Nesting Tree's first delivered project: a G+4 residential + commercial building at Sector R2, Karanjade.",
   },
   {
     label: "A proven portfolio",
@@ -349,7 +445,7 @@ export const whyRudra: { title: string; body: string }[] = [
   },
   {
     title: "MahaRERA registered",
-    body: "Registered under MahaRERA P52000026245 — clean title, watertight paperwork.",
+    body: "Registered under MahaRERA P52000026245. Clean title, watertight paperwork.",
   },
   {
     title: "Where Nesting Tree began",

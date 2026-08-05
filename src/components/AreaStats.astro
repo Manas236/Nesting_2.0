@@ -1,41 +1,114 @@
 ---
-/* Carpet-area stat strip for the flat-types section of a project page.
+/* Carpet-area stat grid for the flat-types section of a project page.
 
    Figures are the RERA carpet areas printed on that project's
    approved building plan, held in src/data/<project>.ts as a
    `stats: { label, value }[]` field on each unit type:
 
-     <AreaStats stats={u.stats} class="mt-8" />
+     <AreaStats stats={u.stats} heading="Areas — approved plan" class="mt-9 max-w-md" />
 
-   Designed to sit on a bg-card ground — the tiles are bg-stone.
+   LAYOUT: label stacked ABOVE the figure, two cells per row. The label
+   is a quiet small-caps line; the figure below it is the only loud thing
+   in the cell. Nothing shares a baseline with anything else, so long
+   values ("23.98 – 34.12 sq. m.") can't crowd their own label the way
+   they did when these were label-left / value-right rows.
+
+   The "X sq. m. (Y sq. ft.)" strings are taken apart at render time into
+   three pieces — figure, unit, and the demoted restatement — so the big
+   type carries the number alone and the unit stays out of its way.
+   Values with no parenthetical ("26 of 27") drop the third line; values
+   with no digit at all ("None recorded") render small and muted, since
+   they record an absence rather than a measurement. Nothing in src/data
+   needs reformatting.
+
+   Two columns at every width: the square-foot figures that now lead are
+   short enough ("258 – 367") to sit in a half-width cell on a phone.
+   Going metric-first again would need `grid-cols-1 sm:grid-cols-2` back,
+   since "23.98 – 34.12" breaks mid-figure at that size.
 
    KILL SWITCH: set `features.areaStats = false` in src/data/site.ts
-   and every strip on every project page stops rendering, along with
+   and every grid on every project page stops rendering, along with
    the source line underneath it (guarded by the same flag at each
    call site). Nothing needs deleting — flip it back to restore. */
 import { features } from "../data/site";
 
 interface Props {
   stats: { label: string; value: string }[];
+  /** Small-caps eyebrow above the grid. Omit for an unlabelled grid. */
+  heading?: string;
   /** Spacing and width at the call site — no max-width is set here,
-      so each caller passes its own (e.g. "mt-8 max-w-md"). */
+      so each caller passes its own (e.g. "mt-9 max-w-md"). */
   class?: string;
 }
 
-const { stats, class: extra = "" } = Astro.props;
+const { stats, heading, class: extra = "" } = Astro.props;
+
+/* SQ. FT. LEADS. Buyers here price and compare flats in square feet, so
+   the parenthetical is promoted to the big figure and the metric goes
+   quiet underneath. The sq. m. figure is never dropped — it is the one
+   actually printed on the approved plan, so it has to stay on the page.
+
+   "23.98 – 34.12 sq. m. (258 – 367 sq. ft.)"
+      -> 258 – 367 / sq. ft. / 23.98 – 34.12 sq. m.
+   "2.60 sq. m. (28 sq. ft.) — series 5 only"
+      -> 28 / sq. ft. / 2.60 sq. m. — series 5 only
+   "20.96 sq. m."  -> stays metric-first; nothing to promote
+   "26 of 27"      -> 26 of 27, no unit, no third line
+   "None recorded" -> muted, no big type                        */
+const rows = stats.map((s) => {
+  const paren = s.value.match(/^([^(]+?)\s*\(([^)]*)\)\s*(.*)$/);
+  /* lead on the bracketed figure when there is one, and demote the
+     metric — plus any trailing qualifier — to the line beneath */
+  const lead = paren ? paren[2] : s.value;
+  const under = paren ? [paren[1], paren[3]].filter(Boolean).join(" ") : "";
+  const unit = lead.match(/^(.*?)\s*(sq\.?\s?(?:m|mt|ft)\.?)$/i);
+  return {
+    label: s.label,
+    figure: unit ? unit[1] : lead,
+    unit: unit ? unit[2] : "",
+    footnote: under,
+    /* no digit anywhere = an absence, not a measurement */
+    isMeasure: /\d/.test(s.value),
+  };
+});
 ---
 
 {
   features.areaStats && (
-    <dl class:list={["flex flex-col gap-3", extra]}>
-      {stats.map((s) => (
-        <div class="flex items-baseline justify-between gap-4 bg-stone border border-line rounded-[3px] px-4 py-3">
-          <dt class="text-muted text-sm">{s.label}</dt>
-          <dd class="font-display font-bold tracking-tight text-ink text-sm text-right tabular-nums">
-            {s.value}
-          </dd>
-        </div>
-      ))}
-    </dl>
+    <div class:list={["border-t border-line", extra]}>
+      {heading && (
+        <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted pt-5 pb-4">
+          {heading}
+        </p>
+      )}
+      <dl class:list={["grid grid-cols-2 gap-3", !heading && "pt-5"]}>
+        {rows.map((r) => (
+          <div class="bg-stone border border-line rounded-[3px] px-4 py-3.5">
+            <dt class="font-display text-[11px] font-bold uppercase tracking-[0.12em] text-muted leading-snug">
+              {r.label}
+            </dt>
+            <dd class="mt-2">
+              {r.isMeasure ? (
+                <>
+                  <span class="font-display font-bold tracking-tight text-ink text-lg sm:text-xl tabular-nums">
+                    {r.figure}
+                  </span>
+                  {r.unit && (
+                    <span class="font-display text-muted text-sm ml-1.5">{r.unit}</span>
+                  )}
+                </>
+              ) : (
+                <span class="text-mutedlight text-base">{r.figure}</span>
+              )}
+              {r.footnote && (
+                <span class="block text-mutedlight text-sm tabular-nums mt-1">
+                  {r.footnote}
+                </span>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
   )
 }

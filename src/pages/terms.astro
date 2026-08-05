@@ -2,22 +2,45 @@
 /* ============================================================
    Terms of Use
    ------------------------------------------------------------
-   Covers use of the website itself. The most important clause for
-   a developer's site is §3: renders, plans, dimensions and figures
-   on this site are indicative and are NOT an offer or a contract —
-   the agreement for sale governs. Do not soften that section.
+   Covers use of the website itself, drafted defensively for a
+   marketing-only site run by a residential developer.
+
+   THE LOAD-BEARING CLAUSES — do not soften any of these:
+     §3  everything shown is indicative, and nothing here is an
+         offer or a contract
+     §4  the registered Agreement for Sale and the sanctioned
+         plans prevail over this website, always
+     §6  no money is ever collected through this site, and we
+         disclaim payments made to anyone we have not named
+     §7  only named, authorised staff bind the company — not
+         brokers, portals or social accounts
+     §15 limitation of liability
+
+   §15 DELIBERATELY CARVES OUT liability that Indian law does not
+   allow anyone to contract out of — in particular a promoter's
+   liability under the Real Estate (Regulation and Development)
+   Act, 2016 (ss. 12 and 18) for false or misleading information
+   in an advertisement or prospectus, and liability under the
+   Consumer Protection Act, 2019 for a misleading advertisement.
+   That carve-out is not optional and must not be deleted: no
+   disclaimer on a website can override those sections, and a
+   clause that pretends otherwise weakens the rest of the page.
+   The real protection is accuracy — keep every figure, render
+   and claim on this site true and verifiable.
 
    IMPORTANT: this was drafted to be accurate to what the site
    actually does — it is not legal advice and has not been
    reviewed by a lawyer. Have it checked before relying on it.
-   The registered office address and CIN, if you want them shown,
-   still need filling in.
+
+   STILL TO FILL IN (both optional, both worth adding):
+     - registered office address and CIN, if you want them shown
+     - the name of the authorised signatory in §7
    ============================================================ */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { brand, contact } from "../data/site";
 
-const lastUpdated = "28 July 2026";
+const lastUpdated = "3 August 2026";
 ---
 
 <BaseLayout
@@ -46,109 +69,353 @@ const lastUpdated = "28 July 2026";
     <section class="py-16 lg:py-24">
       <div class="max-w-[900px] mx-auto px-5 sm:px-6 lg:px-12 legal">
         <p class="lead">
-          These terms govern your use of <strong>nestingtree.in</strong>. By browsing the site or
-          submitting an enquiry, you accept them. If you do not agree with them, please do not use
-          the site.
+          These Terms of Use govern your access to and use of <strong>nestingtree.in</strong> and
+          every page, form and file on it (the "site"). The site is published by {brand.name} ("we",
+          "us", "our"). By browsing the site, or by submitting an enquiry through it, you accept
+          these terms in full. If you do not accept them, please stop using the site.
         </p>
 
-        <h2>1. About this site</h2>
+        <div class="callout">
+          <p>
+            <strong>The short version.</strong> This site is marketing material, not a contract.
+            Everything shown on it — renders, plans, areas, amenities, timelines — is indicative and
+            may change. No home is offered, reserved or sold here. Nothing is ever paid here. Before
+            you commit money to anything, verify it against the sanctioned plans, the RERA
+            disclosures for that specific project and your registered Agreement for Sale.
+          </p>
+        </div>
+
+        <h2>1. Who publishes this site, and who may use it</h2>
         <p>
           This website is published by {brand.name}, a residential developer operating in {
             brand.region
           }. It exists to describe our residences and to let you enquire about them.
         </p>
-
-        <h2>2. Enquiries</h2>
         <p>
-          When you submit an enquiry you confirm the details you have given are your own and are
-          accurate, and you consent to us contacting you about the residence you asked about. How we
-          handle those details is set out in our{" "}
-          <a href="/privacy">Privacy Policy</a>. Submitting an enquiry creates no obligation on
-          either side — it does not reserve, book or allot a home.
+          By using the site you confirm that you are at least 18 years old and competent to contract
+          under the Indian Contract Act, 1872, and that if you are using the site for a company,
+          firm or other body, you are authorised to accept these terms for it. This site is not
+          intended for children, and the enquiry forms must not be used by anyone under 18.
+        </p>
+
+        <h2>2. What this site is — and what it is not</h2>
+        <p>
+          The site is an informational and promotional publication about our projects. It is not a
+          sales platform, a booking system or a payment channel.
+        </p>
+        <p>
+          Nothing on this site — no page, image, plan, figure, statement, caption or communication
+          generated from it — constitutes an offer, an invitation to offer, a proposal within the
+          meaning of the Indian Contract Act, 1872, a prospectus, a warranty, a reservation, an
+          allotment, or a contract of any kind. No legal relationship of buyer and seller is created
+          by your use of this site.
         </p>
 
         <h2>3. Project information is indicative</h2>
-        <p>
-          This is the most important thing on this page, so it is stated plainly:
-        </p>
+        <p>This is the most important thing on this page, so it is stated plainly:</p>
         <ul>
           <li>
-            Elevations, renders, walkthroughs and interior images are <strong>artistic
-            impressions</strong>, not photographs of a finished building, unless expressly captioned
-            as site photography.
+            Elevations, renders, walkthroughs, 3D views and interior images are <strong
+              >artistic impressions</strong
+            >, not photographs of a finished building, unless expressly captioned as site
+            photography. Furniture, fittings, appliances, décor, landscaping, vehicles, people and
+            surroundings shown in them are for illustration only and do not form part of any home.
           </li>
           <li>
-            Floor plans, layouts, dimensions, carpet areas and unit counts are{" "}
-            <strong>indicative and not to scale</strong>, and may change during construction or on
-            the direction of the sanctioning authority.
+            Floor plans, layouts, dimensions, carpet areas, built-up areas, unit counts, unit
+            numbering and floor numbering are <strong>indicative and not to scale</strong>, and may
+            change during design, construction or on the direction of the sanctioning authority.
           </li>
           <li>
-            Specifications, amenities, finishes and possession timelines are our current intent and
-            may be varied.
+            Specifications, amenities, finishes, fixtures, brands and materials are our current
+            intent and may be substituted with items of similar or better quality.
           </li>
           <li>
-            Nothing on this site is an offer, an invitation to offer, or a contract of any kind.
+            Possession dates, completion timelines and construction-progress descriptions are
+            estimates based on current expectations. They are not commitments and are not a
+            guarantee of any date.
+          </li>
+          <li>
+            Location descriptions, maps, distances, travel times, neighbourhood and infrastructure
+            references are approximate, drawn from publicly available sources, and may change. They
+            are not a representation about any third-party development, road, station or facility,
+            existing or proposed.
+          </li>
+          <li>
+            Some photographs on this site are licensed stock images used to illustrate a mood or an
+            idea. They are captioned as such, they do not show our buildings or our residents, and
+            they must not be read as a depiction of any project.
           </li>
         </ul>
+
+        <h2>4. What actually governs a purchase</h2>
         <p>
-          The sale of any home is governed solely by the registered Agreement for Sale and the
-          approved plans and sanctions applicable to that project. Where those documents and this
-          website differ, <strong>those documents prevail</strong>. Please verify all details with
-          our sales team before making a purchase decision or any payment.
+          The sale of any home is governed solely by the registered Agreement for Sale executed
+          between you and us, the allotment letter, the plans and approvals sanctioned by the
+          competent authority for that project, and the disclosures registered for that project with
+          the real-estate regulator.
+        </p>
+        <p>
+          Where those documents and this website differ, <strong>those documents prevail
+          absolutely</strong>. You agree that you will not rely on this website, or on any brochure,
+          render, figure, advertisement, verbal statement or social-media post, as the basis for any
+          purchase decision or any payment, and that you will satisfy yourself independently — by
+          inspecting the sanctioned plans, the title documents, the approvals and the registered
+          disclosures, and by taking your own legal and financial advice — before committing to
+          anything.
         </p>
 
-        <h2>4. Regulatory status</h2>
+        <h2>5. Regulatory status</h2>
         <p>
           Not every project shown here is registered under MahaRERA. Where a project is registered,
           its registration number is shown on that project's own page; where it is not, the
           approvals it does hold are stated instead. Please check the status of the specific project
-          you are interested in, and verify it on the MahaRERA portal, rather than assuming it from
-          any other project on this site.
+          you are interested in and verify it yourself on the MahaRERA portal, rather than assuming
+          it from any other project on this site. A project that has not been registered is not
+          being offered for sale, and no booking, payment or allotment may be made in respect of it.
         </p>
 
-        <h2>5. Intellectual property</h2>
+        <h2>6. No prices, no payments, and a fraud warning</h2>
         <p>
-          The {brand.name} name and logo, and the text, renders, plans, photographs and design of
-          this site, belong to us or are used with permission. You may view and print pages for your
-          own reference in considering a purchase. You may not copy, republish or use them
-          commercially without our written permission.
+          We do not quote prices, accept bookings, or collect any money through this website. There
+          is no payment gateway on this site and there never will be one without it being obvious.
         </p>
-
-        <h2>6. Acceptable use</h2>
+        <div class="callout">
+          <p>
+            <strong>Never transfer money on the strength of this website, an email, a WhatsApp
+            message, a QR code or a phone call alone.</strong> Every payment to us is made only to
+            the bank account named in your registered Agreement for Sale or in a written demand
+            issued on our letterhead, and only after you have independently confirmed the account
+            details with our office on{" "}
+            <a href={`tel:${contact.phone.replace(/\s/g, "")}`}>{contact.phone}</a>. We will never
+            ask you to pay into a personal account, an account in a different name, or an account
+            communicated only by message.
+          </p>
+        </div>
         <p>
-          Please do not attempt to disrupt or gain unauthorised access to this site or the systems
-          behind it, submit false enquiries or another person's details, or use the site to send
-          unlawful or abusive content.
+          We accept no responsibility or liability for any payment you make to any person or account
+          we have not named to you in writing, or for any loss arising from a fraudulent,
+          impersonating or "look-alike" website, listing, advertisement, social-media page, email
+          address or phone number that is not ours. If anything looks doubtful, contact us before
+          you pay, not after.
         </p>
 
-        <h2>7. Third-party links</h2>
+        <h2>7. Who can speak for us</h2>
         <p>
-          Some pages link to third-party services such as Google Maps. We do not control those
-          services and are not responsible for their content or their privacy practices.
+          Only our authorised personnel, communicating in writing from our official email domain or
+          on our letterhead, can make a representation that binds us. We are not bound by, and
+          accept no liability for, anything said or promised by a channel partner, broker, agent,
+          property portal, aggregator, listing site, contractor, consultant, or any person holding
+          themselves out as connected with us, unless we have confirmed it in writing.
         </p>
-
-        <h2>8. Availability and liability</h2>
         <p>
-          We try to keep this site accurate and available, but we do not guarantee it will be
-          uninterrupted or error-free. To the extent permitted by law, we are not liable for indirect
-          or consequential loss arising from your use of this site or from reliance on information
-          published on it. Nothing here limits any liability that cannot lawfully be limited,
-          including our obligations to allottees under applicable real-estate law.
+          Listings of our projects on third-party property portals are not published or verified by
+          us, and the prices, areas, availability, images and possession dates shown on them may be
+          wrong. Treat only this site and our written communications as ours.
         </p>
 
-        <h2>9. Changes</h2>
+        <h2>8. No professional advice, and no assurance of returns</h2>
         <p>
-          We may update these terms or the content of the site at any time. The date at the top of
-          this page shows when these terms were last changed.
+          Nothing on this site is legal, financial, tax, investment or valuation advice, and it must
+          not be relied on as such. We make no representation and give no assurance about the future
+          value, price appreciation, rental yield, resale prospects or investment performance of any
+          home or of real estate generally. Any decision you take is your own, and you should take
+          independent professional advice before taking it.
         </p>
 
-        <h2>10. Governing law</h2>
+        <h2>9. Testimonials, reviews and third-party content</h2>
         <p>
-          These terms are governed by the laws of India. The courts at Panvel, Navi Mumbai,
-          Maharashtra have exclusive jurisdiction over any dispute arising from them.
+          Testimonials on this site are the personal experiences and opinions of the individuals
+          named, published with their permission. They are not a representation by us, they are not
+          typical or guaranteed, and they are not a promise that anyone else will have the same
+          experience. Third-party content, quotations and publicly sourced information reproduced on
+          this site remain the responsibility of their source.
         </p>
 
-        <h2>11. Contact</h2>
+        <h2>10. Enquiries</h2>
+        <p>
+          When you submit an enquiry you confirm that the details you have given are your own, are
+          accurate and are complete, and that you are entitled to share them. You consent to us and
+          our authorised representatives contacting you by phone, SMS, email or messaging
+          application about the residence you asked about and about our projects generally,
+          including where your number is registered on the National Do Not Call registry or any
+          equivalent preference list — this consent overrides that registration for the purposes of
+          our reply, and you may withdraw it at any time by writing to{" "}
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+        </p>
+        <p>
+          How we handle those details is set out in our <a href="/privacy">Privacy Policy</a>.
+          Submitting an enquiry creates no obligation on either side. It does not reserve, book,
+          hold, block or allot a home, it does not entitle you to any price, unit or availability,
+          and we may decline to respond to any enquiry without giving a reason. We are not liable
+          for an enquiry that fails to reach us, or for a delay in responding to one.
+        </p>
+
+        <h2>11. Intellectual property</h2>
+        <p>
+          The {brand.name} name, logo and marks, and all text, renders, drawings, plans,
+          photographs, video, layout, design, code and compilation on this site, are owned by us or
+          used under licence, and are protected by the Copyright Act, 1957 and the Trade Marks Act,
+          1999. You may view pages and print or download extracts for your own personal, non-
+          commercial reference while considering a purchase, provided you keep all notices intact.
+        </p>
+        <p>
+          You may not otherwise copy, reproduce, republish, adapt, translate, distribute, sell,
+          frame, mirror or use any part of this site for commercial purposes, or use our name or
+          marks in any advertisement, listing or domain name, without our prior written permission.
+          Third-party names and marks appearing on the site belong to their respective owners.
+        </p>
+
+        <h2>12. Acceptable use</h2>
+        <p>You agree not to:</p>
+        <ul>
+          <li>
+            attempt to gain unauthorised access to the site, its server, its database or any system
+            or network connected to it, or to probe, scan or test their vulnerability;
+          </li>
+          <li>
+            introduce any virus, worm, trojan, malicious code or harmful material, or otherwise
+            interfere with, disrupt or overload the site or its infrastructure;
+          </li>
+          <li>
+            use any robot, spider, scraper, crawler or automated means to access, monitor, index or
+            copy the site or to harvest data from it, or to submit enquiries automatically or in
+            bulk;
+          </li>
+          <li>
+            submit false, misleading or fabricated enquiries, impersonate another person, or submit
+            anyone's contact details without their authority;
+          </li>
+          <li>
+            use the site to transmit anything unlawful, defamatory, obscene, abusive, infringing or
+            otherwise objectionable;
+          </li>
+          <li>
+            reverse engineer, decompile or attempt to derive the source code or structure of the
+            site, or remove or obscure any notice on it.
+          </li>
+        </ul>
+        <p>
+          Unauthorised access to or interference with a computer resource is an offence under the
+          Information Technology Act, 2000, and we reserve the right to report it and to pursue all
+          remedies available to us.
+        </p>
+
+        <h2>13. Third-party links and services</h2>
+        <p>
+          Some pages link to or load resources from third-party services, including Google Maps and
+          Google Fonts. Those services are not controlled by us. We are not responsible for their
+          content, availability, accuracy, security or privacy practices, and a link is not an
+          endorsement. Your use of a third-party service is governed by that provider's own terms
+          and privacy policy.
+        </p>
+
+        <h2>14. Availability, and the site as it stands</h2>
+        <p>
+          The site is provided on an "as is" and "as available" basis. We try to keep it accurate,
+          current and available, but to the extent permitted by law we give no warranty, express or
+          implied, that the site or any information on it is accurate, complete, current, reliable,
+          uninterrupted, timely, error-free, secure, or free of viruses or other harmful components,
+          or that any defect will be corrected. We may change, suspend, restrict or withdraw the
+          site, or any content or feature on it, at any time and without notice.
+        </p>
+
+        <h2>15. Limitation of liability</h2>
+        <p>
+          To the fullest extent permitted by law, neither we nor our directors, employees, agents,
+          consultants or service providers shall be liable for any loss or damage — whether in
+          contract, tort (including negligence), statute or otherwise — arising out of or connected
+          with your access to, use of, or inability to use this site, or your reliance on any
+          information published on it. This includes, without limitation, indirect, incidental,
+          special, punitive or consequential loss, and loss of profit, revenue, opportunity,
+          goodwill, business, anticipated saving or data, whether or not foreseeable and whether or
+          not we were advised of the possibility.
+        </p>
+        <p>
+          It also includes loss arising from: any inaccuracy, omission or change in the information
+          published here; any interruption, delay, defect, transmission error or unavailability of
+          the site; any virus or malicious code transmitted through the site or a linked service;
+          any unauthorised access to, or alteration of, data in transit; any act or omission of a
+          third party, including a broker, portal, hosting provider or linked service; and any
+          payment made to a person or account we have not named to you in writing.
+        </p>
+        <p>
+          Where liability cannot be excluded, our total aggregate liability to you for all claims
+          arising out of or connected with the site is limited to Rs. 1,000 (Rupees One Thousand),
+          this site being made available to you free of charge.
+        </p>
+        <div class="callout">
+          <p>
+            <strong>What this section does not do.</strong> Nothing in these terms excludes or
+            limits any liability that cannot lawfully be excluded or limited. In particular, nothing
+            here affects our obligations and liability as a promoter to an allottee under the Real
+            Estate (Regulation and Development) Act, 2016 and the rules and regulations made under
+            it, our liability under the Consumer Protection Act, 2019, our obligations under a
+            registered Agreement for Sale, or liability for fraud or for death or personal injury
+            caused by negligence.
+          </p>
+        </div>
+
+        <h2>16. Indemnity</h2>
+        <p>
+          You agree to indemnify and hold us harmless against any claim, demand, loss, liability,
+          cost or expense (including reasonable legal fees) arising out of your breach of these
+          terms, your misuse of the site, your infringement of any intellectual property or other
+          right, or any false, unauthorised or third-party details you submit through the site.
+        </p>
+
+        <h2>17. Events outside our control</h2>
+        <p>
+          We are not liable for any failure or delay in making the site available where it is caused
+          by something outside our reasonable control, including an act of God, flood, fire,
+          epidemic, war, civil unrest, strike, regulatory action, power failure, network or hosting
+          failure, or a cyber attack.
+        </p>
+
+        <h2>18. Suspension of access</h2>
+        <p>
+          We may restrict, suspend or terminate your access to the site at any time, without notice,
+          if we reasonably believe you have breached these terms. The sections that by their nature
+          should survive — including sections 11, 12, 15, 16, 21 and 22 — continue to apply
+          afterwards.
+        </p>
+
+        <h2>19. Changes</h2>
+        <p>
+          We may update these terms, and the content, projects and information on the site, at any
+          time and without notice. The date at the top of this page shows when these terms were last
+          changed, and your continued use of the site after a change means you accept the updated
+          terms. Please re-read this page from time to time.
+        </p>
+
+        <h2>20. Privacy</h2>
+        <p>
+          Our <a href="/privacy">Privacy Policy</a> explains what personal data we collect through
+          this site, why, and what rights you have over it. It forms part of these terms.
+        </p>
+
+        <h2>21. General</h2>
+        <p>
+          If any provision of these terms is found to be invalid or unenforceable, the rest continues
+          in force and the offending provision is to be read down to the minimum extent necessary.
+          A delay or failure by us in enforcing any provision is not a waiver of it. You may not
+          assign your rights under these terms; we may assign ours to a successor in our business.
+          These terms, together with the Privacy Policy, are the entire agreement between us in
+          relation to your use of the site, and supersede any earlier understanding about it. Nothing
+          in them creates a partnership, joint venture, agency or employment relationship. Headings
+          are for convenience only.
+        </p>
+
+        <h2>22. Governing law and jurisdiction</h2>
+        <p>
+          These terms, and any dispute or claim arising out of or in connection with them or with
+          your use of this site, are governed by the laws of India. The courts at Panvel, Navi
+          Mumbai, Maharashtra have exclusive jurisdiction, subject to any dispute-resolution
+          mechanism prescribed by the Real Estate (Regulation and Development) Act, 2016 or by any
+          other law that applies regardless of this clause.
+        </p>
+
+        <h2>23. Contact</h2>
         <p>
           {brand.name}<br />
           {contact.address}<br />
@@ -217,5 +484,19 @@ const lastUpdated = "28 July 2026";
   }
   .legal :global(a:hover) {
     color: #3f4a29;
+  }
+  /* Pulled-out warning box for the clauses that matter most to a buyer:
+     the "everything is indicative" summary, the payment-fraud warning,
+     and the statutory carve-out. Deliberately quiet — a tinted panel with
+     an olive rule, not a red alert. */
+  .legal :global(.callout) {
+    background: #f4f5ef;
+    border-left: 3px solid #5c6b3c;
+    border-radius: 2px;
+    padding: 1.15rem 1.35rem 0.35rem;
+    margin: 1.5rem 0 1.75rem;
+  }
+  .legal :global(.callout p:last-child) {
+    margin-bottom: 0.8rem;
   }
 </style>

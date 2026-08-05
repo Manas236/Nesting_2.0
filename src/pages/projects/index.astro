@@ -2,7 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
 
-import { brand, contact, projects, stats, amenities } from "../../data/site";
+import { brand, contact, projects, stats, amenities, pipeline } from "../../data/site";
 
 // Standalone route → absolute links; in-page anchors resolve to the home page.
 
@@ -37,7 +37,7 @@ const amenityIcons: Record<string, string> = {
 const portfolio = [
   {
     kicker: "Ongoing",
-    caption: "Under construction in Karanjade, Navi Mumbai — booking now or pre-launch.",
+    caption: "Under construction in Karanjade, Navi Mumbai: booking now or pre-launch.",
     items: projects.filter((p) => p.status === "Ongoing"),
   },
   {
@@ -98,7 +98,7 @@ const pageDesc =
         class="hero-rise text-white/70 text-base sm:text-lg lg:text-xl mt-7 max-w-2xl leading-relaxed"
         style="--rise-d:0.36s"
       >
-        Ongoing and delivered residences in Karanjade, Navi Mumbai — each built to the same
+        Ongoing and delivered residences in Karanjade, Navi Mumbai, each built to the same
         amenity-first standard. Pick one to walk through it in detail.
       </p>
 
@@ -217,6 +217,82 @@ const pageDesc =
             </div>
           ))
         }
+
+        {/* ---------- IN APPROVALS ----------
+             Projects from `pipeline` in src/data/site.ts — approved on paper
+             but not yet building. Deliberately NOT one of the bands above:
+             those are driven by `projects`, whose count feeds the "residences"
+             and "under construction" figures site-wide, and these projects are
+             neither. Sits directly under Ongoing because it is forward-looking
+             work, but reads as its own, quieter thing.
+
+             The treatment is text-only ON PURPOSE — no render exists, the card
+             links nowhere because there is no detail page to link to, and
+             there is no call to action because an unregistered project must
+             not be advertised for sale. Don't add one. */}
+        {
+          pipeline.length > 0 && (
+            <div>
+              <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 border-b border-line pb-5 mb-10">
+                <div class="flex items-center gap-3.5">
+                  <h2 class="font-display font-black text-3xl lg:text-4xl tracking-tight">
+                    In Approvals
+                  </h2>
+                  <span class="font-display text-[11px] font-bold uppercase tracking-[0.14em] px-3 py-1.5 rounded-full bg-olive-50 text-olive-600">
+                    {pipeline.length}{" "}
+                    {pipeline.length === 1 ? "project" : "projects"}
+                  </span>
+                </div>
+                <p class="text-muted text-sm sm:text-base max-w-md sm:text-right leading-relaxed">
+                  On paper, not yet on site; approvals under way. Not open for booking.
+                </p>
+              </div>
+
+              <div class="flex flex-col gap-4">
+                {pipeline.map((p, i) => (
+                  <div
+                    class="reveal relative rounded-[3px] border border-line bg-white/50 p-6 sm:p-8 lg:p-10 grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-8 lg:gap-14"
+                    style={`--reveal-d:${(i * 0.09).toFixed(2)}s`}
+                  >
+                    <div>
+                      <span class="inline-block font-display text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-[2px] bg-olive-50 text-olive-600 border border-olive-100">
+                        {p.statusLabel}
+                      </span>
+                      <h3 class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-5">
+                        {p.name}
+                      </h3>
+                      <p class="text-muted text-sm mt-1.5">{p.location}</p>
+                      <p class="text-ink/75 text-sm sm:text-base leading-relaxed mt-5 max-w-xl">
+                        {p.blurb}
+                      </p>
+                    </div>
+
+                    <div class="lg:border-l lg:border-line lg:pl-14">
+                      <h4 class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-muted">
+                        Where it stands
+                      </h4>
+                      <ul class="mt-5 flex flex-col gap-3">
+                        {p.facts.map((fact) => (
+                          <li class="flex items-start gap-3 text-sm text-ink/80 leading-relaxed">
+                            <span
+                              class="mt-[0.45rem] w-1.5 h-1.5 rounded-full bg-olive-600/50 shrink-0"
+                              aria-hidden="true"
+                            />
+                            {fact}
+                          </li>
+                        ))}
+                      </ul>
+                      <p class="text-muted text-xs leading-relaxed mt-6">
+                        Plans, drawings and a project page will be published here once the
+                        approvals are through.
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
       </div>
     </div>
   </section>
@@ -243,7 +319,7 @@ const pageDesc =
           class="reveal text-muted text-base sm:text-lg mt-6 max-w-xl leading-relaxed"
           style="--reveal-d:0.2s"
         >
-          You pay a little more for a Nesting Tree home — and you get more than four walls. This is
+          You pay a little more for a Nesting Tree home, and you get more than four walls. This is
           what comes built into every building above.
         </p>
       </div>

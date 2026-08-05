@@ -4,6 +4,7 @@ import SiteHeader from "../../components/SiteHeader.astro";
 import QrBlock from "../../components/QrBlock.astro";
 import ProjectGallery from "../../components/ProjectGallery.astro";
 import AreaStats from "../../components/AreaStats.astro";
+import BuildProgress from "../../components/BuildProgress.astro";
 import { brand, contact, features, projects } from "../../data/site";
 import {
   shikhar,
@@ -127,7 +128,7 @@ const pageDesc =
         Shikhar
       </h1>
       <p class="hero-rise text-white/80 text-lg sm:text-xl lg:text-2xl mt-7 max-w-2xl leading-relaxed" style="--rise-d:0.54s">
-        A landmark residential tower — the tallest building in the neighbourhood.
+        A landmark residential tower, the tallest building in the neighbourhood.
       </p>
 
       <p class="hero-rise flex items-start gap-2.5 text-white/65 text-sm sm:text-base mt-8 max-w-xl leading-relaxed" style="--rise-d:0.66s">
@@ -334,7 +335,7 @@ const pageDesc =
           Three ways to call Shikhar home.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          From the popular 1BHK to limited terrace homes — every layout is planned for light,
+          From the popular 1BHK to limited terrace homes, every layout is planned for light,
           privacy and easy daily living.
         </p>
       </div>
@@ -375,7 +376,7 @@ const pageDesc =
                 <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{u.blurb}</p>
 
                 {/* RERA carpet figures from the approved plan */}
-                <AreaStats stats={u.stats} class="mt-8 max-w-md" />
+                <AreaStats stats={u.stats} heading="Areas — approved plan" class="mt-9 max-w-md" />
 
                 <ul class="mt-7 flex flex-col gap-3 max-w-md">
                   {u.features.map((f) => (
@@ -429,110 +430,11 @@ const pageDesc =
   </section>
 
   <!-- ===================== CONSTRUCTION PROGRESS ===================== -->
-  <section id="progress" class="bg-stone py-24 lg:py-32 scroll-mt-20">
-    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="reveal max-w-3xl mb-16 lg:mb-20">
-        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
-          >Construction progress</span
-        >
-        <h2
-          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
-        >
-          Rising on schedule.
-        </h2>
-        <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          The structure is complete and internal work is in full swing. Here is exactly where
-          Shikhar stands on the way to your keys — no guesswork, no vague promises.
-        </p>
-      </div>
-
-      <!-- stepper: vertical rail on mobile, horizontal track on desktop -->
-      <ol class="grid gap-0 lg:grid-cols-5">
-        {
-          buildProgress.map((p, i) => {
-            const done = p.state === "done";
-            const current = p.state === "current";
-            const notLast = i < buildProgress.length - 1;
-            // connector after this node is "travelled" once the node is done
-            const railFill = done ? "bg-olive" : "bg-line";
-            return (
-              <li
-                class="reveal relative flex gap-x-5 lg:flex-col lg:gap-x-0"
-                style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}
-              >
-                {/* node + connector rail */}
-                <div class="relative flex flex-col items-center lg:w-full lg:flex-row lg:items-center">
-                  <span
-                    class={`relative z-10 flex items-center justify-center w-10 h-10 rounded-full shrink-0 font-display font-bold text-sm ${
-                      done
-                        ? "bg-olive text-white"
-                        : current
-                          ? "bg-olive-50 text-olive-600 ring-4 ring-olive/15 border-2 border-olive"
-                          : "bg-card text-mutedlight border border-line"
-                    }`}
-                  >
-                    {done ? (
-                      <svg
-                        class="w-5 h-5"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2.2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="m5 12.5 4 4 10-10" />
-                      </svg>
-                    ) : current ? (
-                      <span class="w-2.5 h-2.5 rounded-full bg-olive animate-pulse" />
-                    ) : (
-                      String(i + 1).padStart(2, "0")
-                    )}
-                  </span>
-
-                  {notLast && (
-                    <>
-                      {/* horizontal connector (desktop) */}
-                      <span class={`hidden lg:block h-[3px] flex-1 mx-3 rounded-full ${railFill}`} />
-                      {/* vertical connector (mobile) */}
-                      <span
-                        class={`lg:hidden absolute top-10 bottom-0 left-1/2 -translate-x-1/2 w-[3px] rounded-full ${railFill}`}
-                      />
-                    </>
-                  )}
-                </div>
-
-                {/* text */}
-                <div class="pb-12 lg:pb-0 lg:pt-7 lg:pr-8">
-                  <span
-                    class={`inline-flex items-center font-display text-[11px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 rounded-[2px] ${
-                      done
-                        ? "text-olive-600"
-                        : current
-                          ? "bg-olive text-white"
-                          : "text-mutedlight"
-                    }`}
-                  >
-                    {done ? "Complete" : current ? "In progress" : "Upcoming"}
-                  </span>
-                  <h3
-                    class={`font-display font-bold text-xl lg:text-2xl tracking-tight mt-3 ${
-                      current ? "text-olive-dark" : "text-ink"
-                    }`}
-                  >
-                    {p.phase}
-                  </h3>
-                  <p class="text-muted text-base leading-relaxed mt-2 lg:max-w-[15rem]">
-                    {p.detail}
-                  </p>
-                </div>
-              </li>
-            );
-          })
-        }
-      </ol>
-    </div>
-  </section>
+  <BuildProgress
+    steps={buildProgress}
+    heading="Rising on schedule."
+    intro="The structure is complete (every slab cast and the terrace ready) and finishing work is in full swing. Here is exactly where Shikhar stands on the way to your keys: no guesswork, no vague promises."
+  />
 
   <!-- ===================== WHAT WE'RE BUILDING IN (AMENITIES) ===================== -->
   <section id="amenities" class="bg-card border-t border-line scroll-mt-20">
@@ -547,7 +449,7 @@ const pageDesc =
           The climb to the top of Karanjade.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Six stages, ground to summit — every amenity in Shikhar, built in as you rise.
+          Six stages, ground to summit: every amenity in Shikhar, built in as you rise.
         </p>
       </div>
     </div>
@@ -674,7 +576,7 @@ const pageDesc =
           Your safety is non-negotiable.
         </h2>
         <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6">
-          Shikhar is built with a comprehensive emergency and safety infrastructure — a standard
+          Shikhar is built with a comprehensive emergency and safety infrastructure, a standard
           rarely found in buildings of this scale.
         </p>
       </div>
@@ -743,7 +645,7 @@ const pageDesc =
           The Nesting Tree advantage.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          20 years of building trust — three projects, fully sold out, every one delivered before
+          20 years of building trust: three projects, fully sold out, every one delivered before
           time.
         </p>
       </div>
@@ -770,7 +672,7 @@ const pageDesc =
   <ProjectGallery
     project="Shikhar"
     items={gallery}
-    lead="Real photographs from the Shikhar site — the rising high-rise and its surroundings, shot on site during construction."
+    lead="Real photographs from the Shikhar site: the rising high-rise and its surroundings, shot on site during construction."
   />
 
   <!-- ===================== QR CODE ===================== -->

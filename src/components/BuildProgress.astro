@@ -1,0 +1,142 @@
+---
+/* ---------------------------------------------------------------------------
+   BuildProgress — the construction-stage stepper.
+
+   One shared section for every project page: a vertical rail on mobile that
+   becomes a horizontal track on desktop. Each page passes its own heading,
+   intro and `steps` (from its own src/data/<project>.ts `buildProgress`), so
+   the copy stays with the facts and only the presentation lives here.
+
+   `state` drives the styling: done → filled node + tick and a travelled rail,
+   current → pulsing outlined node, upcoming → numbered outline node.
+--------------------------------------------------------------------------- */
+export type BuildStep = {
+  phase: string;
+  detail: string;
+  state: "done" | "current" | "upcoming";
+};
+
+interface Props {
+  steps: BuildStep[];
+  /** Small uppercase kicker above the heading. */
+  eyebrow?: string;
+  heading: string;
+  intro: string;
+  /** Section wrapper classes — lets each page keep the stone/card rhythm. */
+  sectionClass?: string;
+}
+
+const {
+  steps,
+  eyebrow = "Construction progress",
+  heading,
+  intro,
+  sectionClass = "bg-stone py-24 lg:py-32 scroll-mt-20",
+} = Astro.props;
+
+/* Written out in full so Tailwind keeps the classes — a template string
+   like `lg:grid-cols-${n}` never survives the content scan. */
+const cols: Record<number, string> = {
+  3: "lg:grid-cols-3",
+  4: "lg:grid-cols-4",
+  5: "lg:grid-cols-5",
+  6: "lg:grid-cols-6",
+};
+const gridCols = cols[steps.length] ?? "lg:grid-cols-5";
+---
+
+<section id="progress" class={sectionClass}>
+  <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+    <div class="reveal max-w-3xl mb-16 lg:mb-20">
+      <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+        >{eyebrow}</span
+      >
+      <h2
+        class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+      >
+        {heading}
+      </h2>
+      <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">{intro}</p>
+    </div>
+
+    <!-- stepper: vertical rail on mobile, horizontal track on desktop -->
+    <ol class={`grid gap-0 ${gridCols}`}>
+      {
+        steps.map((p, i) => {
+          const done = p.state === "done";
+          const current = p.state === "current";
+          const notLast = i < steps.length - 1;
+          // connector after this node is "travelled" once the node is done
+          const railFill = done ? "bg-olive" : "bg-line";
+          return (
+            <li
+              class="reveal relative flex gap-x-5 lg:flex-col lg:gap-x-0"
+              style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}
+            >
+              {/* node + connector rail */}
+              <div class="relative flex flex-col items-center lg:w-full lg:flex-row lg:items-center">
+                <span
+                  class={`relative z-10 flex items-center justify-center w-10 h-10 rounded-full shrink-0 font-display font-bold text-sm ${
+                    done
+                      ? "bg-olive text-white"
+                      : current
+                        ? "bg-olive-50 text-olive-600 ring-4 ring-olive/15 border-2 border-olive"
+                        : "bg-card text-mutedlight border border-line"
+                  }`}
+                >
+                  {done ? (
+                    <svg
+                      class="w-5 h-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="m5 12.5 4 4 10-10" />
+                    </svg>
+                  ) : current ? (
+                    <span class="w-2.5 h-2.5 rounded-full bg-olive animate-pulse" />
+                  ) : (
+                    String(i + 1).padStart(2, "0")
+                  )}
+                </span>
+
+                {notLast && (
+                  <>
+                    {/* horizontal connector (desktop) */}
+                    <span class={`hidden lg:block h-[3px] flex-1 mx-3 rounded-full ${railFill}`} />
+                    {/* vertical connector (mobile) */}
+                    <span
+                      class={`lg:hidden absolute top-10 bottom-0 left-1/2 -translate-x-1/2 w-[3px] rounded-full ${railFill}`}
+                    />
+                  </>
+                )}
+              </div>
+
+              {/* text */}
+              <div class="pb-12 lg:pb-0 lg:pt-7 lg:pr-8">
+                <span
+                  class={`inline-flex items-center font-display text-[11px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 rounded-[2px] ${
+                    done ? "text-olive-600" : current ? "bg-olive text-white" : "text-mutedlight"
+                  }`}
+                >
+                  {done ? "Complete" : current ? "In progress" : "Upcoming"}
+                </span>
+                <h3
+                  class={`font-display font-bold text-xl lg:text-2xl tracking-tight mt-3 ${
+                    current ? "text-olive-dark" : "text-ink"
+                  }`}
+                >
+                  {p.phase}
+                </h3>
+                <p class="text-muted text-base leading-relaxed mt-2 lg:max-w-[15rem]">{p.detail}</p>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>

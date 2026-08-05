@@ -7,17 +7,37 @@
    page into the `leads` table. Written against India's Digital
    Personal Data Protection Act, 2023.
 
+   ACCURACY IS THE PROTECTION HERE. Every claim below is checked
+   against what the code actually does as of 3 August 2026:
+     - the form posts name, phone, email, project, message and
+       source_page (or the Referer header) and nothing else
+     - there is no analytics, no ad pixel, no cookie banner,
+       because there are no tracking cookies to consent to
+     - Google Fonts is loaded from fonts.googleapis.com in
+       BaseLayout.astro, so §4 discloses it
+     - Google Maps is linked out to, never embedded, so no map
+       iframe loads Google code on our pages
+   IF ANY OF THAT CHANGES — you add analytics, a chat widget, a
+   pixel, an embedded map, a CRM, or WhatsApp automation — this
+   page must change with it in the same commit. A privacy policy
+   that describes tracking you don't do is harmless; one that
+   misses tracking you do do is a DPDP problem.
+
    IMPORTANT: this was drafted to be accurate to what the site
    actually does — it is not legal advice and has not been
    reviewed by a lawyer. Have it checked before relying on it.
-   Two placeholders need filling before or shortly after launch:
-   the grievance officer's name and the registered office address.
+
+   STILL TO FILL IN before or shortly after launch:
+     - the Grievance Officer's name (§13 says "our Grievance
+       Officer"; DPDP expects a named, contactable person)
+     - the registered office address, if you want it shown in
+       full rather than the city-level line in `contact.address`
    ============================================================ */
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
 import { brand, contact } from "../data/site";
 
-const lastUpdated = "28 July 2026";
+const lastUpdated = "3 August 2026";
 ---
 
 <BaseLayout
@@ -46,22 +66,45 @@ const lastUpdated = "28 July 2026";
     <section class="py-16 lg:py-24">
       <div class="max-w-[900px] mx-auto px-5 sm:px-6 lg:px-12 legal">
         <p class="lead">
-          {brand.name} respects your privacy. This policy explains what personal information we
-          collect when you use this website, why we collect it, and what rights you have over it. It
-          applies to <strong>nestingtree.in</strong> and the enquiry forms on it.
+          {brand.name} respects your privacy. This policy explains what personal data we collect
+          when you use this website, why we collect it, who we share it with, how long we keep it,
+          and what rights you have over it. It applies to <strong>nestingtree.in</strong> and the
+          enquiry forms on it, and it is written to comply with India's Digital Personal Data
+          Protection Act, 2023 ("DPDP Act").
         </p>
+
+        <div class="callout">
+          <p>
+            <strong>The short version.</strong> We collect only what you type into an enquiry form,
+            we use it only to answer that enquiry, we never sell or trade it, and we do not run
+            advertising or analytics trackers on this site. You can ask us to show you, correct or
+            delete your details at any time by writing to{" "}
+            <a href={`mailto:${contact.email}`}>{contact.email}</a>.
+          </p>
+        </div>
 
         <h2>1. Who we are</h2>
         <p>
-          {brand.name} is a residential developer operating in {brand.region}. For anything relating
-          to this policy or to your personal information, contact us at{" "}
-          <a href={`mailto:${contact.email}`}>{contact.email}</a> or{" "}
+          {brand.name} is a residential developer operating in {brand.region}. For the personal data
+          described in this policy, we are the Data Fiduciary — the person who decides why and how
+          it is processed. For anything relating to this policy or to your personal data, contact us
+          at <a href={`mailto:${contact.email}`}>{contact.email}</a> or{" "}
           <a href={`tel:${contact.phone.replace(/\s/g, "")}`}>{contact.phone}</a>.
         </p>
 
-        <h2>2. What we collect</h2>
+        <h2>2. What this policy covers</h2>
         <p>
-          We only collect what you type into an enquiry form. When you submit one, we record:
+          This policy covers personal data you give us through this website. It does not cover
+          information you give us elsewhere — at a site visit, over the phone, through a broker, or
+          during the booking, loan and registration process — which is governed by the documents you
+          sign for that purpose, nor does it cover any third-party website or service you reach from
+          a link here.
+        </p>
+
+        <h2>3. What we collect</h2>
+        <p>
+          <strong>From the enquiry form.</strong> We record only what you type in, plus which page
+          you sent it from:
         </p>
         <ul>
           <li><strong>Your name</strong> — required, so we know who we are speaking to.</li>
@@ -75,80 +118,188 @@ const lastUpdated = "28 July 2026";
           </li>
         </ul>
         <p>
-          We do not run advertising or analytics trackers on this site, and we do not use cookies to
-          profile you. This site loads its typefaces from Google Fonts, which means your browser
-          makes a request to Google's servers and Google receives your IP address as part of that
-          request.
+          <strong>From your visit.</strong> Like any website, this one runs on servers that keep
+          technical logs. Our hosting provider may record your IP address, browser and device type,
+          the pages requested and the time of the request, for security, diagnostics and to keep the
+          site running. We do not use those logs to build a profile of you or to identify you.
         </p>
-
-        <h2>3. Why we use it</h2>
         <p>
-          To respond to your enquiry, share availability, pricing and project details, arrange a site
-          visit, and follow up about the residence you asked about. That is the whole purpose. We
-          process this information on the basis of the consent you give when you submit the form.
+          <strong>What we do not collect here.</strong> This website does not ask for and does not
+          take payment details, bank details, PAN, Aadhaar or any other identity document, income or
+          financial information, or any of the categories of sensitive data associated with health,
+          caste, religion or biometrics. Please do not put any of that into the message box — if you
+          do, we will delete it.
         </p>
 
-        <h2>4. What we never do</h2>
+        <h2>4. Cookies, analytics and third parties on this page</h2>
+        <p>
+          We do not run advertising trackers, analytics tools, remarketing pixels or social-media
+          pixels on this site, and we do not use cookies to profile you or to follow you across
+          other websites. There is no cookie banner because there is nothing to consent to.
+        </p>
+        <p>
+          One third party is involved in rendering the page: this site loads its typefaces from
+          Google Fonts, which means your browser makes a request to Google's servers and Google
+          receives your IP address as part of that request. Links to Google Maps on our project
+          pages open in a new tab — the map is not embedded here, so Google receives nothing from
+          you unless you choose to follow the link. Both are governed by Google's own privacy
+          policy, not ours.
+        </p>
+
+        <h2>5. Why we use it, and on what basis</h2>
+        <p>
+          We use your enquiry details to respond to you, share availability, pricing and project
+          details, arrange a site visit, and follow up about the residence you asked about. That is
+          the whole purpose.
+        </p>
+        <p>
+          We process this data on the basis of the consent you give when you submit the form, as
+          described in the notice shown with it. Where the law allows or requires it, we may also
+          process the data to comply with a legal obligation, to respond to a lawful order, or to
+          establish, exercise or defend a legal claim.
+        </p>
+
+        <h2>6. How we contact you</h2>
+        <p>
+          When you submit an enquiry, you agree that we and our authorised representatives may
+          contact you by phone, SMS, email or messaging application about that enquiry and about our
+          projects, including where your number is registered on the National Do Not Call registry
+          or an equivalent preference list. You can withdraw this at any time by telling the person
+          who calls you, or by writing to{" "}
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>, and we will stop.
+        </p>
+
+        <h2>7. What we never do</h2>
         <ul>
-          <li>We do not sell your personal information.</li>
+          <li>We do not sell your personal data.</li>
           <li>We do not rent, trade or share your details with other developers or brokers.</li>
-          <li>We do not use your information for any purpose you did not contact us about.</li>
+          <li>We do not use your data for any purpose you did not contact us about.</li>
+          <li>We do not use it to make any automated decision that affects you.</li>
         </ul>
+
+        <h2>8. Who we share it with</h2>
+        <p>We share your details only:</p>
+        <ul>
+          <li>with our own sales team and authorised representatives, so they can respond to you;</li>
+          <li>
+            with service providers who host our website and database, or otherwise process data on
+            our instructions as Data Processors, under contract and only for the purposes set out
+            here;
+          </li>
+          <li>
+            with a bank or housing-finance company, only if you ask us to help you arrange a home
+            loan, and only to the extent needed for that;
+          </li>
+          <li>
+            where we are required to by law, by a court, or by a regulator, or where it is necessary
+            to establish or defend a legal claim, or to prevent fraud or protect the safety of
+            people or property;
+          </li>
+          <li>
+            with a successor entity, if our business or a part of it is reorganised, merged or
+            transferred — in which case the successor remains bound by this policy.
+          </li>
+        </ul>
+
+        <h2>9. Where it is stored</h2>
         <p>
-          We share your details only with our own sales team, and with service providers who host our
-          website and database and act on our instructions.
+          Enquiry records are stored in a database operated for us in India. If a service provider
+          we use processes data outside India, we will do so only where the law permits it and under
+          contractual safeguards.
         </p>
 
-        <h2>5. How long we keep it</h2>
+        <h2>10. How long we keep it</h2>
         <p>
           We keep enquiry records for as long as needed to deal with your enquiry and any resulting
-          purchase, and thereafter only for as long as the law requires us to. If you ask us to
-          delete your details and we are not legally required to keep them, we will.
+          purchase, and thereafter only for as long as the law requires us to keep them or for as
+          long as they may be needed for a legal claim. Where you withdraw consent and we have no
+          other basis or legal duty to keep the record, we erase it and ask our processors to do the
+          same. Where an enquiry leads nowhere, we do not keep it indefinitely.
         </p>
 
-        <h2>6. Security</h2>
+        <h2>11. Security</h2>
         <p>
-          Enquiries are stored in an access-controlled database and we take reasonable technical and
-          organisational measures to protect them. No method of transmission or storage is completely
-          secure, and we cannot guarantee absolute security.
+          Enquiries are stored in an access-controlled database, reachable only by staff who need it
+          to do their job, and the site is served over an encrypted connection. We take reasonable
+          security safeguards to prevent personal data breaches, as the DPDP Act requires, and we
+          keep them under review.
         </p>
-
-        <h2>7. Your rights</h2>
         <p>
-          Under the Digital Personal Data Protection Act, 2023, you may ask us to give you a summary
-          of the personal data we hold about you, correct or complete anything inaccurate, erase your
-          data where we are not required to retain it, withdraw your consent at any time, or nominate
-          someone to exercise these rights on your behalf. To do any of these, write to{" "}
-          <a href={`mailto:${contact.email}`}>{contact.email}</a>. We will respond within a reasonable
-          period.
+          No method of transmission over the internet and no method of electronic storage is
+          completely secure, and while we work to protect your data we cannot guarantee absolute
+          security, and we do not warrant it. If a personal data breach occurs, we will notify the
+          Data Protection Board of India and each affected person as required by law.
         </p>
 
-        <h2>8. Grievances</h2>
+        <h2>12. Your rights</h2>
         <p>
-          If you are unhappy with how we have handled your personal information, contact our
-          Grievance Officer at <a href={`mailto:${contact.email}`}>{contact.email}</a>, marking your
-          message "Grievance — Privacy". If your concern is not resolved, you may escalate it to the
-          Data Protection Board of India.
+          Under the DPDP Act you may ask us to give you a summary of the personal data we hold about
+          you and how it is processed, correct or complete anything inaccurate, erase your data
+          where we are not required to retain it, withdraw your consent at any time (which does not
+          affect processing already carried out before you withdrew it), or nominate someone to
+          exercise these rights on your behalf if you die or become incapacitated.
         </p>
-
-        <h2>9. Children</h2>
         <p>
-          This site is intended for adults enquiring about buying a home. We do not knowingly collect
-          personal information from children.
+          To do any of these, write to <a href={`mailto:${contact.email}`}>{contact.email}</a> from
+          the email address you gave us, or from another address with enough detail for us to find
+          your record. We may need to verify who you are before we act, so that we do not disclose
+          your data to someone else. We will respond within a reasonable period.
         </p>
 
-        <h2>10. Changes to this policy</h2>
+        <h2>13. Grievances</h2>
         <p>
-          We may update this policy from time to time. The date at the top of this page shows when it
-          was last changed.
+          If you are unhappy with how we have handled your personal data, contact our Grievance
+          Officer at <a href={`mailto:${contact.email}`}>{contact.email}</a>, marking your message
+          "Grievance — Privacy", and give us enough detail to look into it. We will acknowledge and
+          respond within a reasonable period. If your concern is not resolved, you may escalate it
+          to the Data Protection Board of India.
         </p>
 
-        <h2>11. Contact</h2>
+        <h2>14. Your responsibilities</h2>
+        <p>
+          The DPDP Act places duties on you too. When you use this site, you must give details that
+          are your own, true and complete; you must not impersonate anyone else or submit another
+          person's contact details without their authority; and you must not file a false or
+          frivolous grievance. We are not responsible for the consequences of inaccurate details you
+          give us — including a reply going to the wrong number or address — and where someone
+          else's details are submitted through this site without their consent, that is the
+          responsibility of the person who submitted them.
+        </p>
+
+        <h2>15. Children</h2>
+        <p>
+          This site is intended for adults enquiring about buying a home. We do not knowingly
+          collect personal data from anyone under 18, we do not use it for tracking, behavioural
+          monitoring or advertising directed at children, and the enquiry forms must not be used by
+          them. If you believe a child has given us personal data, write to{" "}
+          <a href={`mailto:${contact.email}`}>{contact.email}</a> and we will delete it.
+        </p>
+
+        <h2>16. Third-party links</h2>
+        <p>
+          Where this site links to a third-party service, that service has its own privacy policy
+          and its own practices, which we do not control and are not responsible for. Please read
+          them before giving your details to anyone else.
+        </p>
+
+        <h2>17. Changes to this policy</h2>
+        <p>
+          We may update this policy from time to time — for example, if we add a feature to the site
+          that handles data differently. The date at the top of this page shows when it was last
+          changed. Where a change materially affects how we use data you have already given us, we
+          will take reasonable steps to tell you.
+        </p>
+
+        <h2>18. Contact</h2>
         <p>
           {brand.name}<br />
           {contact.address}<br />
           <a href={`mailto:${contact.email}`}>{contact.email}</a> ·{" "}
           <a href={`tel:${contact.phone.replace(/\s/g, "")}`}>{contact.phone}</a>
+        </p>
+        <p>
+          Our <a href="/terms">Terms of Use</a> govern your use of the site itself, including what
+          the project information on it does and does not mean.
         </p>
       </div>
     </section>
@@ -212,5 +363,17 @@ const lastUpdated = "28 July 2026";
   }
   .legal :global(a:hover) {
     color: #3f4a29;
+  }
+  /* Pulled-out summary box — same treatment as /terms, used for the
+     plain-English précis at the top. Quiet tinted panel, olive rule. */
+  .legal :global(.callout) {
+    background: #f4f5ef;
+    border-left: 3px solid #5c6b3c;
+    border-radius: 2px;
+    padding: 1.15rem 1.35rem 0.35rem;
+    margin: 1.5rem 0 1.75rem;
+  }
+  .legal :global(.callout p:last-child) {
+    margin-bottom: 0.8rem;
   }
 </style>

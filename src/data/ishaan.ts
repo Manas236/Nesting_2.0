@@ -50,7 +50,7 @@ export const ishaan = {
   // status is shown as a fact in `overview.facts` and the footer (`approvals`).
   maharera: TBD,
   approvals: "Commencement Certificate obtained · not RERA-registered",
-  tagline: "A G+4 residence — twelve homes, and every one of them a 1RK.",
+  tagline: "A G+4 residence: twelve homes, and every one of them a 1RK.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
   address: "Plot no. 123, Sector 1, Karanjade, Panvel, 410206",
   hero: "/images/projects/Ishan-Reduced.jpg",
@@ -85,7 +85,7 @@ export const heroStats = [
    lays these out on a 3-up grid.                                   */
 export const overview = {
   intro:
-    "A G+4 structure of twelve 1RK homes — four to a typical floor, with no commercial units anywhere in the building.",
+    "A G+4 structure of twelve 1RK homes, four to a typical floor, with no commercial units anywhere in the building.",
   facts: [
     { label: "Construction stage", value: "RCC complete · tiling, plaster & paint under way" },
     { label: "Possession", value: "Targeting March 2027" },
@@ -100,8 +100,46 @@ export const overview = {
     { figure: "G+4", label: "Storeys" },
   ],
   connectivity:
-    "Ishaan sits in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
+    "Ishaan sits in Karanjade, a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
+
+/* ---------- Construction / build progress ----------
+   Owner-confirmed status: all RCC work is complete and finishing —
+   tiling, painting, plaster — is running. Full readiness is targeted
+   for March 2027. `state` drives the stepper styling in the page, and
+   the same five phases are used on every project page so two projects
+   can be read side by side.                                        */
+export const buildProgress: {
+  phase: string;
+  detail: string;
+  state: "done" | "current" | "upcoming";
+}[] = [
+  {
+    phase: "Foundation",
+    detail: "Excavation and foundation cast on the corner plot.",
+    state: "done",
+  },
+  {
+    phase: "RCC structure",
+    detail: "All RCC work is complete. The full G+4 frame stands.",
+    state: "done",
+  },
+  {
+    phase: "Finishing works",
+    detail: "Tiling, painting and plaster under way across the twelve homes.",
+    state: "current",
+  },
+  {
+    phase: "Fittings & fit-out",
+    detail: "Flooring, fittings and the final finishes in every home.",
+    state: "upcoming",
+  },
+  {
+    phase: "Handover",
+    detail: "Fully ready by March 2027: possession and keys.",
+    state: "upcoming",
+  },
+];
 
 /* ---------- Floor plans ----------
    Real architectural drawings, supplied at
@@ -123,7 +161,7 @@ export const floorPlans: FloorPlan[] = [
     label: "Entry, parking & lobby",
     plan: "/images/projects/ishaan/Ishaan_Ground_Plan.png",
     blurb:
-      "Ishaan carries no shops, so the ground floor belongs entirely to the building — a sliding-gate entry off the road, covered parking, and the residents' lobby with the lift and staircase.",
+      "Ishaan carries no shops, so the ground floor belongs entirely to the building. A sliding-gate entry off the road, covered parking, and the residents' lobby with the lift and staircase.",
     points: [
       "Sliding-gate entry / exit",
       "Car & two-wheeler parking",
@@ -138,7 +176,7 @@ export const floorPlans: FloorPlan[] = [
     label: "2nd–4th · four 1RK homes",
     plan: "/images/projects/ishaan/Ishaan_Floor_Plan.png",
     blurb:
-      "The homes sit on the typical floors — four to a floor, all of them 1RK, wrapped around a central lift-and-staircase core with a shared lobby. Every floor from 2nd to 4th is identical.",
+      "The homes sit on the typical floors, four to a floor, all of them 1RK, wrapped around a central lift-and-staircase core with a shared lobby. Every floor from 2nd to 4th is identical.",
     points: [
       "Four 1RK homes per floor",
       "Central lift & staircase core",
@@ -153,7 +191,7 @@ export const floorPlans: FloorPlan[] = [
     label: "Open to sky",
     plan: "/images/projects/ishaan/Ishaan_Terrace_Plan.png",
     blurb:
-      "Above the homes sits an open terrace, with the building's services tucked to one side — the overhead water tank, the lift machine room and the pump room.",
+      "Above the homes sits an open terrace, with the building's services tucked to one side: the overhead water tank, the lift machine room and the pump room.",
     points: [
       "Terrace open to sky",
       "Parapet wall 1.20 m high",
@@ -216,7 +254,7 @@ export const unitTypes: UnitType[] = [
     series: "Typical floors · 2nd–4th",
     plan: "/images/projects/ishaan/Ishaan_1RK_Plan.png",
     blurb:
-      "The one kind of home at Ishaan — a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Four sit on every typical floor; the plan shown is the corner unit.",
+      "The one kind of home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Four sit on every typical floor; the plan shown is the corner unit.",
     stats: [
       { label: "Carpet area — all 12 homes", value: "15.22 – 19.08 sq. m. (164 – 205 sq. ft.)" },
       { label: "Flats 101 / 201 / 301 / 401", value: "15.22 sq. m. (164 sq. ft.)" },
@@ -277,7 +315,7 @@ export const levels: Level[] = [
     icon: "lobby",
     featured: true,
     blurb:
-      "There are no shops at Ishaan. The building carries one use and one only — the whole of it belongs to the people who live in it.",
+      "There are no shops at Ishaan. The building carries one use and one only. The whole of it belongs to the people who live in it.",
     points: ["No commercial units", "A single-use, purely residential building"],
   },
   {
@@ -286,7 +324,7 @@ export const levels: Level[] = [
     category: "The count",
     icon: "tower",
     blurb:
-      "Four floors and twelve homes, four to a typical floor. A small building with a short list of neighbours — the whole of Ishaan fits on one page.",
+      "Four floors and twelve homes, four to a typical floor. A small building with a short list of neighbours, and the whole of Ishaan fits on one page.",
     points: ["G+4 storey structure", "Four 1RK homes per typical floor"],
   },
   {
@@ -296,7 +334,7 @@ export const levels: Level[] = [
     icon: "window",
     featured: true,
     blurb:
-      "Every home at Ishaan is a 1RK — a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja, about 17.70 sq.mt of carpet. One kind of home, top to bottom.",
+      "Every home at Ishaan is a 1RK: a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja, about 17.70 sq.mt of carpet. One kind of home, top to bottom.",
     points: ["12 × 1RK apartments", "≈ 17.70 sq.mt carpet each"],
   },
 ];
@@ -340,12 +378,12 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "lobby",
         name: "100% owner-occupied",
-        desc: "Every home bought by a family to live in — not to rent out.",
+        desc: "Every home bought by a family to live in, not to rent out.",
       },
       {
         icon: "window",
         name: "Direct from the landowner",
-        desc: "No 50:50 or tri-party agreement — the strongest paperwork, with no legal hassles.",
+        desc: "No 50:50 or tri-party agreement: the strongest paperwork, with no legal hassles.",
       },
     ],
   },
@@ -363,7 +401,7 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "grill",
         name: "Rule-based society living",
-        desc: "A managed, rule-based society — order kept for everyone who lives here.",
+        desc: "A managed, rule-based society. Order kept for everyone who lives here.",
       },
     ],
   },
@@ -378,7 +416,7 @@ export const amenitiesNeeded: string[] = [];
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019 — with two decades of real estate lineage behind it, since 2004.",
+    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
   },
   {
     label: "Built for Karanjade",
@@ -401,23 +439,23 @@ export const developerNotes: { label: string; body: string }[] = [
 export const whyIshaan: { title: string; body: string }[] = [
   {
     title: "A track record, not a promise",
-    body: "Two decades of housing behind us — from Gopala in Vashi (2004) to residences delivered and handed over in Karanjade today.",
+    body: "Two decades of housing behind us, from Gopala in Vashi (2004) to residences delivered and handed over in Karanjade today.",
   },
   {
     title: "Possession on time",
-    body: "We build to a schedule and hand over on it — the way our delivered projects were.",
+    body: "We build to a schedule and hand over on it, exactly as our delivered projects were.",
   },
   {
     title: "Clean title, direct from the owner",
-    body: "Buy straight from the landowner — no 50:50 or tri-party agreement. Strong paperwork, no legal hassles.",
+    body: "Buy straight from the landowner. No 50:50 or tri-party agreement. Strong paperwork, no legal hassles.",
   },
   {
     title: "Amenities as standard",
-    body: "An automatic high-speed lift, ample parking and rule-based society living — built in, not sold as extras.",
+    body: "An automatic high-speed lift, ample parking and rule-based society living: built in, not sold as extras.",
   },
   {
     title: "Built to last",
-    body: "Construction quality you can live in — and still trust years after handover.",
+    body: "Construction quality you can live in, and still trust years after handover.",
   },
   {
     title: "Better everyday living",

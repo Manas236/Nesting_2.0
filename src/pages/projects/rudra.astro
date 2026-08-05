@@ -11,7 +11,7 @@ import {
   heroStats,
   overview,
   floorPlans,
-  homeConfigs,
+  unitTypes,
   carpetSchedule,
   carpetScheduleNote,
   amenityGroups,
@@ -378,7 +378,7 @@ const pageDesc =
           How Rudra is laid out.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Shops and parking on the ground floor; five homes — one 1BHK and four 1RK — on each of
+          Shops and parking on the ground floor; five homes (one 1BHK and four 1RK) on each of
           the four upper floors.
         </p>
       </div>
@@ -441,7 +441,7 @@ const pageDesc =
   <!-- ===================== HOME CONFIGURATIONS ===================== -->
   <section id="homes" class="bg-stone py-24 lg:py-32 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="reveal max-w-3xl mb-16 lg:mb-20">
+      <div class="reveal max-w-3xl mb-16 lg:mb-24">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >Home configurations</span
         >
@@ -451,36 +451,72 @@ const pageDesc =
           One 1BHK, four 1RK layouts.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Rudra pairs a large 1BHK with a range of efficient 1RK homes — from a value 340 sq. ft.
+          Rudra pairs a large 1BHK with a range of efficient 1RK homes, from a value 340 sq. ft.
           layout up to a spacious 450 sq. ft. plan.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6 lg:gap-8">
+      <div class="flex flex-col gap-24 lg:gap-32">
         {
-          homeConfigs.map((u, i) => (
-            <article
-              class={`reveal group bg-card border border-line rounded-[4px] overflow-hidden hover:border-olive-100 transition-colors ${u.span}`}
-              style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
-            >
-              <div class="relative bg-stone aspect-[4/3] p-5 sm:p-6">
-                <img
-                  src={u.img}
-                  alt={`Rudra ${u.name} — ${u.size} layout render`}
-                  class="w-full h-full object-contain mix-blend-multiply"
-                  loading="lazy"
-                />
-                {u.featured && (
-                  <span class="absolute top-5 left-5 font-display text-[10px] font-bold uppercase tracking-[0.14em] bg-olive text-white px-2.5 py-1 rounded-[2px]">
-                    Largest home
+          unitTypes.map((u, i) => (
+            <article class="reveal grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              {/* home layout render */}
+              <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+                <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
+                {/* The renders carry their own solid grey backdrop, unlike the
+                    white line-drawings on the other project pages — so they run
+                    full-bleed in the frame rather than sitting on a padded panel
+                    under mix-blend-multiply, which would only muddy them. */}
+                <div class="relative bg-card border border-line rounded-[3px] overflow-hidden">
+                  <img
+                    src={u.plan}
+                    alt={`Rudra ${u.type} — ${u.units} home layout render`}
+                    class="w-full h-auto object-contain"
+                    loading="lazy"
+                  />
+                  <span class="absolute top-5 left-5 font-display text-[11px] font-bold uppercase tracking-[0.14em] bg-ink text-stone px-3 py-1.5 rounded-[2px]">
+                    Home layout
                   </span>
-                )}
+                  {u.featured && (
+                    <span class="absolute top-5 right-5 font-display text-[11px] font-bold uppercase tracking-[0.14em] bg-olive text-white px-3 py-1.5 rounded-[2px]">
+                      Largest home
+                    </span>
+                  )}
+                </div>
               </div>
-              <div class="flex items-center justify-between gap-3 px-6 lg:px-7 py-5 border-t border-line">
-                <h3 class="font-display font-bold text-lg lg:text-xl tracking-tight">{u.name}</h3>
-                <span class="font-display text-xs font-bold uppercase tracking-[0.1em] bg-olive-50 text-olive-dark px-3 py-1.5 rounded-full whitespace-nowrap">
-                  {u.size}
-                </span>
+
+              {/* details */}
+              <div class={i % 2 === 1 ? "lg:order-1" : ""}>
+                <div class="flex flex-wrap items-center gap-3">
+                  <h3 class="font-display font-black text-4xl lg:text-5xl tracking-tight">
+                    {u.type}
+                  </h3>
+                  <span class="font-display text-xs font-bold uppercase tracking-[0.12em] bg-olive-100 text-olive-dark px-3 py-1.5 rounded-full whitespace-nowrap">
+                    {u.units}
+                  </span>
+                </div>
+                <p class="font-display text-sm font-bold uppercase tracking-[0.16em] text-olive-600 mt-4">
+                  {u.series}
+                </p>
+                <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{u.blurb}</p>
+
+                <ul class="mt-8 grid sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-lg">
+                  {u.features.map((f) => (
+                    <li class="flex items-start gap-3 text-ink">
+                      <svg
+                        class="w-5 h-5 mt-0.5 shrink-0 text-olive-600"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        set:html={check}
+                      />
+                      <span class="text-base leading-snug">{f}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </article>
           ))
@@ -490,11 +526,13 @@ const pageDesc =
       {/* RERA carpet schedule from the approved plan */}
       {
         features.areaStats && (
-          <div class="reveal mt-16 lg:mt-20">
-            <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted mb-5">
-              Carpet areas, per the approved plan
-            </p>
-            <AreaStats stats={carpetSchedule} class="max-w-2xl" />
+          <div class="reveal mt-24 lg:mt-32">
+            {/* the list's own top rule + eyebrow is the section divider */}
+            <AreaStats
+              stats={carpetSchedule}
+              heading="Carpet areas, per the approved plan"
+              class="max-w-2xl"
+            />
             <p class="text-mutedlight text-xs leading-relaxed mt-7 max-w-2xl">
               {carpetScheduleNote}
             </p>
@@ -519,7 +557,7 @@ const pageDesc =
           Built with more than the basics.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Even as the first project, Rudra was built to the amenity-first standard — from the
+          Even as the first project, Rudra was built to the amenity-first standard: from the
           structure itself to the finish on the walls. The marquee features are sized to match.
         </p>
       </div>
@@ -635,7 +673,7 @@ const pageDesc =
             Built by Nesting Tree.
           </h2>
           <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6 max-w-md">
-            Rudra is where Nesting Tree began in Karanjade — drawing on two decades of Navi Mumbai real estate.
+            Rudra is where Nesting Tree began in Karanjade, drawing on two decades of Navi Mumbai real estate.
           </p>
         </div>
 
@@ -668,7 +706,7 @@ const pageDesc =
           A delivered, sold-out track record.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Rudra is complete, fully sold and society-formed — the first proof of Nesting Tree's
+          Rudra is complete, fully sold and society-formed: the first proof of Nesting Tree's
           commitment to quality and timely delivery.
         </p>
       </div>
@@ -695,7 +733,7 @@ const pageDesc =
   <ProjectGallery
     project="Rudra"
     items={gallery}
-    lead="Real photographs from Rudra — the delivered building, its common areas and finishes, shot on site."
+    lead="Real photographs from Rudra: the delivered building, its common areas and finishes, shot on site."
   />
 
   <!-- ===================== QR CODE ===================== -->
@@ -713,7 +751,7 @@ const pageDesc =
         Ask about Rudra.
       </h2>
       <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl mx-auto">
-        Rudra is sold out — but our team is happy to help with resale enquiries or to walk you
+        Rudra is sold out, but our team is happy to help with resale enquiries or to walk you
         through other Nesting Tree projects. Or call {sales.name} on{" "}
         <a href={sales.phoneHref} class="font-semibold text-olive-600 hover:text-olive-dark transition-colors"
           >{sales.phone}</a
@@ -788,7 +826,7 @@ const pageDesc =
             id="message"
             name="message"
             rows="4"
-            placeholder="Tell us about your enquiry — resale, or another Nesting Tree project."
+            placeholder="Tell us about your enquiry: resale, or another Nesting Tree project."
             class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition resize-y"
           ></textarea>
         </div>

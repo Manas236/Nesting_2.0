@@ -43,7 +43,7 @@ export const shaurya = {
   maharera: TBD,
   approvals: "Commencement (CC) & Occupancy (OC) Certificates obtained · not RERA-registered",
   tagline:
-    "A completed, sold-out G+4 on a corner plot — eight purely residential homes, delivered and handed over.",
+    "A completed, sold-out G+4 on a corner plot: eight purely residential homes, delivered and handed over.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
   // Plot number from the ground-floor plan; sector not supplied for this
   // project, so the sector segment is omitted rather than guessed.
@@ -78,7 +78,7 @@ export const heroStats = [
 /* ---------- Overview ---------- */
 export const overview = {
   intro:
-    "A G+4 residential building on a corner plot — eight homes in all, four 1BHK apartments and four 1RK homes, with no shops and a single automatic high-speed elevator. Completed, handed over and fully sold out, with the residents' society now being formed.",
+    "A G+4 residential building on a corner plot. Eight homes in all, four 1BHK apartments and four 1RK homes, with no shops and a single automatic high-speed elevator. Completed, handed over and fully sold out, with the residents' society now being formed.",
   facts: [
     { label: "Status", value: "Completed & handed over" },
     { label: "Sales", value: "Completely sold out" },
@@ -99,7 +99,7 @@ export const overview = {
     { figure: "1", label: "Automatic lift" },
   ],
   connectivity:
-    "Shaurya sits on a corner plot in Karanjade — a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
+    "Shaurya sits on a corner plot in Karanjade, a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
 
 /* ---------- Unit types — the home layouts ----------
@@ -146,7 +146,7 @@ export const unitTypes: UnitType[] = [
     series: "Flat 101 · one per floor",
     plan: "/images/projects/shaurya/Shaurya_1BHK_Plan.png",
     blurb:
-      "Four of Shaurya's eight homes are one-bedroom apartments — flat 101 on each floor. A separate bedroom, its own kitchen and a living room opening onto a private balcony.",
+      "Four of Shaurya's eight homes are one-bedroom apartments, flat 101 on each floor. A separate bedroom, its own kitchen and a living room opening onto a private balcony.",
     stats: [
       { label: "Carpet area", value: "23.85 sq. m. (257 sq. ft.)" },
       { label: "Enclosed balcony", value: "None — open balcony only" },
@@ -176,7 +176,7 @@ export const unitTypes: UnitType[] = [
     // living room, shown alongside the 1BHK.
     plan: "/images/projects/shaurya/Shaurya_1RK_Plan.png",
     blurb:
-      "The other four homes are efficient 1RK layouts — flat 102 on each floor. Compact, single-room living with a full 4.2-metre living room, and a bath and WC kept separate.",
+      "The other four homes are efficient 1RK layouts, flat 102 on each floor. Compact, single-room living with a full 4.2-metre living room, and a bath and WC kept separate.",
     stats: [
       { label: "Carpet area", value: "19.32 sq. m. (208 sq. ft.)" },
       { label: "Enclosed balcony", value: "None — open balcony only" },
@@ -220,7 +220,7 @@ export const floorPlans: FloorPlan[] = [
     label: "Stilt parking & the building core",
     plan: "/images/projects/shaurya/Shaurya_Ground_Plan.png",
     blurb:
-      "No shops and no homes at street level — the ground floor is given over to the residents. Stilt parking fills the plot behind a sliding gate, with the lift, staircase, lobby and machine room held at the back.",
+      "No shops and no homes at street level. The ground floor is given over to the residents. Stilt parking fills the plot behind a sliding gate, with the lift, staircase, lobby and machine room held at the back.",
     points: [
       "Stilt parking for residents",
       "Sliding gate off an 11 m wide road",
@@ -235,7 +235,7 @@ export const floorPlans: FloorPlan[] = [
     label: "Residential — floors 1 to 4",
     plan: "/images/projects/shaurya/Shaurya_Floor_Plan.png",
     blurb:
-      "Two homes to a floor, four floors over — that is the whole building. Flat 101 is the 1BHK and flat 102 the 1RK, both reached off a small shared lobby at the lift.",
+      "Two homes to a floor, four floors over. That is the whole building. Flat 101 is the 1BHK and flat 102 the 1RK, both reached off a small shared lobby at the lift.",
     points: [
       "2 homes per floor — 1BHK + 1RK",
       "Flat 101 — 1BHK with balcony",
@@ -290,7 +290,7 @@ export const levels: Level[] = [
     icon: "lobby",
     featured: true,
     blurb:
-      "Shaurya carries no shops. Eight homes — four 1BHK and four 1RK — and the whole of the building belongs to the families who live in it.",
+      "Shaurya carries no shops. Eight homes (four 1BHK and four 1RK), and the whole of the building belongs to the families who live in it.",
     points: ["8 homes — 4 × 1BHK + 4 × 1RK", "No commercial units — purely residential"],
   },
   {
@@ -299,7 +299,7 @@ export const levels: Level[] = [
     category: "The stance",
     icon: "tower",
     blurb:
-      "Four floors on a corner plot — a small building that takes a prominent, exposed position and owns it, with one automatic high-speed lift serving every floor.",
+      "Four floors on a corner plot, a small building that takes a prominent, exposed position and owns it, with one automatic high-speed lift serving every floor.",
     points: ["G+4 structure on a corner plot", "One automatic high-speed elevator"],
   },
   {
@@ -309,7 +309,7 @@ export const levels: Level[] = [
     icon: "star",
     featured: true,
     blurb:
-      "Shaurya means valour — and here that shows not in a promise but in a finished building: completed, handed over, and every home sold.",
+      "Shaurya means valour, and here that shows not in a promise but in a finished building: completed, handed over, and every home sold.",
     points: ["Completed & handed over", "Completely sold out"],
   },
 ];
@@ -352,12 +352,12 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "lobby",
         name: "100% owner-occupied",
-        desc: "No local gaonwala and no 50:50 agreement — every apartment bought by a family to live in, not to rent.",
+        desc: "No local gaonwala and no 50:50 agreement. Every apartment bought by a family to live in, not to rent.",
       },
       {
         icon: "window",
         name: "Direct from the landowner",
-        desc: "No tri-party agreement — purchased directly from the landowner. The strongest paperwork, with no legal hassles.",
+        desc: "No tri-party agreement, purchased directly from the landowner. The strongest paperwork, with no legal hassles.",
       },
     ],
   },
@@ -374,12 +374,12 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "parking",
         name: "Ample parking",
-        desc: "Stilt parking at the base of the building — room to park without circling for a spot.",
+        desc: "Stilt parking at the base of the building, with room to park without circling for a spot.",
       },
       {
         icon: "tower",
         name: "Purely residential",
-        desc: "Eight homes and no shops — a quiet, wholly residential building on a corner plot.",
+        desc: "Eight homes and no shops: a quiet, wholly residential building on a corner plot.",
       },
       {
         icon: "rooftop",
@@ -389,12 +389,12 @@ export const amenityGroups: AmenityGroup[] = [
       {
         icon: "waterproof",
         name: "12,915 litres of water storage",
-        desc: "Two overhead domestic tanks — 5,040 and 7,875 litres — feeding every home below.",
+        desc: "Two overhead domestic tanks, 5,040 and 7,875 litres, feeding every home below.",
       },
       {
         icon: "grill",
         name: "Rule-based society living",
-        desc: "A managed, rule-based society — order kept for everyone who lives here.",
+        desc: "A managed, rule-based society. Order kept for everyone who lives here.",
       },
     ],
   },
@@ -410,7 +410,7 @@ export const amenitiesNeeded: string[] = [];
 export const developerNotes: { label: string; body: string }[] = [
   {
     label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019 — with two decades of real estate lineage behind it, since 2004.",
+    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
   },
   {
     label: "Built for Karanjade",
@@ -442,11 +442,11 @@ export const whyShaurya: { title: string; body: string }[] = [
   },
   {
     title: "100% owner-occupied",
-    body: "No gaonwala and no 50:50 — every home bought by a family to live in, not to rent.",
+    body: "No gaonwala and no 50:50. Every home bought by a family to live in, not to rent.",
   },
   {
     title: "Clean, direct paperwork",
-    body: "Bought straight from the landowner with no tri-party agreement — strong paperwork, no legal hassles.",
+    body: "Bought straight from the landowner with no tri-party agreement: strong paperwork, no legal hassles.",
   },
   {
     title: "Purely residential corner plot",
