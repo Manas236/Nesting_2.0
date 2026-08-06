@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { CACHE_PREFIX } from "../lib/editable";
 
 interface Props {
   title?: string;
@@ -27,6 +28,29 @@ const {
    architect's title block is baked into the bottom of several of them. */
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+
+/* ---------- In-page text editing ----------
+   The feature is injected here and only here, as two script tags.
+
+   1. An inline head script. It has to be inline, in the head, ahead of
+      everything: it starts the fetch for this page's saved text while the
+      rest of the document is still being parsed, and it paints the copy
+      already cached in localStorage the moment the DOM exists — which is
+      before the deferred editor runs, so returning visitors do not watch
+      the built-in text flip to the edited text.
+
+      It also owns the two things both halves have to agree on: how an
+      element's edit_key is spelled, and how text is normalised before
+      comparing. The editor imports neither — it calls back into
+      window.__ntEdit, so there is exactly one implementation of each.
+
+   2. A bundled module script at the end of the body: the gestures, the
+      toolbar and saving, none of which the first paint needs.
+
+   The prose lives up here rather than beside the tags because an inline
+   script followed by a MULTI-LINE HTML comment does not survive the Astro
+   compiler — it reports "Unexpected token" and fails the build. Keep any
+   comment down there to a single line. */
 ---
 
 <!doctype html>
@@ -78,8 +102,205 @@ const ogImage = new URL(image, Astro.site);
         document.documentElement.classList.add("reveal-on");
       }
     </script>
+
+    <!-- In-page text editing, part 1 of 2 — see the note in the frontmatter. -->
+    <script is:inline define:vars={{ NT_CACHE_PREFIX: CACHE_PREFIX }}>
+      window.__ntEdit = (function () {
+        /* Written as escapes rather than literals: these characters are
+           invisible in an editor, and a mangled one fails silently. */
+        var RE_NBSP = new RegExp("\u00a0", "g");
+        var RE_ZERO_WIDTH = new RegExp("[\u200b-\u200d\ufeff]", "g");
+
+        /* Same shape the server stores: lower case, no trailing slash. */
+        var path = location.pathname.split("?")[0].split("#")[0].toLowerCase();
+        if (path.length > 1) path = path.replace(/\/+$/, "");
+        if (!path) path = "/";
+
+        var cacheKey = NT_CACHE_PREFIX + path;
+
+        /* Mirrors normalizeText() in src/lib/editable.ts. Prerendered
+           markup wraps copy across source lines, so this is what makes
+           "did this element still hold the original text?" answerable. */
+        function normalize(s) {
+          return String(s == null ? "" : s)
+            .replace(RE_NBSP, " ")
+            .replace(RE_ZERO_WIDTH, "")
+            .replace(/[\r\n\t]+/g, " ")
+            .replace(/\s{2,}/g, " ")
+            .trim();
+        }
+
+        function textOf(el) {
+          return normalize(el.textContent);
+        }
+
+        /* Editable means one text node and nothing else: a leaf holding
+           a single run of words. Anything richer would lose its children
+           the moment we assigned textContent. */
+        function isTextLeaf(el) {
+          return (
+            el.childNodes.length === 1 &&
+            el.firstChild.nodeType === 3 &&
+            normalize(el.firstChild.nodeValue) !== ""
+          );
+        }
+
+        function setText(el, t) {
+          el.textContent = t;
+        }
+
+        /* tag:nth-of-type(n) segments from <body>, joined by ">".
+           nth-of-type counts from the start of the sibling list, so the
+           toolbar the editor appends to <body> cannot renumber anything
+           already on the page — append only, never prepend. */
+        function keyFor(el) {
+          var parts = [];
+          var node = el;
+          while (node && node !== document.body && node.nodeType === 1) {
+            var n = 1;
+            var sib = node.previousElementSibling;
+            while (sib) {
+              if (sib.tagName === node.tagName) n++;
+              sib = sib.previousElementSibling;
+            }
+            parts.unshift(node.tagName.toLowerCase() + ":nth-of-type(" + n + ")");
+            node = node.parentElement;
+          }
+          return node === document.body ? parts.join(">") : "";
+        }
+
+        function elFor(key) {
+          if (!key) return null;
+          try {
+            return document.body.querySelector(":scope>" + key);
+          } catch (e) {
+            return null;
+          }
+        }
+
+        function place(el, key, text, original) {
+          /* The anchor is the text the page was BUILT with. Stash it
+             before overwriting, so a later save still reports it. */
+          if (!el.dataset.ntOriginal) el.dataset.ntOriginal = original;
+          el.dataset.ntKey = key;
+          /* What we last wrote here, so a later pass can tell its own
+             handiwork from the text the page shipped with. */
+          el.dataset.ntApplied = text;
+          el.setAttribute("data-nt-edited", "");
+          setText(el, text);
+          return el;
+        }
+
+        function applyOne(key, text, original) {
+          if (!text) return null;
+
+          var el = elFor(key);
+          if (el && isTextLeaf(el)) {
+            var now = textOf(el);
+            /* Three ways this element is the right one to write to:
+               it still holds the text the page shipped with; it already
+               holds this exact text; or we put what it holds there
+               ourselves for this same key — which is the cache pass
+               being overtaken by a newer value from the server. */
+            if (
+              now === original ||
+              now === text ||
+              (el.dataset.ntKey === key && el.dataset.ntApplied === now)
+            )
+              return place(el, key, text, original);
+          }
+
+          /* The markup moved under the key. Do NOT overwrite whatever
+             lives there now — go find the text this edit replaced. */
+          var all = document.body.querySelectorAll("*");
+          for (var i = 0; i < all.length; i++) {
+            var c = all[i];
+            if (!isTextLeaf(c)) continue;
+            if (c.closest("[data-nt-ui]")) continue;
+            if (textOf(c) === original) return place(c, key, text, original);
+          }
+          return null; // nothing matches: skip, silently
+        }
+
+        function applyAll(map) {
+          var n = 0;
+          if (!map) return n;
+          for (var key in map) {
+            if (!Object.prototype.hasOwnProperty.call(map, key)) continue;
+            var e = map[key];
+            if (e && applyOne(key, e.text, e.original)) n++;
+          }
+          return n;
+        }
+
+        function readCache() {
+          try {
+            return JSON.parse(localStorage.getItem(cacheKey) || "{}") || {};
+          } catch (e) {
+            return {};
+          }
+        }
+
+        function writeCache(map) {
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify(map || {}));
+          } catch (e) {
+            /* private mode, or the quota is full: the page still works */
+          }
+        }
+
+        /* Off before the parser has even reached the body. Never cached. */
+        var ready = fetch("/api/content?path=" + encodeURIComponent(path), {
+          credentials: "same-origin",
+          headers: { Accept: "application/json" },
+        })
+          .then(function (r) {
+            return r.ok ? r.json() : null;
+          })
+          .catch(function () {
+            return null;
+          });
+
+        /* readystatechange -> "interactive" fires once the document is
+           parsed and BEFORE deferred scripts run, so the cached copy is
+           on screen by the time the editor boots. */
+        function applyCache() {
+          applyAll(readCache());
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("readystatechange", function onState() {
+            if (document.readyState === "loading") return;
+            document.removeEventListener("readystatechange", onState);
+            applyCache();
+          });
+        } else {
+          applyCache();
+        }
+
+        return {
+          path: path,
+          cacheKey: cacheKey,
+          normalize: normalize,
+          textOf: textOf,
+          isTextLeaf: isTextLeaf,
+          setText: setText,
+          keyFor: keyFor,
+          elFor: elFor,
+          applyOne: applyOne,
+          applyAll: applyAll,
+          readCache: readCache,
+          writeCache: writeCache,
+          ready: ready,
+        };
+      })();
+    </script>
   </head>
   <body class="text-ink antialiased">
     <slot />
+
+    <!-- In-page text editing, part 2 of 2: the editor. Bundled by Astro, so it loads deferred. -->
+    <script>
+      import "../scripts/inline-edit.js";
+    </script>
   </body>
 </html>

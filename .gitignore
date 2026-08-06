@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# timestamped backups taken before editing a file (name.bak.YYYYMMDD-HHMM)
+*.bak.*
+
 # macOS-specific files
 .DS_Store
 
