@@ -25,6 +25,8 @@ function json(body: unknown, status = 200): Response {
   });
 }
 
+/* client_ip and user_agent are deliberately absent: this response is
+   read by the browser, and the audit columns stay on the server. */
 const SELECT_HISTORY = `
   SELECT id, original_text, new_text, created_at
     FROM content_edits

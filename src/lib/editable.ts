@@ -295,6 +295,125 @@ export function isValidKey(raw: unknown): raw is string {
 }
 
 /* ------------------------------------------------------------
+   Where an edit came from
+   ------------------------------------------------------------
+   Nobody logs in to edit this site, so the address and the user agent
+   are the only record of who changed a line. That makes them audit
+   data, and audit data has to be either true or absent — a wrong
+   address is worse than none, so anything that does not parse is
+   stored as NULL rather than as the raw string or a placeholder.
+
+   The address arrives in X-Forwarded-For, which nginx sets. That header
+   is a list: nginx appends the connecting address to whatever the client
+   already sent, so a client can put anything it likes in front of it.
+   The first entry is the closest thing to the real origin, and it is
+   entirely attacker-controlled, which is why it is parsed rather than
+   trusted. If it is not an address, we fall back to the socket address,
+   which cannot be forged.
+
+   These run server-side only, but they live here because this module is
+   the one both halves share; nothing in them touches node:*, so the
+   client bundle can still tree-shake them away.
+   ------------------------------------------------------------ */
+
+/** Longest an IPv6 address can print, which is what the column holds. */
+const MAX_IP = 45;
+
+/** Strict dotted quad. Leading zeros are rejected: "010" is ambiguous
+    (octal to some parsers, decimal to others) and never appears in a
+    header written by nginx. */
+const RE_IPV4 = /^(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}$/;
+
+const RE_HEX_GROUP = /^[0-9a-f]{1,4}$/;
+
+/** Split one side of a "::" into its groups; null if a stray colon
+    left an empty one, as in ":1" or "1:". */
+function ipv6Groups(part: string): string[] | null {
+  if (part === "") return [];
+  const groups = part.split(":");
+  for (const g of groups) if (g === "") return null;
+  return groups;
+}
+
+function isIPv6(raw: string): boolean {
+  const s = raw.toLowerCase();
+  if (s.length < 2 || s.length > MAX_IP) return false;
+  if (!/^[0-9a-f:.]+$/.test(s)) return false;
+
+  const halves = s.split("::");
+  if (halves.length > 2) return false;
+  const compressed = halves.length === 2;
+
+  const head = ipv6Groups(halves[0]);
+  const tail = compressed ? ipv6Groups(halves[1]) : [];
+  if (head === null || tail === null) return false;
+
+  const groups = head.concat(tail);
+  let count = groups.length;
+
+  // A trailing dotted quad ("::ffff:127.0.0.1") stands in for two groups.
+  const last = groups[groups.length - 1];
+  if (last !== undefined && last.includes(".")) {
+    if (!RE_IPV4.test(last)) return false;
+    count += 1;
+    for (const g of groups.slice(0, -1))
+      if (!RE_HEX_GROUP.test(g)) return false;
+  } else {
+    for (const g of groups) if (!RE_HEX_GROUP.test(g)) return false;
+  }
+
+  // "::" stands for at least one omitted group, so a compressed address
+  // is short by definition; an uncompressed one must be all eight.
+  return compressed ? count <= 7 : count === 8;
+}
+
+/**
+ * An address we are willing to write down, or null.
+ * IPv4-mapped IPv6 ("::ffff:203.0.113.4") is folded to its IPv4 form, so
+ * the same visitor reads the same way whether they arrived over IPv4 or
+ * a dual-stack socket.
+ */
+export function validIp(raw: unknown): string | null {
+  if (typeof raw !== "string") return null;
+  let s = raw.trim();
+  if (!s || s.length > MAX_IP) return null;
+
+  // A bracketed literal, as in "[::1]".
+  if (s.startsWith("[") && s.endsWith("]")) s = s.slice(1, -1);
+
+  if (RE_IPV4.test(s)) return s;
+  if (!isIPv6(s)) return null;
+
+  const mapped = /^::ffff:(.+)$/i.exec(s);
+  if (mapped && RE_IPV4.test(mapped[1])) return mapped[1];
+  return s.toLowerCase();
+}
+
+/**
+ * The address to file an edit under: the first entry of X-Forwarded-For
+ * if it parses, otherwise the socket address, otherwise nothing.
+ */
+export function clientIpFrom(
+  request: Request,
+  clientAddress?: string | null
+): string | null {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) {
+    const first = validIp(forwarded.split(",")[0]);
+    if (first) return first;
+  }
+  return validIp(clientAddress);
+}
+
+/** The User-Agent, trimmed to what the column holds, or null. */
+export function userAgentFrom(request: Request): string | null {
+  const ua = request.headers.get("user-agent");
+  if (!ua) return null;
+  const clean = ua.replace(RE_CONTROL, "").trim();
+  return clean ? clean.slice(0, 255) : null;
+}
+
+/* ------------------------------------------------------------
    One validation pass, shared by every write route
    ------------------------------------------------------------ */
 export interface EditInput {

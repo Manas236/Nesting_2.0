@@ -40,12 +40,20 @@ CREATE TABLE IF NOT EXISTS leads (
 -- composite index takes a 191-character prefix of it — plenty to narrow a
 -- lookup down to a handful of rows.
 -- ------------------------------------------------------------
+-- client_ip / user_agent are audit columns: who made this change. Editing
+-- needs no login, so this is the only record of where an edit came from.
+-- They are NEVER returned to the browser — every SELECT the API serves
+-- names its columns explicitly and leaves these two out. VARCHAR(45) is
+-- the longest an IPv6 address can print. Both are NULL when the address
+-- cannot be trusted; a placeholder would be worse than an absence.
 CREATE TABLE IF NOT EXISTS content_edits (
   id            INT AUTO_INCREMENT PRIMARY KEY,
   page_path     VARCHAR(255)  NOT NULL,
   edit_key      VARCHAR(512)  NOT NULL,
   original_text TEXT          NOT NULL,
   new_text      TEXT          NOT NULL,
+  client_ip     VARCHAR(45)   NULL,
+  user_agent    VARCHAR(255)  NULL,
   created_at    TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_page (page_path),
   INDEX idx_page_key (page_path, edit_key(191))

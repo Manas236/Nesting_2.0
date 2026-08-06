@@ -19,7 +19,13 @@
 import type { APIRoute } from "astro";
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import pool from "../../lib/db";
-import { cleanText, normalizePath, validateEdit } from "../../lib/editable";
+import {
+  cleanText,
+  clientIpFrom,
+  normalizePath,
+  userAgentFrom,
+  validateEdit,
+} from "../../lib/editable";
 
 export const prerender = false;
 
@@ -41,6 +47,8 @@ function json(body: unknown, status = 200): Response {
    the join pulls the text back out. idx_page keeps it to the rows for
    this one page.
    ------------------------------------------------------------ */
+/* Columns are named one by one, and client_ip / user_agent are not among
+   them. This response goes to the browser — never widen it to SELECT *. */
 const SELECT_LATEST = `
   SELECT e.id, e.edit_key, e.original_text, e.new_text
     FROM content_edits e
@@ -108,14 +116,27 @@ const SELECT_CURRENT = `
 `;
 
 const INSERT_EDIT = `
-  INSERT INTO content_edits (page_path, edit_key, original_text, new_text)
-  VALUES (?, ?, ?, ?)
+  INSERT INTO content_edits
+    (page_path, edit_key, original_text, new_text, client_ip, user_agent)
+  VALUES (?, ?, ?, ?, ?, ?)
 `;
 
 /** Roughly 8x the longest legal edit. nginx caps this too. */
 const MAX_BODY = 16 * 1024;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async (context) => {
+  const { request } = context;
+
+  // The socket address, used only if X-Forwarded-For does not parse.
+  // Astro throws here rather than returning undefined when the adapter
+  // cannot report it, and a save must not 500 over an audit column.
+  let socket: string | null = null;
+  try {
+    socket = context.clientAddress;
+  } catch {
+    socket = null;
+  }
+
   const declared = Number(request.headers.get("content-length") ?? 0);
   if (declared > MAX_BODY) return json({ error: "That is too much text." }, 413);
 
@@ -148,6 +169,8 @@ export const POST: APIRoute = async ({ request }) => {
       check.key,
       anchor,
       check.text,
+      clientIpFrom(request, socket),
+      userAgentFrom(request),
     ]);
     return json({ ok: true, id: res.insertId, text: check.text });
   } catch (err) {

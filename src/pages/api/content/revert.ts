@@ -21,9 +21,11 @@ import pool from "../../../lib/db";
 import {
   MAX_TEXT,
   cleanText,
+  clientIpFrom,
   denyReason,
   isValidKey,
   normalizePath,
+  userAgentFrom,
 } from "../../../lib/editable";
 
 export const prerender = false;
@@ -45,12 +47,24 @@ const SELECT_HISTORY = `
    ORDER BY id DESC
 `;
 
+/* A revert is an edit like any other and is attributed like one. */
 const INSERT_EDIT = `
-  INSERT INTO content_edits (page_path, edit_key, original_text, new_text)
-  VALUES (?, ?, ?, ?)
+  INSERT INTO content_edits
+    (page_path, edit_key, original_text, new_text, client_ip, user_agent)
+  VALUES (?, ?, ?, ?, ?, ?)
 `;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async (context) => {
+  const { request } = context;
+
+  // See the note in api/content.ts: only a fallback, and it must not throw.
+  let socket: string | null = null;
+  try {
+    socket = context.clientAddress;
+  } catch {
+    socket = null;
+  }
+
   let body: any;
   try {
     body = await request.json();
@@ -122,6 +136,8 @@ export const POST: APIRoute = async ({ request }) => {
       body.key,
       anchor,
       target,
+      clientIpFrom(request, socket),
+      userAgentFrom(request),
     ]);
     return json({ ok: true, id: res.insertId, text: target });
   } catch (err) {
