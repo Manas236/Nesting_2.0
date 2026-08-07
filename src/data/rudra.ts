@@ -119,24 +119,76 @@ export const floorPlans: FloorPlan[] = [
 
 /* ---------- Unit types (5, each with a layout render) ----------
    Same shape as every other project page: the page maps this array
-   into alternating render / detail rows, not a card grid.
+   into alternating render / detail rows, not a card grid, and each
+   row carries its own `stats` and `rooms` the way Dhruva, Shikhar
+   and Shaurya do.
 
    Five layouts, one of each on every upper floor, four upper floors
    = the 20 homes in the area statement.
 
-   NO `stats` AND NO `rooms` ON THESE ROWS, DELIBERATELY. Both exist
-   on the approved plan but only per UNIT NUMBER, and the drawing
-   never says which 1RK render is which unit — see the note on
-   `carpetSchedule` below. The per-unit room schedule read off the
-   fourth-floor drawing is recorded there so nobody has to redo it;
-   attach it here once the owner confirms the pairing.            */
+   HOW THE PAIRING WAS MADE. The approved plan's carpet table is
+   keyed to unit numbers, and the drawing labels only the 1BHK (the
+   one BED per floor, so that is unit x01). The four 1RK renders were
+   matched to units x02–x05 by reading each render against the rooms
+   marked on the typical-floor plan:
+
+     x02  the only 1RK with its kitchen set apart in its own bay
+          (2.60 × 2.05) and a balcony beyond it  -> the 450 render
+     x03  the only near-square living (3.76 × 3.00), kitchen on the
+          far wall, balcony down the flank       -> the 440 render
+     x04  living at the front, kitchen and bath pushed to the back
+          corner                                 -> the 425 render
+     x05  the only home with NO kitchen room on the plan — a washing
+          place and an open counter instead      -> the 340 render
+
+   KNOWN INCONSISTENCY IN THE SOURCE, kept visible rather than
+   smoothed over: x02's recorded carpet (13.25) does not reconcile
+   with its own room sizes, which sum to ~19.8 sq. m. — carpet should
+   be the larger figure, since it also takes in the internal passage.
+   So the 450 layout prints the smallest carpet of the four 1RKs and
+   the 425 layout the largest. Either the carpet table was read from
+   an earlier revision of the plan or that row is mis-assigned. Worth
+   re-checking against the approved drawing; if it is corrected, only
+   the `stats` on "Large 1 RK" below need changing.
+
+   ONE CARPET FIGURE PER LAYOUT — owner's rule, 5 Aug 2026. Where the
+   floors differ (the 440 and the 340, whose fourth-floor unit sits on
+   the set-back top floor), the two figures are averaged into the
+   single number that prints:
+
+     440  (17.83 + 16.88) / 2 = 17.36 sq. m.
+     340  (16.65 + 14.07) / 2 = 15.36 sq. m.
+     340  carpet + balcony: (18.30 + 14.07) / 2 = 16.19 sq. m.
+
+   This supersedes an earlier rule in this file that forbade averaging
+   403 and 405 into their series. Both per-unit figures survive in the
+   record below and in `unitTypesNote`, which says on the page that
+   those two units are smaller and names their exact areas — so the
+   averaged number is never the only figure a reader can get to.
+
+   TWO STAT CELLS PER LAYOUT, no more: carpet, then carpet + balcony
+   where the plan records one, else the homes count. The grid is two
+   columns, so anything longer spills onto a second row and pushes the
+   text column well past the height of the render beside it.       */
 export type UnitType = {
   type: string;
   units: string;
   series: string;
   plan: string;
   blurb: string;
+  /* RERA carpet figures from the approved plan, rendered by
+     <AreaStats/> beside the layout render. Keep to two entries. */
+  stats: { label: string; value: string }[];
+  /* Four each, and none of them a restatement of the blurb, the type
+     name or the series line — the column has to stay short. */
   features: string[];
+  /* Dimensions marked on the typical-floor plan (floors 1 to 3).
+     The fourth floor sets back for the terrace — see the note.
+     Habitable rooms only, as on Dhruva and Shikhar: balconies are
+     covered by the "carpet + balcony" stat and the feature list, and
+     listing them here only made the column taller than the render.
+     Their sizes stay in the record below. */
+  rooms: { room: string; dim: string }[];
   featured?: boolean;
 };
 
@@ -144,110 +196,159 @@ export const unitTypes: UnitType[] = [
   {
     type: "Grand 1 BHK",
     units: "560 sq. ft.",
-    series: "4 homes · one on every floor",
+    series: "4 homes · units 101 / 201 / 301 / 401",
     plan: "/images/projects/rudra/unit-1bhk-560.jpg",
     blurb:
-      "The one home on each floor with a separate bedroom. The living room and the bedroom each open onto their own enclosed balcony, the kitchen runs along the window wall, and the bath and WC are kept as two separate rooms off the passage.",
+      "The one home on each floor with a separate bedroom. Living room and bedroom each open onto their own enclosed balcony.",
+    stats: [
+      { label: "Carpet area", value: "20.96 sq. m. (226 sq. ft.)" },
+      { label: "Carpet + balcony", value: "27.60 sq. m. (297 sq. ft.)" },
+    ],
     features: [
       "Separate bedroom",
       "Two enclosed balconies",
       "Separate bath and WC",
       "Kitchen on the window wall",
-      "Living opens to the balcony",
-      "Units 101 / 201 / 301 / 401",
+    ],
+    rooms: [
+      { room: "Living", dim: "2.75 × 4.30 m" },
+      { room: "Bedroom", dim: "2.80 × 2.50 m" },
+      { room: "Kitchen", dim: "2.00 × 1.80 m" },
+      { room: "Bath", dim: "1.51 × 1.20 m" },
+      { room: "WC", dim: "0.90 × 1.15 m" },
     ],
     featured: true,
   },
   {
     type: "Large 1 RK",
     units: "450 sq. ft.",
-    series: "4 homes · one on every floor",
+    series: "4 homes · units 102 / 202 / 302 / 402",
     plan: "/images/projects/rudra/unit-1rk-450.jpg",
     blurb:
-      "The largest of the four 1RK layouts, a single living space wide enough to hold a full sitting area and a dining spot, with the kitchen set apart in its own bay and a second enclosed balcony beside it.",
+      "The largest of the four 1RK layouts: one living space wide enough for a full sitting area and a dining spot, with the kitchen set apart in its own bay.",
+    stats: [
+      { label: "Carpet area", value: "13.25 sq. m. (143 sq. ft.)" },
+      { label: "Carpet + balcony", value: "20.24 sq. m. (218 sq. ft.)" },
+    ],
     features: [
       "Widest 1RK living space",
       "Kitchen in its own bay",
       "Two enclosed balconies",
       "Attached bathroom",
-      "Sitting and dining zones",
-      "Largest of the 1RK plans",
+    ],
+    rooms: [
+      { room: "Living", dim: "2.75 × 4.20 m" },
+      { room: "Kitchen", dim: "2.60 × 2.05 m" },
+      { room: "Bath", dim: "1.45 × 1.20 m" },
+      { room: "WC", dim: "1.30 × 0.90 m" },
     ],
   },
   {
     type: "Spacious 1 RK",
     units: "440 sq. ft.",
-    series: "4 homes · one on every floor",
+    series: "4 homes · units 103 / 203 / 303 / 403",
     plan: "/images/projects/rudra/unit-1rk-440.jpg",
     blurb:
-      "A near-square plan that keeps the kitchen on the far wall and the living area by the balcony, so the two never cross. The bathroom sits off the middle of the home rather than at the end of a passage.",
+      "A near-square plan that keeps the kitchen on the far wall and the living area by the balcony, so the two never cross.",
+    stats: [
+      { label: "Carpet area", value: "17.36 sq. m. (187 sq. ft.)" },
+      { label: "Homes of this type", value: "4 of 20" },
+    ],
     features: [
       "Kitchen on the far wall",
-      "Living beside the balcony",
       "Full-width enclosed balcony",
-      "Attached bathroom",
       "Square plan, easy to furnish",
-      "Bathroom off the middle",
+      "Attached bathroom",
+    ],
+    rooms: [
+      { room: "Living", dim: "3.76 × 3.00 m" },
+      { room: "Kitchen", dim: "1.90 × 1.75 m" },
+      { room: "Toilet", dim: "2.20 × 1.30 m" },
+      { room: "WC", dim: "1.30 × 0.90 m" },
     ],
   },
   {
     type: "Spacious 1 RK",
     units: "425 sq. ft.",
-    series: "4 homes · one on every floor",
+    series: "4 homes · units 104 / 204 / 304 / 404",
     plan: "/images/projects/rudra/unit-1rk-425.jpg",
     blurb:
-      "The same rooms in a slightly tighter footprint. Living at the front by the balcony, kitchen and bathroom pushed to the back. The split keeps the sitting area clear of the working end of the home.",
+      "The same rooms in a slightly tighter footprint: living at the front by the balcony, kitchen and bathroom pushed to the back.",
+    stats: [
+      { label: "Carpet area", value: "19.38 sq. m. (209 sq. ft.)" },
+      { label: "Homes of this type", value: "4 of 20" },
+    ],
     features: [
       "Living front, kitchen back",
       "Enclosed balcony off the living",
       "Second balcony at the kitchen",
       "Attached bathroom",
-      "Entry clear of the sitting area",
-      "Same rooms, tighter footprint",
+    ],
+    rooms: [
+      { room: "Living", dim: "2.75 × 3.65 m" },
+      { room: "Kitchen", dim: "2.60 × 1.90 m" },
+      { room: "Bath", dim: "1.45 × 1.20 m" },
+      { room: "WC", dim: "1.30 × 0.90 m" },
     ],
   },
   {
     type: "Value 1 RK",
     units: "340 sq. ft.",
-    series: "4 homes · one on every floor",
+    series: "4 homes · units 105 / 205 / 305 / 405",
     plan: "/images/projects/rudra/unit-1rk-340.jpg",
     blurb:
-      "The most efficient home in the building. Everything sits off one room: sofa and television on one side, the kitchen counter on the other, the balcony straight ahead and the bathroom to the side.",
+      "The most efficient home in the building. Everything sits off one room — sofa and television on one side, the kitchen counter on the other.",
+    stats: [
+      { label: "Carpet area", value: "15.36 sq. m. (165 sq. ft.)" },
+      { label: "Carpet + balcony", value: "16.19 sq. m. (174 sq. ft.)" },
+    ],
     features: [
-      "The most efficient layout",
       "Defined zones in one room",
       "Enclosed balcony off the living",
       "Kitchen counter on one wall",
       "Attached bathroom",
-      "Smallest of the five layouts",
+    ],
+    rooms: [
+      { room: "Living", dim: "2.75 × 3.65 m" },
+      { room: "Bath", dim: "2.11 × 1.20 m" },
+      { room: "WC", dim: "0.90 × 1.20 m" },
+      { room: "Washing place", dim: "1.50 × 2.25 m" },
     ],
   },
 ];
 
-/* ---------- Carpet schedule — the approved plan's figures ----------
-   Rendered as the one shared <AreaStats/> strip that closes the
-   home-configurations section. Straight from the floor-wise
+/* ---------- Source record for the figures on `unitTypes` ----------
+   The carpet figures above are straight from the floor-wise
    carpet-area table on the CIDCO-approved plan
    (CIDCO/BP-16651/TPO(NM)/2019, scrutinised 13 May 2019): 5 homes on
    each of floors 1–4 = the 20 residential units in the area
-   statement, plus 4 shops on the ground floor.
+   statement, plus 4 shops on the ground floor. They used to print as
+   one shared strip at the foot of the section, because the table is
+   keyed by unit number; they now sit on their own layout, per the
+   pairing set out above `unitTypes`.
 
-   It is keyed by unit number, not by the five `unitTypes` above,
-   deliberately. The drawing labels one BED per floor, so the single
-   1BHK is unit x01; but it never says which of the four 1RK plans is
-   which marketed layout, so the 340 / 425 / 440 / 450 sq. ft. rows
-   cannot be matched to unit numbers from this document. That is why
-   `unitTypes` carries no per-layout carpet figure and no per-layout
-   room table — the strip below covers the whole floor at once.
+   The table, as read, unit by unit — the raw record, in case a row
+   ever has to be checked or re-split:
 
-   Floors 1–3 are identical. The fourth floor differs on two units:
-   403 is 16.88 (not 17.83) and 405 is 14.07 with no balcony (not
-   16.65 + 1.65), because the top floor sets back for the terrace.
+     101 / 201 / 301 / 401   20.96   + 6.64 balcony
+     102 / 202 / 302 / 402   13.25   + 6.99 balcony
+     103 / 203 / 303         17.83            403 is 16.88
+     104 / 204 / 304 / 404   19.38
+     105 / 205 / 305         16.65   + 1.65 balcony
+     405                     14.07   no balcony
 
-   ROOM SCHEDULE, read off the fourth-floor drawing (metres), kept
-   here so the extraction does not have to be redone. Attach these to
-   `unitTypes` as a `rooms` field — the way Shikhar and Shaurya do —
-   once the owner says which render is which unit:
+   403 and 405 are smaller than their own series because the fourth
+   floor sets back for the terrace. Per the owner's rule the page
+   prints one carpet figure per layout, so each of those two is
+   averaged into its series — see the arithmetic above `unitTypes`.
+   The exact figures for both units are named in `unitTypesNote`,
+   which prints under the section, so a reader is never left with
+   only the averaged number.
+
+   ROOM SCHEDULE. The dimensions on `unitTypes.rooms` are the ones
+   marked on the typical-floor plan, floors 1 to 3 — the floor the 3D
+   renders on the page show. The fourth-floor drawing differs, and is
+   kept here so the extraction does not have to be redone:
 
      401  1BHK  living 2.75×4.50 · bed 2.80×2.90 · kitchen 2.00×1.80
                 bath 1.20×1.35 · WC 0.90×1.35 · E.D 1.25×0.90
@@ -261,28 +362,14 @@ export const unitTypes: UnitType[] = [
      405  1RK   living 2.75×3.55 · bath 1.20×1.55 · WC 0.90×1.38
                 natural-light shaft 1.95×2.60 · no kitchen labelled
 
-   Floors 1–3 differ slightly, per the 3D typical-floor render:
-   x01 living 2.75×4.30 and bed 2.80×2.50; x02 living 2.75×4.20;
-   x03 living 3.76×3.00; x04 and x05 living 2.75×3.65.
-
-   FLAG FOR THE OWNER: these room figures do not reconcile with the
-   carpet figures below. Unit 401's rooms alone sum to ~26.4 sq. m.
-   against a recorded carpet of 20.96, and 402's to ~19.8 against
-   13.25 — carpet should be the larger number, since it also takes in
-   the internal passage. Either the carpet table was read from an
-   earlier revision of the plan or the rows are mis-assigned. Worth
+   FLAG FOR THE OWNER: the room figures do not reconcile with the
+   carpet figures. Unit 401's rooms alone sum to ~26.4 sq. m. against
+   a recorded carpet of 20.96, and 402's to ~19.8 against 13.25 —
+   carpet should be the larger number, since it also takes in the
+   internal passage. Either the table was read from an earlier
+   revision of the plan or those rows are mis-assigned. Worth
    re-checking against the approved drawing before these figures are
-   relied on. */
-export const carpetSchedule: { label: string; value: string }[] = [
-  { label: "1BHK — 101 / 201 / 301 / 401", value: "20.96 sq. m. (226 sq. ft.)" },
-  { label: "1RK — 102 / 202 / 302 / 402", value: "13.25 sq. m. (143 sq. ft.)" },
-  { label: "1RK — 103 / 203 / 303", value: "17.83 sq. m. (192 sq. ft.)" },
-  { label: "1RK — 104 / 204 / 304 / 404", value: "19.38 sq. m. (209 sq. ft.)" },
-  { label: "1RK — 105 / 205 / 305", value: "16.65 sq. m. (179 sq. ft.)" },
-  { label: "Fourth floor — 403 / 405", value: "16.88 / 14.07 sq. m. (182 / 151 sq. ft.)" },
-];
-
-/* Source line printed under the carpet schedule.
+   relied on.
 
    NOTE FOR LATER: the `units` figures on `unitTypes` above, and the
    "340–560" line in `overview.spaceMix`, are not carpet areas — the
@@ -290,9 +377,12 @@ export const carpetSchedule: { label: string; value: string }[] = [
    27.60 sq. m. = 297 sq. ft. carpet-plus-balcony, for the largest
    home. 340–560 sq. ft. is roughly double the carpet, so it reads as
    a saleable / super-built-up figure. Same issue as Prithvi's 2BHK.
-   Left as supplied; relabel or replace when the owner confirms. */
-export const carpetScheduleNote =
-  "Carpet areas as printed on the floor-wise carpet-area table of the CIDCO-approved building plan CIDCO/BP-16651/TPO(NM)/2019, scrutinised 13 May 2019. Enclosed balconies add 6.64 sq. m. to unit x01, 6.99 sq. m. to unit x02 and 1.65 sq. m. to units 105 / 205 / 305. Renders are indicative; furniture and finishes are not part of the sale.";
+   Left as supplied; relabel or replace when the owner confirms.
+
+   Source line printed under the home-configurations section, the way
+   Dhruva and Shikhar print theirs. */
+export const unitTypesNote =
+  "Carpet areas from the floor-wise carpet-area table of the CIDCO-approved building plan CIDCO/BP-16651/TPO(NM)/2019, scrutinised 13 May 2019, shown as one figure per layout. The fourth floor sets back for the terrace, so two units are smaller than the rest of their series — 403 is 16.88 sq. m. and 405 is 14.07 sq. m. with no balcony — and their layouts show the average across the floors. Room dimensions are those marked on the typical-floor plan for floors 1 to 3. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- Amenities — the page's hero USP ----------
    `featured` items render as larger, accent-treated tiles.   */

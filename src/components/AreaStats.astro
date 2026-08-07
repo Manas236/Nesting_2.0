@@ -9,9 +9,15 @@
 
    LAYOUT: label stacked ABOVE the figure, two cells per row. The label
    is a quiet small-caps line; the figure below it is the only loud thing
-   in the cell. Nothing shares a baseline with anything else, so long
-   values ("23.98 – 34.12 sq. m.") can't crowd their own label the way
-   they did when these were label-left / value-right rows.
+   in the cell. Nothing shares a baseline with anything else, so a long
+   value can't crowd its own label the way it did when these were
+   label-left / value-right rows.
+
+   No project passes a RANGE any more. Where a layout's homes differ
+   slightly by series, src/data averages them to one figure and says so
+   in that project's note line — a range read as uncertainty on a page
+   whose whole job is to make a buyer confident. The range handling
+   below still works; nothing feeds it.
 
    The "X sq. m. (Y sq. ft.)" strings are taken apart at render time into
    three pieces — figure, unit, and the demoted restatement — so the big
@@ -22,9 +28,9 @@
    needs reformatting.
 
    Two columns at every width: the square-foot figures that now lead are
-   short enough ("258 – 367") to sit in a half-width cell on a phone.
-   Going metric-first again would need `grid-cols-1 sm:grid-cols-2` back,
-   since "23.98 – 34.12" breaks mid-figure at that size.
+   short enough ("300") to sit in a half-width cell on a phone. That held
+   back when they were ranges ("258 – 367"), so single figures have room
+   to spare — and going metric-first would now fit too.
 
    KILL SWITCH: set `features.areaStats = false` in src/data/site.ts
    and every grid on every project page stops rendering, along with

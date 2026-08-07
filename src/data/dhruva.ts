@@ -127,7 +127,20 @@ export const floorPlans: FloorPlan[] = [
    (25.04 / 24.13 / 22.06 sq. m. carpet, with 6.90 / 6.85 / 10.21
    sq. m. of enclosed balcony) and 104–106 are the 1RK homes
    (22.32 / 21.83 / 22.27 sq. m. carpet, no balcony). Room sizes are
-   the dimensions marked on the typical-floor plan.               */
+   the dimensions marked on the typical-floor plan.
+
+   `stats` prints ONE figure per row rather than the range across the
+   three series — a range reads as uncertainty on a sales page. Each
+   is the mean of the per-unit figures above, unweighted because every
+   series carries the same four homes (one per floor, floors 1–4):
+
+     1BHK carpet      (25.04 + 24.13 + 22.06) / 3 = 23.74 sq. m.
+     1BHK carpet+bal. (31.94 + 30.98 + 32.27) / 3 = 31.73
+     1RK  carpet      (22.32 + 21.83 + 22.27) / 3 = 22.14
+
+   The sq. ft. restatement is converted from the rounded metric figure
+   so the two numbers on a cell always agree. The averaging is
+   disclosed in `unitTypesNote` below.                             */
 export type UnitType = {
   type: string;
   units: string;
@@ -148,8 +161,8 @@ export const unitTypes: UnitType[] = [
     blurb:
       "The larger of Dhruva's two layouts: a separate bedroom off an open living-dining, a kitchen with a full-length counter, a split bath and WC, and an enclosed balcony running the width of the living room.",
     stats: [
-      { label: "Carpet area", value: "22.06 – 25.04 sq. m. (237 – 269 sq. ft.)" },
-      { label: "Carpet + balcony", value: "30.98 – 32.27 sq. m. (333 – 347 sq. ft.)" },
+      { label: "Carpet area", value: "23.74 sq. m. (256 sq. ft.)" },
+      { label: "Carpet + balcony", value: "31.73 sq. m. (342 sq. ft.)" },
       { label: "Homes of this type", value: "12 of 24" },
     ],
     features: [
@@ -174,7 +187,7 @@ export const unitTypes: UnitType[] = [
     blurb:
       "One open living-and-sleeping space with the kitchen fitted along a single wall, plus a full bath and its own WC. Compact to run, easy to furnish and the same finish schedule as the 1BHK.",
     stats: [
-      { label: "Carpet area", value: "21.83 – 22.32 sq. m. (235 – 240 sq. ft.)" },
+      { label: "Carpet area", value: "22.14 sq. m. (238 sq. ft.)" },
       { label: "Homes of this type", value: "12 of 24" },
     ],
     features: [
@@ -194,7 +207,7 @@ export const unitTypes: UnitType[] = [
 
 /* Source line printed under the flat-types section. */
 export const unitTypesNote =
-  "Carpet areas as printed on the CIDCO-approved building plan CIDCO/BP-17214/TPO(NM)/2019, approved 16 December 2019. Renders are indicative; furniture and finishes are not part of the sale.";
+  "Carpet areas from the CIDCO-approved building plan CIDCO/BP-17214/TPO(NM)/2019, approved 16 December 2019. Each figure is the average across that layout's homes, which vary slightly from series to series; the area of a particular flat is the one printed on the approved plan and stated in its agreement. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- Amenities — the page's hero USP ----------
    `featured` items render as larger, accent-treated tiles.   */

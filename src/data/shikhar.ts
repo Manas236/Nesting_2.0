@@ -70,7 +70,23 @@ export const overview = {
 
    Series 1–4 are the 1BHK homes (three of them, on the first floor,
    carry the wrapping terrace); series 5 and 6 are the 1RK homes,
-   9 units each. 58 flats in total, plus the 8 shops = 66 units.  */
+   9 units each. 58 flats in total, plus the 8 shops = 66 units.
+
+   `stats` prints ONE figure per row rather than the range across the
+   series — a range reads as uncertainty on a sales page. Each is the
+   mean over the homes of that type, weighted by unit count:
+
+     1BHK carpet   (10×29.647 + 29.782 + 9×29.647 + 10×29.034
+                    + 10×29.773) / 40                 = 29.53 sq. m.
+     1BHK balcony  (2.775 + 2.775 + 2.800 + 2.800) / 4 = 2.79
+     1BHK carpet + balcony = 29.53 + 2.79             = 32.32
+     1RK  carpet   (19.439 + 20.673) / 2              = 20.06
+
+   Dropping the three terrace homes out of the 1BHK count leaves the
+   mean at 29.53 either way, so the same figure serves both cards.
+   The sq. ft. restatement is converted from the rounded metric figure
+   so the two numbers on a cell always agree. The averaging is
+   disclosed in `unitTypesNote` below.                             */
 export type UnitType = {
   type: string;
   units: string;
@@ -91,9 +107,9 @@ export const unitTypes: UnitType[] = [
     blurb:
       "A separate bedroom for privacy, a dual-toilet layout and abundant natural light. The most popular choice at Shikhar.",
     stats: [
-      { label: "Carpet area", value: "29.03 – 29.78 sq. m. (312 – 320 sq. ft.)" },
-      { label: "Enclosed balcony", value: "2.78 – 2.80 sq. m. (30 sq. ft.)" },
-      { label: "Carpet + balcony", value: "31.83 – 32.56 sq. m. (343 – 350 sq. ft.)" },
+      { label: "Carpet area", value: "29.53 sq. m. (318 sq. ft.)" },
+      { label: "Enclosed balcony", value: "2.79 sq. m. (30 sq. ft.)" },
+      { label: "Carpet + balcony", value: "32.32 sq. m. (348 sq. ft.)" },
       { label: "Homes of this type", value: "37 of 58" },
     ],
     features: [
@@ -117,7 +133,7 @@ export const unitTypes: UnitType[] = [
     blurb:
       "Compact luxury living with a space-saving design, dedicated functional zones, integrated storage and abundant natural light.",
     stats: [
-      { label: "Carpet area", value: "19.44 – 20.67 sq. m. (209 – 222 sq. ft.)" },
+      { label: "Carpet area", value: "20.06 sq. m. (216 sq. ft.)" },
       { label: "Enclosed balcony", value: "2.60 sq. m. (28 sq. ft.) — series 5 only" },
       { label: "Homes of this type", value: "18 of 58" },
     ],
@@ -162,7 +178,7 @@ export const unitTypes: UnitType[] = [
 
 /* Source line printed under the unit-types section. */
 export const unitTypesNote =
-  "Carpet areas as printed on the CIDCO-approved building plan CIDCO/BP-18416/TPO(NM & K)/2023/12230, approved 22 March 2024. Renders are indicative; furniture and finishes are not part of the sale.";
+  "Carpet areas from the CIDCO-approved building plan CIDCO/BP-18416/TPO(NM & K)/2023/12230, approved 22 March 2024. Each figure is the average across that layout's homes, which vary slightly from series to series; the area of a particular flat is the one printed on the approved plan and stated in its agreement. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- Amenities — the page's hero USP ----------
    `featured` items are rendered as larger, accent-treated tiles.

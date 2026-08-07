@@ -91,7 +91,13 @@ export const overview = {
     { label: "Possession", value: "Targeting March 2027" },
     { label: "Structure", value: "G+4 storey · corner plot on an 11 m & a 9 m road" },
     { label: "Configuration", value: "12 × 1RK · four homes per typical floor (2nd–4th)" },
-    { label: "Carpet area", value: "17.70 sq.mt (≈ 190 sq.ft) per 1RK" },
+    /* 16.964 = the mean of the approved plan's three series (15.223 /
+       19.080 / 16.590), four homes each — the same figure the unit
+       card's summary row carries. This row used to read 17.70 sq.mt,
+       which matches none of the three and is not their mean; with the
+       card now printing one averaged figure, the two contradicted
+       each other on the same page. See the `unitTypes` comment. */
+    { label: "Carpet area", value: "16.96 sq. m. (≈ 183 sq. ft.) average per 1RK" },
     { label: "Approvals", value: "Commencement Certificate obtained · not RERA-registered" },
   ],
   unitMix: [
@@ -221,6 +227,15 @@ export const floorPlans: FloorPlan[] = [
 
    No enclosed or open balcony area is recorded against any of them.
 
+   The summary row at the top of `stats` prints ONE figure rather than
+   the 15.22 – 19.08 range — a range reads as uncertainty on a sales
+   page. It is the mean of the three series, unweighted because each
+   carries four homes: (15.223 + 19.080 + 16.590) / 3 = 16.964, the
+   same 16.964 the `features` comment below refers to. It is labelled
+   an average precisely because the three exact per-series rows sit
+   directly under it — an unqualified "all 12 homes" against a single
+   figure would contradict them.
+
    TWO THINGS THE DRAWING CONTRADICTS, left as supplied and flagged:
      · THREE homes per floor over floors 1–4, not four per floor over
        2–4. Both give twelve, but the header above, `floorPlans` and
@@ -256,7 +271,7 @@ export const unitTypes: UnitType[] = [
     blurb:
       "The one kind of home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Four sit on every typical floor; the plan shown is the corner unit.",
     stats: [
-      { label: "Carpet area — all 12 homes", value: "15.22 – 19.08 sq. m. (164 – 205 sq. ft.)" },
+      { label: "Carpet area — 12-home average", value: "16.96 sq. m. (183 sq. ft.)" },
       { label: "Flats 101 / 201 / 301 / 401", value: "15.22 sq. m. (164 sq. ft.)" },
       { label: "Flats 102 / 202 / 302 / 402", value: "19.08 sq. m. (205 sq. ft.)" },
       { label: "Flats 103 / 203 / 303 / 403", value: "16.59 sq. m. (179 sq. ft.)" },
@@ -283,7 +298,7 @@ export const unitTypes: UnitType[] = [
 
 /* Source line printed under the unit-types section. */
 export const unitTypesNote =
-  "Carpet areas as printed on the RERA carpet-area statement of the CIDCO-approved building plan CIDCO/BP-19208/TPO(NM & K)/2024/13290, approved 20 December 2024. The statement records no enclosed or open balcony area against any of the twelve homes. Renders are indicative; furniture and finishes are not part of the sale.";
+  "Carpet areas from the RERA carpet-area statement of the CIDCO-approved building plan CIDCO/BP-19208/TPO(NM & K)/2024/13290, approved 20 December 2024. The twelve homes come in the three sizes listed above; the summary figure is their average. The statement records no enclosed or open balcony area against any of the twelve homes. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- The clear-corner read — the page's creative ----------
    Ishaan is the name of the north-east: in Vastu, Ishanya is the
@@ -334,8 +349,10 @@ export const levels: Level[] = [
     icon: "window",
     featured: true,
     blurb:
-      "Every home at Ishaan is a 1RK: a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja, about 17.70 sq.mt of carpet. One kind of home, top to bottom.",
-    points: ["12 × 1RK apartments", "≈ 17.70 sq.mt carpet each"],
+      "Every home at Ishaan is a 1RK: a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja, about 17 sq.mt of carpet. One kind of home, top to bottom.",
+    /* "≈ 17 sq.mt carpet, average" not "17.70 each" — the twelve homes
+       run 15.22 / 16.59 / 19.08, so "each" was never true. */
+    points: ["12 × 1RK apartments", "≈ 17 sq.mt carpet, average"],
   },
 ];
 

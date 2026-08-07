@@ -12,8 +12,7 @@ import {
   overview,
   floorPlans,
   unitTypes,
-  carpetSchedule,
-  carpetScheduleNote,
+  unitTypesNote,
   amenityGroups,
   developerNotes,
   whyRudra,
@@ -441,7 +440,7 @@ const pageDesc =
   <!-- ===================== HOME CONFIGURATIONS ===================== -->
   <section id="homes" class="bg-stone py-24 lg:py-32 scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="reveal max-w-3xl mb-16 lg:mb-24">
+      <div class="reveal max-w-3xl mb-14 lg:mb-20">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
           >Home configurations</span
         >
@@ -456,10 +455,10 @@ const pageDesc =
         </p>
       </div>
 
-      <div class="flex flex-col gap-24 lg:gap-32">
+      <div class="flex flex-col gap-20 lg:gap-24">
         {
           unitTypes.map((u, i) => (
-            <article class="reveal grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <article class="reveal grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
               {/* home layout render */}
               <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
@@ -498,9 +497,14 @@ const pageDesc =
                 <p class="font-display text-sm font-bold uppercase tracking-[0.16em] text-olive-600 mt-4">
                   {u.series}
                 </p>
-                <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{u.blurb}</p>
+                <p class="text-muted text-lg leading-relaxed mt-5 max-w-md">{u.blurb}</p>
 
-                <ul class="mt-8 grid sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-lg">
+                {/* RERA carpet figures from the approved plan. Two cells,
+                    so this stays one row of the grid — see the note on
+                    `stats` in src/data/rudra.ts. */}
+                <AreaStats stats={u.stats} heading="Areas — approved plan" class="mt-7 max-w-md" />
+
+                <ul class="mt-7 grid sm:grid-cols-2 gap-x-8 gap-y-3 max-w-lg">
                   {u.features.map((f) => (
                     <li class="flex items-start gap-3 text-ink">
                       <svg
@@ -517,26 +521,38 @@ const pageDesc =
                     </li>
                   ))}
                 </ul>
+
+                {/* Room dimensions. Two-up, unlike the single stacked
+                    column on the other project pages: Rudra lists five
+                    layouts and up to seven rooms each, and stacked they
+                    ran the text column far past the bottom of the render
+                    sitting beside it. */}
+                <div class="mt-7 border-t border-line max-w-lg">
+                  <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted pt-5 pb-1">
+                    Room dimensions
+                  </p>
+                  <dl class="grid sm:grid-cols-2 gap-x-8">
+                    {u.rooms.map((r) => (
+                      <div class="flex items-baseline justify-between gap-3 py-2.5 border-b border-line">
+                        <dt class="text-muted text-base">{r.room}</dt>
+                        <dd class="font-display font-semibold tracking-tight text-ink text-base tabular-nums">
+                          {r.dim}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
               </div>
             </article>
           ))
         }
       </div>
 
-      {/* RERA carpet schedule from the approved plan */}
       {
         features.areaStats && (
-          <div class="reveal mt-24 lg:mt-32">
-            {/* the list's own top rule + eyebrow is the section divider */}
-            <AreaStats
-              stats={carpetSchedule}
-              heading="Carpet areas, per the approved plan"
-              class="max-w-2xl"
-            />
-            <p class="text-mutedlight text-xs leading-relaxed mt-7 max-w-2xl">
-              {carpetScheduleNote}
-            </p>
-          </div>
+          <p class="reveal text-mutedlight text-xs leading-relaxed mt-16 lg:mt-20 max-w-3xl">
+            {unitTypesNote}
+          </p>
         )
       }
     </div>
@@ -946,6 +962,8 @@ const pageDesc =
         <p>{contact.maharera}</p>
         <div class="flex items-center gap-5">
           <a href="/" class="hover:text-stone/70 transition-colors">Back to home</a>
+          <a href="/privacy" class="hover:text-stone/70 transition-colors">Privacy Policy</a>
+          <a href="/terms" class="hover:text-stone/70 transition-colors">Terms</a>
         </div>
       </div>
     </div>

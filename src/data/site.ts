@@ -54,8 +54,9 @@ export const contact = {
   // Site-wide footer line. Registered projects show their MahaRERA number
   // on their own page; not every current project is RERA-registered
   // (Ishaan & Prithvi are under-construction on a Commencement Certificate,
-  // no RERA cert taken), so this must not assert blanket registration.
-  maharera: "MahaRERA details published on our project pages",
+  // no RERA cert taken), so this must not assert blanket registration —
+  // "registered project pages" is the qualifier that keeps it true.
+  maharera: "MahaRERA numbers shown on registered project pages",
   socials: [
     { label: "IG", href: "#" },
     { label: "FB", href: "#" },
@@ -210,9 +211,9 @@ export type PipelineProject = {
 
 export const pipeline: PipelineProject[] = [
   {
-    // Working reference, not a launch name — 122A is how the plot is known
-    // today. Swap in the real project name when one is decided.
-    name: "122A",
+    // The decided project name. Previously carried the plot reference "122A"
+    // as a placeholder; that is no longer used anywhere on the site.
+    name: "Udaan",
     // City level only, as with `projects`. The other six are all Karanjade;
     // this one's locality has NOT been confirmed, so it is not claimed here.
     location: "Navi Mumbai",

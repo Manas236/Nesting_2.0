@@ -205,6 +205,22 @@ export const floorPlans: FloorPlan[] = [
    bedrooms, and 702 is much the largest of the three. The other 26
    rows are the 1BHK homes.
 
+   `stats` prints ONE figure per row rather than the 23.98 – 34.12
+   range — a range that wide reads as uncertainty on a sales page.
+   The 1BHK carpet figure is the mean over all 26 homes, weighted by
+   the unit counts above:
+
+     (6×23.980 + 6×27.872 + 34.116 + 33.449 + 6×29.016
+      + 4×29.030 + 27.816 + 26.780) / 26 = 723.489 / 26 = 27.83
+
+   Note this is well below the 29.05 midpoint of the range: the two
+   largest rows are one home each, while the smallest is six. The
+   balcony rows have no per-unit breakdown in this file, so those two
+   are the midpoint of the supplied range and nothing better. The
+   sq. ft. restatement is converted from the rounded metric figure so
+   the two numbers on a cell always agree. The averaging is disclosed
+   in `unitTypesNote` below.
+
    `rooms` still holds the figures supplied with the render set in
    Jul 2026, not the approved drawing — see the note below `unitTypes`.
    Fill `features` and the tick-list appears; both features and rooms
@@ -230,9 +246,9 @@ export const unitTypes: UnitType[] = [
     blurb:
       "The home Prithvi is mostly made of. Twenty-six of the building's twenty-seven homes are this one-bedroom plan: a 15-foot living room opening onto a private balcony, a separate kitchen and a bedroom of its own.",
     stats: [
-      { label: "Carpet area", value: "23.98 – 34.12 sq. m. (258 – 367 sq. ft.)" },
-      { label: "Enclosed balcony", value: "5.32 – 8.15 sq. m. (57 – 88 sq. ft.)" },
-      { label: "Open balcony", value: "5.61 – 9.43 sq. m. (60 – 101 sq. ft.)" },
+      { label: "Carpet area", value: "27.83 sq. m. (300 sq. ft.)" },
+      { label: "Enclosed balcony", value: "6.74 sq. m. (73 sq. ft.)" },
+      { label: "Open balcony", value: "7.52 sq. m. (81 sq. ft.)" },
       { label: "Homes of this type", value: "26 of 27" },
     ],
     features: [
@@ -289,7 +305,7 @@ export const unitTypes: UnitType[] = [
    belong to one of them. The card now states both figures. Decide
    which is right and drop the other. */
 export const unitTypesNote =
-  "Carpet areas as printed on the CIDCO-approved building plan CIDCO/BP-19197/TPO(NM & K)/2024/13266, approved 21 November 2024. Renders are indicative; furniture and finishes are not part of the sale.";
+  "Carpet areas from the CIDCO-approved building plan CIDCO/BP-19197/TPO(NM & K)/2024/13266, approved 21 November 2024. The 1BHK figures are the average across the twenty-six homes of that layout, which vary from unit to unit; the area of a particular flat is the one printed on the approved plan and stated in its agreement. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- The ground-up read — the page's creative ----------
    Prithvi is the earth: the first element, the one everything else
