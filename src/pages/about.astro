@@ -308,6 +308,11 @@ const sections = [
                 <p class="text-ink/75 text-lg sm:text-xl lg:text-[1.6rem] lg:leading-[1.5] leading-relaxed mt-6 lg:mt-7 max-w-2xl font-medium">
                   {p.body}
                 </p>
+                {p.paragraphs?.map((para) => (
+                  <p class="text-ink/75 text-base sm:text-lg lg:text-xl leading-relaxed mt-6 lg:mt-7 max-w-2xl">
+                    {para}
+                  </p>
+                ))}
                 {p.points && (
                   <ul class="mt-7 lg:mt-8 space-y-4 max-w-2xl">
                     {p.points.map((point) => (

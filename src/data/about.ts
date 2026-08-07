@@ -83,9 +83,10 @@ export const about = {
       body:
         "To create homes and communities that stand the test of time through unwavering integrity, relentless grit, and uncompromising quality. We are committed to delivering thoughtfully designed developments that enrich everyday living, earn the trust of every customer, and create lasting value for generations to come.",
       // Three further commitments were deleted in the live editor on 6 Aug 2026
-      // (content_edits 91, 92, 93), leaving this one. Kept as a list rather than
-      // folded into `body` so the block can grow back without markup changes.
-      points: [
+      // (content_edits 91, 92, 93). The survivor reads as prose, not as one item
+      // of a list, so it renders as a follow-on paragraph — a single bullet is
+      // a list of one. `points` still works if the commitments ever come back.
+      paragraphs: [
         "Driven by engineering excellence and a customer-first mindset, we strive to uphold the highest standards of transparency, craftsmanship, and timely delivery in every project we undertake. Every home we build reflects our belief that trust is earned, quality is non-negotiable, and enduring relationships are the true foundation of our success.",
       ],
     },
@@ -98,7 +99,15 @@ export const about = {
       body:
         "To build every home with the same care, quality, and integrity we would expect for our own family.",
     },
-  ],
+    // Both list shapes stay declared even while unused, so about.astro can read
+    // `points` and `paragraphs` off either entry without a union narrowing error.
+  ] as {
+    no: string;
+    kicker: string;
+    body: string;
+    paragraphs?: string[];
+    points?: string[];
+  }[],
 
   /* ---------- Careers ---------- */
   careers: {
