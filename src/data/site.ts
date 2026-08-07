@@ -41,7 +41,7 @@ export const brand = {
   // builds across Navi Mumbai (Vashi → Kharghar → Panvel); naming a single
   // neighbourhood on the home page reads as a limit on where we work.
   // Individual project pages still carry their own precise site address.
-  region: "Navi Mumbai, Maharashtra",
+  region: "Navi Mumbai & Panvel",
   tagline: "More Building. More Living.",
   logoMark: "/images/brand/logo-mark.png",
   logoFull: "/images/brand/logo-full.png",
@@ -98,7 +98,7 @@ export const projects: Project[] = [
     name: "Shikhar",
     location: "Navi Mumbai",
     status: "Ongoing",
-    statusLabel: "Now Booking",
+    statusLabel: "Bookings open",
     blurb:
       "The latest Nesting Tree residence, a high-rise built on the same standard as every project before it: more amenities, better daily living, delivered on time.",
     amenities: "Rooftop Gym · Terrace · Lift · CCTV",
@@ -214,12 +214,13 @@ export const pipeline: PipelineProject[] = [
     // The decided project name. Previously carried the plot reference "122A"
     // as a placeholder; that is no longer used anywhere on the site.
     name: "Udaan",
-    // City level only, as with `projects`. The other six are all Karanjade;
-    // this one's locality has NOT been confirmed, so it is not claimed here.
-    location: "Navi Mumbai",
+    // Locality confirmed via the live site edit of 6 Aug 2026, which replaced
+    // the city-level placeholder with the plot address. This is the only
+    // pipeline entry that states one; `projects` above stays city-level.
+    location: "Plot no. 122A, sector R1, Karanjade, Panvel.",
     statusLabel: "In Approvals",
     blurb:
-      "Our seventh project, and the first that isn't a residence. A purely commercial building, still being worked out on paper. Approvals and documentation are under way; nothing has started on site.",
+      "Our seventh project, and the first that isn't a residence. A purely commercial building, still being worked out on paper. Approvals and documentation are under way.",
     facts: [
       "Purely commercial, no residential apartments",
       "No ground-floor shops",
@@ -237,7 +238,7 @@ export const amenities = [
     kicker: "Rooftop Access",
     title: "A rooftop you can use in any weather.",
     body:
-      "A sheltered rooftop deck, open on the sides to the breeze and the view but covered overhead. Sit out and take in the scene without worrying about the sun or the rain.",
+      "A rooftop retreat with the sides open to the breeze and a roof overhead to keep the sun and rain out of the picture. Just the view, on your terms.",
     featured: "Sheltered Rooftop · Terrace Access",
     image: "/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg",
     objectPosition: "center 60%",
@@ -245,9 +246,9 @@ export const amenities = [
   {
     no: "02",
     kicker: "Aerial View",
-    title: "A skyline you can actually stand in.",
+    title: "A skyline you can actually enjoy.",
     body:
-      "From the terrace, the view opens up over Karanjade: uninterrupted, above the rooftops, the kind of outlook a ground-floor balcony can’t give you.",
+      "Step onto the terrace and Karanjade spreads out below — clear above the rooftops.",
     featured: "Panoramic Skyline Views · Open-Air Terrace",
     image: "/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg",
     objectPosition: "center center",
@@ -257,7 +258,7 @@ export const amenities = [
     kicker: "Safety & Access",
     title: "Security that never clocks out.",
     body:
-      "CCTV-monitored common areas, and trained security on site round the clock.",
+      "CCTV across every common area, trained security on-site 24/7. Peace of mind, built in, not bolted on.",
     featured: "CCTV Surveillance · 24×7 Security",
     image: "/images/projects/security.png",
     objectPosition: "center center",
@@ -267,7 +268,7 @@ export const amenities = [
     kicker: "Dedicated Parking",
     title: "A parking spot that’s actually yours.",
     body:
-      "Covered parking on the ground floor, with space for the two-wheeler or the car, out of the sun and the rain. No circling the lane, no fighting for a spot on the road.",
+      "Ground-floor covered parking for the car and the two-wheeler, shielded from sun and rain. Dedicated parking spots - no circling, no scrambling for a spot.",
     featured: "Covered Parking · Two-Wheeler & Car",
     image: "/images/Project_Images/Rudra/Parking/IMG20260627112838.jpeg",
     objectPosition: "center 60%",
@@ -277,7 +278,7 @@ export const amenities = [
     kicker: "Lift Access",
     title: "A lift to every floor, always running.",
     body:
-      "A proper passenger lift to every floor, backed by power for the common areas. Getting home never comes down to the stairs or the grid.",
+      "Automatic high-speed elevator/s in every building, with built in safety devices, ensure comfortable living.",
     featured: "Lift to Every Floor · Power Backup",
     image: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg",
     objectPosition: "center 65%",
@@ -287,7 +288,7 @@ export const amenities = [
     kicker: "Spacious Corridors",
     title: "Common spaces that never feel cramped.",
     body:
-      "Room to move, whether you’re carrying the groceries up or seeing guests out. Wide, well-lit corridors and landings, finished in glossy tile.",
+      "Space to move, light to see by — wide corridors and landings in glossy tile, built for the everyday: groceries in, guests out, no tight spots.",
     featured: "Wide Landings · Bright & Tiled",
     image: "/images/Project_Images/Dhruva/Corridor/corridor.png",
     objectPosition: "center center",
@@ -298,45 +299,45 @@ export const amenities = [
 export const journey = [
   {
     year: "2004",
-    title: "K.D. Construction enters real estate",
+    title: "K.D. Constructions marks real estate entry",
     place: "Vashi, Navi Mumbai",
     body:
-      "Where the housing story begins. K.D. Construction's first residential project was Gopala, a building in Vashi on a CIDCO tender plot, and the start of two decades of homes across Vashi, Kharghar and beyond.",
+      "The story of Nesting Tree began in 2004 with Gopala, K.D. Construction's first residential development in Vashi, built on a CIDCO tender plot. More than just a project, it marked the beginning of a legacy that has grown over two decades, shaping communities across Vashi, Kharghar, and Panvel.",
   },
   {
     year: "2019",
     title: "Nesting Tree is founded",
     place: "Navi Mumbai",
     body:
-      "A simple idea: build homes that come with more than four walls. It turns into a residential development company in Navi Mumbai.",
+      "It began with a simple belief: a home should offer more than four walls. That belief became the foundation of Nesting Tree—a residential developer committed to creating thoughtfully designed homes and thriving communities across Navi Mumbai.",
   },
   {
     year: "2020",
     title: "Rudra delivered",
-    place: "Navi Mumbai",
+    place: "Panvel",
     body:
       "Our first handover. Lift, CCTV and dedicated parking, delivered as promised and handed over to residents.",
   },
   {
     year: "2021",
     title: "Dhruva delivered",
-    place: "Navi Mumbai",
+    place: "Panvel",
     body:
-      "A curved-corner landmark with rooftop access and ground-floor retail. Proof the amenity-first standard scales.",
+      "Our second project was marketed only after receiving the Occupation Certificate. This helped build trust in the neighbourhood.",
   },
   {
     year: "2022",
     title: "Shaurya delivered",
-    place: "Navi Mumbai",
+    place: "Panvel",
     body:
-      "A purely residential G+4 on a corner plot: eight homes with an automatic high-speed lift, delivered and fully sold out.",
+      "A purely residential G+4 on a corner plot with majority of the homes purchased by a single family.",
   },
   {
     year: "Today",
-    title: "Three residences underway",
+    title: "Four buildings are under-construction",
     place: "Navi Mumbai",
     body:
-      "Shikhar, Prithvi and Ishaan are under construction across Navi Mumbai, built to the same amenity-first standard.",
+      "Shikhar, Ishaan, Prithvi and Udaan are under construction across Karanjade, built to the same amenity-first standard.",
   },
 ];
 
@@ -396,7 +397,7 @@ export const home = {
     // carried by the sub-copy and the flagship highlight card.
     headline: ["More Building.", "More Living."],
     sub:
-      "Homes across Navi Mumbai built with more than four walls: rooftops, lifts, security and parking, designed in from the first drawing.",
+      "Homes built on integrity, guided by expertise and delivered with quality.",
     primaryCta: { label: "Explore the Residences", href: "/projects" },
     secondaryCta: { label: "Book a Site Visit", href: "#contact" },
   },
@@ -421,10 +422,10 @@ export const home = {
   // short and lets the pictures do the talking.
   //   rooftop — unsplash.com/photos/photo-1635770618588-06bd8d5d73b9
   intro: {
-    heading: "A home isn't an asset. It's where a life happens.",
+    heading: "No hidden fees, no shortcuts. Just honest guidance you can rely on.",
     lead:
-      "Every slab we pour becomes someone's first morning, someone's twentieth year. So we build a little stronger than the drawing asks, for the life we can't yet see.",
-    close: "Homes made to be lived in. For over twenty years, across Navi Mumbai.",
+      "For over 20 years, Nesting Tree has helped families and investors find not just properties, but peace of mind. We don't just sell homes — we build lasting relationships rooted in honesty and care.",
+    close: "Homes designed with comfort and ease of living at their heart.",
     // First image anchors the collage (tall); the two that follow stack beside it.
     images: [
       {
@@ -452,7 +453,7 @@ export const home = {
   milestones: {
     eyebrow: "Milestones",
     heading: "Two decades of building, measured in homes.",
-    lead: "The record behind the name, from Vashi in 2004 to the residences rising across Navi Mumbai today.",
+    lead: "The record behind the name, from Vashi in 2004 to the residences rising across Navi Mumbai & Panvel today.",
     items: [
       { value: "20+", label: "Years building homes", sub: `Since ${brand.legacyYear}` },
       { value: String(stats.projects), label: "Nesting Tree residences", sub: "Across Navi Mumbai" },
@@ -468,15 +469,15 @@ export const home = {
   // Flagship spread — one project, told as a story, not a card.
   featured: {
     eyebrow: "The Flagship",
-    heading: "Shikhar. Our tallest statement yet.",
+    heading: "Shikhar - Rise above the ordinary.",
     lead:
-      "A landmark high-rise rising above the skyline. Every home lifted over the rooftops, every amenity we're known for built in from the ground up.",
+      "Rising above the skyline, this landmark high-rise offers uninterrupted views of the Navi Mumbai International Airport and the rolling hills that frame it.",
     body:
-      "Shikhar carries the standard forward: a sheltered rooftop you can actually use, a lift to every floor, CCTV-monitored common areas and covered parking that's yours. Not add-ons. The reason to live here.",
+      "A rooftop crafted for soirées under open skies. Multiple elevators for effortless arrival, a private gym and lounge for everyday indulgence. G+10 storeys of considered living, secured by round-the-clock surveillance.",
     // Trust point woven in beside the flagship (was reason #4 + #5).
     trust: {
       k: "Why it holds up",
-      v: "Amenities come standard and the build is made to last, with quality that still holds up years after handover.",
+      v: "Branded fittings, uncompromised quality and attention to detail.",
     },
     cta: { label: "Discover Shikhar", href: "/projects/shikhar" },
     // Single framed hero render — the strongest premium asset in the repo.
@@ -494,25 +495,25 @@ export const home = {
     eyebrow: "The Nesting Tree Difference",
     heading: ["We don't sell", "flats. We deliver", "joy, built to last."],
     lead:
-      "You pay a little more for a Nesting Tree home, and you get more than a flat. Here's what that's stood on.",
+      "You pay a little more for a Nesting Tree home, and you get more than a flat. You can peace of mind.",
     pillars: [
       {
         no: "01",
-        title: "A track record, not a promise",
+        title: "Uncompromising Integrity.",
         body:
-          "Two decades of housing behind us, from Vashi and Kharghar to residences delivered and handed over that you can go and stand in front of today.",
+          "From the first conversation to the final signature, we give you straight answers, transparent pricing, and advice that puts your interests first, even when it's not the easiest thing to say. Because a deal built on trust is the only kind worth making.",
       },
       {
         no: "02",
-        title: "Possession on time",
+        title: "Quality You Can Verify.",
         body:
-          "We build to a schedule and hand over on it, the way every one of our delivered projects was.",
+          "We do not sell homes that are still in the foundation stage. Only when you can see what you are getting, is when we start marketing our projects. Our team conducts thorough due diligence so you're not left discovering problems after you've signed.",
       },
       {
         no: "03",
-        title: "Clear title, clean paperwork",
+        title: "WIth you, always.",
         body:
-          "Land bought directly from the owner on a clear title. No 50:50 or tri-party agreements, so you buy with confidence.",
+          "Handing over the keys isn't where our job ends — it's just one milestone. If something unexpected pops up down the road, even 10 years down the road, we're still here for you. Call us. We stand behind every home we sell, long after the ink's dried and the moving trucks are gone.",
       },
     ],
   },
@@ -538,7 +539,7 @@ export const home = {
     eyebrow: "Now Building",
     heading: "The homes rising right now.",
     lead:
-      "Our ongoing residences across Navi Mumbai, the ones you can still book into. The full catalogue, including delivered projects, lives on the projects page.",
+      "Our ongoing buildings across Navi Mumbai and Panvel, the ones you can still book into.",
     cta: { label: "View All Projects", href: "/projects" },
   },
 
@@ -550,9 +551,9 @@ export const home = {
   // `pos` object-positions each face inside its disc.
   testimonials: {
     eyebrow: "In Their Words",
-    heading: "Homes people are glad they chose.",
+    heading: "Trusted by Families Like Yours.",
     lead:
-      "What owners say once the keys are theirs: the paperwork, the possession date, the building they walk into every evening.",
+      "Real stories from clients who found more than a home — they found a partner they could trust.",
     items: [
       {
         quote:
@@ -599,9 +600,9 @@ export const home = {
 
   cta: {
     eyebrow: "Enquire",
-    heading: "Visit a home in person.",
+    heading: "Let's find you a Home.",
     body:
-      "Book a site visit to an ongoing Nesting Tree residence. Clear title, honest paperwork, and a building you can walk through before you decide.",
+      "Book a site visit to experience a Nesting Tree home. Clear title, honest paperwork and you'll always know where you stand. No surprises, no fine print games.",
     image: "/images/projects/Prithvi-Elevation.jpg",
     imagePos: "center 10%",
   },

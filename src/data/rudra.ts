@@ -62,13 +62,13 @@ export const overview = {
     "Ground-floor parking for buyers",
     "High-speed elevator (6–7 person)",
     "Large entrance lobby & wide staircase",
-    "3 m wide openings on three sides for light & ventilation",
+    "Wide openings on three sides for light & ventilation",
     "Rooftop community sit-out",
     "Stack parking",
     "Premium lobby",
     "Branded bathroom fittings",
-    "Aluminium windows",
-    "External & internal water-proofing",
+    "UPVC windows",
+    "External & internal water-proofing guarantee",
     "Electric back-up",
   ],
   connectivity:
@@ -433,7 +433,7 @@ export const amenityGroups: AmenityGroup[] = [
       },
       {
         icon: "waterproof",
-        name: "External & internal water-proofing",
+        name: "External & internal water-proofing guarantee",
         desc: "Water-proofing inside and out, built to last through the monsoon.",
       },
     ],
@@ -487,7 +487,7 @@ export const amenityGroups: AmenityGroup[] = [
       },
       {
         icon: "window",
-        name: "Aluminium windows",
+        name: "UPVC windows",
         desc: "Sturdy aluminium windows on every opening.",
       },
       {

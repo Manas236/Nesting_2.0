@@ -12,24 +12,24 @@
 
 export const about = {
   kicker: "About Nesting Tree",
-  title: "More than four walls.",
+  title: "Built on Trust. Proven Over Time.",
   lede:
-    "Two decades of Navi Mumbai housing, from Gopala in Vashi (2004) to today. That record, and the engineering pedigree of K.D. Construction, stands behind Nesting Tree, a residential developer building amenity-first homes for every kind of buyer.",
+    "Twenty years of building in Navi Mumbai. A legacy that began with Gopala in Vashi in 2004 and continues today through Nesting Tree. Supported by the engineering excellence of K.D. Construction, we create amenity-first homes that meet the needs of every stage of life.",
 
   /* ---------- Our Story ---------- */
   story: {
     label: "Our Story",
     heading: "Backed by engineering. Built for living.",
     lead:
-      "Nesting Tree has grown into one of the most trusted residential developers in Navi Mumbai, with a portfolio spanning affordable, mid-segment and premium homes. Backed by the engineering pedigree of K.D. Construction, a multi-disciplinary infrastructure company known for railway and large-scale infrastructure work, the company pairs technical depth with a genuinely customer-first approach.",
+      "Nesting Tree has emerged as one of Navi Mumbai's most trusted residential developers, with a portfolio spanning affordable, mid-segment, and premium homes. Backed by the engineering excellence of K.D. Constructions—a multi-disciplinary infrastructure company with deep expertise in large infrastructure projects—Nesting Tree combines technical precision with a steadfast commitment to putting customers first.",
     paragraphs: [
-      "Drawing on its parent company's construction and project-management strength, and on more than twenty years of the founder's housing work in Navi Mumbai, Nesting Tree is committed to timely delivery, superior build quality and transparent dealing. It has expanded across multiple residential developments and handed over landmark projects across Navi Mumbai: Dhruva, Rudra and Shaurya.",
-      "That focus on clear-title land, sustainable development, quality construction and real customer satisfaction has earned the trust of homebuyers and steadily strengthened the company's standing in a competitive market. Every project is designed for modern living, strong connectivity and long-term value, for residents and investors alike.",
+      "Drawing on its parent company's construction and project-management strength, and on more than twenty years of the founder's housing work in Navi Mumbai, Nesting Tree is committed to timely delivery, superior build quality and transparent dealing. It has expanded across multiple residential developments and handed over landmark projects across Navi Mumbai - Rudra, Dhruva & Shaurya.",
+      "A steadfast commitment to clear-title land, sustainable development, superior construction quality, and a customer-first approach has earned Nesting Tree the trust of homebuyers and reinforced its reputation in Navi Mumbai's competitive real estate market. Every project is thoughtfully designed to deliver modern living, seamless connectivity, and enduring value—creating homes that appeal equally to end-users and long-term investors.",
     ],
     facts: [
       { k: "Building homes", v: "Since 2004" },
-      { k: "Parent Company", v: "K.D. Construction" },
-      { k: "Region", v: "Navi Mumbai" },
+      { k: "Parent Company", v: "K.D. Constructions" },
+      { k: "Region", v: "Navi Mumbai & Panvel" },
       { k: "Standard", v: "Clear-title · MahaRERA where registered" },
     ],
   },
@@ -42,17 +42,17 @@ export const about = {
      `monogram` below is kept as a fallback but no longer rendered. */
   founder: {
     label: "Leadership",
-    heading: "The man who started from scratch.",
+    heading: "The Vision Behind Every Home.",
     name: "Kailash Gindodia",
     role: "Founder",
     monogram: "KD",
     tenure: "Dhule → Mumbai · Since 1985",
     lead:
-      "Kailash Shankarlal Gindodia, owner of Nesting Tree, has built his journey on determination, hard work and an unwavering commitment to quality construction.",
+      "Kailash Shankarlal Gindodia, Founder of Nesting Tree, has built his legacy on perseverance, integrity, and an uncompromising commitment to quality construction.",
     paragraphs: [
       "Arriving in Mumbai from Dhule in 1985, he began with a modest CIDCO contract worth ₹2 lakh. Through perseverance and engineering expertise, he steadily expanded his construction business across the Mumbai Metropolitan Region (MMR), executing several government infrastructure projects.",
-      "In 2004 he entered private real estate with Gopala, a residential project in Vashi built on a CIDCO tender plot, the beginning of Nesting Tree's journey as a trusted housing developer. Since then the company has delivered landmark residential projects in Vashi, Kharghar and beyond, earning the trust of hundreds of homebuyers.",
-      "As a first-generation developer, Gindodia has led Nesting Tree with a foundation of integrity, dedication, innovation and customer trust. His vision continues to guide the company in creating quality homes while building lasting relationships with every family it serves.",
+      "In 2004, he entered the residential real estate sector with Gopala, a landmark housing project in Vashi developed on a CIDCO tender plot. That project marked the beginning of Nesting Tree's journey as a trusted residential developer. Since then, the company has delivered several landmark developments across Vashi, Kharghar, and Navi Mumbai, earning the confidence of hundreds of families through its unwavering focus on quality, transparency, and timely delivery.",
+      "As a first-generation entrepreneur, Mr. Gindodia has shaped Nesting Tree around values that continue to define the company today—integrity, craftsmanship, customer trust, and long-term value creation. His vision extends beyond constructing buildings; it is about creating thoughtfully designed communities where families can thrive and generations can build their future with confidence.",
     ],
     values: [
       {
@@ -81,24 +81,22 @@ export const about = {
       no: "01",
       kicker: "Our Mission",
       body:
-        "Guided by the belief of “Housing for All,” we hold ourselves to a clear set of promises on every home we build.",
+        "To create homes and communities that stand the test of time through unwavering integrity, relentless grit, and uncompromising quality. We are committed to delivering thoughtfully designed developments that enrich everyday living, earn the trust of every customer, and create lasting value for generations to come.",
+      // Three further commitments were deleted in the live editor on 6 Aug 2026
+      // (content_edits 91, 92, 93), leaving this one. Kept as a list rather than
+      // folded into `body` so the block can grow back without markup changes.
       points: [
-        "To create thoughtfully designed homes that inspire families to grow, thrive, and build lasting memories.",
-        "To deliver exceptional quality, value, and trust through innovative engineering and ethical construction practices.",
-        "To make homeownership a rewarding experience by exceeding customer expectations at every stage.",
-        "To build sustainable communities where every generation can dream bigger and live better.",
+        "Driven by engineering excellence and a customer-first mindset, we strive to uphold the highest standards of transparency, craftsmanship, and timely delivery in every project we undertake. Every home we build reflects our belief that trust is earned, quality is non-negotiable, and enduring relationships are the true foundation of our success.",
       ],
     },
     {
       no: "02",
       kicker: "Our Vision",
+      // All three commitments here were deleted in the live editor on 6 Aug 2026
+      // (content_edits 96, 97, 98). `points` is omitted entirely rather than left
+      // empty — about.astro falls back to `body` when it is absent.
       body:
-        "Where we intend to stand, and the mark we want every project to leave.",
-      points: [
-        "To be a trusted real estate brand that transforms aspirations into enduring homes and thriving communities.",
-        "To set new benchmarks in quality, innovation, and sustainable development across every project we deliver.",
-        "To create spaces that enrich lives, inspire future generations, and stand the test of time.",
-      ],
+        "To build every home with the same care, quality, and integrity we would expect for our own family.",
     },
   ],
 

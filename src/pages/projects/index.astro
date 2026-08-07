@@ -37,12 +37,12 @@ const amenityIcons: Record<string, string> = {
 const portfolio = [
   {
     kicker: "Ongoing",
-    caption: "Under construction in Karanjade, Navi Mumbai: booking now or pre-launch.",
+    caption: "Under construction in Karanjade, Panvel.",
     items: projects.filter((p) => p.status === "Ongoing"),
   },
   {
     kicker: "Delivered",
-    caption: "Completed, sold out and handed over in Karanjade, Navi Mumbai.",
+    caption: "Completed, sold out and handed over in Karanjade, Panvel.",
     items: projects.filter((p) => p.status === "Delivered"),
   },
 ];
@@ -92,14 +92,14 @@ const pageDesc =
         class="hero-rise font-display font-black text-white text-[2.75rem] sm:text-6xl lg:text-[6rem] leading-[0.95] tracking-tight mt-5 max-w-4xl"
         style="--rise-d:0.22s"
       >
-        Every home we've built.
+        Every project, a promise we keep.
       </h1>
       <p
         class="hero-rise text-white/70 text-base sm:text-lg lg:text-xl mt-7 max-w-2xl leading-relaxed"
         style="--rise-d:0.36s"
       >
-        Ongoing and delivered residences in Karanjade, Navi Mumbai, each built to the same
-        amenity-first standard. Pick one to walk through it in detail.
+        From groundbreaking to handover — and every year after — here's what we're building,
+        and what we've already delivered.
       </p>
 
       <dl
@@ -244,7 +244,7 @@ const pageDesc =
                   </span>
                 </div>
                 <p class="text-muted text-sm sm:text-base max-w-md sm:text-right leading-relaxed">
-                  On paper, not yet on site; approvals under way. Not open for booking.
+                  Still working to optimize usage. Bookings are not open as yet.
                 </p>
               </div>
 
@@ -313,7 +313,7 @@ const pageDesc =
           class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] text-ink"
           style="--reveal-d:0.1s"
         >
-          Amenities aren’t a feature here. They’re the whole point.
+          Amenities that add value to your living.
         </h2>
         <p
           class="reveal text-muted text-base sm:text-lg mt-6 max-w-xl leading-relaxed"
@@ -394,7 +394,7 @@ const pageDesc =
           class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 max-w-2xl leading-[1.05] text-ink"
           style="--reveal-d:0.1s"
         >
-          Found one you'd like to see in person?
+          Want more details?
         </h2>
       </div>
       <a
@@ -420,8 +420,7 @@ const pageDesc =
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
         <div class="reveal">
           <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
-            Residential developer in Navi Mumbai, building homes with more amenities
-            since {brand.legacyYear}.
+            Your Trust, Our Foundation. Since {brand.legacyYear}.
           </p>
           <div class="flex items-center gap-3 mt-6">
             {
