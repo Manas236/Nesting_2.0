@@ -171,61 +171,90 @@ body {
 }
 
 /* ----- Mobile menu -----
-   Tracks the same transparent-over-hero → solid-on-scroll treatment as the
-   global row. Over the hero the panel is glass so the film reads through it;
-   once scrolled the header itself is cream, so the panel simply sits on that
-   and the links flip to ink. */
+   Opening the menu turns the whole header into one dark overlay panel: the
+   treatment it already had over the home hero, now applied at every scroll
+   position and on every page.
+
+   It used to borrow whatever sat behind it — a 40%-ink glass when the header
+   was transparent, and nothing but the header's own 92% cream once scrolled.
+   That only held up over the home hero's dark scrim. Over a bright masthead
+   film (About, Projects) the video read straight through the links, and over
+   body copy the cream ghosted the page underneath. The panel now carries its
+   own surface, and a scrim dims the page below it. */
 #mobile-menu {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease, opacity 0.25s ease;
+  /* visibility keeps the collapsed links out of the tab order, not just out
+     of sight; it steps to hidden at the end of the collapse. */
+  visibility: hidden;
+  transition: max-height 0.3s ease, opacity 0.25s ease, visibility 0.3s ease;
 }
 #mobile-menu.open {
-  max-height: 80vh;
+  /* Never taller than what's left of the viewport under the 72px bar, so a
+     long menu scrolls inside itself instead of running off the screen. */
+  max-height: calc(100svh - 72px);
   opacity: 1;
   overflow-y: auto;
+  visibility: visible;
 }
 
+/* The panel is only ever on screen while .menu-open holds the header dark, so
+   it has one light-on-dark treatment rather than one per scroll state. */
 #mobile-menu .mobile-link {
-  border-bottom: 1px solid var(--color-line);
-  transition: color 0.3s ease, border-color 0.3s ease;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 #mobile-menu .mobile-cta {
   border-bottom: 0;
-  background-color: var(--color-ink);
-  color: var(--color-stone);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-#mobile-menu .mobile-link,
-#mobile-menu .mobile-subhead {
-  color: var(--color-ink);
-}
-#mobile-menu .mobile-subhead {
-  color: rgba(20, 19, 15, 0.4);
-}
-#mobile-menu .mobile-sublink {
-  color: rgba(20, 19, 15, 0.7);
-}
-
-/* Over the hero: glass panel, light type — matching .nav-link's white state. */
-#site-header:not(.is-scrolled) #mobile-menu {
-  background-color: rgba(20, 19, 15, 0.4);
-  backdrop-filter: blur(12px);
-}
-#site-header:not(.is-scrolled) #mobile-menu .mobile-link {
-  color: #ffffff;
-  border-bottom-color: rgba(255, 255, 255, 0.15);
-}
-#site-header:not(.is-scrolled) #mobile-menu .mobile-subhead {
-  color: rgba(255, 255, 255, 0.45);
-}
-#site-header:not(.is-scrolled) #mobile-menu .mobile-sublink {
-  color: rgba(255, 255, 255, 0.7);
-}
-#site-header:not(.is-scrolled) #mobile-menu .mobile-cta {
   background-color: #ffffff;
   color: var(--color-ink);
+}
+
+/* Open header: dark surface and light type, overriding the scrolled cream
+   state below it in the cascade. */
+#site-header.menu-open {
+  background-color: rgba(20, 19, 15, 0.94);
+  backdrop-filter: blur(18px);
+  border-bottom-color: transparent;
+  box-shadow: 0 24px 48px rgba(20, 19, 15, 0.32);
+}
+#site-header.menu-open .nav-link,
+#site-header.menu-open .nav-wordmark,
+#site-header.menu-open .nav-toggle-icon {
+  color: #ffffff;
+}
+#site-header.menu-open .nav-cta {
+  background-color: #ffffff;
+  color: var(--color-ink);
+}
+
+/* Hamburger ↔ close, so the button reads as the way back out. */
+#site-header .nav-toggle-icon .icon-close,
+#site-header.menu-open .nav-toggle-icon .icon-open {
+  display: none;
+}
+#site-header.menu-open .nav-toggle-icon .icon-close {
+  display: inline;
+}
+
+/* Scrim: dims the page under the open panel, and closes the menu on tap. */
+#menu-scrim {
+  background-color: rgba(20, 19, 15, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+#menu-scrim.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* While the menu is open the page behind it holds still — which also keeps
+   the header from flipping to its cream scrolled state mid-open. */
+html.menu-lock,
+html.menu-lock body {
+  overflow: hidden;
 }
 
 /* ============================================================

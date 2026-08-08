@@ -51,6 +51,11 @@ const isActive = (href: string) => {
 const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
 ---
 
+<!-- Sits under the header (z-40 vs z-50) and over the page, so the open menu
+     reads as an overlay instead of as a strip of transparent nav laid on top
+     of live content. Tapping it closes the menu. -->
+<div id="menu-scrim" class="md:hidden fixed inset-0 z-40" aria-hidden="true"></div>
+
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
   <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
     <div class="flex items-center justify-between h-[72px] lg:h-20">
@@ -96,7 +101,7 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
       <button
         id="menu-toggle"
         class="nav-animate md:hidden p-2 -mr-2"
-        aria-label="Toggle menu"
+        aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
         style="--nav-d:0.3s"
@@ -107,12 +112,17 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
           fill="none"
           stroke="currentColor"
           stroke-width="1.6"
-          stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg
+          stroke-linecap="round"
+          ><path class="icon-open" d="M4 7h16M4 12h16M4 17h16"></path><path
+            class="icon-close"
+            d="M6 6l12 12M18 6L6 18"></path></svg
         >
       </button>
     </div>
 
-    <div id="mobile-menu" class="md:hidden -mx-5 sm:-mx-6 px-5 sm:px-6 rounded-b-lg">
+    <!-- No background of its own: the header paints the surface behind both
+         rows, so the bar and the panel are one block of colour. -->
+    <div id="mobile-menu" class="md:hidden -mx-5 sm:-mx-6 px-5 sm:px-6">
       <nav class="flex flex-col gap-1 pb-6 font-display font-bold text-base uppercase tracking-wide">
         {
           nav.map((item) => (
@@ -149,15 +159,35 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
 
     const toggle = document.getElementById("menu-toggle");
     const menu = document.getElementById("mobile-menu");
-    toggle.addEventListener("click", () => {
-      const open = menu.classList.toggle("open");
+    const scrim = document.getElementById("menu-scrim");
+
+    // One place to flip every part of the open state: the panel, the scrim,
+    // the header's dark surface and the page scroll lock. They have to move
+    // together — a panel without the lock lets the page scroll underneath and
+    // recolour the header mid-open.
+    const setMenu = (open) => {
+      menu.classList.toggle("open", open);
+      scrim.classList.toggle("open", open);
+      header.classList.toggle("menu-open", open);
+      document.documentElement.classList.toggle("menu-lock", open);
       toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+
+    toggle.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
+    scrim.addEventListener("click", () => setMenu(false));
+    menu
+      .querySelectorAll(".mobile-link")
+      .forEach((link) => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setMenu(false);
     });
-    menu.querySelectorAll(".mobile-link").forEach((link) =>
-      link.addEventListener("click", () => {
-        menu.classList.remove("open");
-        toggle.setAttribute("aria-expanded", "false");
-      })
-    );
+
+    // Rotating or resizing past the mobile breakpoint hides the toggle, so
+    // close up rather than leave the scroll lock with no button to release it.
+    const desktop = window.matchMedia("(min-width: 768px)");
+    desktop.addEventListener("change", (e) => {
+      if (e.matches) setMenu(false);
+    });
   })();
 </script>
