@@ -365,10 +365,13 @@ export const journey = [
   },
   {
     year: "Today",
-    title: "Four buildings are under-construction",
+    title: "Four buildings under way",
     place: "Navi Mumbai",
+    // Udaan is named here but kept out of the "under construction" clause:
+    // it has no Commencement Certificate and no work on site. Same reason
+    // `stats.underConstruction` exists — see the note on `stats`.
     body:
-      "Shikhar, Ishaan, Prithvi and Udaan are under construction across Karanjade, built to the same amenity-first standard.",
+      "Shikhar, Ishaan and Prithvi are under construction across Karanjade, built to the same amenity-first standard. Udaan, our first purely commercial building, is in approvals.",
   },
 ];
 
@@ -503,9 +506,13 @@ export const home = {
     lead: "The record behind the name, from Vashi in 2004 to the residences rising across Navi Mumbai & Panvel today.",
     items: [
       { value: "20+", label: "Years building homes", sub: `Since ${brand.legacyYear}` },
-      { value: String(stats.projects), label: "Nesting Tree residences", sub: "Across Navi Mumbai" },
+      // "projects", not "residences": the count now includes Udaan, which is
+      // a commercial building. `stats.residences` is the homes-only figure.
+      { value: String(stats.projects), label: "Nesting Tree projects", sub: `${stats.residences} residences · 1 commercial` },
       { value: String(stats.delivered), label: "Delivered & handed over", sub: "Lived in today" },
-      { value: String(stats.ongoing), label: "Under construction", sub: "Rising right now" },
+      // `underConstruction`, not `ongoing` — Udaan is ongoing work but has
+      // nothing on site yet, and "rising right now" would not be true of it.
+      { value: String(stats.underConstruction), label: "Under construction", sub: "Rising right now" },
       { value: "6", label: "Amenities as standard", sub: "Rooftop · Gym · Lift · CCTV · Security · Parking" },
       // Was "01 Neighbourhood — Karanjade": a one-locality stat read as a ceiling
       // on our reach. The same tile now counts the localities already built in.
@@ -575,7 +582,9 @@ export const home = {
       "Every figure is real: homes handed over or under way, and the two decades of housing behind them. A record, not a projection.",
     items: [
       { value: "20+", label: "Years building homes", sub: `Since ${brand.legacyYear}` },
-      { value: String(projects.length), label: "Residences", sub: `${stats.delivered} delivered · ${stats.ongoing} ongoing` },
+      // Was "Residences". Udaan is in the count and is not one, so the label
+      // is the neutral one and the residences figure moves into the sub-line.
+      { value: String(stats.projects), label: "Projects", sub: `${stats.delivered} delivered · ${stats.ongoing} ongoing` },
       // Was "01 Location". A single-location figure undersells the record and
       // caps the brand; the honest, broader figure is localities built in.
       { value: "03", label: "Localities built in", sub: "Vashi · Kharghar · Panvel" },

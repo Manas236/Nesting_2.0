@@ -37,7 +37,10 @@ const amenityIcons: Record<string, string> = {
 const portfolio = [
   {
     kicker: "Ongoing",
-    caption: "Under construction in Karanjade, Panvel.",
+    // Not a blanket "under construction" any more: Udaan is in this band on
+    // the owner's instruction while still in approvals, with nothing on site.
+    // Each card carries its own status label, and this caption covers both.
+    caption: "Under way in Karanjade, Panvel — on site now, or in approvals.",
     items: projects.filter((p) => p.status === "Ongoing"),
   },
   {
@@ -106,9 +109,12 @@ const pageDesc =
         class="hero-fade grid grid-cols-3 gap-4 mt-12 max-w-lg border-t border-white/10 pt-8"
         style="--fade-d:0.6s"
       >
+        <!-- "Projects", not "Residences": the figure now includes Udaan,
+             which is a commercial building. `stats.residences` is the
+             homes-only count if this tile ever needs to say residences. -->
         <div>
           <dt class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-white/45">
-            Residences
+            Projects
           </dt>
           <dd class="font-display font-black text-3xl lg:text-4xl tracking-tight mt-2">
             {stats.projects}
@@ -143,7 +149,7 @@ const pageDesc =
       <div class="flex flex-col gap-16 lg:gap-24">
         {
           portfolio.map((group) => (
-            <div>
+            <div class="rail-band" data-band>
               <div class="reveal flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 border-b border-line pb-5 mb-10">
                 <div class="flex items-center gap-3.5">
                   <h2 class="font-display font-black text-3xl lg:text-4xl tracking-tight">
@@ -165,54 +171,147 @@ const pageDesc =
                 </p>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
-                {group.items.map((p, i) => (
-                  <a
-                    href={`/projects/${p.slug}`}
-                    class="reveal group relative overflow-hidden rounded-[3px] bg-ink h-[86vw] sm:h-[380px] lg:h-[500px]"
-                    style={`--reveal-d:${(i * 0.09).toFixed(2)}s`}
-                  >
-                    <img
-                      src={p.image}
-                      alt={`${p.name} — ${p.location}`}
-                      loading="lazy"
-                      class="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
-                      style={`object-position: ${p.objectPosition};`}
-                    />
-                    <div class="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/25 to-ink/5" />
-                    <span
-                      class={`absolute top-4 left-4 font-display text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-[2px] ${
-                        p.status === "Ongoing"
-                          ? "bg-olive text-white"
-                          : "bg-stone/90 text-ink"
-                      }`}
+              {/* ---------- The cards, as a scroll-snap rail ----------
+                   Was a 3-up grid. With four ongoing projects the fourth card
+                   wrapped onto a row of its own and read as an afterthought,
+                   and the same would happen to every 4th, 7th … project added.
+                   A rail never orphans a card at any count.
+
+                   Mechanics are the home page's testimonial carousel, not a
+                   new invention: native scroll-snap (so swipe, trackpad and
+                   keyboard work with zero JS), with arrows, dots and mouse
+                   drag layered on as progressive enhancement. Two differences
+                   from that one, both deliberate:
+                     · no inner `w-max` track — the scroll container IS the
+                       flex container. Card widths are percentages, so they
+                       need a definite basis to resolve against, and the rail
+                       is the only box here that has one.
+                     · `.reveal` sits on the rail, not on each card. A card
+                       scrolled out of view horizontally never intersects, so
+                       per-card reveals would leave blanks in the rail.
+
+                   The controls and edge fades below hide themselves whenever
+                   everything already fits (Delivered, at desktop width), so a
+                   band that doesn't scroll shows no scroll furniture. */}
+              <div class="reveal p-railwrap relative">
+                <div
+                  class="p-rail flex gap-3 lg:gap-4"
+                  data-rail
+                  tabindex="0"
+                  role="group"
+                  aria-roledescription="carousel"
+                  aria-label={`${group.kicker} projects`}
+                >
+                  {group.items.map((p) => (
+                    <a
+                      href={`/projects/${p.slug}`}
+                      draggable="false"
+                      class="p-card group relative shrink-0 overflow-hidden rounded-[3px] bg-ink h-[86vw] sm:h-[380px] lg:h-[500px]"
                     >
-                      {p.statusLabel}
-                    </span>
-                    <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7">
-                      <h3 class="font-display font-black text-2xl lg:text-3xl text-white tracking-tight">
-                        {p.name}
-                      </h3>
-                      <p class="text-white/65 text-sm mt-1">{p.location}</p>
-                      <p class="text-white/70 text-sm leading-relaxed mt-3 max-w-sm max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-out group-hover:max-h-40 group-hover:opacity-100">
-                        {p.blurb}
-                      </p>
-                      <span class="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.16em] text-olive-100 mt-4">
-                        View Project
-                        <svg
-                          class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.8"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          set:html={arrow}
-                        />
+                      <img
+                        src={p.image}
+                        alt={`${p.name} — ${p.location}`}
+                        loading="lazy"
+                        draggable="false"
+                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
+                        style={`object-position: ${p.objectPosition};`}
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/25 to-ink/5" />
+                      <span
+                        class={`absolute top-4 left-4 font-display text-[10px] font-bold uppercase tracking-[0.14em] px-2.5 py-1 rounded-[2px] ${
+                          p.status === "Ongoing" ? "bg-olive text-white" : "bg-stone/90 text-ink"
+                        }`}
+                      >
+                        {p.statusLabel}
                       </span>
-                    </div>
-                  </a>
-                ))}
+                      <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7">
+                        <h3 class="font-display font-black text-2xl lg:text-3xl text-white tracking-tight">
+                          {p.name}
+                        </h3>
+                        <p class="text-white/65 text-sm mt-1">{p.location}</p>
+                        <p class="text-white/70 text-sm leading-relaxed mt-3 max-w-sm max-h-0 opacity-0 overflow-hidden transition-all duration-500 ease-out group-hover:max-h-40 group-hover:opacity-100">
+                          {p.blurb}
+                        </p>
+                        <span class="inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.16em] text-olive-100 mt-4">
+                          View Project
+                          <svg
+                            class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            set:html={arrow}
+                          />
+                        </span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+
+                {/* Edge fades — the "there's more this way" hint. Purely
+                    decorative and click-through; JS toggles them with the
+                    scroll position. */}
+                <span class="rail-fade rail-fade-l" aria-hidden="true" />
+                <span class="rail-fade rail-fade-r" aria-hidden="true" />
+              </div>
+
+              {/* Dots + arrows. Hidden from assistive tech — the rail itself is
+                  focusable, swipeable and arrow-key scrollable.
+
+                  Hidden by default and shown only once the script confirms the
+                  band actually overflows, so a band that fits (Delivered, on a
+                  desktop) shows no scroll furniture, and a visitor with JS off
+                  never gets buttons that do nothing. Deliberately NOT a
+                  `.reveal`: it can start out display:none, and an element that
+                  never intersects never gets its in-view class — it would come
+                  back from a resize permanently invisible. */}
+              <div class="p-controls items-center justify-between gap-6 mt-7" aria-hidden="true">
+                <div class="flex items-center gap-2.5">
+                  {group.items.map((_, i) => (
+                    <button
+                      type="button"
+                      data-dot={i}
+                      class="p-dot h-2 rounded-full bg-ink/20 hover:bg-ink/40 transition-all"
+                    />
+                  ))}
+                </div>
+                <div class="flex items-center gap-2.5 shrink-0">
+                  <button
+                    type="button"
+                    data-dir="-1"
+                    class="p-arrow w-11 h-11 lg:w-12 lg:h-12 rounded-full border border-ink/25 text-ink flex items-center justify-center hover:bg-ink hover:text-stone hover:border-ink transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M19 12H5M11 18l-6-6 6-6" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    data-dir="1"
+                    class="p-arrow w-11 h-11 lg:w-12 lg:h-12 rounded-full border border-ink/25 text-ink flex items-center justify-center hover:bg-ink hover:text-stone hover:border-ink transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      set:html={arrow}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
           ))
@@ -527,5 +626,226 @@ const pageDesc =
       );
       revealTargets.forEach((el) => io.observe(el));
     }
+
+    /* ---------- Project rails ----------
+       One instance per band ([data-band]), so Ongoing and Delivered scroll
+       independently. The rail is a native scroll-snap container: swipe,
+       trackpad, shift-wheel and keyboard already work with this script
+       disabled. Everything here is enhancement — arrows, click-to-jump dots,
+       mouse drag, edge fades — plus the check that hides all of it when a
+       band already fits. Adapted from the testimonial carousel on the home
+       page; keep the two in step if you change one. */
+    document.querySelectorAll("[data-band]").forEach((band) => {
+      const rail = band.querySelector("[data-rail]");
+      if (!rail) return;
+
+      const cards = [...rail.children];
+      const arrows = [...band.querySelectorAll(".p-arrow")];
+      const dots = [...band.querySelectorAll(".p-dot")];
+      if (!cards.length) return;
+
+      // Left edge of card i in the rail's own scroll coordinates. Measured
+      // from live rects plus the current scrollLeft rather than offsetLeft:
+      // offsetLeft is relative to whichever ancestor happens to be positioned,
+      // which is a detail of the markup above this rail, and this isn't.
+      const cardLeft = (i) =>
+        rail.scrollLeft +
+        (cards[i].getBoundingClientRect().left - rail.getBoundingClientRect().left);
+
+      // Which card currently sits nearest the rail's left edge.
+      const activeIndex = () => {
+        const x = rail.scrollLeft;
+        let best = 0;
+        let dist = Infinity;
+        cards.forEach((_, i) => {
+          const d = Math.abs(cardLeft(i) - x);
+          if (d < dist) {
+            dist = d;
+            best = i;
+          }
+        });
+        return best;
+      };
+
+      const goTo = (i) => {
+        const clamped = Math.max(0, Math.min(cards.length - 1, i));
+        rail.scrollTo({ left: cardLeft(clamped) });
+      };
+
+      // Reflect scroll position in the dots, the arrow disabled states and the
+      // edge fades — and drop the whole control row when nothing overflows.
+      // The last "page" begins once the rail is scrolled fully right, so the
+      // final dot lights up even though card N never reaches the left edge.
+      const sync = () => {
+        const overflow = rail.scrollWidth - rail.clientWidth;
+        const scrolls = overflow > 2;
+        band.classList.toggle("can-scroll", scrolls);
+        if (!scrolls) {
+          band.classList.remove("can-left", "can-right");
+          return;
+        }
+        const atStart = rail.scrollLeft <= 2;
+        const atEnd = rail.scrollLeft >= overflow - 2;
+        band.classList.toggle("can-left", !atStart);
+        band.classList.toggle("can-right", !atEnd);
+        const active = atEnd ? dots.length - 1 : activeIndex();
+        dots.forEach((d, i) => d.classList.toggle("is-active", i === active));
+        arrows.forEach((a) => {
+          const dir = Number(a.dataset.dir);
+          a.disabled = (dir < 0 && atStart) || (dir > 0 && atEnd);
+        });
+      };
+
+      arrows.forEach((a) =>
+        a.addEventListener("click", () => goTo(activeIndex() + Number(a.dataset.dir)))
+      );
+      dots.forEach((d, i) => d.addEventListener("click", () => goTo(i)));
+      rail.addEventListener("scroll", sync, { passive: true });
+      window.addEventListener("resize", sync);
+
+      // Click-and-drag with a mouse (touch and trackpad scroll natively).
+      let dragging = false;
+      let startX = 0;
+      let startScroll = 0;
+      let moved = false;
+      rail.addEventListener("pointerdown", (e) => {
+        if (e.pointerType === "touch") return; // let native touch scrolling run
+        dragging = true;
+        moved = false;
+        startX = e.clientX;
+        startScroll = rail.scrollLeft;
+        rail.classList.add("is-dragging");
+        rail.setPointerCapture(e.pointerId);
+      });
+      rail.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 3) moved = true;
+        rail.scrollLeft = startScroll - dx;
+      });
+      const endDrag = (e) => {
+        if (!dragging) return;
+        dragging = false;
+        rail.classList.remove("is-dragging");
+        rail.releasePointerCapture?.(e.pointerId);
+        if (moved) goTo(activeIndex()); // settle onto the nearest snap point
+      };
+      rail.addEventListener("pointerup", endDrag);
+      rail.addEventListener("pointercancel", endDrag);
+      // The cards are links: swallow the click that ends a drag so dragging
+      // the rail never navigates to whichever project you let go over.
+      rail.addEventListener(
+        "click",
+        (e) => {
+          if (moved) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        },
+        true
+      );
+
+      // Images finish loading after first paint and can change scrollWidth.
+      window.addEventListener("load", sync);
+      sync();
+    });
   </script>
+
+  <style>
+    /* Project rails. The scroll container is also the flex container, so the
+       cards' percentage widths resolve against its definite width and the
+       `shrink-0` cards overflow it horizontally — the textbook scroller, with
+       no intrinsic-size guesswork. Widths match the grid this replaced:
+       1-up on phones, 2-up from sm, 3-up from lg. */
+    .p-rail {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Firefox */
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+    }
+    .p-rail::-webkit-scrollbar {
+      display: none; /* WebKit */
+    }
+    .p-rail:focus-visible {
+      outline: 2px solid var(--color-olive);
+      outline-offset: 4px;
+    }
+    .p-rail.is-dragging {
+      cursor: grabbing;
+      user-select: none;
+      scroll-behavior: auto;
+    }
+    .p-card {
+      scroll-snap-align: start;
+      width: 100%;
+    }
+    @media (min-width: 640px) {
+      .p-card {
+        width: calc((100% - 0.75rem) / 2); /* 2 up, matches gap-3 */
+      }
+    }
+    @media (min-width: 1024px) {
+      .p-card {
+        width: calc((100% - 2 * 1rem) / 3); /* 3 up, matches lg:gap-4 */
+      }
+    }
+
+    /* Edge fades: the hint that the rail has more to the right. Sized to the
+       rail alone (the wrapper holds nothing else) and click-through, so they
+       never sit between a pointer and a project card. */
+    .rail-fade {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 3.5rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    @media (min-width: 1024px) {
+      .rail-fade {
+        width: 5rem;
+      }
+    }
+    .rail-fade-l {
+      left: 0;
+      background: linear-gradient(to right, var(--color-stone), transparent);
+    }
+    .rail-fade-r {
+      right: 0;
+      background: linear-gradient(to left, var(--color-stone), transparent);
+    }
+    .rail-band.can-left .rail-fade-l,
+    .rail-band.can-right .rail-fade-r {
+      opacity: 1;
+    }
+
+    .p-dot {
+      width: 0.5rem;
+    }
+    .p-dot.is-active {
+      width: 1.5rem;
+      background: var(--color-olive);
+    }
+
+    /* Scroll furniture is opt-in: the script adds `can-scroll` only when the
+       rail genuinely overflows, and re-checks on resize — so Delivered keeps
+       its dots on a phone (2-up, it does scroll) and drops them on a desktop
+       (3-up, it doesn't), and no-JS visitors never see inert buttons. */
+    .p-controls {
+      display: none;
+    }
+    .rail-band.can-scroll .p-controls {
+      display: flex;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .p-rail {
+        scroll-behavior: auto;
+      }
+    }
+  </style>
 </BaseLayout>

@@ -40,23 +40,22 @@
     <path d="M528 770 H500 V742"/>
   </g>
 
-  <!-- building glyph -->
-  <g transform="translate(800 512)" stroke="#5c6638" stroke-width="2.6" fill="none"
-     stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.9">
-    <rect x="-21" y="-27" width="42" height="54" rx="2"/>
-    <path d="M-32 27 H32"/>
-    <path d="M-10 -16 h.01 M8 -16 h.01 M-10 -2 h.01 M8 -2 h.01 M-10 12 h.01 M8 12 h.01"/>
+  <!-- Building glyph. NOTE: no "UDAAN" wordmark here on purpose — every
+       surface that uses this file (the /projects card, the home page, the
+       thank-you hero) already prints the project name in large type right
+       beside it, and a second one competed with it. -->
+  <g transform="translate(800 545)" stroke="#5c6638" stroke-width="2.8" fill="none"
+     stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.85">
+    <rect x="-25" y="-32" width="50" height="64" rx="2"/>
+    <path d="M-38 32 H38"/>
+    <path d="M-12 -20 h.01 M10 -20 h.01 M-12 -4 h.01 M10 -4 h.01 M-12 12 h.01 M10 12 h.01"/>
   </g>
 
-  <text x="800" y="640" text-anchor="middle"
+  <text x="800" y="655" text-anchor="middle"
         font-family="Archivo, Inter, Helvetica, Arial, sans-serif"
-        font-size="86" font-weight="900" letter-spacing="-2" fill="#14130f">UDAAN</text>
+        font-size="30" font-weight="800" letter-spacing="5" fill="#14130f">RENDER TO BE ANNOUNCED</text>
 
-  <text x="800" y="694" text-anchor="middle"
-        font-family="Archivo, Inter, Helvetica, Arial, sans-serif"
-        font-size="23" font-weight="700" letter-spacing="5.5" fill="#706c60">RENDER TO BE ANNOUNCED</text>
-
-  <text x="800" y="730" text-anchor="middle"
+  <text x="800" y="700" text-anchor="middle"
         font-family="Inter, Helvetica, Arial, sans-serif"
-        font-size="20" fill="#9c968a">Placeholder — the elevation has not been drawn yet</text>
+        font-size="21" fill="#706c60">The elevation has not been drawn yet</text>
 </svg>

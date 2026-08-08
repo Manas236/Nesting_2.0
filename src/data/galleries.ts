@@ -13,6 +13,10 @@ import { projects } from "./site";
 import { gallery as shikhar } from "./shikhar";
 import { gallery as prithvi } from "./prithvi";
 import { gallery as ishaan } from "./ishaan";
+// Empty for now — Udaan is in approvals and nothing is built, so the
+// project is dropped by the `count > 0` filter below and /gallery skips
+// it. Wired up here so it appears the day the first photo lands.
+import { gallery as udaan } from "./udaan";
 import { gallery as rudra } from "./rudra";
 import { gallery as dhruva } from "./dhruva";
 import { gallery as shaurya } from "./shaurya";
@@ -34,6 +38,7 @@ const photosBySlug: Record<string, GalleryPhoto[]> = {
   shikhar,
   prithvi,
   ishaan,
+  udaan,
   rudra,
   dhruva,
   shaurya,

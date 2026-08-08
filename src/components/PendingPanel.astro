@@ -1,0 +1,67 @@
+---
+/* ---------------------------------------------------------------------------
+   PendingPanel — the "we haven't been given this yet" block.
+
+   Lifted out of the empty-amenities panel that ishaan.astro and
+   prithvi.astro carry inline, because Udaan needs the same treatment in
+   three places at once (units, floor plans, amenities). Says plainly that
+   a section is empty, why, and what it is waiting for — so a gap on the
+   page always reads as a gap and never as an oversight.
+
+   Usage:
+     <PendingPanel
+       title="To be announced"
+       body="The unit mix for Udaan has not been drawn up yet."
+       needed={["Unit count", "Unit sizes"]}
+     />
+
+   `needed` is optional; leave it off and the "Still needed" list is
+   dropped along with its divider.
+--------------------------------------------------------------------------- */
+interface Props {
+  /** The headline of the panel — normally the project's TBD string. */
+  title: string;
+  /** One short paragraph: what is missing, and why it isn't invented. */
+  body: string;
+  /** Optional checklist of what has to arrive before the section fills. */
+  needed?: string[];
+  /** Heading above the checklist. */
+  neededLabel?: string;
+  class?: string;
+}
+
+const { title, body, needed = [], neededLabel = "Still needed", class: klass = "" } = Astro.props;
+---
+
+<div class={`reveal border border-dashed border-line rounded-[4px] p-8 lg:p-12 max-w-3xl ${klass}`}>
+  <p class="font-display font-bold text-lg lg:text-xl tracking-tight text-ink">{title}</p>
+  <p class="text-muted text-base leading-relaxed mt-3">{body}</p>
+
+  {
+    needed.length > 0 && (
+      <>
+        <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted mt-8 pt-6 border-t border-line">
+          {neededLabel}
+        </p>
+        <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 mt-4">
+          {needed.map((n) => (
+            <li class="flex items-start gap-3 text-mutedlight">
+              <svg
+                class="w-4 h-4 mt-1 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14" />
+              </svg>
+              <span class="text-[15px] leading-snug">{n}</span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+</div>
