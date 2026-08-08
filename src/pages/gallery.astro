@@ -197,10 +197,10 @@ const pageDesc =
     </div>
 
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-[minmax(300px,1fr)_1fr_1fr_1fr] gap-12">
         <div class="reveal">
-          <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
-            Your Trust, Our Foundation. Since {brand.legacyYear}.
+          <p class="text-stone/55 text-sm leading-relaxed sm:whitespace-nowrap">
+            {brand.footerLine}
           </p>
           <div class="flex items-center gap-3 mt-6">
             {contact.socials.map((s) => (

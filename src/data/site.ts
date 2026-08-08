@@ -22,6 +22,10 @@ export const features = {
   areaStats: true,
 };
 
+/* Kept as a standalone const so `brand.footerLine` below can interpolate it —
+   an object literal cannot read its own sibling key. */
+const legacyYear = 2004;
+
 export const brand = {
   name: "Nesting Tree",
   // The Nesting Tree BRAND launched in 2019. `legacyYear` is when the founder
@@ -36,13 +40,22 @@ export const brand = {
   // "Est. …" / "since …" line uses `legacyYear`. If 2019 must appear, it is
   // qualified alongside 2004 — e.g. "Est. 2004 · Nesting Tree since 2019".
   foundedYear: 2019,
-  legacyYear: 2004,
+  legacyYear,
   // Region is deliberately stated at CITY level, not locality. The company
   // builds across Navi Mumbai (Vashi → Kharghar → Panvel); naming a single
   // neighbourhood on the home page reads as a limit on where we work.
   // Individual project pages still carry their own precise site address.
   region: "Navi Mumbai & Panvel",
   tagline: "More Building. More Living.",
+  // The signature line under the wordmark in EVERY page footer. It lives here
+  // because the footer markup is copied into each page — before this, three
+  // pages carried this line and seven carried an older "Residential developer
+  // in Navi Mumbai…" one. Any footer that prints its own string instead of
+  // `brand.footerLine` is a bug. Keep it short: the footer column is sized to
+  // hold it on ONE line (see the `sm:whitespace-nowrap` on that paragraph and
+  // the `minmax(300px,…)` first column), so a longer line will either wrap
+  // again or push the nav columns narrower.
+  footerLine: `Your Trust, Our Foundation. Since ${legacyYear}.`,
   logoMark: "/images/brand/logo-mark.png",
   logoFull: "/images/brand/logo-full.png",
 };
@@ -67,6 +80,7 @@ export const contact = {
 // Amenities & Journey now live on the About page, so they're reached via
 // About — not surfaced as top-level home-page nav items that point elsewhere.
 export const nav = [
+  { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Projects", href: "/projects" },
   { label: "Gallery", href: "/gallery" },
@@ -90,6 +104,17 @@ export type Project = {
   amenities: string;
   image: string;
   objectPosition: string;
+  /** Not a residence. Udaan is the only one so far, and the only reason
+      this flag exists: `stats.residences` counts homes-buildings only, so
+      a commercial project can sit in `projects` without turning the
+      site-wide "N residences" line into a false claim. */
+  commercial?: boolean;
+  /** Ongoing on the books, but nothing on site yet: no Commencement
+      Certificate and no work started. Such a project still appears in the
+      Ongoing band (the owner runs it as current work), but every
+      "under construction" FIGURE excludes it — see `stats`. Drop the flag
+      the day the CC lands and the first machine arrives. */
+  inApprovals?: boolean;
 };
 
 export const projects: Project[] = [
@@ -133,6 +158,36 @@ export const projects: Project[] = [
     objectPosition: "center 30%",
   },
   {
+    // Moved here from `pipeline` on the owner's instruction (8 Aug 2026):
+    // Udaan is to be listed with the ongoing work, not in a separate
+    // "In Approvals" band. Two flags keep the site's derived claims honest
+    // while it sits here — `commercial` (it is not a residence) and
+    // `inApprovals` (nothing on site yet). Read the `stats` note below
+    // before touching either.
+    //
+    // Almost everything about this building is still unknown: storeys,
+    // units, sizes, dates, and there is no elevation render. The detail
+    // page (src/data/udaan.ts) prints "To be announced" for each of those
+    // rather than guessing, and `image` below is a placeholder drawing,
+    // not artwork — swap it for the real elevation when it exists.
+    slug: "udaan",
+    name: "Udaan",
+    location: "Navi Mumbai",
+    status: "Ongoing",
+    // NOT "Pre-launch" and NOT "Now booking": there is no Commencement
+    // Certificate and no MahaRERA registration, so the project cannot be
+    // advertised for sale. The label states where it stands, nothing more.
+    statusLabel: "In Approvals",
+    blurb:
+      "Our seventh project, and the first that isn't a home. A purely commercial building at Karanjade, with no shops at street level — still on paper while approvals and documentation are worked through.",
+    // Confirmed facts only. No amenity schedule has been drawn up.
+    amenities: "Purely Commercial · No Ground-Floor Shops",
+    image: "/images/projects/udaan-placeholder.svg",
+    objectPosition: "center center",
+    commercial: true,
+    inApprovals: true,
+  },
+  {
     slug: "rudra",
     name: "Rudra",
     location: "Navi Mumbai",
@@ -172,33 +227,29 @@ export const projects: Project[] = [
 
 export const featuredSlug = "shikhar";
 
-/* ---------- Pipeline — projects in approvals, not yet building ----------
-   DELIBERATELY SEPARATE FROM `projects` ABOVE. Read this before moving an
-   entry between the two lists.
+/* ---------- Pipeline — a text-only band for projects with no page ----------
+   CURRENTLY EMPTY, ON PURPOSE. Udaan was the only entry; on 8 Aug 2026 the
+   owner asked for it to be listed with the ongoing work instead, so it now
+   lives in `projects` above with a detail page of its own, and the "In
+   Approvals" band on /projects renders nothing (it is guarded by
+   `pipeline.length > 0`). The machinery is kept, not deleted — the next
+   project with a name but no drawings can be dropped straight in.
 
-   `projects` is the built portfolio, and three site-wide claims are derived
-   from it: `stats.projects` renders as "Nesting Tree residences",
-   `stats.ongoing` renders as "Under construction · Rising right now", and the
-   Ongoing band on /projects is captioned "Under construction … booking now or
-   pre-launch". A project with no Commencement Certificate, no work on site and
-   no homes in it makes all three untrue the moment it joins that array — so it
-   lives here instead and is counted nowhere.
-
-   These entries also carry no `image`, no `slug` and no detail page: there is
-   no render to show and nothing to fill a page with, and a card linking to an
-   empty page is worse than a card that doesn't link. They render as a
-   text-only band on /projects and appear nowhere else — not on the home page
-   (which promises "the ones you can still book into") and not in the footer
-   project list (which links to detail pages).
+   WHAT BELONGS HERE: a project too early to carry a page. No `image`, no
+   `slug` and no detail page, because a card linking to an empty page is worse
+   than a card that doesn't link. Entries render as a text-only band on
+   /projects and appear nowhere else — not on the home page (which promises
+   "the ones you can still book into") and not in the footer project list
+   (which links to detail pages).
 
    NOTHING HERE MAY BE ADVERTISED FOR SALE. An unregistered project predates
    any MahaRERA number, so these cards state status only — no pricing, no
-   carpet areas, no floor plans, no "enquire"/"book" call to action. Keep it
-   that way until the registration exists.
+   carpet areas, no floor plans, no "enquire"/"book" call to action.
 
-   MOVING ONE OUT: when a project gets its CC and starts on site, give it a
-   slug, a render and a src/data/<slug>.ts record, move it into `projects` with
-   the right status, and delete it from here.                              */
+   THE SAME RULE FOLLOWS A PROJECT INTO `projects`: Udaan sits in the Ongoing
+   band, but it is still unregistered, so its card and its page carry a status
+   label and general enquiry only — never a price, a carpet area or a booking
+   invitation. See the `inApprovals` flag on the Project type.          */
 export type PipelineProject = {
   name: string;
   location: string;
@@ -209,27 +260,7 @@ export type PipelineProject = {
   facts: string[];
 };
 
-export const pipeline: PipelineProject[] = [
-  {
-    // The decided project name. Previously carried the plot reference "122A"
-    // as a placeholder; that is no longer used anywhere on the site.
-    name: "Udaan",
-    // Locality confirmed via the live site edit of 6 Aug 2026, which replaced
-    // the city-level placeholder with the plot address. This is the only
-    // pipeline entry that states one; `projects` above stays city-level.
-    location: "Plot no. 122A, sector R1, Karanjade, Panvel.",
-    statusLabel: "In Approvals",
-    blurb:
-      "Our seventh project, and the first that isn't a residence. A purely commercial building, still being worked out on paper. Approvals and documentation are under way.",
-    facts: [
-      "Purely commercial, no residential apartments",
-      "No ground-floor shops",
-      "Commencement Certificate not yet received",
-      "No construction started on site",
-      "Not open for booking",
-    ],
-  },
-];
+export const pipeline: PipelineProject[] = [];
 
 /* ---------- Amenities — the core USP ---------- */
 export const amenities = [
@@ -369,11 +400,26 @@ export const reasons = [
   },
 ];
 
-/* ---------- Derived stats for the journey band ---------- */
+/* ---------- Derived stats for the journey band ----------
+   FIVE figures, not three, because Udaan is neither a residence nor yet a
+   building site — and the site makes both of those claims in print.
+
+     projects          every Nesting Tree development, of any use
+     residences        homes-buildings only, i.e. excluding `commercial`
+     delivered         handed over
+     ongoing           current work, INCLUDING what is still in approvals
+     underConstruction current work with something actually happening on site
+
+   Use `residences` under the word "residences", `underConstruction` under
+   "under construction", and `projects` / `ongoing` for the neutral counts.
+   Getting these two crossed is exactly the mistake this split exists to
+   prevent, so check the label before you change the figure it prints.   */
 export const stats = {
   projects: projects.length,
+  residences: projects.filter((p) => !p.commercial).length,
   delivered: projects.filter((p) => p.status === "Delivered").length,
   ongoing: projects.filter((p) => p.status === "Ongoing").length,
+  underConstruction: projects.filter((p) => p.status === "Ongoing" && !p.inApprovals).length,
 };
 
 /* ============================================================
@@ -393,9 +439,10 @@ export const homeFeaturedSlugs = ["prithvi", "ishaan"] as const;
 export const home = {
   hero: {
     region: brand.region,
-    // Brand identity line stays the headline; the emotional framing is
+    // The headline leads on trust. Rendered one line per entry, so keep the
+    // lines short enough to hold the display scale. The emotional framing is
     // carried by the sub-copy and the flagship highlight card.
-    headline: ["More Building.", "More Living."],
+    headline: ["Your Trust,", "Our Foundation."],
     sub:
       "Homes built on integrity, guided by expertise and delivered with quality.",
     primaryCta: { label: "Explore the Residences", href: "/projects" },

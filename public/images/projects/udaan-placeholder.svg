@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="1600" height="1200" role="img" aria-label="Udaan — building render to be announced">
+  <title>Udaan — render to be announced</title>
+  <!-- ============================================================
+       Stand-in for the Udaan elevation render, which does not exist
+       yet (the project is still in approvals). Used everywhere the
+       other projects use a real render: the /projects card, the home
+       page and the thank-you page.
+
+       Deliberately reads as a placeholder rather than as artwork —
+       the blueprint hatch and the dashed frame match the site's
+       .blueprint-light / placeholder treatment in global.css, and the
+       palette is the site's own (concrete / stone / olive / muted).
+
+       Content is held inside the central 600 × 340 box so it survives
+       object-fit: cover at every crop the site puts it through,
+       including a full-bleed portrait phone hero.
+
+       DELETE THIS FILE once the real elevation arrives, and point
+       `image` in the Udaan entry of src/data/site.ts at it.
+       ============================================================ -->
+  <defs>
+    <pattern id="udaan-hatch" width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="16" height="16" fill="#dcd8cd"/>
+      <line x1="0" y1="0" x2="0" y2="16" stroke="#14130f" stroke-opacity="0.06" stroke-width="1.6"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#udaan-hatch)"/>
+
+  <!-- dashed placeholder frame -->
+  <rect x="500" y="430" width="600" height="340" rx="4"
+        fill="#f4f2ec" fill-opacity="0.72"
+        stroke="#9c968a" stroke-opacity="0.75" stroke-width="2" stroke-dasharray="11 9"/>
+
+  <!-- corner registration ticks -->
+  <g stroke="#5c6638" stroke-opacity="0.55" stroke-width="2.5" fill="none" stroke-linecap="square">
+    <path d="M500 458 V430 H528"/>
+    <path d="M1072 430 H1100 V458"/>
+    <path d="M1100 742 V770 H1072"/>
+    <path d="M528 770 H500 V742"/>
+  </g>
+
+  <!-- building glyph -->
+  <g transform="translate(800 512)" stroke="#5c6638" stroke-width="2.6" fill="none"
+     stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.9">
+    <rect x="-21" y="-27" width="42" height="54" rx="2"/>
+    <path d="M-32 27 H32"/>
+    <path d="M-10 -16 h.01 M8 -16 h.01 M-10 -2 h.01 M8 -2 h.01 M-10 12 h.01 M8 12 h.01"/>
+  </g>
+
+  <text x="800" y="640" text-anchor="middle"
+        font-family="Archivo, Inter, Helvetica, Arial, sans-serif"
+        font-size="86" font-weight="900" letter-spacing="-2" fill="#14130f">UDAAN</text>
+
+  <text x="800" y="694" text-anchor="middle"
+        font-family="Archivo, Inter, Helvetica, Arial, sans-serif"
+        font-size="23" font-weight="700" letter-spacing="5.5" fill="#706c60">RENDER TO BE ANNOUNCED</text>
+
+  <text x="800" y="730" text-anchor="middle"
+        font-family="Inter, Helvetica, Arial, sans-serif"
+        font-size="20" fill="#9c968a">Placeholder — the elevation has not been drawn yet</text>
+</svg>

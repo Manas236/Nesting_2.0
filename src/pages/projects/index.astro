@@ -381,31 +381,6 @@ const pageDesc =
     </div>
   </section>
 
-  <!-- ===================== CTA ===================== -->
-  <section class="bg-olive-100 py-20 lg:py-28">
-    <div
-      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8"
-    >
-      <div>
-        <span class="reveal font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
-          >Enquire</span
-        >
-        <h2
-          class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 max-w-2xl leading-[1.05] text-ink"
-          style="--reveal-d:0.1s"
-        >
-          Want more details?
-        </h2>
-      </div>
-      <a
-        href="/#contact"
-        class="reveal font-display font-bold uppercase tracking-[0.06em] text-sm bg-ink text-stone px-8 py-4 rounded-[2px] hover:bg-inksoft transition-colors shrink-0"
-        style="--reveal-d:0.2s"
-        >Book a Site Visit</a
-      >
-    </div>
-  </section>
-
   <!-- ===================== FOOTER ===================== -->
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
@@ -417,10 +392,10 @@ const pageDesc =
     </div>
 
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-[minmax(300px,1fr)_1fr_1fr_1fr] gap-12">
         <div class="reveal">
-          <p class="text-stone/55 text-sm leading-relaxed max-w-[240px]">
-            Your Trust, Our Foundation. Since {brand.legacyYear}.
+          <p class="text-stone/55 text-sm leading-relaxed sm:whitespace-nowrap">
+            {brand.footerLine}
           </p>
           <div class="flex items-center gap-3 mt-6">
             {
