@@ -8,25 +8,31 @@
    in via `sections` and render as a secondary strip *below* the global row,
    rather than replacing the global links the way the old per-page copies did.
 --------------------------------------------------------------------------- */
-import { brand, nav, contact } from "../data/site";
+import { brand, nav, whatsappHref } from "../data/site";
 
 interface Props {
   /** Optional in-page jump links, rendered as a sub-nav strip. */
   sections?: { label: string; href: string }[];
   /** Unused for the CTA now — kept for backwards compatibility. */
   ctaHref?: string;
+  /** Project name, from a project page. Names the building in the CTA's
+      pre-filled WhatsApp message; omit it anywhere else and the message
+      falls back to a general enquiry. */
+  project?: string;
 }
 
-const { sections = [] } = Astro.props;
+const { sections = [], project } = Astro.props;
 
-// "Enquire Now" is a one-tap contact action: it opens the visitor's email
-// app on desktop and the phone dialer on touch devices. The href defaults to
-// email (works everywhere, no JS); the inline script below swaps it to the
-// tel: link on coarse-pointer (touch) devices.
-const mailHref = `mailto:${contact.email}?subject=${encodeURIComponent(
-  "Enquiry — Nesting Tree"
-)}`;
-const telHref = `tel:${contact.phone.replace(/\s/g, "")}`;
+// "Enquire Now" opens a WhatsApp chat with the sales number. It used to open
+// the visitor's email app on desktop and the dialer on touch devices, which
+// needed the two data-cta-* attributes and a pointer check in the script
+// below; wa.me covers both (app on a phone, WhatsApp Web on a desktop), so
+// one plain href replaces all of it. See whatsappHref in src/data/site.ts.
+const waHref = whatsappHref(
+  project
+    ? `Hi ${brand.name}, I'd like to enquire about ${project}.`
+    : `Hi ${brand.name}, I'd like to enquire about your homes.`
+);
 
 const path = Astro.url.pathname;
 const isHome = path === "/";
@@ -80,10 +86,10 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
       </nav>
 
       <a
-        href={mailHref}
-        data-cta-mail={mailHref}
-        data-cta-tel={telHref}
-        class="js-cta nav-cta nav-animate hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
+        href={waHref}
+        target="_blank"
+        rel="noopener"
+        class="nav-cta nav-animate hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
         style={`--nav-d:${ctaDelay}s`}>Enquire Now</a
       >
 
@@ -120,10 +126,10 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
           ))
         }
         <a
-          href={mailHref}
-          data-cta-mail={mailHref}
-          data-cta-tel={telHref}
-          class="js-cta mobile-cta mobile-link mt-4 text-center px-5 py-3.5 rounded-[2px]"
+          href={waHref}
+          target="_blank"
+          rel="noopener"
+          class="mobile-cta mobile-link mt-4 text-center px-5 py-3.5 rounded-[2px]"
           >Enquire Now</a
         >
       </nav>
@@ -133,17 +139,9 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
 
 <script is:inline>
   (() => {
-    // "Enquire Now" opens email on desktop, the dialer on touch devices.
-    // Default href is the mailto: link; swap to tel: on coarse-pointer devices.
-    const isTouch =
-      window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
-    if (isTouch) {
-      document.querySelectorAll(".js-cta").forEach((el) => {
-        const tel = el.getAttribute("data-cta-tel");
-        if (tel) el.setAttribute("href", tel);
-      });
-    }
-
+    // Nothing to do for "Enquire Now" any more: it is a plain wa.me link that
+    // works the same on every device. This script is scroll state and the
+    // mobile menu only.
     const header = document.getElementById("site-header");
     const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });

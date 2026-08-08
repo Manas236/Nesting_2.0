@@ -47,6 +47,7 @@ export const KNOWN_PATHS: readonly string[] = [
   "/projects/rudra",
   "/projects/shaurya",
   "/projects/shikhar",
+  "/projects/udaan",
 ];
 
 const KNOWN_PATH_SET = new Set(KNOWN_PATHS);

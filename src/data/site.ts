@@ -77,6 +77,26 @@ export const contact = {
   ],
 };
 
+/* ---------- WhatsApp ----------
+   One tap into a WhatsApp chat with the sales number. `contact.phone` is the
+   only place the number is written down: strip every non-digit and what is
+   left is already the international form wa.me wants (919594079317), which is
+   why the number in `contact` must keep its +91 country code — drop it and
+   every WhatsApp link on the site silently starts dialling a US number.
+
+   No device sniffing is needed. wa.me opens the app on a phone and WhatsApp
+   Web on a desktop, so one href serves both (this is why the header CTA no
+   longer swaps mailto→tel in JavaScript).
+
+   `message` pre-fills the visitor's first line. Always pass one from a project
+   page and name the building: an enquiry that arrives saying which project it
+   is about saves the first two messages of every conversation. Keep it to a
+   general enquiry — a pre-filled line must never quote a price or invite a
+   booking on a project that is not registered (see the `pipeline` note). */
+export const whatsappHref = (message?: string) =>
+  `https://wa.me/${contact.phone.replace(/\D/g, "")}` +
+  (message ? `?text=${encodeURIComponent(message)}` : "");
+
 // Amenities & Journey now live on the About page, so they're reached via
 // About — not surfaced as top-level home-page nav items that point elsewhere.
 export const nav = [
@@ -445,7 +465,7 @@ export const home = {
     // The headline leads on trust. Rendered one line per entry, so keep the
     // lines short enough to hold the display scale. The emotional framing is
     // carried by the sub-copy and the flagship highlight card.
-    headline: ["Your Trust,", "Our Foundation."],
+    headline: ["Your Trust", "Our Foundation."],
     sub:
       "Homes built on integrity, guided by expertise and delivered with quality.",
     primaryCta: { label: "Explore the Residences", href: "/projects" },

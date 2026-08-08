@@ -9,6 +9,7 @@ import {
   featuredSlug,
   home,
   homeFeaturedSlugs,
+  whatsappHref,
 } from "../data/site";
 
 const featured = projects.find((p) => p.slug === featuredSlug)!;
@@ -587,7 +588,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
           >Schedule a Site Visit</a
         >
         <a
-          href={`https://wa.me/${contact.phone.replace(/\D/g, "")}`}
+          href={whatsappHref()}
           target="_blank"
           rel="noopener"
           class="font-display font-bold uppercase tracking-[0.06em] text-sm border border-white/40 text-white px-7 py-4 rounded-[2px] hover:bg-white/10 transition-colors"

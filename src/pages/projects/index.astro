@@ -703,44 +703,68 @@ const pageDesc =
       rail.addEventListener("scroll", sync, { passive: true });
       window.addEventListener("resize", sync);
 
-      // Click-and-drag with a mouse (touch and trackpad scroll natively).
+      /* Click-and-drag with a mouse (touch and trackpad scroll natively).
+         READ THIS BEFORE CHANGING IT — the cards are LINKS, which makes this
+         fussier than the home page's rail, whose cards are not.
+
+         Capturing the pointer on pointerdown retargets the compatibility mouse
+         events to the capturing element, so the <a> never receives its click
+         and a plain click stops navigating altogether. Nothing may happen on
+         pointerdown, therefore, except bookkeeping: the drag — and only then
+         the capture — starts once the pointer has moved past a threshold, by
+         which point swallowing the click is exactly what we want. A press that
+         never crosses the threshold is left completely alone, so it navigates
+         like any other link. */
+      const DRAG_THRESHOLD = 5; // px of travel before a press becomes a drag
+      let pending = false;
       let dragging = false;
       let startX = 0;
       let startScroll = 0;
       let moved = false;
+
       rail.addEventListener("pointerdown", (e) => {
-        if (e.pointerType === "touch") return; // let native touch scrolling run
-        dragging = true;
+        if (e.pointerType === "touch" || e.button !== 0) return;
+        pending = true;
+        dragging = false;
         moved = false;
         startX = e.clientX;
         startScroll = rail.scrollLeft;
-        rail.classList.add("is-dragging");
-        rail.setPointerCapture(e.pointerId);
       });
+
       rail.addEventListener("pointermove", (e) => {
-        if (!dragging) return;
+        if (!pending) return;
         const dx = e.clientX - startX;
-        if (Math.abs(dx) > 3) moved = true;
+        if (!dragging) {
+          if (Math.abs(dx) < DRAG_THRESHOLD) return; // still just a click
+          dragging = true;
+          moved = true;
+          rail.classList.add("is-dragging");
+          rail.setPointerCapture(e.pointerId); // only now — see above
+        }
         rail.scrollLeft = startScroll - dx;
       });
+
       const endDrag = (e) => {
-        if (!dragging) return;
+        if (!pending) return;
+        pending = false;
+        if (!dragging) return; // a plain click — do not touch it
         dragging = false;
         rail.classList.remove("is-dragging");
-        rail.releasePointerCapture?.(e.pointerId);
-        if (moved) goTo(activeIndex()); // settle onto the nearest snap point
+        if (rail.hasPointerCapture?.(e.pointerId)) rail.releasePointerCapture(e.pointerId);
+        goTo(activeIndex()); // settle onto the nearest snap point
       };
       rail.addEventListener("pointerup", endDrag);
       rail.addEventListener("pointercancel", endDrag);
-      // The cards are links: swallow the click that ends a drag so dragging
-      // the rail never navigates to whichever project you let go over.
+
+      // Swallow the click that ends a real drag, so releasing over a card
+      // never navigates to whichever project you happened to stop on.
       rail.addEventListener(
         "click",
         (e) => {
-          if (moved) {
-            e.preventDefault();
-            e.stopPropagation();
-          }
+          if (!moved) return;
+          moved = false;
+          e.preventDefault();
+          e.stopPropagation();
         },
         true
       );
@@ -763,8 +787,11 @@ const pageDesc =
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       scrollbar-width: none; /* Firefox */
-      cursor: grab;
       -webkit-overflow-scrolling: touch;
+      /* NO `cursor: grab` here, unlike the home page's rail. Every card in
+         this one is a link, and a grab hand over a link reads as "this only
+         scrolls" — it hid the fact that the cards are clickable at all. The
+         grabbing cursor appears only once a drag is genuinely under way. */
     }
     .p-rail::-webkit-scrollbar {
       display: none; /* WebKit */
@@ -773,8 +800,11 @@ const pageDesc =
       outline: 2px solid var(--color-olive);
       outline-offset: 4px;
     }
-    .p-rail.is-dragging {
+    .p-rail.is-dragging,
+    .p-rail.is-dragging .p-card {
       cursor: grabbing;
+    }
+    .p-rail.is-dragging {
       user-select: none;
       scroll-behavior: auto;
     }
