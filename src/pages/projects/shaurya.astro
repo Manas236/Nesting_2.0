@@ -134,7 +134,7 @@ const pageDesc =
       </div>
 
       <h1
-        class="hero-rise font-display font-black text-white text-[3.5rem] sm:text-8xl lg:text-[8.5rem] leading-[0.9] tracking-tight"
+        class="hero-rise font-display font-bold text-white text-[3.5rem] sm:text-8xl lg:text-[8.5rem] leading-[0.9] tracking-tight"
         style="--rise-d:0.4s"
       >
         Shaurya
@@ -181,7 +181,7 @@ const pageDesc =
               }`}
               style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}
             >
-              <p class="font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none">
+              <p class="font-display font-bold text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none">
                 {s.figure}
               </p>
               <p class="font-display text-xs sm:text-sm font-bold uppercase tracking-[0.16em] text-olive-100 mt-4">
@@ -204,7 +204,7 @@ const pageDesc =
             >Project overview</span
           >
           <h2
-            class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] max-w-2xl"
+            class="reveal font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05] max-w-2xl"
             style="--reveal-d:0.08s"
           >
             Eight homes, purely residential
@@ -247,7 +247,7 @@ const pageDesc =
               {
                 overview.unitMix.map((u) => (
                   <div class="bg-card p-6 lg:p-8">
-                    <p class="font-display font-black text-4xl lg:text-5xl tracking-tight text-ink leading-none">
+                    <p class="font-display font-bold text-4xl lg:text-5xl tracking-tight text-ink leading-none">
                       {u.figure}
                     </p>
                     <p class="text-muted text-sm leading-snug mt-3">{u.label}</p>
@@ -303,7 +303,7 @@ const pageDesc =
               <span class="inline-flex items-center gap-2 font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-100"
                 >Completed & sold out</span
               >
-              <p class="font-display font-black text-2xl lg:text-3xl tracking-tight mt-3 leading-tight">
+              <p class="font-display font-bold text-2xl lg:text-3xl tracking-tight mt-3 leading-tight">
                 Delivered, sold and handed over.
               </p>
               <p class="text-stone/60 text-base leading-relaxed mt-4">
@@ -387,7 +387,7 @@ const pageDesc =
           >Home layouts</span
         >
         <h2
-          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+          class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
         >
           Two ways to call Shaurya home.
         </h2>
@@ -436,7 +436,7 @@ const pageDesc =
               {/* details */}
               <div class={i % 2 === 1 ? "lg:order-1" : ""}>
                 <div class="flex flex-wrap items-center gap-3">
-                  <h3 class="font-display font-black text-4xl lg:text-5xl tracking-tight">
+                  <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight">
                     {u.type}
                   </h3>
                   <span class="font-display text-xs font-bold uppercase tracking-[0.12em] bg-olive-100 text-olive-dark px-3 py-1.5 rounded-full">
@@ -531,7 +531,7 @@ const pageDesc =
           >Floor plans</span
         >
         <h2
-          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+          class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
         >
           How Shaurya is laid out.
         </h2>
@@ -581,7 +581,7 @@ const pageDesc =
 
               {/* details */}
               <div class={i % 2 === 1 ? "lg:order-1" : ""}>
-                <h3 class="font-display font-black text-4xl lg:text-5xl tracking-tight">
+                <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight">
                   {fp.title}
                 </h3>
                 <p class="font-display text-sm font-bold uppercase tracking-[0.16em] text-olive-600 mt-4">
@@ -633,7 +633,7 @@ const pageDesc =
           >What the name carries</span
         >
         <h2
-          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+          class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
         >
           Shaurya stands its ground.
         </h2>
@@ -668,7 +668,7 @@ const pageDesc =
                   />
                 </span>
                 <div class="flex flex-col items-end gap-2">
-                  <span class="font-display font-black text-2xl tracking-tight text-olive-600/80 tabular-nums leading-none">
+                  <span class="font-display font-bold text-2xl tracking-tight text-olive-600/80 tabular-nums leading-none">
                     {l.marker}
                   </span>
                   {l.featured && (
@@ -679,7 +679,7 @@ const pageDesc =
                 </div>
               </div>
 
-              <h3 class="font-display font-black text-xl lg:text-2xl tracking-tight mt-6 leading-tight">
+              <h3 class="font-display font-bold text-xl lg:text-2xl tracking-tight mt-6 leading-tight">
                 {l.title}
               </h3>
               <p class="text-muted text-base leading-relaxed mt-3">{l.blurb}</p>
@@ -718,7 +718,7 @@ const pageDesc =
           >The full spec</span
         >
         <h3
-          class="font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05]"
+          class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05]"
         >
           Every amenity, in full.
         </h3>
@@ -729,7 +729,7 @@ const pageDesc =
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
             {amenityGroups.map((g, gi) => (
               <div class="reveal" style={`--reveal-d:${(gi * 0.08).toFixed(2)}s`}>
-                <h4 class="font-display font-black text-xl tracking-tight border-b border-line pb-3 mb-5">
+                <h4 class="font-display font-bold text-xl tracking-tight border-b border-line pb-3 mb-5">
                   {g.group}
                 </h4>
                 <ul class="flex flex-col gap-4">
@@ -810,7 +810,7 @@ const pageDesc =
             >About the developer</span
           >
           <h2
-            class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+            class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
           >
             Built by Nesting Tree.
           </h2>
@@ -843,7 +843,7 @@ const pageDesc =
           >Why Shaurya</span
         >
         <h2
-          class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+          class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
         >
           A delivered, sold-out track record.
         </h2>
@@ -857,7 +857,7 @@ const pageDesc =
         {
           whyShaurya.map((r, i) => (
             <div class="reveal bg-olive-50 p-8 lg:p-10" style={`--reveal-d:${(i * 0.07).toFixed(2)}s`}>
-              <span class="font-display font-black text-3xl text-olive/45 leading-none">
+              <span class="font-display font-bold text-3xl text-olive/45 leading-none">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 class="font-display font-bold text-xl lg:text-2xl tracking-tight mt-5">
@@ -888,7 +888,7 @@ const pageDesc =
         >Enquire</span
       >
       <h2
-        class="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+        class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
       >
         Ask about Shaurya.
       </h2>
@@ -989,7 +989,7 @@ const pageDesc =
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
       <h3
-        class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+        class="reveal font-display font-bold text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
       >
         NESTING TREE
       </h3>

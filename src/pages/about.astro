@@ -64,7 +64,7 @@ const sections = [
         style="--rise-d:0.1s">{about.kicker}</span
       >
       <h1
-        class="hero-rise font-display font-black text-white text-[2.75rem] sm:text-6xl lg:text-[6rem] leading-[0.95] tracking-tight mt-5 max-w-4xl"
+        class="hero-rise font-display font-bold text-white text-[2.75rem] sm:text-6xl lg:text-[6rem] leading-[0.95] tracking-tight mt-5 max-w-4xl"
         style="--rise-d:0.22s"
       >
         {about.title}
@@ -103,7 +103,7 @@ const sections = [
              section title stays anchored while the story scrolls past. -->
         <div class="lg:col-span-4">
           <h2
-            class="reveal lg:sticky lg:top-28 font-display font-black text-[2rem] sm:text-4xl lg:text-5xl tracking-tight leading-[1.05] text-balance lg:pt-1"
+            class="reveal lg:sticky lg:top-28 font-display font-bold text-[2rem] sm:text-4xl lg:text-5xl tracking-tight leading-[1.05] text-balance lg:pt-1"
             style="--reveal-d:0.08s"
           >
             {about.story.heading}
@@ -157,7 +157,7 @@ const sections = [
                 <dt class="font-display text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.16em] text-mutedlight">
                   {f.k}
                 </dt>
-                <dd class="font-display font-black text-lg sm:text-xl lg:text-2xl tracking-tight mt-1.5 lg:mt-2 text-ink leading-tight">
+                <dd class="font-display font-bold text-lg sm:text-xl lg:text-2xl tracking-tight mt-1.5 lg:mt-2 text-ink leading-tight">
                   {f.v}
                 </dd>
               </div>
@@ -203,7 +203,7 @@ const sections = [
               style="border-color:rgba(255,255,255,.35)"></span>
             <div class="absolute inset-x-0 bottom-0 px-7 pb-7 flex flex-col">
               <span
-                class="font-display font-black text-2xl lg:text-3xl text-white tracking-tight"
+                class="font-display font-bold text-2xl lg:text-3xl text-white tracking-tight"
                 >{about.founder.name}</span
               >
               <span
@@ -224,7 +224,7 @@ const sections = [
             >{about.founder.label}</span
           >
           <h2
-            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] max-w-xl"
+            class="reveal font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] max-w-xl"
             style="--reveal-d:0.08s"
           >
             {about.founder.heading}
@@ -251,7 +251,7 @@ const sections = [
             {
               about.founder.values.map((v) => (
                 <div>
-                  <dt class="font-display font-black text-lg lg:text-xl tracking-tight text-olive-100">
+                  <dt class="font-display font-bold text-lg lg:text-xl tracking-tight text-olive-100">
                     {v.k}
                   </dt>
                   <dd class="text-stone/55 text-sm leading-relaxed mt-2">{v.v}</dd>
@@ -274,7 +274,7 @@ const sections = [
             >What Drives Us</span
           >
           <h2
-            class="reveal font-display font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] text-ink"
+            class="reveal font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.05] text-ink"
             style="--reveal-d:0.08s"
           >
             The principles behind every home we build.
@@ -298,10 +298,10 @@ const sections = [
                 style={`--reveal-d:${(i * 0.12).toFixed(2)}s`}
               >
                 <div class="flex items-baseline gap-4 sm:gap-6">
-                  <span class="font-display text-5xl sm:text-6xl lg:text-7xl font-black text-olive-600 leading-none tabular-nums">
+                  <span class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-olive-600 leading-none tabular-nums">
                     {p.no}
                   </span>
-                  <h3 class="font-display font-black text-2xl sm:text-3xl lg:text-4xl tracking-tight text-ink">
+                  <h3 class="font-display font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-ink">
                     {p.kicker}
                   </h3>
                 </div>
@@ -344,7 +344,7 @@ const sections = [
           >Our Journey</span
         >
         <h2
-          class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]" style="--reveal-d:0.1s"
+          class="reveal font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]" style="--reveal-d:0.1s"
         >
           Building since {brand.legacyYear}. One standard throughout.
         </h2>
@@ -363,7 +363,7 @@ const sections = [
           journey.map((m) => (
             <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-8 py-8 lg:py-10 border-b border-line items-baseline">
               <div class="lg:col-span-3">
-                <span class="font-display font-black text-5xl lg:text-6xl tracking-tight text-ink">
+                <span class="font-display font-bold text-5xl lg:text-6xl tracking-tight text-ink">
                   {m.year}
                 </span>
               </div>
@@ -385,7 +385,7 @@ const sections = [
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
       <h3
-        class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+        class="reveal font-display font-bold text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
       >
         NESTING TREE
       </h3>

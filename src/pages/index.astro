@@ -66,7 +66,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
           {home.hero.region}
         </span>
         <h1
-          class="hero-rise font-display font-black text-white text-[3rem] sm:text-7xl lg:text-[6.75rem] leading-[0.92] tracking-tight"
+          class="hero-rise font-display font-bold text-white text-[3rem] sm:text-7xl lg:text-[6.75rem] leading-[0.92] tracking-tight"
           style="--rise-d:0.58s"
         >
           {
@@ -201,7 +201,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
             >{home.featured.eyebrow}</span
           >
           <h2
-            class="reveal font-display font-black text-4xl sm:text-5xl lg:text-[3.75rem] tracking-tight mt-4 leading-[1.02] max-w-xl"
+            class="reveal font-display font-bold text-4xl sm:text-5xl lg:text-[3.75rem] tracking-tight mt-4 leading-[1.02] max-w-xl"
             style="--reveal-d:0.08s"
           >
             {home.featured.heading}
@@ -267,7 +267,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
             >{home.featuredProjects.eyebrow}</span
           >
           <h2
-            class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.03]"
+            class="reveal font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.03]"
             style="--reveal-d:0.1s"
           >
             {home.featuredProjects.heading}
@@ -319,7 +319,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
                 {p.statusLabel}
               </span>
               <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7">
-                <h3 class="font-display font-black text-2xl lg:text-3xl text-white tracking-tight">
+                <h3 class="font-display font-bold text-2xl lg:text-3xl text-white tracking-tight">
                   {p.name}
                 </h3>
                 <p class="text-white/65 text-sm mt-1">{p.location}</p>
@@ -358,7 +358,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
   <section class="relative bg-stone text-ink py-28 sm:py-36 lg:py-44 overflow-hidden">
     <!-- oversized editorial watermark -->
     <span
-      class="text-hollow pointer-events-none select-none absolute top-20 lg:top-24 left-0 right-0 text-center font-display font-black text-ink/[0.05] leading-none text-[26vw] lg:text-[20rem] tracking-tighter"
+      class="text-hollow pointer-events-none select-none absolute top-20 lg:top-24 left-0 right-0 text-center font-display font-bold text-ink/[0.05] leading-none text-[26vw] lg:text-[20rem] tracking-tighter"
       aria-hidden="true">MORE</span
     >
 
@@ -368,7 +368,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
           >{home.difference.eyebrow}</span
         >
         <h2
-          class="reveal font-display font-black text-4xl sm:text-6xl lg:text-[5rem] tracking-tight mt-5 leading-[0.98]"
+          class="reveal font-display font-bold text-4xl sm:text-6xl lg:text-[5rem] tracking-tight mt-5 leading-[0.98]"
           style="--reveal-d:0.1s"
         >
           {home.difference.heading[0]}<br />
@@ -412,7 +412,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
                 aria-hidden={i >= home.milestones.items.length ? "true" : undefined}
               >
                 <div class="h-full flex flex-col bg-sand/70 border border-ink/10 rounded-[3px] p-8 lg:p-10">
-                  <span class="font-display font-black text-5xl lg:text-6xl text-ink leading-none tabular-nums">
+                  <span class="font-display font-bold text-5xl lg:text-6xl text-ink leading-none tabular-nums">
                     {m.value}
                   </span>
                   <span class="block w-9 h-px bg-olive-600/50 mt-5 mb-6" aria-hidden="true" />
@@ -432,7 +432,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
         {
           home.difference.pillars.map((p, i) => (
             <div class="reveal bg-sand p-8 sm:p-10 lg:p-12" style={`--reveal-d:${(i * 0.1).toFixed(2)}s`}>
-              <span class="font-display font-black text-5xl lg:text-6xl text-olive/55 leading-none tabular-nums">
+              <span class="font-display font-bold text-5xl lg:text-6xl text-olive/55 leading-none tabular-nums">
                 {p.no}
               </span>
               <h3 class="font-display font-bold text-xl lg:text-2xl tracking-tight mt-6">{p.title}</h3>
@@ -460,7 +460,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
             >{home.testimonials.eyebrow}</span
           >
           <h2
-            class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.03]"
+            class="reveal font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.03]"
             style="--reveal-d:0.1s"
           >
             {home.testimonials.heading}
@@ -506,7 +506,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
             home.testimonials.items.map((t, i) => (
               <li class="t-card shrink-0">
                 <figure class="relative flex flex-col h-full bg-stone border border-ink/10 rounded-[3px] p-8 lg:p-10">
-                  <span class="font-display font-black text-6xl text-olive/35 leading-[0.6]" aria-hidden="true">
+                  <span class="font-display font-bold text-6xl text-olive/35 leading-[0.6]" aria-hidden="true">
                     &ldquo;
                   </span>
                   <blockquote class="text-ink/90 text-base lg:text-lg leading-[1.8] mt-4 flex-1">
@@ -573,7 +573,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
         >{home.cta.eyebrow}</span
       >
       <h2
-        class="reveal font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mt-4"
+        class="reveal font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mt-4"
         style="--reveal-d:0.1s"
       >
         {home.cta.heading}
@@ -610,7 +610,7 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
       <h3
-        class="reveal font-display font-black text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+        class="reveal font-display font-bold text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
       >
         NESTING TREE
       </h3>
