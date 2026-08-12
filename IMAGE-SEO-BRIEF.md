@@ -67,26 +67,47 @@ are equally unreliable and **look at every photograph before describing it.**
 
 ## 1a. Rollout status
 
-| Project | Photos | State |
-|---|---|---|
-| **Dhruva** | 20 | ✅ **Done, 12 Aug 2026** — pilot. 55.3 MB → 4.4 MB (92% off), 20 unique alt strings, 21 redirects live in middleware. Awaiting owner sign-off |
-| Shikhar | 13 | ⬜ |
-| Rudra | 17 | ⬜ |
-| Shaurya | 15 | ⬜ |
-| Ishaan | 10 | ⬜ |
-| Prithvi | 8 | ⬜ |
-| Udaan | 0 | — nothing built yet |
+**Workstreams A and B are complete for all seven projects, 12 Aug 2026.**
+Full write-up, including everything that needs the owner:
+[`IMAGE-ROLLOUT-STATUS.md`](IMAGE-ROLLOUT-STATUS.md) — read that first.
 
-**63 photographs remain.** `WORKLIST.md` now lists exactly those — migrated
-files are excluded automatically, so the worklist is always the work left.
+| Project | Photos | Migrated | State |
+|---|---|---|---|
+| **Dhruva** | 20 (+1 plate) | 21 | ✅ pilot. 55.3 MB → 3.7 MB |
+| **Shikhar** | 13 | 13 | ✅ `47ae74b`. 37.3 MB → 3.0 MB |
+| **Rudra** | 17 | 17 | ✅ `0166d69`. 46.5 MB → 3.8 MB |
+| **Shaurya** | 15 | 14 | ✅ `b125138`. 36.4 MB → 2.8 MB. **1 parked** |
+| **Ishaan** | 10 | 9 | ✅ `281d91c`. 23.2 MB → 2.1 MB. **1 parked** |
+| **Prithvi** | 8 | 6 | ✅ `7e895a4`. 20.9 MB → 1.5 MB. **2 parked** |
+| Udaan | 0 | — | nothing built yet |
+| **Total** | **83** | **80** | **219.5 MB → 16.9 MB, 92.3% off** |
 
-Carried over from the pilot, still open:
+What a gallery grid downloads on first paint went from 219.5 MB to **3.5 MB**,
+because the grid now takes the 640 px companion and only the lightbox opens the
+full size. Eighty 301s live in `src/middleware.ts`.
 
-- **8.31 MB of floor plans on the Dhruva page** — four unit-plan/render PNGs at
-  ~2 MB each, now the heaviest thing on it. They are line art with dimension
-  text, so lossy WebP is the wrong tool; they need their own pass with a
-  legibility check. The same is true of every other project's plans.
-- **Nothing has been committed.** See §10.6.
+**Four photographs are parked and need a decision.** Each is captioned
+"&lt;Project&gt; — exterior of the building" and each is a real third-party
+building: the Vadghar gram panchayat office (Shaurya), the M PA SC College
+gateway (Ishaan), and a roadside temple, twice (Prithvi). No honest description
+can also carry the `— <project>, Karanjade` tail §3.3 requires, so they were
+left exactly as found. Options are in the status file. **Until they are
+resolved, §11's camera-dump check finds those four paths and its uniqueness
+check finds the one temple pair — both expected, nothing else in §11 has an
+exception.**
+
+Still open, and now more urgent than when the pilot flagged it:
+
+- **Floor plans and unit renders, every project, untouched.** Dhruva alone has
+  8.31 MB of them and is the worst case precisely because its photographs are
+  now under 1 MB on first paint. Line art with dimension text; lossy WebP is the
+  wrong tool and squeezing them is a legibility decision, so they want their own
+  pass with a read-the-numbers check.
+- **Two bugs in `scripts/image-audit.mjs`**, both found during the rollout and
+  neither fixed: `rename-map.tsv` silently drops any filename containing a
+  parenthesis (three files affected), and the dead-assets list now holds 101
+  entries of which 80 are live 301 targets. Details in the status file §4.
+- **Workstream C has not been started.**
 
 ## 2. The prep that already exists
 
@@ -438,14 +459,13 @@ Both of the first two cost real time on 11 Aug 2026. They are not hypothetical.
    `scripts/image-audit.mjs` already does.
 5. **`features.areaStats` in `site.ts`** is a live kill switch for every
    carpet-area grid. Unrelated to images — do not flip it while doing this work.
-6. **Nothing is committed, and it is now three layers deep.** As of 12 Aug the
-   branch `feat/inline-edit` carries, all uncommitted and interleaved: an
-   earlier SEO pass (`structured-data.ts`, `SocialLinks.astro`), the 11 Aug
-   punch-list sweep (ten items, 24 files, a deleted `QrBlock.astro`), and the
-   Dhruva image pilot. Four files — `dhruva.ts`, `site.ts`, `gallery.astro`,
-   `thank-you.astro` — carry changes from more than one of those layers, so
-   `git checkout` on any of them destroys work from the others too. **Commit
-   before the next project, and commit each layer separately if you still can.**
+6. **~~Nothing is committed~~ — resolved 12 Aug 2026.** The three interleaved
+   layers (an earlier SEO pass, the 11 Aug punch-list sweep, the Dhruva image
+   pilot) were banked as one commit, `7e4c288 checkpoint: work in progress
+   before image rollout`, because four files carried changes from more than one
+   layer and could no longer be separated. Each project of the rollout is then
+   its own commit on top. **Nothing has been pushed**, and the branch is still
+   `feat/inline-edit`.
 
 7. **The contact sheets silently dropped a frame, and now cannot.** Fixed
    12 Aug: one PNG among 82 JPEGs produced a thumbnail of a different size and
