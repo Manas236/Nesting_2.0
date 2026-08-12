@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { CACHE_PREFIX } from "../lib/editable";
+import { brand } from "../data/site";
 import { organizationSchema, jsonLd } from "../lib/structured-data";
 
 interface Props {
@@ -29,8 +30,22 @@ interface Props {
 
 const {
   title = "Nesting Tree — Residential Developer · Navi Mumbai",
+  /* The homepage's description as well as the fallback — index.astro
+     passes none. Google renders about 155 characters, so the tail of
+     this sentence is what gets cut: keep the region and the amenity
+     list ahead of the year, not after it. The old wording ran to 179
+     and spent its last 41 saying "Building homes in Navi Mumbai since
+     2004" — a second "Navi Mumbai" in a line that had already said it.
+
+     Region and year are interpolated for the usual reason: they are
+     facts about the company and there is one place they live. The year
+     is `legacyYear`, which is what a bare "Since …" has to be — see the
+     rule on `brand` in src/data/site.ts. The amenity list is worded to
+     match the one in the Organization schema description. */
   description =
-    "Nesting Tree builds amenity-first homes across Navi Mumbai. Rooftop gyms, terraces, lifts, security and parking: built in, not bolted on. Building homes in Navi Mumbai since 2004.",
+    `Nesting Tree builds amenity-first homes across ${brand.region}. ` +
+    `Rooftop, gym, lift, CCTV, security and parking: built in, not bolted on. ` +
+    `Since ${brand.legacyYear}.`,
   // Share-card image. Pass one of the purpose-built 1200×630 cards in
   // /images/og/ — NOT a hero render. See the note below.
   image = "/images/og/default.jpg",
