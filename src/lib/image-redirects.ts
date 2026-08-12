@@ -7,7 +7,7 @@
    have shared and in the Open Graph cards WhatsApp and Facebook have
    cached. See IMAGE-SEO-BRIEF.md §3.2.
 
-   74 entries.
+   80 entries.
    ============================================================ */
 export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg": "/images/projects/dhruva/photos/dhruva-aerial-view-01.webp",
@@ -40,6 +40,12 @@ export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Ishaan/Interior/IMG20260627122150.jpeg": "/images/projects/ishaan/photos/ishaan-interior-02.webp",
   "/images/Project_Images/Ishaan/Interior/IMG20260627122250.jpeg": "/images/projects/ishaan/photos/ishaan-interior-03.webp",
   "/images/Project_Images/Ishaan/Interior/IMG20260627122308.jpeg": "/images/projects/ishaan/photos/ishaan-interior-04.webp",
+  "/images/Project_Images/Prithvi/Exterior/DSC_0077.jpeg": "/images/projects/prithvi/photos/prithvi-exterior-01.webp",
+  "/images/Project_Images/Prithvi/Exterior/DSC_0081.jpeg": "/images/projects/prithvi/photos/prithvi-exterior-02.webp",
+  "/images/Project_Images/Prithvi/Exterior/DSC_0086.jpeg": "/images/projects/prithvi/photos/prithvi-exterior-03.webp",
+  "/images/Project_Images/Prithvi/Exterior/DSC_0087.jpeg": "/images/projects/prithvi/photos/prithvi-exterior-04.webp",
+  "/images/Project_Images/Prithvi/Exterior/IMG20260627121039.jpeg": "/images/projects/prithvi/photos/prithvi-exterior-05.webp",
+  "/images/Project_Images/Prithvi/Exterior/IMG20260627121054.jpeg": "/images/projects/prithvi/photos/prithvi-exterior-06.webp",
   "/images/Project_Images/Rudra/Aerial_View/DSC_0074.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-01.webp",
   "/images/Project_Images/Rudra/Aerial_View/DSC_0134.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-02.webp",
   "/images/Project_Images/Rudra/Aerial_View/DSC_0137.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-03.webp",

@@ -1,0 +1,29 @@
+# Prithvi — image manifest for scripts/optimise-project-images.mjs
+#
+# Columns: old_path <TAB> new_path <TAB> alt
+# Alt written 12 Aug 2026 from contact sheets 01 and 02, plus the direct
+# render of index 1 made when verifying the sheet-to-worklist mapping.
+#
+# SIX of Prithvi's eight photographs are here. Indices 1 and 2,
+# /images/Project_Images/Prithvi/DSC_0091.jpeg and DSC_0093.jpeg, are
+# deliberately NOT migrated — see IMAGE-ROLLOUT-STATUS.md. Both show a
+# small blue-and-gold roadside temple at the foot of the rock cutting,
+# with saffron flags and a shuttered row behind. Both are captioned
+# "Prithvi — exterior of the building". Third and fourth instances of the
+# same problem as Shaurya's gram panchayat office and Ishaan's college
+# gate, and the same reason for leaving them: whether the gallery is for
+# the building or for its neighbourhood is a content decision.
+#
+# §4 is explicit that Prithvi has NO rooftop solar — removed 11 Aug 2026 —
+# so nothing here describes a panel. Nothing here names the single lift or
+# the rooftop terrace either: neither is visible in any of these frames.
+#
+# Prithvi is under construction and pre-launch, so the frame, the netting
+# and the stacked materials are current fact, not a §6.7 problem.
+old_path	new_path	alt
+/images/Project_Images/Prithvi/Exterior/DSC_0077.jpeg	/images/projects/prithvi/photos/prithvi-exterior-01.webp	The concrete frame with green netting on the upper floors, rebar and materials stacked below — Prithvi, Karanjade
+/images/Project_Images/Prithvi/Exterior/DSC_0081.jpeg	/images/projects/prithvi/photos/prithvi-exterior-02.webp	Another face of the frame from the kerbside, the neighbouring buildings pressing right up to it — Prithvi, Karanjade
+/images/Project_Images/Prithvi/Exterior/DSC_0086.jpeg	/images/projects/prithvi/photos/prithvi-exterior-03.webp	Looking down on the topmost slabs, the streets and the parked cars laid out all around — Prithvi, Karanjade
+/images/Project_Images/Prithvi/Exterior/DSC_0087.jpeg	/images/projects/prithvi/photos/prithvi-exterior-04.webp	The unfinished top floor closed in by neighbours on every side, seen from above — Prithvi, Karanjade
+/images/Project_Images/Prithvi/Exterior/IMG20260627121039.jpeg	/images/projects/prithvi/photos/prithvi-exterior-05.webp	The building rising mid-street, cars and trucks nose to tail along the road below — Prithvi, Karanjade
+/images/Project_Images/Prithvi/Exterior/IMG20260627121054.jpeg	/images/projects/prithvi/photos/prithvi-exterior-06.webp	Closer in on the unfinished floors, the parked street and the rooftops running away behind — Prithvi, Karanjade
