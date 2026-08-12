@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 // The site stays static (all pages are pre-built HTML). The Node adapter is
@@ -21,6 +22,24 @@ export default defineConfig({
   // build time, not runtime: change it and you must rebuild.
   site: process.env.PUBLIC_SITE_URL || 'https://nestingtree.in',
   adapter: node({ mode: 'standalone' }),
+  integrations: [
+    // Writes dist/client/sitemap-index.xml + sitemap-0.xml over the
+    // prerendered routes. It reads `site` above, so the SAME warning
+    // applies: build with PUBLIC_SITE_URL pointing somewhere else and
+    // you get a sitemap full of that origin's URLs. Check the file
+    // before submitting it to Search Console — a sitemap listing a
+    // staging host is a request to index the staging host.
+    //
+    // /thank-you is excluded. It is `prerender = false` (it reads the
+    // ?project / ?status query), so it is not in the crawl the
+    // integration walks and the filter is belt-and-braces today — but
+    // the day someone prerenders it, the exclusion is already here
+    // rather than a thing to remember. It is also disallowed in
+    // robots.txt and carries `noindex, follow`.
+    sitemap({
+      filter: (page) => new URL(page).pathname.replace(/\/$/, '') !== '/thank-you',
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()]
   }
