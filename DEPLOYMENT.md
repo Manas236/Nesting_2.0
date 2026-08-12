@@ -18,7 +18,7 @@ with two live routes.
 | Database | MySQL, via `mysql2` connection pool |
 | Prerendered pages | 12 — home, about, gallery, projects index, 6 project pages, privacy, terms |
 | On-demand (SSR) routes | **2** — `/thank-you` and `POST /api/contact` |
-| Build output | `dist/client` (static, 618 MB) + `dist/server` (0.4 MB) |
+| Build output | `dist/client` (static, 430 MB) + `dist/server` (0.4 MB) |
 
 The two SSR routes are why you cannot deploy this as static files alone.
 `/api/contact` writes enquiries to MySQL and `/thank-you` reads the
@@ -33,8 +33,8 @@ The two SSR routes are why you cannot deploy this as static files alone.
 - **Node.js 22.12+** (22 LTS or 24)
 - **MySQL 8.0+** (or MariaDB 10.6+) — can be on the same box
 - **Nginx or Caddy** as a reverse proxy, terminating TLS
-- **~2 GB free disk** — the repo plus `node_modules` plus a 618 MB build,
-  with headroom for one previous build during deploys
+- **~2 GB free disk** — the repo (648 MB of `public/` alone) plus `node_modules`
+  plus a 430 MB build, with headroom for one previous build during deploys
 - A domain (`nestingtree.in`) with DNS A record pointed at the server
 - TLS certificate — Let's Encrypt via certbot, or automatic with Caddy
 
@@ -114,8 +114,15 @@ FLUSH PRIVILEGES;
 git clone <repo> /var/www/nestingtree
 cd /var/www/nestingtree
 npm ci                 # reproducible install from package-lock.json
-npm run build          # ~5s; writes dist/client + dist/server
+npm run build          # ~5s; writes dist/client + dist/server, then prunes
 ```
+
+**Use `npm run build`, not `astro build`.** The `postbuild` script
+(`scripts/prune-superseded-images.mjs`) runs automatically after `npm run build`
+and is not optional — it deletes the 80 superseded image originals from
+`dist/client` so the 301s in `src/lib/image-redirects.ts` can fire. Run
+`astro build` on its own and those originals ship, every one of the 80 redirects
+goes dead, and the deploy is 219 MB heavier. See §5.1.
 
 **There is no `start` script in `package.json`.** Run the built server directly:
 
@@ -164,6 +171,11 @@ sudo systemctl status nestingtree
 
 ### Nginx reverse proxy
 
+**`deploy/nginx-nestingtree.conf` is the authoritative config** — copy that file
+rather than the sketch below, which omits the rate limiting. Use
+`deploy/nginx-ip-only.conf` while the site is on a bare IP with no domain.
+Install instructions are in the header comment of each.
+
 ```nginx
 server {
     listen 443 ssl http2;
@@ -172,22 +184,35 @@ server {
     ssl_certificate     /etc/letsencrypt/live/nestingtree.in/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/nestingtree.in/privkey.pem;
 
+    root /var/www/nestingtree/dist/client;
+
     # Videos are large; give uploads/streams room and let nginx serve
     # the static build directly rather than proxying it through Node.
     client_max_body_size 2m;
 
     location /_astro/ {
-        alias /var/www/nestingtree/dist/client/_astro/;
         expires 1y;
         add_header Cache-Control "public, immutable";
         access_log off;
+        try_files $uri =404;
     }
 
+    # A miss falls through to Node, which holds the 301s for renamed
+    # images. Do not change this to =404 — see §5.1.
     location /images/ {
-        alias /var/www/nestingtree/dist/client/images/;
         expires 30d;
         add_header Cache-Control "public";
         access_log off;
+        try_files $uri @node;
+    }
+
+    location @node {
+        proxy_pass         http://127.0.0.1:4321;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
     }
 
     location / {
@@ -209,11 +234,47 @@ server {
 
 Serving `/images/` and `/_astro/` straight from nginx matters here — see §6.
 
+### 5.1 Renamed images: the prune and the `/images/` fallback
+
+80 photographs were renamed. Their old URLs are kept alive as permanent
+redirects — the map is `src/lib/image-redirects.ts` and `src/middleware.ts`
+serves it. **Middleware only runs inside the Node process**, and nginx serves
+`/images/` from disk, so this needs two things to be true at once:
+
+1. **The superseded originals must not be in `dist/client`.** `public/` is copied
+   into the build wholesale, so they would ship, and nginx would answer an old
+   URL with a 200 and the original multi-megabyte JPEG — the redirect never runs.
+   `scripts/prune-superseded-images.mjs` deletes them as npm's `postbuild`. It
+   reads the paths out of `src/lib/image-redirects.ts` at run time and hard-fails
+   if any replacement is missing, so it cannot drift from the map or strand a
+   photograph. It touches `dist/client` only; `public/` keeps the only
+   full-resolution copies and must never be pruned.
+2. **`location /images/` must end in `try_files $uri @node;`.** With `=404` there
+   instead, the pruned URLs answer 404 and the 301s are unreachable.
+
+Either half alone is broken: prune without the fallback turns 80 live URLs into
+404s; fallback without the prune never fires. If old image URLs start returning
+200 with a large JPEG, or 404, check these two first.
+
+To confirm on the server after a deploy, from `/var/www/nestingtree`:
+
+```bash
+# 0 expected — no superseded original left in the build
+node -e 'const f=require("fs"),p=require("path");const s=f.readFileSync("src/lib/image-redirects.ts","utf8").replace(": Record<string, string> ="," =");import("data:text/javascript;base64,"+Buffer.from(s).toString("base64")).then(m=>console.log(Object.keys(m.imageRedirects).filter(k=>f.existsSync(p.join("dist/client",decodeURIComponent(k)))).length))'
+
+# 301 expected, straight past nginx to Node
+curl -sI http://127.0.0.1:4321/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg | head -2
+```
+
 ---
 
 ## 6. The asset problem (read this before choosing a host)
 
-`public/` is **617.5 MB across 213 files**, and the build copies all of it.
+`public/` is **648 MB**, and the build copies all of it except the 80 superseded
+image originals, which `postbuild` prunes back out — 219.5 MB, leaving a 430 MB
+`dist/client`. See §5.1; those originals stay in `public/` and in git as the only
+full-resolution copies. The figures below predate the prune and describe
+`public/`, not the deploy.
 
 | Category | Size |
 |---|---|
@@ -230,7 +291,8 @@ Consequences to plan for:
   front to absorb repeat traffic.
 - **Never proxy these through Node.** The nginx `location` blocks above serve
   them from disk. Astro's Node server can do it, but it is far slower and
-  pins your single process on every video request.
+  pins your single process on every video request. Only a *miss* under
+  `/images/` reaches Node, and then only to answer a 301 or a 404 — see §5.1.
 - **Two files are dead weight and can be deleted right now:**
   `public/images/projects/Prithvi-Elevation_og.jpg` (44.2 MB) and
   `public/images/projects/ShikharElevationFinal_og.jpeg` (39.5 MB). Nothing in
@@ -332,6 +394,8 @@ Ordered. Everything above the line must be true before the site is public.
 - [ ] `npm ci && npm run build` completes clean
 - [ ] systemd service running and enabled; survives `reboot`
 - [ ] Nginx proxying to `127.0.0.1:4321`, static paths served from disk
+- [ ] `location /images/` ends in `try_files $uri @node;` and an old image URL
+      301s to its `.webp` (§5.1)
 - [ ] TLS certificate issued; HTTP redirects to HTTPS
 - [ ] DNS A records for apex and `www` resolve to the server
 - [ ] **Submit a real enquiry on the live site and confirm the row lands in `leads`** — this is the one end-to-end test that matters
@@ -368,3 +432,7 @@ sudo systemctl restart nestingtree
 The build takes a few seconds. The restart drops in-flight requests, which for
 this traffic level is fine — but note the static files under `dist/client` are
 replaced during the build, so run it at a quiet moment rather than mid-campaign.
+
+`npm run build` here, never `astro build` — the `postbuild` prune has to run or
+the renamed images' 301s go dead (§5.1). It prints its counts; expect
+`80 redirect keys, 80 originals deleted`.
