@@ -59,16 +59,30 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
 <header id="site-header" class="fixed top-0 left-0 right-0 z-50">
   <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
     <div class="flex items-center justify-between h-[72px] lg:h-20">
-      <a href="/" class="nav-animate flex flex-col items-center gap-1 shrink-0" style="--nav-d:0.15s">
+      <!-- Owner's instruction (punch-list item 1): "the customer should know
+           they have reached the NT page" — the mark had to be bigger.
+
+           WHY THE LOCKUP TURNED SIDEWAYS. It used to stack the mark above a
+           two-line wordmark, which came to ~72px inside an 80px bar — about
+           8px of headroom, so the mark could not grow by any amount worth
+           having. Side by side, the bar's height stops being the constraint
+           and the mark goes 36px → 56px on desktop, 32px → 44px on mobile.
+
+           THE BAR HEIGHT ITSELF MUST NOT CHANGE. `scroll-mt-20` (80px) is on
+           59 anchored sections across the site and is matched to `lg:h-20`
+           here. Grow the header and every jump link lands with its heading
+           tucked underneath it — so if the mark needs to be bigger still,
+           either those 59 values move too, or the wordmark goes. -->
+      <a href="/" class="nav-animate flex items-center gap-2.5 shrink-0" style="--nav-d:0.15s">
         <img
           src={brand.logoMark}
           alt={`${brand.name} logo`}
           width="36"
           height="42"
-          class="h-8 w-auto lg:h-9 drop-shadow-sm"
+          class="h-11 w-auto lg:h-14 drop-shadow-sm"
         />
         <span
-          class="nav-wordmark font-display font-extrabold text-sm lg:text-base tracking-tight leading-none text-center"
+          class="nav-wordmark font-display font-extrabold text-base lg:text-lg tracking-tight leading-[1.05]"
           >Nesting<br />Tree</span
         >
       </a>
