@@ -1,0 +1,38 @@
+# Rudra — image manifest for scripts/optimise-project-images.mjs
+#
+# Columns: old_path <TAB> new_path <TAB> alt
+# Alt written 12 Aug 2026 from contact sheets 05, 06, 08, 09 and 10, plus
+# direct renders of indices 54, 58, 59 and 60 — Rudra has three pairs that
+# are near-identical at contact-sheet size (the two entrance frames, the
+# two rooftops, and entrance-01 against lift-01, which are the same lobby
+# from two positions) and they had to be told apart properly.
+#
+# Rudra is DELIVERED (§6.7): nothing here calls it under construction.
+# The two rooftop frames show a bare concrete service level with stacked
+# roofing sheets — described as what it is, without that implication.
+#
+# NOTE: §3.3's "Good" example is a Rudra rooftop with a parapet and an
+# overhead water tank looking out to the hills. Neither rooftop photograph
+# shows that. It was an illustration of the FORM, not a description of
+# these files, and copying it would have been the exact defect §6.1 names.
+#
+# Two of these files are also used by the site-wide amenity bands in
+# site.ts (rooftop-02 and parking-01) — the script rewrites those too.
+old_path	new_path	alt
+/images/Project_Images/Rudra/Exterior/DSC_0057.jpeg	/images/projects/rudra/photos/rudra-exterior-01.webp	Climbing plants up the front of the finished building, green balcony panels and shuttered shops below — Rudra, Karanjade
+/images/Project_Images/Rudra/Exterior/IMG20260627114444.jpeg	/images/projects/rudra/photos/rudra-exterior-02.webp	The building along the street with its neighbours, shops at pavement level and cars parked nose-in — Rudra, Karanjade
+/images/Project_Images/Rudra/Exterior/IMG20260627115556.jpeg	/images/projects/rudra/photos/rudra-exterior-03.webp	Looking up the elevation into the sun, climbers on the balconies and the shutters closed below — Rudra, Karanjade
+/images/Project_Images/Rudra/Aerial_View/DSC_0074.jpeg	/images/projects/rudra/photos/rudra-aerial-view-01.webp	The wooded knoll above the road, traffic running along its foot below the street lights — Rudra, Karanjade
+/images/Project_Images/Rudra/Aerial_View/DSC_0134.jpeg	/images/projects/rudra/photos/rudra-aerial-view-02.webp	Blue-tarped stalls and parked vehicles on the road below, the cliff-topped hill across the skyline — Rudra, Karanjade
+/images/Project_Images/Rudra/Aerial_View/DSC_0137.jpeg	/images/projects/rudra/photos/rudra-aerial-view-03.webp	The flyover curving under the quarried cliff face, retaining walls and the rail line beneath it — Rudra, Karanjade
+/images/Project_Images/Rudra/Aerial_View/DSC_0145.jpeg	/images/projects/rudra/photos/rudra-aerial-view-04.webp	A broad road lined with apartment blocks, open plots to either side and the hills behind — Rudra, Karanjade
+/images/Project_Images/Rudra/Aerial_View/IMG20260627115021.jpeg	/images/projects/rudra/photos/rudra-aerial-view-05.webp	Cars and motorcycles packed onto the open ground beside the underpass retaining wall — Rudra, Karanjade
+/images/Project_Images/Rudra/Entrance/IMG20260627114735.jpeg	/images/projects/rudra/photos/rudra-entrance-01.webp	Green-marble floor, notice board and a small shrine shelf in the entrance lobby — Rudra, Karanjade
+/images/Project_Images/Rudra/Entrance/IMG20260627115504.jpeg	/images/projects/rudra/photos/rudra-entrance-02.webp	Lift doors and the dark marble staircase side by side at the entrance, railing rising past — Rudra, Karanjade
+/images/Project_Images/Rudra/Corridor/IMG20260627115230.jpeg	/images/projects/rudra/photos/rudra-corridor-01.webp	A garlanded flat door off the tiled landing, the staircase and its steel railing alongside — Rudra
+/images/Project_Images/Rudra/Corridor/IMG20260627115309.jpeg	/images/projects/rudra/photos/rudra-corridor-02.webp	Green-marble steps and a steel railing climbing past a grilled window on a typical floor — Rudra
+/images/Project_Images/Rudra/Lift/DSC_0065.jpeg	/images/projects/rudra/photos/rudra-lift-01.webp	Stainless-steel lift door beside the staircase, under the lobby's brass pendant light — Rudra
+/images/Project_Images/Rudra/Parking/IMG20260627112838.jpeg	/images/projects/rudra/photos/rudra-parking-01.webp	A van and motorcycles on the red and yellow checkered floor of the stilt parking — Rudra
+/images/Project_Images/Rudra/Parking/IMG20260627114620.jpeg	/images/projects/rudra/photos/rudra-parking-02.webp	Motorcycles lined up between the columns of the stilt parking, seen in from the driveway — Rudra
+/images/Project_Images/Rudra/Rooftop/IMG20260627115043.jpeg	/images/projects/rudra/photos/rudra-rooftop-01.webp	Bare concrete floor and columns on the covered rooftop level, roofing sheets stacked by the parapet — Rudra, Karanjade
+/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg	/images/projects/rudra/photos/rudra-rooftop-02.webp	Blue metal canopies and a steel stair rail on the open rooftop, parapets on every side — Rudra, Karanjade

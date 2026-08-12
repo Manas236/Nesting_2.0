@@ -7,7 +7,7 @@
    have shared and in the Open Graph cards WhatsApp and Facebook have
    cached. See IMAGE-SEO-BRIEF.md §3.2.
 
-   34 entries.
+   51 entries.
    ============================================================ */
 export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg": "/images/projects/dhruva/photos/dhruva-aerial-view-01.webp",
@@ -31,6 +31,23 @@ export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg": "/images/projects/dhruva/photos/dhruva-lobby-02.webp",
   "/images/Project_Images/Dhruva/Lobby/IMG20260627140500.jpeg": "/images/projects/dhruva/photos/dhruva-lobby-03.webp",
   "/images/Project_Images/Dhruva/Render/dhruva-startrail-scene.png": "/images/projects/dhruva/photos/dhruva-render-01.webp",
+  "/images/Project_Images/Rudra/Aerial_View/DSC_0074.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-01.webp",
+  "/images/Project_Images/Rudra/Aerial_View/DSC_0134.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-02.webp",
+  "/images/Project_Images/Rudra/Aerial_View/DSC_0137.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-03.webp",
+  "/images/Project_Images/Rudra/Aerial_View/DSC_0145.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-04.webp",
+  "/images/Project_Images/Rudra/Aerial_View/IMG20260627115021.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-05.webp",
+  "/images/Project_Images/Rudra/Corridor/IMG20260627115230.jpeg": "/images/projects/rudra/photos/rudra-corridor-01.webp",
+  "/images/Project_Images/Rudra/Corridor/IMG20260627115309.jpeg": "/images/projects/rudra/photos/rudra-corridor-02.webp",
+  "/images/Project_Images/Rudra/Entrance/IMG20260627114735.jpeg": "/images/projects/rudra/photos/rudra-entrance-01.webp",
+  "/images/Project_Images/Rudra/Entrance/IMG20260627115504.jpeg": "/images/projects/rudra/photos/rudra-entrance-02.webp",
+  "/images/Project_Images/Rudra/Exterior/DSC_0057.jpeg": "/images/projects/rudra/photos/rudra-exterior-01.webp",
+  "/images/Project_Images/Rudra/Exterior/IMG20260627114444.jpeg": "/images/projects/rudra/photos/rudra-exterior-02.webp",
+  "/images/Project_Images/Rudra/Exterior/IMG20260627115556.jpeg": "/images/projects/rudra/photos/rudra-exterior-03.webp",
+  "/images/Project_Images/Rudra/Lift/DSC_0065.jpeg": "/images/projects/rudra/photos/rudra-lift-01.webp",
+  "/images/Project_Images/Rudra/Parking/IMG20260627112838.jpeg": "/images/projects/rudra/photos/rudra-parking-01.webp",
+  "/images/Project_Images/Rudra/Parking/IMG20260627114620.jpeg": "/images/projects/rudra/photos/rudra-parking-02.webp",
+  "/images/Project_Images/Rudra/Rooftop/IMG20260627115043.jpeg": "/images/projects/rudra/photos/rudra-rooftop-01.webp",
+  "/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg": "/images/projects/rudra/photos/rudra-rooftop-02.webp",
   "/images/Project_Images/Shikhar/Aerial_View/DSC_0153.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-01.webp",
   "/images/Project_Images/Shikhar/Aerial_View/DSC_0161.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-02.webp",
   "/images/Project_Images/Shikhar/Aerial_View/DSC_0166.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-03.webp",

@@ -334,7 +334,7 @@ export const amenities = [
     body:
       "A rooftop retreat with the sides open to the breeze and a roof overhead to keep the sun and rain out of the picture. Just the view, on your terms.",
     featured: "Sheltered Rooftop · Terrace Access",
-    image: "/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg",
+    image: "/images/projects/rudra/photos/rudra-rooftop-02.webp",
     objectPosition: "center 60%",
   },
   {
@@ -364,7 +364,7 @@ export const amenities = [
     body:
       "Ground-floor covered parking for the car and the two-wheeler, shielded from sun and rain. Dedicated parking spots - no circling, no scrambling for a spot.",
     featured: "Covered Parking · Two-Wheeler & Car",
-    image: "/images/Project_Images/Rudra/Parking/IMG20260627112838.jpeg",
+    image: "/images/projects/rudra/photos/rudra-parking-01.webp",
     objectPosition: "center 60%",
   },
   {
