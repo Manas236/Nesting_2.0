@@ -32,9 +32,22 @@ const art = project
 const pageTitle = isError
   ? "Something went wrong — Nesting Tree"
   : "Thank you — Nesting Tree";
+
+/* This was the only page of the fourteen that passed no description, so
+   it fell back to BaseLayout's site-wide default and read in a search
+   result as a duplicate of the homepage. It has its own now — and it is
+   noindexed as well, so in practice this is what a person sees if a
+   link to it is previewed, not what a search result shows.
+
+   Both states get one. The title already switches on ?status=error, and
+   a "thank you, we'll be in touch" description on the page that says we
+   failed to save the enquiry would be the wrong half of the pair. */
+const pageDesc = isError
+  ? "We couldn't save your enquiry. Please try again in a moment, or call the Nesting Tree sales desk directly."
+  : "Your enquiry has reached the Nesting Tree team and we'll be in touch shortly. Meanwhile, explore our residences across Navi Mumbai and Panvel.";
 ---
 
-<BaseLayout title={pageTitle}>
+<BaseLayout title={pageTitle} description={pageDesc} noindex>
   <SiteHeader />
 
   <main class="min-h-screen grid lg:grid-cols-2 bg-ink text-stone">
