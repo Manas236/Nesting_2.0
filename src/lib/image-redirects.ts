@@ -7,7 +7,7 @@
    have shared and in the Open Graph cards WhatsApp and Facebook have
    cached. See IMAGE-SEO-BRIEF.md §3.2.
 
-   51 entries.
+   65 entries.
    ============================================================ */
 export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg": "/images/projects/dhruva/photos/dhruva-aerial-view-01.webp",
@@ -48,6 +48,20 @@ export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Rudra/Parking/IMG20260627114620.jpeg": "/images/projects/rudra/photos/rudra-parking-02.webp",
   "/images/Project_Images/Rudra/Rooftop/IMG20260627115043.jpeg": "/images/projects/rudra/photos/rudra-rooftop-01.webp",
   "/images/Project_Images/Rudra/Rooftop/IMG20260627115135.jpeg": "/images/projects/rudra/photos/rudra-rooftop-02.webp",
+  "/images/Project_Images/Shaurya/Aerial_View/DSC_0129.jpeg": "/images/projects/shaurya/photos/shaurya-aerial-view-01.webp",
+  "/images/Project_Images/Shaurya/Aerial_View/DSC_0169.jpeg": "/images/projects/shaurya/photos/shaurya-aerial-view-02.webp",
+  "/images/Project_Images/Shaurya/Aerial_View/DSC_0175.jpeg": "/images/projects/shaurya/photos/shaurya-aerial-view-03.webp",
+  "/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg": "/images/projects/shaurya/photos/shaurya-aerial-view-04.webp",
+  "/images/Project_Images/Shaurya/Aerial_View/DSC_0183(1).jpeg": "/images/projects/shaurya/photos/shaurya-aerial-view-05.webp",
+  "/images/Project_Images/Shaurya/Aerial_View/IMG20260627130853.jpeg": "/images/projects/shaurya/photos/shaurya-aerial-view-06.webp",
+  "/images/Project_Images/Shaurya/Corridor/IMG20260627130757.jpeg": "/images/projects/shaurya/photos/shaurya-corridor-01.webp",
+  "/images/Project_Images/Shaurya/Exterior/DSC_0118%20(1).jpeg": "/images/projects/shaurya/photos/shaurya-exterior-01.webp",
+  "/images/Project_Images/Shaurya/Exterior/IMG20260627130433.jpeg": "/images/projects/shaurya/photos/shaurya-exterior-02.webp",
+  "/images/Project_Images/Shaurya/Exterior/IMG20260627130449.jpeg": "/images/projects/shaurya/photos/shaurya-exterior-03.webp",
+  "/images/Project_Images/Shaurya/Parking/IMG20260627130526.jpeg": "/images/projects/shaurya/photos/shaurya-parking-01.webp",
+  "/images/Project_Images/Shaurya/Parking/IMG20260627130600.jpeg": "/images/projects/shaurya/photos/shaurya-parking-02.webp",
+  "/images/Project_Images/Shaurya/Parking/IMG20260627130611.jpeg": "/images/projects/shaurya/photos/shaurya-parking-03.webp",
+  "/images/Project_Images/Shaurya/Rooftop/IMG20260627130905.jpeg": "/images/projects/shaurya/photos/shaurya-rooftop-01.webp",
   "/images/Project_Images/Shikhar/Aerial_View/DSC_0153.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-01.webp",
   "/images/Project_Images/Shikhar/Aerial_View/DSC_0161.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-02.webp",
   "/images/Project_Images/Shikhar/Aerial_View/DSC_0166.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-03.webp",

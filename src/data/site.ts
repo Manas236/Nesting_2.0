@@ -344,7 +344,7 @@ export const amenities = [
     body:
       "Step onto the terrace and Karanjade spreads out below — clear above the rooftops.",
     featured: "Panoramic Skyline Views · Open-Air Terrace",
-    image: "/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg",
+    image: "/images/projects/shaurya/photos/shaurya-aerial-view-04.webp",
     objectPosition: "center center",
   },
   {

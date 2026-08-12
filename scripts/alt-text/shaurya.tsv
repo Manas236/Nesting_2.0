@@ -1,0 +1,39 @@
+# Shaurya — image manifest for scripts/optimise-project-images.mjs
+#
+# Columns: old_path <TAB> new_path <TAB> alt
+# Alt written 12 Aug 2026 from contact sheets 04, 05, 07, 09 and 11, plus
+# direct renders of 24, 25, 26, 27 (four aerials that all show an airliner
+# and had to be told apart) and 41.
+#
+# FOURTEEN of Shaurya's fifteen photographs are here. Index 41,
+# /images/Project_Images/Shaurya/IMG20260627134928.jpeg, is deliberately
+# NOT migrated — see IMAGE-ROLLOUT-STATUS.md. Its signboard reads
+# "ग्रुप ग्रामपंचायत वडघर, ता. पनवेल": it is the Vadghar group gram
+# panchayat office, a public building in a different village. It is
+# currently in Shaurya's gallery captioned "Shaurya — exterior of the
+# building", which is wrong twice over, and no honest alt text can also
+# end "— Shaurya, Karanjade". Whether it belongs in the gallery at all is
+# the owner's call, so it was left exactly as found.
+#
+# Two filenames carry parentheses. scripts/image-audit.mjs drops those
+# from rename-map.tsv (its reference-scanning regex stops at "("), so the
+# two rows below were numbered by hand to the §3.1 convention:
+# DSC_0183(1) is aerial-view-05 and DSC_0118%20(1) is exterior-01, which
+# shifts the map's proposed numbers for their siblings.
+#
+# aerial-view-04 is also the /gallery hero and a site.ts amenity image.
+old_path	new_path	alt
+/images/Project_Images/Shaurya/Exterior/DSC_0118%20(1).jpeg	/images/projects/shaurya/photos/shaurya-exterior-01.webp	The cream elevation behind its yellow boundary railing, name board on the parapet above — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Exterior/IMG20260627130433.jpeg	/images/projects/shaurya/photos/shaurya-exterior-02.webp	Seen along the street past the lamp post, the neighbours crowding in on either side — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Exterior/IMG20260627130449.jpeg	/images/projects/shaurya/photos/shaurya-exterior-03.webp	The corner of the building from the roadside, balconies stacked above the yellow railing — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Aerial_View/DSC_0129.jpeg	/images/projects/shaurya/photos/shaurya-aerial-view-01.webp	Apartment blocks close below, the airfield and the hills laid out behind them — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Aerial_View/DSC_0169.jpeg	/images/projects/shaurya/photos/shaurya-aerial-view-02.webp	An airliner descending over the packed rooftops and water tanks of the town — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Aerial_View/DSC_0175.jpeg	/images/projects/shaurya/photos/shaurya-aerial-view-03.webp	An airliner high over a hazy skyline of rooftops, tower cranes standing among the far blocks — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Aerial_View/DSC_0182.jpeg	/images/projects/shaurya/photos/shaurya-aerial-view-04.webp	Mid-rise blocks along the street below, the airfield beyond them and an aircraft passing above — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Aerial_View/DSC_0183(1).jpeg	/images/projects/shaurya/photos/shaurya-aerial-view-05.webp	An airliner over the terminal pier and its jet bridges, water tanks on the rooftops below — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Aerial_View/IMG20260627130853.jpeg	/images/projects/shaurya/photos/shaurya-aerial-view-06.webp	Straight down into the street between the blocks, cars parked along it and trees in the gaps — Shaurya, Karanjade
+/images/Project_Images/Shaurya/Corridor/IMG20260627130757.jpeg	/images/projects/shaurya/photos/shaurya-corridor-01.webp	Two flat doors off a plain white landing, one garlanded, handprints marked on the wall — Shaurya
+/images/Project_Images/Shaurya/Parking/IMG20260627130526.jpeg	/images/projects/shaurya/photos/shaurya-parking-01.webp	The ramp and railing up to the lift and stairs, checkered tiles across the parking level — Shaurya
+/images/Project_Images/Shaurya/Parking/IMG20260627130600.jpeg	/images/projects/shaurya/photos/shaurya-parking-02.webp	Motorcycles under the building beside the yellow timber fence, the trees just beyond it — Shaurya
+/images/Project_Images/Shaurya/Parking/IMG20260627130611.jpeg	/images/projects/shaurya/photos/shaurya-parking-03.webp	Motorcycles parked between the columns on the checkered tiled parking floor — Shaurya
+/images/Project_Images/Shaurya/Rooftop/IMG20260627130905.jpeg	/images/projects/shaurya/photos/shaurya-rooftop-01.webp	Tiled rooftop deck between curved parapet walls, a dish antenna and the neighbours beyond — Shaurya, Karanjade
