@@ -2,7 +2,8 @@
    Prithvi — project detail page content
    Single source of truth for the Prithvi by Nesting Tree page.
    A G+7 building at Karanjade: four shops at street
-   level and 27 homes above (26 × 1BHK, 1 × 2BHK).
+   level and 27 homes above (26 × 1BHK, and 1 × 2BHK
+   on the seventh floor).
    Edit facts, figures and copy here; the page at
    src/pages/projects/prithvi.astro reads everything from this file.
 
@@ -16,7 +17,10 @@
      · 1BHK & 2BHK layout drawings                     → unitTypes
        (room dimensions came with them, but are no longer
         printed — see the `unitTypes` note below)
-     · 2BHK areas (carpet 795 / super built-up 1,380)  → unitTypes[1].features
+     · 2BHK areas (carpet 795 / super built-up 1,380) — NO LONGER
+       PRINTED. They contradicted the approved plan, and every area
+       figure came off the site on the owner's #13, 12 Aug 2026.
+       See the note above `unitTypesNote`.
      · Typical-floor & terrace plans                   → floorPlans
      · ONE automatic high-speed lift. This figure has moved
        twice: recorded as one, raised to two on an earlier
@@ -25,6 +29,12 @@
        throughout" — which his own Project Overview wording
        repeats. One is the answer; do not raise it again
        without a fresh written instruction.
+     · THE 2BHK SITS ON THE SEVENTH FLOOR. Stated in the
+       owner's Project Overview wording (his review point #7,
+       11 Aug 2026) and independently confirmed by the approved
+       plan, which puts unit 702 at 39.512 sq. m. — much the
+       largest home in the building. `overview.intro` is now his
+       sentence; the note above it lists the three departures.
      · Rooftop common terrace & OH tanks → amenityGroups.
        NO SOLAR. The rooftop solar panels came out entirely
        on that same 11 Aug 2026 instruction — removed, not
@@ -77,10 +87,24 @@ export const heroStats = [
   { figure: "31", label: "Total units" },
 ];
 
-/* ---------- Overview ---------- */
+/* ---------- Overview ----------
+   `intro` is the OWNER'S OWN Project Overview wording (his review point
+   #7, 11 Aug 2026), verbatim but for three deliberate departures:
+     · "elevator serve" → "lift serves". His typo, and "lift" is the word
+       every other project page uses.
+     · "roof-top amenities" → "a rooftop common terrace". No amenity
+       schedule was supplied for Prithvi and the rooftop solar came out
+       on his #10, so the terrace is the only rooftop item we can stand
+       behind. Do not broaden it back to "amenities".
+     · the 26 1BHKs are given their own clause, so that "on the seventh
+       floor" lands on the 2BHK alone, which is what he means.
+
+   THE 2BHK IS ON THE SEVENTH FLOOR — his #7 states it and the approved
+   plan agrees: unit 702, 39.512 sq. m., much the largest home in the
+   building. See the carpet-area statement quoted above `unitTypes`. */
 export const overview = {
   intro:
-    "A G+7 structure of 27 residential and 4 commercial units: four shops holding the ground floor, and 26 one-bedroom apartments plus a single 2BHK on the seven floors above. One automatic high-speed lift serves every floor, with a rooftop common terrace up top.",
+    "A G+7 structure of 27 residential and 4 commercial units: four shops holding the ground floor, 26 one-bedroom apartments across the seven floors above, and a single 2BHK on the seventh floor. One automatic high-speed lift serves every floor, with a rooftop common terrace up top.",
   facts: [
     { label: "Construction stage", value: "2 of 8 slabs cast · 6 to go" },
     { label: "Possession", value: "Targeting December 2027" },
@@ -157,7 +181,7 @@ export const floorPlans: FloorPlan[] = [
     label: "Residential — floors 1 to 7",
     plan: "/images/projects/prithvi/Prithvi_Floor_Plan.png",
     blurb:
-      "Four homes to a typical floor, all one-bedroom apartments, each with a private balcony and a utility, opening off a central passage and served by the lift. Twenty-seven homes are stacked this way above the shops: twenty-six 1BHK and a single 2BHK.",
+      "Four homes to a typical floor, all one-bedroom apartments, each with a private balcony and a utility, opening off a central passage and served by the lift. Twenty-seven homes are stacked this way above the shops: twenty-six 1BHK, and a single 2BHK on the seventh floor.",
     points: [
       "4 homes per typical floor",
       "1BHK apartments with balcony + utility",
@@ -268,33 +292,41 @@ export const unitTypes: UnitType[] = [
     series: TBD,
     plan: "/images/projects/prithvi/Prithvi_2BHK_Plan.png",
     blurb:
-      "The only two-bedroom home in the building. Twenty-six homes share a plan; this one does not: two bedrooms, two toilets, a 15 × 16 living-dining, two balconies and a utility, on a super built-up of 1,380 sq.ft.",
+      "The only two-bedroom home in the building, on the seventh floor. Twenty-six homes share a plan; this one does not: two bedrooms, two toilets, a 15 × 16 living-dining, two balconies and a utility.",
     stats: [
       { label: "Carpet area", value: "39.51 sq. m. (425 sq. ft.)" },
       { label: "Enclosed balcony", value: "6.48 sq. m. (70 sq. ft.)" },
       { label: "Open balcony", value: "8.98 sq. m. (97 sq. ft.)" },
       { label: "Homes of this type", value: "1 of 27" },
     ],
-    features: [
-      "Carpet area — 795 sq.ft",
-      "Balcony area — 80 sq.ft",
-      "Built-up area — 1,010 sq.ft",
-      "Super built-up area — 1,380 sq.ft",
-      "Two balconies — 4′0″ wide · plus utility",
-    ],
+    /* FOUR AREA BULLETS WERE DELETED HERE ON 12 AUG 2026 — owner's
+       review point #13, "remove carpet area from every page":
+         "Carpet area — 795 sq.ft"        "Balcony area — 80 sq.ft"
+         "Built-up area — 1,010 sq.ft"    "Super built-up area — 1,380 sq.ft"
+       The tick-list is not the <AreaStats/> grid, so `features.areaStats`
+       could not reach these — they had to go by hand. All four went, not
+       just the one word "carpet": they came as a set off the Jul 2026
+       render sheet, and the note below records why the approved plan
+       cannot be reconciled with them. Keeping the built-up pair while
+       every carpet figure on the site is hidden would have left the one
+       set of numbers the approved plan actively contradicts. */
+    features: ["Two balconies — 4′0″ wide · plus utility"],
   },
 ];
 
-/* Source line printed under the unit-types section.
+/* Source line printed under the unit-types section. Hidden along with
+   the area grid while `features.areaStats` is false (owner's #13).
 
-   CONFLICT TO RESOLVE BEFORE LAUNCH: the 2BHK `features` above carry
-   "Carpet area — 795 sq.ft" and "Super built-up area — 1,380 sq.ft"
-   from the Jul 2026 render set. The approved plan puts the largest
-   flat in the building at 39.512 sq. m. = 425 sq. ft. carpet, and the
-   whole seventh floor at 178.824 sq. m. = 1,925 sq. ft. of plinth for
-   three flats plus lobby, lift and stair — so 1,380 sq. ft. cannot
-   belong to one of them. The card now states both figures. Decide
-   which is right and drop the other. */
+   THE OLD CONFLICT IS CLOSED — recorded here because the numbers may
+   be asked for again. The 2BHK `features` used to carry "Carpet area —
+   795 sq.ft" and "Super built-up area — 1,380 sq.ft" from the Jul 2026
+   render set. The approved plan puts the largest flat in the building
+   at 39.512 sq. m. = 425 sq. ft. carpet, and the whole seventh floor at
+   178.824 sq. m. = 1,925 sq. ft. of plinth for three flats plus lobby,
+   lift and stair — so 1,380 sq. ft. cannot belong to one of them. The
+   card printed both. The render figures are the ones that went; the
+   approved-plan figures survive in `stats` above, hidden by the flag.
+   If the areas ever come back, they come back from the approved plan. */
 export const unitTypesNote =
   "Carpet areas from the CIDCO-approved building plan CIDCO/BP-19197/TPO(NM & K)/2024/13266, approved 21 November 2024. The 1BHK figures are the average across the twenty-six homes of that layout, which vary from unit to unit; the area of a particular flat is the one printed on the approved plan and stated in its agreement. Renders are indicative; furniture and finishes are not part of the sale.";
 
@@ -343,8 +375,12 @@ export const levels: Level[] = [
     icon: "star",
     featured: true,
     blurb:
-      "One 2BHK in the whole building. Twenty-six homes share a plan; this one does not. A single larger apartment, and there is no second.",
-    points: ["1 two-bedroom apartment", "The only one of its kind at Prithvi"],
+      "One 2BHK in the whole building, on the seventh floor. Twenty-six homes share a plan; this one does not. A single larger apartment, and there is no second.",
+    points: [
+      "1 two-bedroom apartment",
+      "On the seventh floor",
+      "The only one of its kind at Prithvi",
+    ],
   },
 ];
 
@@ -477,26 +513,13 @@ export const amenityGroups: AmenityGroup[] = [
     so this list no longer renders. */
 export const amenitiesNeeded: string[] = [];
 
-/* ---------- About the developer (dark section) ----------
-   Brand-level facts, consistent with dhruva.ts.                   */
-export const developerNotes: { label: string; body: string }[] = [
-  {
-    label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
-  },
-  {
-    label: "Built for Karanjade",
-    body: "Focused on Karanjade, with an emphasis on quality construction and a professional home-buying experience.",
-  },
-  {
-    label: "A delivered track record",
-    body: "Rudra, Dhruva and Shaurya are complete and handed over to their residents.",
-  },
-  {
-    label: "A proven portfolio",
-    body: "Lush Meadows (16-storey, Kharghar) and Gopala (Vashi) are appreciated for quality, timely completion and amenities.",
-  },
-];
+/* ---------- About the developer (dark section) — REMOVED 12 Aug 2026 ----------
+   Owner's review point #11: "Projects page — remove the about the developer
+   section." The dark band it fed is gone from this project page, and the same
+   removal was made on all seven. `developerNotes` went with it rather than
+   being left as an unread export; git has the wording if it is ever wanted
+   back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
+   in the same commit, so no project page now sells the company. */
 
 /* ---------- Why Prithvi (6 cards) ----------
    Brand-level reasons carried from site.ts until project-specific

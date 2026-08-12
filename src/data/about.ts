@@ -93,13 +93,11 @@ export const about = {
       // towards the previous wording.
       body:
         "We aspire to be a trusted real estate brand that transforms dreams into enduring homes and vibrant communities, setting new benchmarks in quality, innovation and sustainable development.",
-      // Three further commitments were deleted in the live editor on 6 Aug 2026
-      // (content_edits 91, 92, 93). The survivor reads as prose, not as one item
-      // of a list, so it renders as a follow-on paragraph — a single bullet is
-      // a list of one. `points` still works if the commitments ever come back.
-      paragraphs: [
-        "Driven by engineering excellence and a customer-first mindset, we strive to uphold the highest standards of transparency, craftsmanship, and timely delivery in every project we undertake. Every home we build reflects our belief that trust is earned, quality is non-negotiable, and enduring relationships are the true foundation of our success.",
-      ],
+      // Three commitments were deleted in the live editor on 6 Aug 2026
+      // (content_edits 91, 92, 93); the fourth survived as a follow-on
+      // paragraph and was removed on 12 Aug 2026, once the new statement above
+      // made it redundant. Both `paragraphs` and `points` are omitted rather
+      // than left empty — about.astro renders `body` alone when neither is set.
     },
     {
       no: "02",

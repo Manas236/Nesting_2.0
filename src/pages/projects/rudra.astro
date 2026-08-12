@@ -13,7 +13,6 @@ import {
   unitTypes,
   unitTypesNote,
   amenityGroups,
-  developerNotes,
   whyRudra,
   gallery,
 } from "../../data/rudra";
@@ -666,40 +665,6 @@ const schema = residenceSchema(rudra, gallery, new URL(Astro.site!));
             </div>
           ))
         }
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== ABOUT THE DEVELOPER (DARK) ===================== -->
-  <section id="developer" class="bg-ink text-stone py-24 lg:py-32 scroll-mt-20">
-    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="grid lg:grid-cols-12 gap-12 lg:gap-20">
-        <div class="reveal reveal-left lg:col-span-5">
-          <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100"
-            >About the developer</span
-          >
-          <h2
-            class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
-          >
-            Built by Nesting Tree.
-          </h2>
-          <p class="text-stone/60 text-lg sm:text-xl leading-relaxed mt-6 max-w-md">
-            Rudra is where Nesting Tree began in Karanjade, drawing on two decades of Navi Mumbai real estate.
-          </p>
-        </div>
-
-        <div class="lg:col-span-7 grid sm:grid-cols-2 gap-5 lg:gap-7">
-          {
-            developerNotes.map((n, i) => (
-              <div class="reveal bg-white/[0.04] border border-white/10 rounded-[4px] p-8 lg:p-9 hover:border-olive-100/40 transition-colors" style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}>
-                <span class="font-display text-xs font-bold uppercase tracking-[0.16em] text-olive-100">
-                  {n.label}
-                </span>
-                <p class="text-stone/70 text-base lg:text-lg leading-relaxed mt-4">{n.body}</p>
-              </div>
-            ))
-          }
-        </div>
       </div>
     </div>
   </section>

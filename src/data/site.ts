@@ -34,8 +34,27 @@ import { shaurya as shauryaData } from "./shaurya";
 export const features = {
   /** The carpet-area stat strip in each project's flat-types section
       (<AreaStats/>). false hides the strip and its "areas as per the
-      approved plan" source line on every project page. */
-  areaStats: true,
+      approved plan" source line on every project page.
+
+      OFF SINCE 12 AUG 2026 — owner's review point #13, "remove carpet
+      area from every page". The flag was used rather than deleting the
+      figures because the strip does not carry carpet alone: enclosed
+      balcony, carpet + balcony, the wrapping terrace and the "26 of 27
+      homes of this type" counts all sit in the same grid, and the
+      instruction reads on the grid, not on one row of it. Flipping one
+      flag takes the lot, on all seven pages, along with each page's
+      "areas as per the approved plan" source line.
+
+      THE CIDCO RESEARCH IS DELIBERATELY LEFT IN PLACE in every
+      src/data/<slug>.ts — the approved-plan carpet tables, the
+      averaging arithmetic and the `stats` rows themselves. None of it
+      renders while this is false, and flipping it back restores every
+      figure exactly as it was. Do not "tidy up" those arrays.
+
+      Carpet figures that sat OUTSIDE the grid were deleted properly,
+      since no flag could reach them: Ishaan's `overview.facts` row and
+      its `levels` copy, and Prithvi's 2BHK feature list and blurb. */
+  areaStats: false,
 };
 
 /* Kept as a standalone const so `brand.footerLine` below can interpolate it —

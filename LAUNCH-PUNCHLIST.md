@@ -67,7 +67,23 @@ editor on 6 Aug 2026 (`content_edits` 91–93 / 96–98, noted in `about.ts`).
 There is no curly double quote left anywhere in `src/`, so there was nothing to
 edit. Nothing to do — kept here only so the next reader doesn't go hunting.
 
-### 9. Six notations for the same units
+### 9. Six notations for the same units — **closed by consequence, 12 Aug 2026**
+Nothing was swept. His #13 took the area grid off every page (see that item),
+and with it went every one of the notations below except two. Counted in the
+built HTML, the whole site now prints exactly **`sq. ft.` on `/projects/rudra`
+and `sq. m.` on `/projects/dhruva`** — 23 figures between them, in one house
+style, dotted and spaced the same way. There is no inconsistency left to fix.
+
+Both survivors are outside the grid: Rudra's saleable-area badges
+(`340–560 sq. ft.`, and `560 sq. ft.` on each layout) and Dhruva's `500 sq. m.`
+plot size. **Neither is a carpet area** — `rudra.ts` says so in its own comment,
+the plan tops out at 226 sq. ft. of carpet — so neither was in #13's scope.
+If the grid is ever switched back on, the table below comes back with it and
+this item reopens exactly as written.
+
+<details>
+<summary>The original count, kept for that eventuality</summary>
+
 | Notation | Files |
 |---|---|
 | `sq ft` | shikhar.ts |
@@ -78,11 +94,7 @@ edit. Nothing to do — kept here only so the next reader doesn't go hunting.
 | `sq.mt` | ishaan.ts |
 
 `src/data/shaurya.ts:154` mixes two on a single line (`19.316 sq.m` and `208 sq.ft` in one comment). Pick a house style.
-
-**Still full size.** The re-scope this item was waiting on has not happened:
-owner's #13 (carpet area out) was deferred on 11 Aug 2026, so every square-unit
-notation is still on the page. Room dimensions did go, which removes the `m`
-suffixes from the unit cards but none of the `sq …` notations above.
+</details>
 
 ### 10. Footer address format — **done, 11 Aug 2026**
 `site.ts` now reads `Navi Mumbai, Maharashtra, 410206`, matching the comma
@@ -235,6 +247,13 @@ mixed. Items already closed have been dropped rather than restated:
   all three parts.
 - **His #10** (Prithvi: one elevator, no rooftop solar) — **done** 11 Aug 2026,
   swept through the whole file.
+- **His #1** (NT logo bigger) — **done** 12 Aug 2026, `42090a8`.
+- **His #3** (flat + building under each testimonial) — **done** 12 Aug 2026,
+  `40cab23`.
+- **His #7** (Prithvi Project Overview) — **done** 12 Aug 2026, his sentence.
+- **His #11** (remove the "about the developer" section) — **done** 12 Aug 2026,
+  all seven pages.
+- **His #13** (carpet area off every page) — **done** 12 Aug 2026.
 
 All of the above are described in *Cleared since launch* at the foot of this
 file. **Read #10 before you touch Prithvi's lift count again** — that figure has
@@ -243,96 +262,140 @@ now moved twice, and the reason it is one is recorded in `prithvi.ts`.
 Where a point touches something already on our list, the cross-reference is
 noted rather than duplicated.
 
-### 1. Landing page — the NT logo needs to be bigger
-"The customer should know they have reached the NT page." The only logo in the
-viewport is `brand.logoMark` in the header
-([`src/components/SiteHeader.astro:64`](src/components/SiteHeader.astro#L64)) —
-the home hero carries no mark of its own. Either scale the header mark up or
-give the hero its own lockup; the second is what actually answers the note.
+**Two points are still open, and both need him, not us: #6 (the two wrong
+addresses) and #14 (what exactly is wrong in Ishaan's unit mix).** Nothing else
+on his list is outstanding.
 
-### 3. Testimonials — add flat number and building under the name
-[`src/data/site.ts:687`](src/data/site.ts#L687). Each item has `name` and
-`detail`; `detail` currently holds an occupation or a home town ("Private
-Employee", "Ratnagiri"). Vipin has the flat numbers and buildings. Decide
-whether the flat replaces `detail` or sits beside it — three of these are real
-named residents, so the change is visible and should be consistent across all
-of them.
+### 1. Landing page — the NT logo needs to be bigger — **done, 12 Aug 2026**
+"The customer should know they have reached the NT page." The header lockup
+([`SiteHeader.astro`](src/components/SiteHeader.astro)) turned sideways so the
+mark could grow: 36px → 56px on desktop, 32px → 44px on mobile. Stacked above a
+two-line wordmark it filled ~72px of an 80px bar and had nowhere to go.
 
-### 6. On-going section — project addresses
-Four separate faults, and they are not all the same kind:
-- **Shikhar** — address incorrect
-- **Prithvi** — address incorrect
-- **Ishaan** — no address shown
-- **Udaan** — no address shown
+⚠️ **The bar height itself must not change.** `scroll-mt-20` (80px) sits on 59
+anchored sections site-wide and is matched to `lg:h-20` in the header. Grow the
+bar and every jump link lands with its heading tucked underneath it. If the mark
+must be bigger still, either those 59 values move too or the wordmark goes.
 
-Note the listing cards deliberately carry only `location: "Navi Mumbai"` — the
-precise address lives on each project's own page, by an explicit decision
-commented at [`src/data/site.ts:160`](src/data/site.ts#L160). So this needs a
-decision first: does the on-going band start showing full addresses (reversing
-that call), or is he reading the project pages? Ishaan and Udaan both *do* have
-addresses on their own pages, which suggests he means the band. **Get the two
-correct addresses from him in the same conversation.**
+### 3. Testimonials — flat number and building under the name — **done, 12 Aug 2026**
+`detail` now carries flat and building only, on all five. Two of them still had
+the old line ("Private Employee", "Ratnagiri"), so the row was reading in two
+formats side by side on the home page. **Keep the five in one format** — these
+are real named residents and an exception shows.
 
-### 7. Prithvi — rewrite Project Overview
-His text:
+### 6. On-going section — project addresses — **half done, 12 Aug 2026**
+He raised four faults. Two are fixed and two need him:
 
-> A G+7 structure of 27 residential and 4 commercial units: four shops holding
-> the ground floor, and 26 one-bedroom apartments plus a single 2BHK on the
-> seventh floor. One automatic high-speed elevator serve every floor, with
-> roof-top amenities.
+- **Ishaan — no address shown** → fixed. **Udaan — no address shown** → fixed.
+  All three card surfaces (`/`, `/projects`, `/gallery`) now print the project's
+  real site address, `2a5df84`. This **reverses** the earlier city-level-only
+  decision, deliberately and on his instruction.
+- **Shikhar — address incorrect. Prithvi — address incorrect.** ⚠️ **STILL
+  OPEN — he has not given us the right ones.** The cards currently show
+  `Plot no. 73, Sector R2, Karanjade, Panvel, 410206` (Shikhar) and
+  `Plot no. 277, Sector 1, Karanjade, Panvel, 410206` (Prithvi), which are the
+  values already in `shikhar.ts` / `prithvi.ts` and are the ones he called
+  wrong. **Ask him for both, then edit only those two files** — the cards read
+  from them.
 
-Two things to settle before pasting: "elevator serve" is his typo for "serves",
-and this sentence says the 2BHK is **on the seventh floor**, which the current
-copy does not state. Confirm that placement — it is a sellable fact.
+Note how they are wired, because it matters: each card reads `address` **from
+the project's own data file**, never a copy in `site.ts`. That is not tidiness —
+on 12 Aug 2026 a full address was typed onto the Shikhar card through the
+in-page editor and it was *Udaan's* plot number, live on the home page above a
+"View project" button. Wired this way the card and the project page cannot
+disagree. `/thank-you` keeps the city-level `location`, because "…in Navi Mumbai
+has reached the team" is a sentence a plot number would wreck.
 
-Note the elevator half of this point is **already done** — it was the same
-instruction as his #10, and `prithvi.ts` now says one lift everywhere. What is
-still waiting is the seventh-floor placement of the 2BHK, and only that.
+### 7. Prithvi — rewrite Project Overview — **done, 12 Aug 2026**
+`overview.intro` in [`prithvi.ts`](src/data/prithvi.ts) is now his sentence,
+verbatim but for three departures recorded in a comment above it: his typo
+"elevator serve" → "lift serves"; "roof-top amenities" → "a rooftop common
+terrace" (no amenity schedule exists for Prithvi and the solar came out on his
+#10, so the terrace is the only rooftop item we can stand behind); and the 26
+1BHKs given their own clause so "on the seventh floor" lands on the 2BHK alone.
 
-### 11. Projects page — remove the "about the developer" section
-Needs one clarification before touching anything: `/projects` itself has only a
-masthead, the catalogue and the amenities band — no developer section. The
-individual project pages each carry a **"Nesting Tree Advantage"** block
-(e.g. [`shikhar.astro:642`](src/pages/projects/shikhar.astro#L642)), which is
-almost certainly what he means. Confirm which, then remove it from all seven.
+**The seventh-floor placement was the open half, and it checks out.** The
+approved plan's carpet-area statement puts unit **702 at 39.512 sq. m.**, much
+the largest home in the building — the only 2BHK, on the seventh floor, exactly
+as he says. Swept through the floor-plan blurb, the `levels` band and the 2BHK
+card as well, so the page states it once and does not contradict itself.
 
-### 13. Remove carpet area from every page — **deliberately deferred, 11 Aug 2026**
-The counterpart to #9, and the larger of the two. This removes the three-series
-carpet table on Ishaan, the `stats` carpet rows on every project, and the
-`Carpet area` row in each `overview.facts`. Check `unitTypesNote` and the
-equivalent source lines too — several of them exist only to caveat a carpet
-figure and become orphans once it goes.
+### 11. Projects page — remove the "about the developer" section — **done, 12 Aug 2026**
+The ambiguity resolved itself on inspection: six project pages carried a dark
+band whose eyebrow read **literally "About the developer"**, which is his
+phrase. Shikhar carried a different block doing the same job — "Why buy at
+Shikhar / The Nesting Tree advantage", six cards on the company's track record.
 
-**Why it is still open.** It was put up alongside #9 on 11 Aug 2026 and held
-back on purpose, because "carpet area" does not cleanly name what is on the
-cards. The same grid also carries **enclosed balcony**, **carpet + balcony**,
-**wrapping terrace** and **"37 of 58 homes of this type"** — none of which is a
-carpet area, and only the first two of which obviously go with it. Two readings,
-and they produce different pages:
+**Both went, on all seven pages**, so no project page now sells the company
+rather than the building. `developerNotes` and `advantages` were deleted from
+the data files too rather than left as unread exports, each replaced by a
+comment saying what went and why; the nav "About" link and the `#developer`
+anchor went with them. Git has the wording if it is ever wanted back.
 
-- **Kill the whole area grid.** One edit: `features.areaStats = false` in
-  [`site.ts`](src/data/site.ts). That flag already exists and is already wired
-  through all seven pages *and* the "areas as per the approved plan" source line
-  under each, so every area figure and every source line goes at once,
-  reversibly, with the CIDCO research left intact in the data files. Then delete
-  the `Carpet area` row from each `overview.facts` by hand. This is the reading
-  that squares with #9 — if sizes and layouts are tentative and room dimensions
-  are gone, a precise balcony area is odd company.
+`/projects` itself never had such a section — masthead, catalogue and amenities
+band only — so nothing changed there.
+
+### 13. Remove carpet area from every page — **done, 12 Aug 2026**
+Done by the **first** of the two readings below: `features.areaStats = false` in
+[`site.ts`](src/data/site.ts). One flag, already wired through all seven pages
+*and* the "areas as per the approved plan" source line under each, so every
+area figure and every source line went at once — carpet, enclosed balcony,
+carpet + balcony, wrapping terrace, the "26 of 27 homes of this type" counts.
+
+**The CIDCO research is deliberately still in the data files** — approved-plan
+tables, averaging arithmetic and the `stats` rows themselves. None of it
+renders. Flipping the flag back restores every figure exactly. Do not tidy
+those arrays away.
+
+Three carpet figures sat **outside** the grid, where no flag could reach them,
+and were deleted by hand:
+- Ishaan's `Carpet area` row in `overview.facts`, and the "≈ 17 sq.mt carpet"
+  line in its `levels` band;
+- Prithvi's 2BHK feature list — all four area bullets (carpet 795, balcony 80,
+  built-up 1,010, super built-up 1,380) and the "super built-up of 1,380 sq.ft"
+  in its blurb. That also **closes the CONFLICT note** that had been sitting in
+  `prithvi.ts` since before launch: those came off the Jul 2026 render set and
+  the approved plan contradicts them (the whole seventh floor is 1,925 sq. ft.
+  of plinth for three flats plus lobby, lift and stair, so 1,380 cannot belong
+  to one of them). The render figures are the ones that went.
+
+Verified in the built HTML: **no page prints a carpet area.** The three
+surviving mentions of the word are Udaan saying it has *none* to publish, its
+"RERA carpet-area statement" line in a list of documents still owed, and the
+Terms §3 catch-all — none of which is a figure.
+
+**Two area figures do survive, and were left on purpose:** Rudra's saleable-area
+badges (`340–560 sq. ft.`, `560 sq. ft.` per layout) and Dhruva's `500 sq. m.`
+plot size. Neither is a carpet area — `rudra.ts` says so in its own comment, the
+approved plan tops out at 226 sq. ft. of carpet — so neither falls under his
+wording. **If he meant those too, say so and they are a two-minute edit.**
+
+This also closed our item 9 — see it above.
+
+<details>
+<summary>The two readings, as they were put to him</summary>
+
+- **Kill the whole area grid.** One edit, reversible, CIDCO research intact.
+  This is the reading that squares with #9 — if sizes and layouts are tentative
+  and room dimensions are gone, a precise balcony area is odd company.
 - **Only the rows labelled carpet.** More work, not less: several Rudra layouts
   are left with an empty grid, and all seven `unitTypesNote` lines need
   rewriting, since every one of them opens "Carpet areas from the
   CIDCO-approved building plan…".
+</details>
 
-**Ask him which, then it is mechanical either way.** Until then item 9 above
-(six unit notations) cannot be re-scoped, because it is mostly the same text.
-
-### 14. Ishaan — unit mix is incorrect
+### 14. Ishaan — unit mix is incorrect — ⚠️ **STILL OPEN, needs him**
 Part of this went with his #12: the **"Homes per floor" tile now reads 3, not
 4** ([`src/data/ishaan.ts`](src/data/ishaan.ts), `overview.unitMix`). The other
 two tiles read "12 · 1RK apartments" and "G+4 · Storeys". **Ask him what remains
 wrong** — if it is only the homes-per-floor figure this is already closed, and
-if it is the 1RK-only claim or the three carpet sizes it is a different and
-bigger fix.
+if it is the 1RK-only claim it is a different and bigger fix.
+
+The third possibility has since gone away on its own: the **three carpet sizes
+are no longer on the page at all**, hidden with the rest of the area grid by his
+#13 on 12 Aug 2026. So if that was what he was looking at, this is closed too.
+**Show him the page as it stands now before asking** — two of the three things
+it could have meant have changed underneath the question.
 
 ---
 
@@ -376,6 +439,30 @@ terrace plans were unaffected and are still shown.
 ---
 
 ## Cleared since launch
+
+### His list, second sitting — 12 Aug 2026
+**His 1, 3, 7, 11 and 13, plus half of his 6** — and our 9 fell out for free.
+`astro build` passes and every change was checked in the rendered HTML, not just
+in the source. Each item is written up under his own numbering above; the short
+version:
+
+| His | What landed |
+|---|---|
+| 1 | Header lockup turned sideways so the mark could grow 36→56px. **The bar height must not change** — `scroll-mt-20` on 59 sections depends on it |
+| 3 | Flat + building under all five testimonial names, one format |
+| 6 | Ishaan and Udaan addresses now on the cards, read from each project's own data file. **Shikhar's and Prithvi's are still the wrong ones — he owes us those two** |
+| 7 | Prithvi's Project Overview is his sentence; the 2BHK is stated as seventh-floor, which the approved plan confirms (unit 702) |
+| 11 | The developer band is gone from all seven project pages — six "About the developer", plus Shikhar's "Nesting Tree advantage" |
+| 13 | `features.areaStats = false` takes every area figure off every page; three carpet figures outside the grid deleted by hand |
+
+Two judgement calls worth knowing about, both flagged to him rather than
+buried: **#11 took Shikhar's block too** even though its eyebrow reads "Why buy
+at Shikhar", because it does the same job as the six that say "About the
+developer"; and **#13 left two figures standing** — Rudra's saleable-area badges
+and Dhruva's plot size — because neither is a carpet area.
+
+Nothing in this sitting invented a fact or decided a figure. Where his wording
+was ambiguous it is quoted in a comment beside the code, with the reasoning.
 
 ### The mechanical pass — 11 Aug 2026
 Ten items in one sweep: **our 3, 4, 5 and 10**, and **his 2, 4, 5, 8, 9 and 10**.

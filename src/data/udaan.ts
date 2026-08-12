@@ -294,28 +294,13 @@ export const amenitiesNeeded: string[] = [
   "Target possession date",
 ];
 
-/* ---------- About the developer (dark section) ----------
-   Brand-level facts, consistent with the other project files. Wording
-   is adjusted for a commercial building — "residences" would be wrong
-   as a description of Udaan itself.                                  */
-export const developerNotes: { label: string; body: string }[] = [
-  {
-    label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
-  },
-  {
-    label: "Built for Karanjade",
-    body: "Focused on Karanjade, with an emphasis on quality construction and a professional buying experience.",
-  },
-  {
-    label: "A delivered track record",
-    body: "Rudra, Dhruva and Shaurya are complete and handed over to their residents.",
-  },
-  {
-    label: "A proven portfolio",
-    body: "Lush Meadows (16-storey, Kharghar) and Gopala (Vashi) are appreciated for quality, timely completion and amenities.",
-  },
-];
+/* ---------- About the developer (dark section) — REMOVED 12 Aug 2026 ----------
+   Owner's review point #11: "Projects page — remove the about the developer
+   section." The dark band it fed is gone from this project page, and the same
+   removal was made on all seven. `developerNotes` went with it rather than
+   being left as an unread export; git has the wording if it is ever wanted
+   back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
+   in the same commit, so no project page now sells the company. */
 
 /* ---------- Why Udaan (6 cards) ----------
    Brand-level reasons carried from site.ts, reworded for a commercial

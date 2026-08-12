@@ -470,25 +470,13 @@ export const amenityGroups: AmenityGroup[] = [
   },
 ];
 
-/* ---------- About the developer (dark section) ---------- */
-export const developerNotes: { label: string; body: string }[] = [
-  {
-    label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
-  },
-  {
-    label: "Built for Karanjade",
-    body: "Created to focus exclusively on Karanjade, with quality construction and a professional home-buying experience.",
-  },
-  {
-    label: "The first delivered project",
-    body: "Rudra is Nesting Tree's first delivered project: a G+4 residential + commercial building at Sector R2, Karanjade.",
-  },
-  {
-    label: "A proven portfolio",
-    body: "Lush Meadows (16-storey, Kharghar) and Gopala (Vashi) are appreciated for quality, timely completion and amenities.",
-  },
-];
+/* ---------- About the developer (dark section) — REMOVED 12 Aug 2026 ----------
+   Owner's review point #11: "Projects page — remove the about the developer
+   section." The dark band it fed is gone from this project page, and the same
+   removal was made on all seven. `developerNotes` went with it rather than
+   being left as an unread export; git has the wording if it is ever wanted
+   back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
+   in the same commit, so no project page now sells the company. */
 
 /* ---------- Why Rudra (6 cards) ---------- */
 export const whyRudra: { title: string; body: string }[] = [

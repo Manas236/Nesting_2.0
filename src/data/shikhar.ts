@@ -447,33 +447,13 @@ export const safetyCards: { icon: string; name: string; desc: string }[] = [
   },
 ];
 
-/* ---------- The Nesting Tree advantage (6 cards) ---------- */
-export const advantages: { title: string; body: string }[] = [
-  {
-    title: "Direct from plot-owner",
-    body: "No joint venture, no third party. You deal directly with the landowner.",
-  },
-  {
-    title: "No tri-party agreement",
-    body: "Full transparency: what you see is what you get.",
-  },
-  {
-    title: "Before-time completion",
-    body: "All 3 previous projects delivered ahead of deadline.",
-  },
-  {
-    title: "Proven track record",
-    body: "Rudra, Dhruva & Shaurya: fully sold out, all end-user buyers.",
-  },
-  {
-    title: "Extremely strong paperwork",
-    body: "MahaRERA registered. Clean title. Watertight documentation.",
-  },
-  {
-    title: "Branded residences",
-    body: "Branded fittings, tiles and premium finishing throughout.",
-  },
-];
+/* ---------- The Nesting Tree advantage (6 cards) — REMOVED 12 Aug 2026 ----------
+   Owner's review point #11: "Projects page — remove the about the developer
+   section." Six project pages carried a band literally headed "About the
+   developer"; Shikhar carried this one instead — same job, different title —
+   so it went with them and no project page now sells the company. `advantages`
+   went with it rather than being left as an unread export; git has the six
+   cards if they are ever wanted back. */
 
 /* ---------- Gallery — real on-site photographs ----------
    Complete set of documentary photos for this project (renders and

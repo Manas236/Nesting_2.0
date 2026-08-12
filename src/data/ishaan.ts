@@ -137,14 +137,14 @@ export const overview = {
     { label: "Possession", value: "Targeting March 2027" },
     { label: "Structure", value: "G+4 storey · corner plot on an 11 m & a 9 m road" },
     { label: "Configuration", value: "12 × 1RK · three homes per floor (1st–4th)" },
-    /* 16.964 = the mean of the approved plan's three series (15.223 /
-       19.080 / 16.590), four homes each — one on each of floors 1–4,
-       which is why the mean is unweighted — the same figure the unit
-       card's summary row carries. This row used to read 17.70 sq.mt,
-       which matches none of the three and is not their mean; with the
-       card now printing one averaged figure, the two contradicted
-       each other on the same page. See the `unitTypes` comment. */
-    { label: "Carpet area", value: "16.96 sq. m. (≈ 183 sq. ft.) average per 1RK" },
+    /* A "Carpet area" row stood here — 16.96 sq. m. (≈ 183 sq. ft.),
+       the mean of the approved plan's three series. DELETED 12 Aug
+       2026 on the owner's review point #13, "remove carpet area from
+       every page". It could not go by the `features.areaStats` flag
+       the way the unit-card grids did, because this row is an
+       overview fact and nothing guards it. The three approved figures
+       and the arithmetic behind the mean are still recorded above
+       `unitTypes` below, so nothing was lost by deleting it. */
     { label: "Approvals", value: "Commencement Certificate obtained" },
   ],
   unitMix: [
@@ -408,10 +408,12 @@ export const levels: Level[] = [
     icon: "window",
     featured: true,
     blurb:
-      "Every home at Ishaan is a 1RK: a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja, about 17 sq.mt of carpet. One kind of home, top to bottom.",
-    /* "≈ 17 sq.mt carpet, average" not "17.70 each" — the twelve homes
-       run 15.22 / 16.59 / 19.08, so "each" was never true. */
-    points: ["12 × 1RK apartments", "≈ 17 sq.mt carpet, average"],
+      "Every home at Ishaan is a 1RK: a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja. One kind of home, top to bottom.",
+    /* The blurb used to close on "about 17 sq.mt of carpet" and the
+       points carried "≈ 17 sq.mt carpet, average". Both went on the
+       owner's #13, 12 Aug 2026 — carpet area off every page — and
+       neither was reachable by the `features.areaStats` flag. */
+    points: ["12 × 1RK apartments", "Living-cum-bedroom, kitchen & toilet"],
   },
 ];
 
@@ -497,26 +499,13 @@ export const amenityGroups: AmenityGroup[] = [
    sibling files that are genuinely still waiting on a schedule
    (udaan.ts) keep theirs. */
 
-/* ---------- About the developer (dark section) ----------
-   Brand-level facts, consistent with dhruva.ts and prithvi.ts.    */
-export const developerNotes: { label: string; body: string }[] = [
-  {
-    label: "Two decades of lineage",
-    body: "Nesting Tree, established in 2019, with two decades of real estate lineage behind it, since 2004.",
-  },
-  {
-    label: "Built for Karanjade",
-    body: "Focused on Karanjade, with an emphasis on quality construction and a professional home-buying experience.",
-  },
-  {
-    label: "A delivered track record",
-    body: "Rudra, Dhruva and Shaurya are complete and handed over to their residents.",
-  },
-  {
-    label: "A proven portfolio",
-    body: "Lush Meadows (16-storey, Kharghar) and Gopala (Vashi) are appreciated for quality, timely completion and amenities.",
-  },
-];
+/* ---------- About the developer (dark section) — REMOVED 12 Aug 2026 ----------
+   Owner's review point #11: "Projects page — remove the about the developer
+   section." The dark band it fed is gone from this project page, and the same
+   removal was made on all seven. `developerNotes` went with it rather than
+   being left as an unread export; git has the wording if it is ever wanted
+   back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
+   in the same commit, so no project page now sells the company. */
 
 /* ---------- Why Ishaan (6 cards) ----------
    Brand-level reasons carried from site.ts until project-specific
