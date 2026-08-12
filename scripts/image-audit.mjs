@@ -220,8 +220,19 @@ const walkSrc = (dir) => {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
     const p = join(dir, e.name);
     if (e.isDirectory()) walkSrc(p);
-    else for (const m of readFileSync(p, "utf8").matchAll(/\/images\/[^"'`\s)]+/g)) {
-      referenced.add(decodeURIComponent(m[0]));
+    /* Parentheses are legal in a filename AND are the terminator in a CSS
+       url(...), so they cannot simply be excluded from the character class.
+       Doing that truncated every path with a "(1)" in it — three files
+       across Shaurya and Ishaan silently fell out of the rename map, and
+       anyone trusting the map would have skipped them without noticing.
+       Match greedily instead, then peel back only the closing brackets
+       that are genuinely unbalanced. */
+    else for (const m of readFileSync(p, "utf8").matchAll(/\/images\/[^"'`\s]+/g)) {
+      let url = m[0];
+      while (url.endsWith(")") && (url.match(/\)/g) ?? []).length > (url.match(/\(/g) ?? []).length) {
+        url = url.slice(0, -1);
+      }
+      referenced.add(decodeURIComponent(url));
     }
   }
 };
