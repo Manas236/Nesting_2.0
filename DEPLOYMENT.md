@@ -315,11 +315,6 @@ arrives through nginx. If you later expose the Node process directly, or move
 to a host that does not use nginx, the protection goes with it. An
 application-level honeypot field would survive either change.
 
-### Social media links still point nowhere
-`contact.socials` in `src/data/site.ts` is still `href: "#"` for IG/FB/IN, and
-renders as clickable buttons in the footer of 10 pages. One line to fix — real
-URLs, or `socials: []` to hide them.
-
 ### Legal pages need a lawyer
 `/privacy` and `/terms` were drafted to match what the site actually does but
 have not been reviewed. Placeholders remain for the Grievance Officer's name

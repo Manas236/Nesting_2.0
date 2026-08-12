@@ -24,13 +24,10 @@ export const rudra = {
     "https://www.google.com/maps/search/?api=1&query=Rudra+Nesting+Tree+Karanjade+Panvel+Navi+Mumbai",
 };
 
-/* ---------- Sales / office contact ---------- */
-export const sales = {
-  name: "Vipin",
-  phone: "95940 79317",
-  phoneHref: "tel:+919594079317",
-  office: "1313, Realtech Park, Sector 30A, Vashi",
-};
+/* ---------- Sales / office contact ----------
+   Moved to src/data/site.ts on 11 Aug 2026. Vipin is the single point of
+   contact for every project, so the block is defined once there and
+   rudra.astro imports it from site.ts. Do not re-add it here. */
 
 /* ---------- Headline stats band (4 figures) ---------- */
 export const heroStats = [
@@ -120,8 +117,11 @@ export const floorPlans: FloorPlan[] = [
 /* ---------- Unit types (5, each with a layout render) ----------
    Same shape as every other project page: the page maps this array
    into alternating render / detail rows, not a card grid, and each
-   row carries its own `stats` and `rooms` the way Dhruva, Shikhar
-   and Shaurya do.
+   row carries its own `stats` the way Dhruva, Shikhar and Shaurya
+   do. (Each also carried a `rooms` schedule until 11 Aug 2026, when
+   the owner's instruction #9 took room dimensions off every project
+   page. The extracted figures are kept in the ROOM SCHEDULE note
+   further down this file so the work does not have to be redone.)
 
    Five layouts, one of each on every upper floor, four upper floors
    = the 20 homes in the area statement.
@@ -188,7 +188,6 @@ export type UnitType = {
      covered by the "carpet + balcony" stat and the feature list, and
      listing them here only made the column taller than the render.
      Their sizes stay in the record below. */
-  rooms: { room: string; dim: string }[];
   featured?: boolean;
 };
 
@@ -210,13 +209,6 @@ export const unitTypes: UnitType[] = [
       "Separate bath and WC",
       "Kitchen on the window wall",
     ],
-    rooms: [
-      { room: "Living", dim: "2.75 × 4.30 m" },
-      { room: "Bedroom", dim: "2.80 × 2.50 m" },
-      { room: "Kitchen", dim: "2.00 × 1.80 m" },
-      { room: "Bath", dim: "1.51 × 1.20 m" },
-      { room: "WC", dim: "0.90 × 1.15 m" },
-    ],
     featured: true,
   },
   {
@@ -236,12 +228,6 @@ export const unitTypes: UnitType[] = [
       "Two enclosed balconies",
       "Attached bathroom",
     ],
-    rooms: [
-      { room: "Living", dim: "2.75 × 4.20 m" },
-      { room: "Kitchen", dim: "2.60 × 2.05 m" },
-      { room: "Bath", dim: "1.45 × 1.20 m" },
-      { room: "WC", dim: "1.30 × 0.90 m" },
-    ],
   },
   {
     type: "Spacious 1 RK",
@@ -259,12 +245,6 @@ export const unitTypes: UnitType[] = [
       "Full-width enclosed balcony",
       "Square plan, easy to furnish",
       "Attached bathroom",
-    ],
-    rooms: [
-      { room: "Living", dim: "3.76 × 3.00 m" },
-      { room: "Kitchen", dim: "1.90 × 1.75 m" },
-      { room: "Toilet", dim: "2.20 × 1.30 m" },
-      { room: "WC", dim: "1.30 × 0.90 m" },
     ],
   },
   {
@@ -284,12 +264,6 @@ export const unitTypes: UnitType[] = [
       "Second balcony at the kitchen",
       "Attached bathroom",
     ],
-    rooms: [
-      { room: "Living", dim: "2.75 × 3.65 m" },
-      { room: "Kitchen", dim: "2.60 × 1.90 m" },
-      { room: "Bath", dim: "1.45 × 1.20 m" },
-      { room: "WC", dim: "1.30 × 0.90 m" },
-    ],
   },
   {
     type: "Value 1 RK",
@@ -307,12 +281,6 @@ export const unitTypes: UnitType[] = [
       "Enclosed balcony off the living",
       "Kitchen counter on one wall",
       "Attached bathroom",
-    ],
-    rooms: [
-      { room: "Living", dim: "2.75 × 3.65 m" },
-      { room: "Bath", dim: "2.11 × 1.20 m" },
-      { room: "WC", dim: "0.90 × 1.20 m" },
-      { room: "Washing place", dim: "1.50 × 2.25 m" },
     ],
   },
 ];
@@ -345,10 +313,13 @@ export const unitTypes: UnitType[] = [
    which prints under the section, so a reader is never left with
    only the averaged number.
 
-   ROOM SCHEDULE. The dimensions on `unitTypes.rooms` are the ones
-   marked on the typical-floor plan, floors 1 to 3 — the floor the 3D
-   renders on the page show. The fourth-floor drawing differs, and is
-   kept here so the extraction does not have to be redone:
+   ROOM SCHEDULE — REFERENCE ONLY, NOT PRINTED. Room dimensions came
+   off every project page on 11 Aug 2026 (owner's instruction #9), so
+   nothing below reaches the site; it is kept because the extraction
+   was slow and the reconciliation flag at the foot of this note is
+   still open. The figures the page used to show were those marked on
+   the typical-floor plan, floors 1 to 3 — the floor the 3D renders
+   show. The fourth-floor drawing differs, and is recorded here too:
 
      401  1BHK  living 2.75×4.50 · bed 2.80×2.90 · kitchen 2.00×1.80
                 bath 1.20×1.35 · WC 0.90×1.35 · E.D 1.25×0.90
@@ -382,7 +353,7 @@ export const unitTypes: UnitType[] = [
    Source line printed under the home-configurations section, the way
    Dhruva and Shikhar print theirs. */
 export const unitTypesNote =
-  "Carpet areas from the floor-wise carpet-area table of the CIDCO-approved building plan CIDCO/BP-16651/TPO(NM)/2019, scrutinised 13 May 2019, shown as one figure per layout. The fourth floor sets back for the terrace, so two units are smaller than the rest of their series — 403 is 16.88 sq. m. and 405 is 14.07 sq. m. with no balcony — and their layouts show the average across the floors. Room dimensions are those marked on the typical-floor plan for floors 1 to 3. Renders are indicative; furniture and finishes are not part of the sale.";
+  "Carpet areas from the floor-wise carpet-area table of the CIDCO-approved building plan CIDCO/BP-16651/TPO(NM)/2019, scrutinised 13 May 2019, shown as one figure per layout. The fourth floor sets back for the terrace, so two units are smaller than the rest of their series — 403 is 16.88 sq. m. and 405 is 14.07 sq. m. with no balcony — and their layouts show the average across the floors. Renders are indicative; furniture and finishes are not part of the sale.";
 
 /* ---------- Amenities — the page's hero USP ----------
    `featured` items render as larger, accent-treated tiles.   */

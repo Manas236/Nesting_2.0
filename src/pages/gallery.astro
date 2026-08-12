@@ -1,8 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SiteHeader from "../components/SiteHeader.astro";
+import SocialLinks from "../components/SocialLinks.astro";
 import { brand, contact, projects } from "../data/site";
 import { galleryGroups } from "../data/galleries";
+import { galleryImage } from "../lib/gallery-images";
 
 /* Site-wide gallery. Each project shows a symmetric 5-photo preview
    mosaic that opens a lightbox over that project's FULL photo set —
@@ -130,7 +132,19 @@ const pageDesc =
 
             <!-- 5-photo preview mosaic (opens the full set) -->
             <div class="preview-mosaic">
-              {preview.map((p, i) => (
+              {preview.map((p, i) => {
+                /* m0 spans two of the four columns (and both rows) from
+                   768 px up, and both columns of two below it, so it is
+                   worth roughly double every other tile. Getting that
+                   into `sizes` is the whole point: the browser then
+                   takes the full-size file for the big tile and the
+                   640 px thumbnail for the four small ones, instead of
+                   the full-size file five times over. */
+                const img = galleryImage(
+                  p,
+                  i === 0 ? "(min-width: 768px) 47vw, 92vw" : "(min-width: 768px) 24vw, 46vw"
+                );
+                return (
                 <a
                   href={p.src}
                   class={`preview-item m${i} group`}
@@ -139,7 +153,16 @@ const pageDesc =
                   data-project={g.name}
                   aria-label={`View ${g.name} photos — ${p.category}`}
                 >
-                  <img src={p.src} alt={p.alt} loading="lazy" decoding="async" />
+                  <img
+                    src={img.src}
+                    srcset={img.srcset}
+                    sizes={img.sizes}
+                    width={img.width}
+                    height={img.height}
+                    alt={p.alt}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span class="preview-scrim" aria-hidden="true" />
                   <span class="preview-tag font-display">{p.category}</span>
                   {i === preview.length - 1 && more > 0 ? (
@@ -155,7 +178,8 @@ const pageDesc =
                     </span>
                   )}
                 </a>
-              ))}
+                );
+              })}
             </div>
 
             <!-- remaining photos: not shown, but available to the lightbox -->
@@ -202,13 +226,7 @@ const pageDesc =
           <p class="text-stone/55 text-sm leading-relaxed sm:whitespace-nowrap">
             {brand.footerLine}
           </p>
-          <div class="flex items-center gap-3 mt-6">
-            {contact.socials.map((s) => (
-              <a href={s.href} class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors">
-                {s.label}
-              </a>
-            ))}
-          </div>
+          <SocialLinks />
         </div>
 
         <div class="reveal" style="--reveal-d:0.08s">

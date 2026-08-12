@@ -30,7 +30,12 @@ export const about = {
       { k: "Building homes", v: "Since 2004" },
       { k: "Parent Company", v: "K.D. Constructions" },
       { k: "Region", v: "Navi Mumbai & Panvel" },
-      { k: "Standard", v: "Clear-title · MahaRERA where registered" },
+      // Owner's wording, 11 Aug 2026, verbatim. "Where necessary" is doing
+      // the same job the old "where registered" did — not every project is
+      // RERA-registered (Ishaan, Prithvi, Shaurya and Udaan are not), so this
+      // must never drift into a blanket claim. See the `maharera` note in
+      // site.ts, which carries the same qualifier for the footer.
+      { k: "Standard", v: "Clear title. No tri-party agreements. RERA registered where necessary." },
     ],
   },
 
@@ -50,7 +55,11 @@ export const about = {
     lead:
       "Kailash Shankarlal Gindodia, Founder of Nesting Tree, has built his legacy on perseverance, integrity, and an uncompromising commitment to quality construction.",
     paragraphs: [
-      "Arriving in Mumbai from Dhule in 1985, he began with a modest CIDCO contract worth ₹2 lakh. Through perseverance and engineering expertise, he steadily expanded his construction business across the Mumbai Metropolitan Region (MMR), executing several government infrastructure projects.",
+      // Owner's own text, 11 Aug 2026, verbatim — do not paraphrase it back
+      // towards the old wording. The differences that matter: "sheer
+      // perseverance", "grew" (not "expanded"), "along the way", and the
+      // Mumbai Metropolitan Region written out with no (MMR) abbreviation.
+      "He arrived in Mumbai from Dhule in 1985 with a modest CIDCO contract worth ₹2 lakh. Through sheer perseverance and engineering expertise, he steadily grew his construction business across the Mumbai Metropolitan Region, executing several government infrastructure projects along the way.",
       "In 2004, he entered the residential real estate sector with Gopala, a landmark housing project in Vashi developed on a CIDCO tender plot. That project marked the beginning of Nesting Tree's journey as a trusted residential developer. Since then, the company has delivered several landmark developments across Vashi, Kharghar, and Navi Mumbai, earning the confidence of hundreds of families through its unwavering focus on quality, transparency, and timely delivery.",
       "As a first-generation entrepreneur, Mr. Gindodia has shaped Nesting Tree around values that continue to define the company today—integrity, craftsmanship, customer trust, and long-term value creation. His vision extends beyond constructing buildings; it is about creating thoughtfully designed communities where families can thrive and generations can build their future with confidence.",
     ],

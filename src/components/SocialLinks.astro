@@ -1,0 +1,59 @@
+---
+/* The row of social tiles that sits under the signature line in EVERY page
+   footer (11 of them).
+
+   This is a component rather than a twelfth copy-paste. The old markup was
+   small enough to duplicate — a tile containing two letters — but once the
+   tiles hold real glyphs it is not, and the footers had already drifted:
+   ten carried the block formatted one way and gallery.astro another.
+
+   Icons are keyed off `label` in `contact.socials`. A label with no glyph
+   below falls back to rendering the label text in the same tile, which is
+   exactly what every tile looked like before — so adding a network to
+   site.ts is never a broken button, only a plain one until its icon is
+   drawn here.
+
+   The Instagram lens dot is a zero-length <line> rounded off by the stroke
+   cap rather than a <circle>: it then scales with `stroke-width` along with
+   the rest of the glyph, instead of drifting out of weight with it.
+
+   Nothing renders at all when `contact.socials` is empty — no stray tile
+   row, no orphan `mt-6` — which is what makes emptying that array a safe
+   way to pull the icons if the profiles ever go away. */
+import { contact } from "../data/site";
+---
+
+{
+  contact.socials.length > 0 && (
+    <div class="flex items-center gap-3 mt-6">
+      {contact.socials.map((s) => (
+        <a
+          href={s.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={s.name}
+          class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors"
+        >
+          {s.label === "IG" ? (
+            <svg
+              class="w-4 h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+            </svg>
+          ) : (
+            s.label
+          )}
+        </a>
+      ))}
+    </div>
+  )
+}

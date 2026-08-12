@@ -1,13 +1,12 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
-import QrBlock from "../../components/QrBlock.astro";
 import ProjectGallery from "../../components/ProjectGallery.astro";
 import AreaStats from "../../components/AreaStats.astro";
-import { brand, contact, features, projects, whatsappHref } from "../../data/site";
+import SocialLinks from "../../components/SocialLinks.astro";
+import { brand, contact, features, projects, sales, whatsappHref } from "../../data/site";
 import {
   rudra,
-  sales,
   heroStats,
   overview,
   floorPlans,
@@ -532,27 +531,6 @@ const pageDesc =
                     </li>
                   ))}
                 </ul>
-
-                {/* Room dimensions. Two-up, unlike the single stacked
-                    column on the other project pages: Rudra lists five
-                    layouts and up to seven rooms each, and stacked they
-                    ran the text column far past the bottom of the render
-                    sitting beside it. */}
-                <div class="mt-7 border-t border-line max-w-lg">
-                  <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted pt-5 pb-1">
-                    Room dimensions
-                  </p>
-                  <dl class="grid sm:grid-cols-2 gap-x-8">
-                    {u.rooms.map((r) => (
-                      <div class="flex items-baseline justify-between gap-3 py-2.5 border-b border-line">
-                        <dt class="text-muted text-base">{r.room}</dt>
-                        <dd class="font-display font-semibold tracking-tight text-ink text-base tabular-nums">
-                          {r.dim}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
               </div>
             </article>
           ))
@@ -763,9 +741,6 @@ const pageDesc =
     lead="Real photographs from Rudra: the delivered building, its common areas and finishes, shot on site."
   />
 
-  <!-- ===================== QR CODE ===================== -->
-  <QrBlock project="Rudra" />
-
   <!-- ===================== ENQUIRY FORM ===================== -->
   <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
     <div class="reveal max-w-2xl mx-auto px-5 sm:px-6 text-center">
@@ -870,6 +845,19 @@ const pageDesc =
     </div>
   </section>
 
+  <!-- ===================== SIZES & LAYOUTS DISCLAIMER =====================
+       Owner's instruction, 11 Aug 2026, marked critical. The wording is a
+       single string in src/data/site.ts (`brand.sizesNote`) imported by all
+       seven project pages - do NOT retype it here. It sits directly above
+       the footer so it is the last thing read on the page. -->
+  <aside class="bg-stone border-t border-line">
+    <p
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-7 text-mutedlight text-xs sm:text-sm leading-relaxed text-center"
+    >
+      {brand.sizesNote}
+    </p>
+  </aside>
+
   <!-- ===================== FOOTER ===================== -->
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
@@ -886,18 +874,7 @@ const pageDesc =
           <p class="text-stone/55 text-sm leading-relaxed sm:whitespace-nowrap">
             {brand.footerLine}
           </p>
-          <div class="flex items-center gap-3 mt-6">
-            {
-              contact.socials.map((s) => (
-                <a
-                  href={s.href}
-                  class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors"
-                >
-                  {s.label}
-                </a>
-              ))
-            }
-          </div>
+          <SocialLinks />
         </div>
 
         <div class="reveal" style="--reveal-d:0.08s">

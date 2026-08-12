@@ -57,7 +57,7 @@ export const udaan = {
   // MahaRERA pill stays hidden; the real approval status is shown as a
   // fact in `overview.facts` and in the footer (`approvals`).
   maharera: TBD,
-  approvals: "In approvals — Commencement Certificate not yet received · not RERA-registered",
+  approvals: "In approvals — Commencement Certificate not yet received",
   tagline: "Our first purely commercial building: no apartments, and no shops at street level.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
   address: "Plot no. 122A, Sector R1, Karanjade, Panvel, 410206",
@@ -71,15 +71,10 @@ export const udaan = {
     "https://www.google.com/maps/search/?api=1&query=Karanjade+Sector+R1+Panvel+Navi+Mumbai",
 };
 
-/* ---------- Sales contact ----------
-   Vipin is the single point of contact for every Nesting Tree project,
-   and for Nesting Tree itself — confirmed by the owner. The same block
-   appears in each project file. */
-export const sales = {
-  name: "Vipin",
-  phone: "95940 79317",
-  phoneHref: "tel:+919594079317",
-};
+/* ---------- Sales / office contact ----------
+   Moved to src/data/site.ts on 11 Aug 2026. Vipin is the single point of
+   contact for every project, so the block is defined once there and
+   udaan.astro imports it from site.ts. Do not re-add it here. */
 
 /* ---------- Headline stats band (4 figures) ----------
    Two of the four read "TBA" and are meant to. The storey count and
@@ -110,7 +105,7 @@ export const overview = {
     { label: "Structure", value: TBD },
     { label: "Configuration", value: TBD },
     { label: "Possession", value: TBD },
-    { label: "Approvals", value: "Commencement Certificate not yet received · not RERA-registered" },
+    { label: "Approvals", value: "Commencement Certificate not yet received" },
   ],
   unitMix: [
     { figure: "0", label: "Residential apartments" },
@@ -206,7 +201,6 @@ export type UnitType = {
   blurb: string;
   stats: { label: string; value: string }[];
   features: string[];
-  rooms: { room: string; dim: string }[];
 };
 
 export const unitTypes: UnitType[] = [];

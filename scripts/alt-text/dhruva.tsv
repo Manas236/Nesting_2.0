@@ -1,0 +1,40 @@
+# Dhruva — image manifest for scripts/optimise-project-images.mjs
+#
+# One row per file under public/images/Project_Images/Dhruva/.
+# Columns: old_path <TAB> new_path <TAB> alt
+#
+# old_path  the URL as it appears in src/ today (the rename map's `from`)
+# new_path  the target URL, per IMAGE-SEO-BRIEF.md §3.1. WebP, because
+#           workstreams A and B are one pass and the conversion IS the rename.
+# alt       written 12 Aug 2026 after looking at every photograph
+#           (contact sheets 01, 02, 09-12 plus direct renders of the four
+#           frames the sheets were too small to read). Formula: §3.3,
+#           per-category templates: §5. Empty for files that carry no alt
+#           anywhere in src/ — the startrail render is a background plate.
+#
+# Guardrails applied: no year (§4's unresolved 2021/2023 contradiction),
+# no RERA, no distances, no superlatives, one project name each, locality
+# only where it is genuinely part of the scene (so: not on Corridor/Lift,
+# per the §5 templates).
+old_path	new_path	alt
+/images/Project_Images/Dhruva/Exterior/DSC_0005.jpeg	/images/projects/dhruva/photos/dhruva-exterior-01.webp	Curved corner elevation in grey and white, green balcony panels above shuttered shops — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Exterior/DSC_0006.jpeg	/images/projects/dhruva/photos/dhruva-exterior-02.webp	The corner plot seen along the street, past parked trucks and the neighbouring buildings — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Exterior/IMG20260627112705.jpeg	/images/projects/dhruva/photos/dhruva-exterior-03.webp	Street-level view of the name board and red shop shutters, an autorickshaw parked outside — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-01.webp	Trucks on the highway below the compound wall, the Navi Mumbai International Airport site beyond — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/DSC_0015.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-02.webp	Airport terminal building and taxiway across the boundary road, past street lights and parked cars — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/DSC_0017.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-03.webp	Seen through a concrete opening: the highway, the airfield beyond it and a wooded hill to the left — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/DSC_0025.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-04.webp	Runway lights running out to the terminal building and control tower across the airfield — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/DSC_0036.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-05.webp	Green runway lights and a red-and-white marker board on the airfield, over the perimeter road — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/DSC_0045.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-06.webp	A line of red trucks on the highway, with the flat airfield and the hills behind them — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/IMG20260627113437.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-07.webp	The compound wall and its drainage channels below, the airfield and a wide cloudy sky beyond — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/IMG20260627113444.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-08.webp	Cars parked on the unmade road below, the highway curving away past the airfield — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Aerial_View/IMG20260627115053.jpeg	/images/projects/dhruva/photos/dhruva-aerial-view-09.webp	Autorickshaws and cars parked along the road below, against the cut hillside and a neighbouring block — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Lobby/DSC_0199.jpeg	/images/projects/dhruva/photos/dhruva-lobby-01.webp	Brass society name board beside the lift landing in the entrance lobby, under a pendant light — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg	/images/projects/dhruva/photos/dhruva-lobby-02.webp	Green-marble staircase and steel railing rising from the entrance lobby past the name board — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Lobby/IMG20260627140500.jpeg	/images/projects/dhruva/photos/dhruva-lobby-03.webp	Lift doors, name board and window across the tiled entrance lobby, ceiling fan above — Dhruva, Karanjade
+/images/Project_Images/Dhruva/Corridor/corridor.png	/images/projects/dhruva/photos/dhruva-corridor-01.webp	Wide tiled landing at the head of the green-marble stairs, two flat doors at the far end — Dhruva
+/images/Project_Images/Dhruva/Corridor/DSC_0049.jpeg	/images/projects/dhruva/photos/dhruva-corridor-02.webp	Glossy tiled common landing looking along to the dark panelled entrance doors of two flats — Dhruva
+/images/Project_Images/Dhruva/Corridor/IMG20260627113731.jpeg	/images/projects/dhruva/photos/dhruva-corridor-03.webp	Green-marble steps and a steel railing meeting the tiled landing on a typical floor — Dhruva
+/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg	/images/projects/dhruva/photos/dhruva-lift-01.webp	Stainless-steel lift doors on the ground-floor landing, notices posted on the wall alongside — Dhruva
+/images/Project_Images/Dhruva/Lift/IMG20260627140541.jpeg	/images/projects/dhruva/photos/dhruva-lift-02.webp	The lift landing opening out to the covered stilt parking, a motorcycle parked beyond — Dhruva
+/images/Project_Images/Dhruva/Render/dhruva-startrail-scene.png	/images/projects/dhruva/photos/dhruva-render-01.webp

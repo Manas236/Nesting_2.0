@@ -16,13 +16,16 @@
 
    Now supplied (from the render set added Jul 2026):
      · Plot No. 74, on an 11 m wide road    → shaurya.address
-     · 1BHK & 1RK room dimensions           → unitTypes
+     · Sector R2 and pincode 410206         → shaurya.address
      · 1BHK carpet area (19.316 sq.m)        → unitTypes[0].features
      · Ground / typical-floor / terrace plans → floorPlans
      · Two overhead water tanks (5,040 + 7,875 L) → amenityGroups
 
+   Room dimensions were supplied too, and were shown here until
+   11 Aug 2026, when the owner's instruction #9 took room dimensions
+   off every project page. They are not missing — they are withdrawn.
+
    Still outstanding (renders as "Insufficient information"):
-     · Pincode for the full postal address
      · A dedicated 1RK layout render (the 1RK is shown within the
        typical-floor plan; its own unit card image stays pending)
      · Interior finishing spec (tiles, fittings, windows)
@@ -41,12 +44,14 @@ export const shaurya = {
   // Kept as TBD so the hero's MahaRERA pill stays hidden; the real approval
   // status is shown as a fact in `overview.facts` and the footer (`approvals`).
   maharera: TBD,
-  approvals: "Commencement (CC) & Occupancy (OC) Certificates obtained · not RERA-registered",
+  approvals: "Commencement (CC) & Occupancy (OC) Certificates obtained",
   tagline:
     "A completed, sold-out G+4 on a corner plot: eight purely residential homes, delivered and handed over.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
-  // Plot number from the ground-floor plan; sector not supplied for this
-  // project, so the sector segment is omitted rather than guessed.
+  // Plot number from the ground-floor plan. Complete — sector and pincode
+  // have both been supplied since; the note that used to sit here said
+  // they were outstanding and the segment was omitted, which the line
+  // directly below it contradicted.
   address: "Plot no. 74, Sector R2, Karanjade, Panvel, 410206",
   hero: "/images/projects/shaurya/Shaurya_Elevation.png",
   heroPosition: "center 25%",
@@ -57,15 +62,9 @@ export const shaurya = {
 };
 
 /* ---------- Sales / office contact ----------
-   Vipin is the single point of contact for every Nesting Tree project,
-   and for Nesting Tree itself — confirmed by the owner. The same block
-   appears in each project file. */
-export const sales = {
-  name: "Vipin",
-  phone: "95940 79317",
-  phoneHref: "tel:+919594079317",
-  office: "1313, Realtech Park, Sector 30A, Vashi",
-};
+   Moved to src/data/site.ts on 11 Aug 2026. Vipin is the single point of
+   contact for every project, so the block is defined once there and
+   shaurya.astro imports it from site.ts. Do not re-add it here. */
 
 /* ---------- Headline stats band (4 figures) ---------- */
 export const heroStats = [
@@ -86,7 +85,7 @@ export const overview = {
     { label: "Configuration", value: "8 residential homes — 4 × 1BHK + 4 × 1RK" },
     { label: "Retail", value: "None — purely residential" },
     { label: "Vertical transport", value: "1 automatic high-speed elevator" },
-    { label: "Approvals", value: "Commencement (CC) & Occupancy (OC) Certificates obtained · not RERA-registered" },
+    { label: "Approvals", value: "Commencement (CC) & Occupancy (OC) Certificates obtained" },
     { label: "Society", value: "Formation in progress" },
     { label: "Parking", value: "Stilt parking at the base of the building" },
     { label: "Frontage", value: "Plot No. 74 · on an 11 m wide road" },
@@ -105,8 +104,8 @@ export const overview = {
 /* ---------- Unit types — the home layouts ----------
    `plan` points at the placeholder SVGs that already ship in
    public/images/projects/shaurya/; `planPending` flags them on the
-   page so a placeholder never reads as a plan. `features` and
-   `rooms` are hidden while empty rather than faked.
+   page so a placeholder never reads as a plan. `features` is hidden
+   while empty rather than faked.
 
    `stats` carries the RERA carpet areas from the CIDCO-approved plan
    (CIDCO/BP-18395/TPO(NM & K)/2023/12046, approved 6 Mar 2024). Its
@@ -136,7 +135,6 @@ export type UnitType = {
   blurb: string;
   stats: { label: string; value: string }[];
   features: string[];
-  rooms: { room: string; dim: string }[];
 };
 
 export const unitTypes: UnitType[] = [
@@ -160,12 +158,6 @@ export const unitTypes: UnitType[] = [
       "Separate bedroom & kitchen",
       "Chajja weather projections over the windows",
     ],
-    rooms: [
-      { room: "Living", dim: "2.60 × 3.60 m" },
-      { room: "Bed room", dim: "2.10 × 2.60 m" },
-      { room: "Kitchen", dim: "2.15 × 1.70 m" },
-      { room: "W.C.", dim: "1.20 × 1.00 m" },
-    ],
   },
   {
     type: "1RK",
@@ -186,12 +178,6 @@ export const unitTypes: UnitType[] = [
       "Separate bath and WC",
       "Full-width 4.2 m living room",
       "Chajja weather projections over the windows",
-    ],
-    rooms: [
-      { room: "Living", dim: "4.20 × 2.60 m" },
-      { room: "Kitchen", dim: "2.15 × 1.70 m" },
-      { room: "Toilet", dim: "1.60 × 2.50 m" },
-      { room: "Bath", dim: "1.25 × 1.20 m" },
     ],
   },
 ];

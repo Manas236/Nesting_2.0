@@ -15,11 +15,12 @@
    where `items` is `{ src, alt, category }[]` from the project's
    data file. Everything is real — never pass renders or stock here.
    ============================================================ */
-interface GalleryItem {
-  src: string;
-  alt: string;
-  category?: string;
-}
+import { galleryImage, type GalleryItem } from "../lib/gallery-images";
+
+/* The masonry is 3 columns inside a 1600 px container with 1.5rem gaps
+   and 3rem of page padding, so a slot tops out near 31vw; 2 columns with
+   1.25rem gaps from 640 px, and one full-bleed column below that. */
+const SIZES = "(min-width: 1024px) 31vw, (min-width: 640px) 47vw, 92vw";
 
 interface Props {
   project: string;
@@ -53,7 +54,11 @@ const {
         </div>
 
         <div class="gallery-masonry" data-gallery>
-          {items.map((it, i) => (
+          {items.map((it, i) => {
+            /* The link — and so the lightbox — always points at the full
+               image; only the grid downloads the 640 px thumbnail. */
+            const img = galleryImage(it, SIZES);
+            return (
             <a
               href={it.src}
               class="gallery-item reveal group"
@@ -63,7 +68,11 @@ const {
               aria-label={`View photo${it.category ? ` — ${it.category}` : ""}`}
             >
               <img
-                src={it.src}
+                src={img.src}
+                srcset={img.srcset}
+                sizes={img.sizes}
+                width={img.width}
+                height={img.height}
                 alt={it.alt}
                 class="w-full h-auto block transition-transform duration-500 group-hover:scale-[1.03]"
                 loading="lazy"
@@ -80,7 +89,8 @@ const {
                 </svg>
               </span>
             </a>
-          ))}
+            );
+          })}
         </div>
       </div>
 

@@ -15,25 +15,71 @@
 
    Now supplied (from the architectural plans in
    public/images/projects/ishaan/ — 1RK, ground, typical & terrace):
-     · The 1RK layout, its room dimensions and 17.70 sq.mt RERA
-       carpet area                         → unitTypes
-     · Flats per floor: FOUR 1RK homes on each typical floor
-       (2nd–4th), all floors identical = 12 homes.
-     · The four homes on a floor are NOT one repeated plan — the
-       living/kitchen/toilet sizes differ by position. The unit
-       card shows the corner 1RK (the one flagged on the key plan)
-       as the representative home; do not call the plan "identical".
+     · The 1RK layout                           → unitTypes
+       (its room dimensions came too, but are no longer
+        printed — see the `unitTypes` note below)
+     · The homes are NOT one repeated plan — the living / kitchen /
+       toilet sizes differ by position. The unit card shows the
+       corner 1RK (the one flagged on the key plan) as the
+       representative home; do not call the plan "identical".
      · Ground / typical / terrace floor drawings → floorPlans[].plan
      · Corner plot on an 11 m and a 9 m road (from the ground plan).
 
-   Still outstanding (renders as "Insufficient information"):
-     · What sits on the 1st floor — the typical residential plan
-       covers 2nd–4th only; no 1st-floor drawing was supplied, so
-       nothing here states its use.
+   ┌─ THE FLOOR COUNT: SETTLED 11 AUG 2026 ─────────────────────────
+   │ THE PAGE FOLLOWS THE APPROVED PLAN, NOT THE RENDERS. Twelve
+   │ homes, THREE to a typical floor, on floors 1–4. The 1st floor
+   │ is residential.
+   │
+   │ CONFIRMED BY THE OWNER, 11 Aug 2026, unprompted and in these
+   │ words: "For Ishaan, the configuration is incorrect. 3 homes per
+   │ typical floor (1-4)." That is the authority for this section —
+   │ the reasoning below is what independently pointed the same way.
+   │ Do not revert it to match the renders.
+   │
+   │ Both sources reach twelve homes by different routes, and the
+   │ page used to print both at once — floors "2nd–4th" in the prose
+   │ while `unitTypes` listed flats numbered 101/102/103.
+   │
+   │ The RERA CARPET-AREA STATEMENT of the CIDCO-approved plan
+   │ (CIDCO/BP-19208/TPO(NM & K)/2024/13290, 20 Dec 2024) — the
+   │ source we now follow — records THREE series, each naming four
+   │ flats: 101/201/301/401, 102/202/302/402, 103/203/303/403.
+   │ Three per floor across floors 1–4. A 1xx flat is a first-floor
+   │ flat; that is what makes the 1st floor residential.
+   │
+   │ The RENDERS say otherwise — all three sheets are title-blocked
+   │ "(2ND TO 4TH)" and the key plan on the 1RK sheet draws FOUR
+   │ units, 4 × 3 floors = 12. They are treated as a superseded
+   │ four-unit iteration, because they fail on their own arithmetic:
+   │   · The 1RK sheet prints "RERA CARPET AREA 17.70 SQ.MT.", which
+   │     matches none of the three approved figures. 71.035 (the
+   │     built-up area on that same sheet) ÷ 4 = 17.76. Its "carpet
+   │     area" is just the floor's built-up divided by its own
+   │     four-unit assumption — not a carpet area at all.
+   │   · Against that same 71.035 built-up, the three approved flats
+   │     (50.893 carpet) come to 71.6%, which is ordinary. Four
+   │     drawn flats need ~91%, which no building achieves once
+   │     walls are counted.
+   │   · It is also the house pattern. Shaurya is G+4 with
+   │     "Residential — floors 1 to 4", flats 101 / 102, one per
+   │     floor; Dhruva's series each carry "one per floor, floors
+   │     1–4". Ground floor for the building, homes on 1–4. Ishaan
+   │     reading "2nd–4th" was the portfolio's only outlier, and it
+   │     came from the render title blocks.
+   │
+   │ CONSEQUENCE, and the reason two drawings vanished from the
+   │ page: `Ishaan_Floor_Plan.png` and `Ishaan_1RK_Plan.png` both
+   │ draw four units per floor and are captioned 2nd–4th, so they
+   │ now contradict the text beside them. Both files are still on
+   │ disk. Restore them the day the architect reissues them against
+   │ the approved plan — see `floorPlans` and `unitTypes` below.
+   │ The ground and terrace plans are unaffected and still shown.
+   └────────────────────────────────────────────────────────────────
 
    Real photography exists at public/images/Project_Images/Ishaan/
-   (5 exteriors, 4 interiors) and is ready to hang on featured
-   amenity cards once there is an amenity schedule to hang it on.
+   (5 exteriors, 4 interiors). The amenity schedule it was waiting on
+   now exists (see `amenityGroups`), so these are free to hang on the
+   featured amenity cards whenever someone picks the shots.
 
    Icon keys reference the line-icon set defined inside the page.
    ============================================================ */
@@ -49,7 +95,7 @@ export const ishaan = {
   // Kept as TBD so the hero's MahaRERA pill stays hidden; the real approval
   // status is shown as a fact in `overview.facts` and the footer (`approvals`).
   maharera: TBD,
-  approvals: "Commencement Certificate obtained · not RERA-registered",
+  approvals: "Commencement Certificate obtained",
   tagline: "A G+4 residence: twelve homes, and every one of them a 1RK.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
   address: "Plot no. 123, Sector 1, Karanjade, Panvel, 410206",
@@ -85,24 +131,25 @@ export const heroStats = [
    lays these out on a 3-up grid.                                   */
 export const overview = {
   intro:
-    "A G+4 structure of twelve 1RK homes, four to a typical floor, with no commercial units anywhere in the building.",
+    "A G+4 structure of twelve 1RK homes, three to a typical floor across floors 1 to 4, with no commercial units anywhere in the building.",
   facts: [
     { label: "Construction stage", value: "RCC complete · tiling, plaster & paint under way" },
     { label: "Possession", value: "Targeting March 2027" },
     { label: "Structure", value: "G+4 storey · corner plot on an 11 m & a 9 m road" },
-    { label: "Configuration", value: "12 × 1RK · four homes per typical floor (2nd–4th)" },
+    { label: "Configuration", value: "12 × 1RK · three homes per floor (1st–4th)" },
     /* 16.964 = the mean of the approved plan's three series (15.223 /
-       19.080 / 16.590), four homes each — the same figure the unit
+       19.080 / 16.590), four homes each — one on each of floors 1–4,
+       which is why the mean is unweighted — the same figure the unit
        card's summary row carries. This row used to read 17.70 sq.mt,
        which matches none of the three and is not their mean; with the
        card now printing one averaged figure, the two contradicted
        each other on the same page. See the `unitTypes` comment. */
     { label: "Carpet area", value: "16.96 sq. m. (≈ 183 sq. ft.) average per 1RK" },
-    { label: "Approvals", value: "Commencement Certificate obtained · not RERA-registered" },
+    { label: "Approvals", value: "Commencement Certificate obtained" },
   ],
   unitMix: [
     { figure: "12", label: "1RK apartments" },
-    { figure: "4", label: "Homes per floor" },
+    { figure: "3", label: "Homes per floor" },
     { figure: "G+4", label: "Storeys" },
   ],
   connectivity:
@@ -149,13 +196,21 @@ export const buildProgress: {
 
 /* ---------- Floor plans ----------
    Real architectural drawings, supplied at
-   public/images/projects/ishaan/. `planPending` is now dropped on
-   every entry, so each renders as a real plan. The set runs bottom
-   to top: ground → typical residential floor → terrace.           */
+   public/images/projects/ishaan/. The set runs bottom to top:
+   ground → residential floors → terrace.
+
+   `plan` is OPTIONAL. The residential-floor entry carries none: the
+   supplied drawing draws four units per floor and is title-blocked
+   "2ND TO 4TH", so it contradicts the approved plan this page now
+   follows (see the header block). The entry keeps its text — the
+   core, the lobby, the chajjas are all still true — and simply has
+   no drawing until the architect reissues one. A card with no `plan`
+   renders full-width with no image and no "pending" badge, because
+   nothing here is pending: a drawing exists, it is just wrong.   */
 export type FloorPlan = {
   title: string;
   label: string;
-  plan: string;
+  plan?: string;
   planPending?: boolean;
   blurb: string;
   points: string[];
@@ -179,16 +234,17 @@ export const floorPlans: FloorPlan[] = [
   },
   {
     title: "Typical floor",
-    label: "2nd–4th · four 1RK homes",
-    plan: "/images/projects/ishaan/Ishaan_Floor_Plan.png",
+    label: "1st–4th · three 1RK homes",
+    // Drawing withheld — Ishaan_Floor_Plan.png draws four units and is
+    // captioned 2nd–4th. Restore it here once reissued.
     blurb:
-      "The homes sit on the typical floors, four to a floor, all of them 1RK, wrapped around a central lift-and-staircase core with a shared lobby. Every floor from 2nd to 4th is identical.",
+      "The homes sit on the typical floors, three to a floor, all of them 1RK, wrapped around a central lift-and-staircase core with a shared lobby. Every floor from the 1st to the 4th is identical.",
     points: [
-      "Four 1RK homes per floor",
+      "Three 1RK homes per floor",
       "Central lift & staircase core",
       "Shared lobby 3.65 × 1.60 m",
       "Chajja / balcony to each home",
-      "Floors 2nd–4th identical",
+      "Floors 1st–4th identical",
       "12 homes in all",
     ],
   },
@@ -208,13 +264,15 @@ export const floorPlans: FloorPlan[] = [
 ];
 
 /* ---------- Unit types — the flat layouts ----------
-   Ishaan is now booking, so it follows Shikhar's per-flat pattern
-   rather than Dhruva's floor-only one: a buyer choosing a home needs
-   to see the home, not just the storey it sits on. Same shape as
-   `unitTypes` in shikhar.ts — there is simply one entry, because
-   there is one kind of home.
+   Ishaan follows Shikhar's per-flat pattern rather than Dhruva's
+   floor-only one: a buyer choosing a home needs to see the home, not
+   just the storey it sits on. Same shape as `unitTypes` in shikhar.ts
+   — there is simply one entry, because there is one kind of home.
+   (Bookings have NOT opened: the page reads "Pre-launch". The layout
+   choice holds either way; this comment used to justify it with "Ishaan
+   is now booking", which was never true of this project.)
 
-   `features` and `rooms` are hidden while empty rather than faked.
+   `features` is hidden while empty rather than faked.
 
    `stats` carries the RERA carpet areas from the CIDCO-approved plan
    (CIDCO/BP-19208/TPO(NM & K)/2024/13290, approved 20 Dec 2024). Its
@@ -236,40 +294,47 @@ export const floorPlans: FloorPlan[] = [
    directly under it — an unqualified "all 12 homes" against a single
    figure would contradict them.
 
-   TWO THINGS THE DRAWING CONTRADICTS, left as supplied and flagged:
-     · THREE homes per floor over floors 1–4, not four per floor over
-       2–4. Both give twelve, but the header above, `floorPlans` and
-       this card's blurb all say four-per-floor on the typical floors.
-     · The 1st floor is residential and identical to the rest — the
-       drawing has a FIRST FLOOR PLAN with flats 101/102/103 on it.
-       That closes the "what sits on the 1st floor" gap noted above.
+   THE FLAT NUMBERS AND THE FLOOR RANGE NOW AGREE, and did not always.
+   `stats` prints "Flats 101 / 201 / 301 / 401" — a 1xx flat is a
+   first-floor flat — and `series`, `floorPlans` and `overview` all now
+   read floors 1–4 to match. They used to say the homes started on the
+   2nd, which put both readings on the page at once; that was settled on
+   11 Aug 2026 in favour of the approved plan and confirmed by the owner.
+   The header block at the top of this file is the full account. These
+   numbers and the floor range move TOGETHER — never edit one alone.
 
-   `rooms` below (living 2.75 × 3.15, kitchen 1.70 × 2.75, toilet
-   2.30 × 1.20) sums to 16.098 sq. m. Of the fifteen ways the drawn
-   rooms can be shared between the three flats, that exact triple only
-   ever lands on flat 103 — so the plan on this card is the 16.590
-   home. Not certain enough to print as a single figure, which is why
-   `stats` lists all three series.                                  */
+   The room dimensions that used to sit on this card came off on
+   11 Aug 2026 (owner's instruction #9: no room dimensions on any
+   project page). For the record, since it is the reasoning that tied
+   this card to a specific home: the drawn living 2.75 × 3.15, kitchen
+   1.70 × 2.75 and toilet 2.30 × 1.20 sum to 16.098 sq. m., a triple
+   that lands only on flat 103 of the fifteen possible splits — so the
+   card describes the 16.590 home. Never certain enough to print as a
+   single figure, which is why `stats` still lists all three series. */
 export type UnitType = {
   type: string;
   units: string;
   series: string;
-  plan: string;
+  /* Optional for the same reason as `FloorPlan.plan` above:
+     Ishaan_1RK_Plan.png is withheld. Its key plan draws four units,
+     it is captioned "(2ND TO 4TH)", and it prints "RERA CARPET AREA
+     17.70 SQ.MT." — a figure that is really the floor's built-up
+     area divided by four, and that matches none of the three
+     approved carpet areas printed on this very card. */
+  plan?: string;
   planPending?: boolean;
   blurb: string;
   stats: { label: string; value: string }[];
   features: string[];
-  rooms: { room: string; dim: string }[];
 };
 
 export const unitTypes: UnitType[] = [
   {
     type: "1RK",
     units: "12 units",
-    series: "Typical floors · 2nd–4th",
-    plan: "/images/projects/ishaan/Ishaan_1RK_Plan.png",
+    series: "Typical floors · 1st–4th",
     blurb:
-      "The one kind of home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Four sit on every typical floor; the plan shown is the corner unit.",
+      "The one kind of home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Three sit on every typical floor, from the 1st to the 4th.",
     stats: [
       { label: "Carpet area — 12-home average", value: "16.96 sq. m. (183 sq. ft.)" },
       { label: "Flats 101 / 201 / 301 / 401", value: "15.22 sq. m. (164 sq. ft.)" },
@@ -286,12 +351,6 @@ export const unitTypes: UnitType[] = [
       "Separate kitchen with cooking platform",
       "Attached toilet with WC & washbasin",
       "Private chajja / balcony",
-    ],
-    rooms: [
-      { room: "Living / Bedroom", dim: "2.75 × 3.15 m" },
-      { room: "Kitchen", dim: "1.70 × 2.75 m" },
-      { room: "Toilet", dim: "2.30 × 1.20 m" },
-      { room: "Chajja / Balcony", dim: "Included" },
     ],
   },
 ];
@@ -339,8 +398,8 @@ export const levels: Level[] = [
     category: "The count",
     icon: "tower",
     blurb:
-      "Four floors and twelve homes, four to a typical floor. A small building with a short list of neighbours, and the whole of Ishaan fits on one page.",
-    points: ["G+4 storey structure", "Four 1RK homes per typical floor"],
+      "Four floors and twelve homes, three to a typical floor. A small building with a short list of neighbours, and the whole of Ishaan fits on one page.",
+    points: ["G+4 storey structure", "Three 1RK homes per typical floor"],
   },
   {
     marker: "1RK",
@@ -357,12 +416,17 @@ export const levels: Level[] = [
 ];
 
 /* ---------- Amenities ----------
-   EMPTY BY DESIGN — no amenity schedule was supplied for Ishaan.
-   The page renders the "Insufficient information" panel while this
-   array is empty, and switches to the full grouped list the moment
-   you fill it. Group it Building / Lifestyle / Interiors the way
-   shikhar.ts and dhruva.ts do; the page's icon set already carries
-   the keys those files use.                                       */
+   FILLED. This block used to read "empty by design" because no
+   schedule had been supplied; one has been since, and `amenityGroups`
+   below carries it. The page still falls back to the "Insufficient
+   information" panel if the array is ever emptied again — that is why
+   the fallback markup is kept in ishaan.astro.
+
+   Ishaan groups as "Buy with confidence" / "Building" rather than
+   shikhar.ts's Building / Lifestyle / Interiors, because it has no
+   lifestyle amenities and no interior finishes spec. The missing
+   Interiors group is a real gap, tracked as item 2 of the punch list —
+   do not paper over it by borrowing another project's finishes. */
 export type Amenity = {
   icon: string;
   name: string;
@@ -424,9 +488,14 @@ export const amenityGroups: AmenityGroup[] = [
   },
 ];
 
-/** Retained for reference — the amenity schedule above is now filled,
-    so this list no longer renders. */
-export const amenitiesNeeded: string[] = [];
+/* `amenitiesNeeded` was here — the "Still needed" checklist printed
+   inside the empty-amenities panel. The schedule above is filled, so
+   the panel never renders and the array had been sitting at [] with
+   nothing to say. Deleted on 11 Aug 2026 along with the "Still needed"
+   list in ishaan.astro; the empty-amenities panel itself is kept, since
+   it is what appears if `amenityGroups` is ever emptied again. The
+   sibling files that are genuinely still waiting on a schedule
+   (udaan.ts) keep theirs. */
 
 /* ---------- About the developer (dark section) ----------
    Brand-level facts, consistent with dhruva.ts and prithvi.ts.    */

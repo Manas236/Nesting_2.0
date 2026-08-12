@@ -19,12 +19,10 @@ export const shikhar = {
     "https://www.google.com/maps/search/?api=1&query=Shikhar+Nesting+Tree+Karanjade+Panvel+Navi+Mumbai",
 };
 
-/* ---------- Sales contact ---------- */
-export const sales = {
-  name: "Vipin",
-  phone: "95940 79317",
-  phoneHref: "tel:+919594079317",
-};
+/* ---------- Sales / office contact ----------
+   Moved to src/data/site.ts on 11 Aug 2026. Vipin is the single point of
+   contact for every project, so the block is defined once there and
+   shikhar.astro imports it from site.ts. Do not re-add it here. */
 
 /* ---------- Headline stats band (4 figures) ---------- */
 export const heroStats = [
@@ -95,7 +93,6 @@ export type UnitType = {
   blurb: string;
   stats: { label: string; value: string }[];
   features: string[];
-  rooms: { room: string; dim: string }[];
 };
 
 export const unitTypes: UnitType[] = [
@@ -117,13 +114,6 @@ export const unitTypes: UnitType[] = [
       "Dual-toilet layout",
       "Abundant natural light",
     ],
-    rooms: [
-      { room: "Bedroom", dim: "2.70 × 3.10 m" },
-      { room: "Kitchen", dim: "1.95 × 2.10 m" },
-      { room: "Enclosed balcony", dim: "2.78 × 1.00 m" },
-      { room: "Toilet 1", dim: "1.20 × 1.20 m" },
-      { room: "Toilet 2", dim: "2.10 × 1.20 m" },
-    ],
   },
   {
     type: "1RK",
@@ -141,12 +131,6 @@ export const unitTypes: UnitType[] = [
       "Space-saving design",
       "Dedicated functional zones",
       "Integrated storage",
-    ],
-    rooms: [
-      { room: "Living", dim: "2.70 × 3.15 m" },
-      { room: "Kitchen", dim: "1.75 × 3.15 m" },
-      { room: "Toilet", dim: "2.2 × 1.2 m" },
-      { room: "Passageway", dim: "1.2 × 2.6 m" },
     ],
   },
   {
@@ -166,12 +150,6 @@ export const unitTypes: UnitType[] = [
       "Large wrapping private terrace",
       "High-end luxury finishes",
       "Limited availability",
-    ],
-    rooms: [
-      { room: "Living", dim: "2.78 × 3.10 m" },
-      { room: "Kitchen", dim: "1.85 × 2.15 m" },
-      { room: "Bedroom", dim: "2.65 × 3.15 m" },
-      { room: "Balcony", dim: "2.80 × 1.00 m" },
     ],
   },
 ];

@@ -1,15 +1,14 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import SiteHeader from "../../components/SiteHeader.astro";
-import QrBlock from "../../components/QrBlock.astro";
 import ProjectGallery from "../../components/ProjectGallery.astro";
 import AreaStats from "../../components/AreaStats.astro";
 import BuildProgress from "../../components/BuildProgress.astro";
-import { brand, contact, features, projects, whatsappHref } from "../../data/site";
+import SocialLinks from "../../components/SocialLinks.astro";
+import { brand, contact, features, projects, sales, whatsappHref } from "../../data/site";
 import {
   TBD,
   ishaan,
-  sales,
   heroStats,
   overview,
   unitTypes,
@@ -18,7 +17,6 @@ import {
   floorPlans,
   levels,
   amenityGroups,
-  amenitiesNeeded,
   developerNotes,
   whyIshaan,
   gallery,
@@ -344,6 +342,20 @@ const pageDesc =
                 </span>
               </a>
 
+              <p class="flex items-start gap-3 mt-6 text-stone/60 text-sm leading-relaxed">
+                <svg
+                  class="w-4.5 h-4.5 mt-0.5 shrink-0 text-olive-100"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  set:html={icons.lobby}
+                ></svg>
+                <span><span class="font-display text-[11px] font-bold uppercase tracking-[0.16em] text-stone/45 block mb-1">Office</span>{sales.office}</span>
+              </p>
+
               <a
                 href="#enquire"
                 class="block text-center font-display font-bold uppercase tracking-[0.06em] text-sm bg-white text-ink px-6 py-4 rounded-[2px] mt-8 hover:bg-stone transition-colors"
@@ -380,46 +392,53 @@ const pageDesc =
           One kind of home to call Ishaan.
         </h2>
         <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Twelve 1RK homes, four to a floor, and all of them a 1RK.
+          Twelve 1RK homes, three to a typical floor, and all of them a 1RK.
         </p>
       </div>
 
       <div class="flex flex-col gap-24 lg:gap-32">
         {
           unitTypes.map((u, i) => (
-            <article class="reveal grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            /* No `plan` → no image column, and the details run full
+               width rather than leaving half the row empty. See the
+               note on `UnitType.plan` in src/data/ishaan.ts. */
+            <article
+              class={`reveal grid gap-12 lg:gap-20 items-center ${u.plan ? "lg:grid-cols-2" : ""}`}
+            >
               {/* flat layout render */}
-              <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
-                <div class="relative bg-stone border border-line rounded-[3px] p-4 sm:p-6 lg:p-8">
-                  <img
-                    src={u.plan}
-                    alt={
-                      u.planPending
-                        ? `Ishaan ${u.type} — layout drawing not yet available`
-                        : `Ishaan ${u.type} flat layout`
-                    }
-                    class={`w-full h-auto object-contain rounded-[2px] ${
-                      u.planPending ? "opacity-60" : "mix-blend-multiply"
-                    }`}
-                    loading="lazy"
-                  />
-                  <span
-                    class={`absolute top-7 left-7 font-display text-[11px] font-bold uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] ${
-                      u.planPending
-                        ? "bg-stone text-muted border border-dashed border-line"
-                        : "bg-ink text-stone"
-                    }`}
-                  >
-                    {u.planPending ? "Layout pending" : "Flat layout"}
-                  </span>
-                  {u.planPending && (
-                    <p class="text-mutedlight text-xs leading-relaxed mt-4 italic">
-                      Placeholder image — the {u.type} layout drawing has not been supplied yet.
-                    </p>
-                  )}
+              {u.plan && (
+                <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+                  <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
+                  <div class="relative bg-stone border border-line rounded-[3px] p-4 sm:p-6 lg:p-8">
+                    <img
+                      src={u.plan}
+                      alt={
+                        u.planPending
+                          ? `Ishaan ${u.type} — layout drawing not yet available`
+                          : `Ishaan ${u.type} flat layout`
+                      }
+                      class={`w-full h-auto object-contain rounded-[2px] ${
+                        u.planPending ? "opacity-60" : "mix-blend-multiply"
+                      }`}
+                      loading="lazy"
+                    />
+                    <span
+                      class={`absolute top-7 left-7 font-display text-[11px] font-bold uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] ${
+                        u.planPending
+                          ? "bg-stone text-muted border border-dashed border-line"
+                          : "bg-ink text-stone"
+                      }`}
+                    >
+                      {u.planPending ? "Layout pending" : "Flat layout"}
+                    </span>
+                    {u.planPending && (
+                      <p class="text-mutedlight text-xs leading-relaxed mt-4 italic">
+                        Placeholder image — the {u.type} layout drawing has not been supplied yet.
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* details */}
               <div class={i % 2 === 1 ? "lg:order-1" : ""}>
@@ -465,27 +484,6 @@ const pageDesc =
                     ))}
                   </ul>
                 )}
-
-                {/* room dimensions */}
-                <div class="mt-9 border-t border-line max-w-md">
-                  <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted pt-5 pb-1">
-                    Room dimensions
-                  </p>
-                  {u.rooms.length > 0 ? (
-                    <dl>
-                      {u.rooms.map((r) => (
-                        <div class="flex items-baseline justify-between gap-4 py-3 border-b border-line">
-                          <dt class="text-muted text-base">{r.room}</dt>
-                          <dd class="font-display font-semibold tracking-tight text-ink text-base tabular-nums">
-                            {r.dim}
-                          </dd>
-                        </div>
-                      ))}
-                    </dl>
-                  ) : (
-                    <p class="text-mutedlight text-base italic py-3">{TBD}</p>
-                  )}
-                </div>
 
                 {u.features.length === 0 && (
                   <p class="text-mutedlight text-sm italic mt-5 max-w-md">
@@ -536,40 +534,46 @@ const pageDesc =
       <div class="flex flex-col gap-24 lg:gap-32">
         {
           floorPlans.map((fp, i) => (
-            <article class="reveal grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            /* No `plan` → no image column, details full width. See the
+               note on `FloorPlan.plan` in src/data/ishaan.ts. */
+            <article
+              class={`reveal grid gap-12 lg:gap-20 items-center ${fp.plan ? "lg:grid-cols-2" : ""}`}
+            >
               {/* floor-plan render */}
-              <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
-                <div class="relative bg-stone border border-line rounded-[3px] p-4 sm:p-6 lg:p-8">
-                  <img
-                    src={fp.plan}
-                    alt={
-                      fp.planPending
-                        ? `Ishaan ${fp.title} — plan drawing not yet available`
-                        : `Ishaan ${fp.title} plan — ${fp.label}`
-                    }
-                    class={`w-full h-auto object-contain rounded-[2px] ${
-                      fp.planPending ? "opacity-60" : "mix-blend-multiply"
-                    }`}
-                    loading="lazy"
-                  />
-                  <span
-                    class={`absolute top-7 left-7 font-display text-[11px] font-bold uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] ${
-                      fp.planPending
-                        ? "bg-stone text-muted border border-dashed border-line"
-                        : "bg-ink text-stone"
-                    }`}
-                  >
-                    {fp.planPending ? "Plan pending" : "Floor plan"}
-                  </span>
-                  {fp.planPending && (
-                    <p class="text-mutedlight text-xs leading-relaxed mt-4 italic">
-                      Placeholder image — the {fp.title.toLowerCase()} drawing has not been supplied
-                      yet.
-                    </p>
-                  )}
+              {fp.plan && (
+                <div class={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+                  <div class="absolute -inset-3 sm:-inset-5 bg-olive-50 rounded-[4px] -z-0" />
+                  <div class="relative bg-stone border border-line rounded-[3px] p-4 sm:p-6 lg:p-8">
+                    <img
+                      src={fp.plan}
+                      alt={
+                        fp.planPending
+                          ? `Ishaan ${fp.title} — plan drawing not yet available`
+                          : `Ishaan ${fp.title} plan — ${fp.label}`
+                      }
+                      class={`w-full h-auto object-contain rounded-[2px] ${
+                        fp.planPending ? "opacity-60" : "mix-blend-multiply"
+                      }`}
+                      loading="lazy"
+                    />
+                    <span
+                      class={`absolute top-7 left-7 font-display text-[11px] font-bold uppercase tracking-[0.14em] px-3 py-1.5 rounded-[2px] ${
+                        fp.planPending
+                          ? "bg-stone text-muted border border-dashed border-line"
+                          : "bg-ink text-stone"
+                      }`}
+                    >
+                      {fp.planPending ? "Plan pending" : "Floor plan"}
+                    </span>
+                    {fp.planPending && (
+                      <p class="text-mutedlight text-xs leading-relaxed mt-4 italic">
+                        Placeholder image — the {fp.title.toLowerCase()} drawing has not been
+                        supplied yet.
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* details */}
               <div class={i % 2 === 1 ? "lg:order-1" : ""}>
@@ -765,27 +769,6 @@ const pageDesc =
               here grouped as Building, Lifestyle and Interiors, the same as every other project
               page.
             </p>
-            <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted mt-8 pt-6 border-t border-line">
-              Still needed
-            </p>
-            <ul class="grid sm:grid-cols-2 gap-x-8 gap-y-2.5 mt-4">
-              {amenitiesNeeded.map((n) => (
-                <li class="flex items-start gap-3 text-mutedlight">
-                  <svg
-                    class="w-4 h-4 mt-1 shrink-0"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.8"
-                    stroke-linecap="round"
-                    aria-hidden="true"
-                  >
-                    <path d="M5 12h14" />
-                  </svg>
-                  <span class="text-[15px] leading-snug">{n}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         )
       }
@@ -874,9 +857,6 @@ const pageDesc =
     items={gallery}
     lead="Real photographs from the Ishaan site: the residence and its interiors, shot on site during construction."
   />
-
-  <!-- ===================== QR CODE ===================== -->
-  <QrBlock project="Ishaan" />
 
   <!-- ===================== ENQUIRY FORM ===================== -->
   <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
@@ -995,6 +975,19 @@ const pageDesc =
     </div>
   </section>
 
+  <!-- ===================== SIZES & LAYOUTS DISCLAIMER =====================
+       Owner's instruction, 11 Aug 2026, marked critical. The wording is a
+       single string in src/data/site.ts (`brand.sizesNote`) imported by all
+       seven project pages - do NOT retype it here. It sits directly above
+       the footer so it is the last thing read on the page. -->
+  <aside class="bg-stone border-t border-line">
+    <p
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-7 text-mutedlight text-xs sm:text-sm leading-relaxed text-center"
+    >
+      {brand.sizesNote}
+    </p>
+  </aside>
+
   <!-- ===================== FOOTER ===================== -->
   <footer class="bg-ink text-stone">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
@@ -1011,18 +1004,7 @@ const pageDesc =
           <p class="text-stone/55 text-sm leading-relaxed sm:whitespace-nowrap">
             {brand.footerLine}
           </p>
-          <div class="flex items-center gap-3 mt-6">
-            {
-              contact.socials.map((s) => (
-                <a
-                  href={s.href}
-                  class="w-9 h-9 rounded-[2px] bg-white/5 border border-white/10 flex items-center justify-center text-xs font-display font-bold hover:bg-white/10 transition-colors"
-                >
-                  {s.label}
-                </a>
-              ))
-            }
-          </div>
+          <SocialLinks />
         </div>
 
         <div class="reveal" style="--reveal-d:0.08s">

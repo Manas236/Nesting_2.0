@@ -56,6 +56,13 @@ export const brand = {
   // the `minmax(300px,…)` first column), so a longer line will either wrap
   // again or push the nav columns narrower.
   footerLine: `Your Trust, Our Foundation. Since ${legacyYear}.`,
+  // Printed at the foot of EVERY project page, the way `footerLine` is
+  // printed in every footer — owner's instruction, 11 Aug 2026, marked
+  // critical. It lives here for the same reason `footerLine` does: seven
+  // pasted copies is seven chances to drift. Any project page that prints
+  // its own wording instead of `brand.sizesNote` is a bug.
+  sizesNote:
+    "The sizes and layouts shown are tentative and are subject to change as per the government regulations.",
   logoMark: "/images/brand/logo-mark.png",
   logoFull: "/images/brand/logo-full.png",
 };
@@ -63,18 +70,54 @@ export const brand = {
 export const contact = {
   phone: "+91 95940 79317",
   email: "info@nestingtree.in",
-  address: "Navi Mumbai, Maharashtra – 410206",
+  // Comma before the pincode, not an en dash — every project address in
+  // src/data/<slug>.ts ends "Panvel, 410206", and this line is read beside
+  // them in the footer.
+  address: "Navi Mumbai, Maharashtra, 410206",
   // Site-wide footer line. Registered projects show their MahaRERA number
   // on their own page; not every current project is RERA-registered
   // (Ishaan & Prithvi are under-construction on a Commencement Certificate,
   // no RERA cert taken), so this must not assert blanket registration —
   // "registered project pages" is the qualifier that keeps it true.
   maharera: "MahaRERA numbers shown on registered project pages",
+  // Rendered by src/components/SocialLinks.astro into all 11 page footers,
+  // and fed to `sameAs` in src/lib/structured-data.ts. Instagram is the only
+  // profile that exists — the Facebook and LinkedIn tiles were placeholders
+  // pointing at "#" and are gone rather than left dead. Add an entry the day
+  // a profile is real, never before: an icon linking nowhere costs more trust
+  // than an absent icon, and a "#" in `sameAs` tells Google the company has
+  // no verifiable presence anywhere.
+  //
+  // `label` selects the glyph in SocialLinks.astro (a label it has no glyph
+  // for renders as that text instead). `name` is the link's accessible name —
+  // the tile has no visible text to fall back on.
   socials: [
-    { label: "IG", href: "#" },
-    { label: "FB", href: "#" },
-    { label: "IN", href: "#" },
+    {
+      label: "IG",
+      name: "Instagram",
+      href: "https://www.instagram.com/nestingtree/",
+    },
   ],
+};
+
+/* ---------- Sales contact ----------
+   Vipin is the single point of contact for every Nesting Tree project and
+   for Nesting Tree itself — confirmed by the owner. This block used to be
+   copy-pasted into all seven src/data/<slug>.ts files, so a phone-number
+   change was seven edits, and `office` had been set in only three of them —
+   which is the whole reason the Office row showed on Rudra / Dhruva /
+   Shaurya and on no other project page. One definition now; every project
+   page imports `sales` from this file.
+
+   `phone` and `phoneHref` are DERIVED from `contact.phone`, so the number
+   is written down exactly once on the site. That is also why `contact.phone`
+   has to keep its "+91 " prefix and its spacing: this is the displayed form,
+   and whatsappHref below strips it back to digits. */
+export const sales = {
+  name: "Vipin",
+  phone: contact.phone,
+  phoneHref: `tel:${contact.phone.replace(/\s/g, "")}`,
+  office: "1313, Realtech Park, Sector 30A, Vashi",
 };
 
 /* ---------- WhatsApp ----------
@@ -331,7 +374,7 @@ export const amenities = [
     body:
       "Automatic high-speed elevator/s in every building, with built in safety devices, ensure comfortable living.",
     featured: "Lift to Every Floor · Power Backup",
-    image: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg",
+    image: "/images/projects/dhruva/photos/dhruva-lift-01.webp",
     objectPosition: "center 65%",
   },
   {
@@ -341,7 +384,7 @@ export const amenities = [
     body:
       "Space to move, light to see by — wide corridors and landings in glossy tile, built for the everyday: groceries in, guests out, no tight spots.",
     featured: "Wide Landings · Bright & Tiled",
-    image: "/images/Project_Images/Dhruva/Corridor/corridor.png",
+    image: "/images/projects/dhruva/photos/dhruva-corridor-01.webp",
     objectPosition: "center center",
   },
 ];
@@ -466,6 +509,18 @@ export const home = {
     // lines short enough to hold the display scale. The emotional framing is
     // carried by the sub-copy and the flagship highlight card.
     headline: ["Your Trust", "Our Foundation."],
+    /* Read aloud and crawled, never drawn: appended inside the <h1> as
+       sr-only text (see index.astro). The visible headline is a promise,
+       which is right for a visitor and useless to a search engine — on its
+       own it makes the page's one top-level heading say nothing about what
+       the company does or where. This restores that without touching the
+       design or burying a second, invisible <h1> in the markup.
+
+       It must stay a true summary of what is visibly on the page: the
+       region is already printed in the eyebrow directly above, and the
+       trade in the <title>. Text that is hidden and NOT corroborated on
+       screen is cloaking, and gets treated as such. */
+    headlineNote: `— Residential Developer in ${brand.region}`,
     sub:
       "Homes built on integrity, guided by expertise and delivered with quality.",
     primaryCta: { label: "Explore the Residences", href: "/projects" },
@@ -567,7 +622,11 @@ export const home = {
   // (was "Why Nesting Tree" reasons #1, #2, #3 — now distributed here).
   difference: {
     eyebrow: "The Nesting Tree Difference",
-    heading: ["We don't sell", "flats. We deliver", "joy, built to last."],
+    // Owner's instruction, 11 Aug 2026: it must read "We don't JUST sell
+    // flats." Rendered one array entry per line at display scale, so the
+    // extra word was absorbed by re-splitting rather than left to hang off
+    // line one — the three lines are hand-balanced and should stay so.
+    heading: ["We don't just sell", "flats. We deliver", "joy, built to last."],
     lead:
       "You pay a little more for a Nesting Tree home, and you get more than a flat. You can peace of mind.",
     pillars: [

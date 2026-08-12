@@ -13,12 +13,22 @@
    have not opened yet, so the page reads "Pre-launch", not "Now booking".
 
    Now supplied (from the render set added Jul 2026):
-     · 1BHK & 2BHK layout drawings + room dimensions   → unitTypes
+     · 1BHK & 2BHK layout drawings                     → unitTypes
+       (room dimensions came with them, but are no longer
+        printed — see the `unitTypes` note below)
      · 2BHK areas (carpet 795 / super built-up 1,380)  → unitTypes[1].features
      · Typical-floor & terrace plans                   → floorPlans
-     · Two automatic high-speed lifts (was recorded as
-       one — corrected on the owner's confirmation)
-     · Rooftop common terrace, solar panels & OH tanks → amenityGroups
+     · ONE automatic high-speed lift. This figure has moved
+       twice: recorded as one, raised to two on an earlier
+       owner confirmation, and set back to ONE on his review
+       of 11 Aug 2026 — "one elevator … please change
+       throughout" — which his own Project Overview wording
+       repeats. One is the answer; do not raise it again
+       without a fresh written instruction.
+     · Rooftop common terrace & OH tanks → amenityGroups.
+       NO SOLAR. The rooftop solar panels came out entirely
+       on that same 11 Aug 2026 instruction — removed, not
+       softened, so nothing on this page may imply them.
 
    Still outstanding (renders as "Insufficient information"):
      · Plot size, unit series
@@ -41,7 +51,7 @@ export const prithvi = {
   // Kept as TBD so the hero's MahaRERA pill stays hidden; the real approval
   // status is shown as a fact in `overview.facts` and the footer (`approvals`).
   maharera: TBD,
-  approvals: "Commencement Certificate obtained · not RERA-registered",
+  approvals: "Commencement Certificate obtained",
   tagline:
     "A G+7 residence: four shops at street level and 27 homes on the floors above.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
@@ -54,15 +64,10 @@ export const prithvi = {
     "https://www.google.com/maps/search/?api=1&query=Prithvi+Nesting+Tree+Karanjade+Navi+Mumbai",
 };
 
-/* ---------- Sales contact ----------
-   Vipin is the single point of contact for every Nesting Tree project,
-   and for Nesting Tree itself — confirmed by the owner. The same block
-   appears in each project file. */
-export const sales = {
-  name: "Vipin",
-  phone: "95940 79317",
-  phoneHref: "tel:+919594079317",
-};
+/* ---------- Sales / office contact ----------
+   Moved to src/data/site.ts on 11 Aug 2026. Vipin is the single point of
+   contact for every project, so the block is defined once there and
+   prithvi.astro imports it from site.ts. Do not re-add it here. */
 
 /* ---------- Headline stats band (4 figures) ---------- */
 export const heroStats = [
@@ -75,15 +80,15 @@ export const heroStats = [
 /* ---------- Overview ---------- */
 export const overview = {
   intro:
-    "A G+7 structure of 27 residential and 4 commercial units: four shops holding the ground floor, and 26 one-bedroom apartments plus a single 2BHK on the seven floors above. Two automatic high-speed lifts serve every floor, with a rooftop common terrace and solar power up top.",
+    "A G+7 structure of 27 residential and 4 commercial units: four shops holding the ground floor, and 26 one-bedroom apartments plus a single 2BHK on the seven floors above. One automatic high-speed lift serves every floor, with a rooftop common terrace up top.",
   facts: [
     { label: "Construction stage", value: "2 of 8 slabs cast · 6 to go" },
     { label: "Possession", value: "Targeting December 2027" },
     { label: "Structure", value: "G+7 storey · corner plot" },
     { label: "Configuration", value: "27 residential + 4 commercial units" },
-    { label: "Vertical transport", value: "2 automatic high-speed lifts" },
-    { label: "Rooftop", value: "Common terrace · solar panels · overhead water tanks" },
-    { label: "Approvals", value: "Commencement Certificate obtained · not RERA-registered" },
+    { label: "Vertical transport", value: "1 automatic high-speed lift" },
+    { label: "Rooftop", value: "Common terrace · overhead water tanks" },
+    { label: "Approvals", value: "Commencement Certificate obtained" },
   ],
   unitMix: [
     { figure: "26", label: "1BHK apartments" },
@@ -152,11 +157,11 @@ export const floorPlans: FloorPlan[] = [
     label: "Residential — floors 1 to 7",
     plan: "/images/projects/prithvi/Prithvi_Floor_Plan.png",
     blurb:
-      "Four homes to a typical floor, all one-bedroom apartments, each with a private balcony and a utility, opening off a central passage and served by two lifts. Twenty-seven homes are stacked this way above the shops: twenty-six 1BHK and a single 2BHK.",
+      "Four homes to a typical floor, all one-bedroom apartments, each with a private balcony and a utility, opening off a central passage and served by the lift. Twenty-seven homes are stacked this way above the shops: twenty-six 1BHK and a single 2BHK.",
     points: [
       "4 homes per typical floor",
       "1BHK apartments with balcony + utility",
-      "2 automatic high-speed lifts",
+      "1 automatic high-speed lift",
       "Central passage — 7′6″ × 10′0″",
       "26 × 1BHK + 1 × 2BHK in all",
       "Corner plot",
@@ -167,13 +172,12 @@ export const floorPlans: FloorPlan[] = [
     label: "Above the seventh floor",
     plan: "/images/projects/prithvi/Prithvi_Terrace_Plan.png",
     blurb:
-      "The roof belongs to everyone. A common terrace open to the sky sits at the centre, private terraces flank the top-floor homes, and rooftop solar panels and overhead water tanks run the building's services, reached by both lifts and the stair.",
+      "The roof belongs to everyone. A common terrace open to the sky sits at the centre, private terraces flank the top-floor homes, and the overhead water tanks run the building's services, reached by the lift and the stair.",
     points: [
       "Common terrace, open to the sky",
       "Private terraces for top-floor homes",
-      "Rooftop solar panels",
       "Overhead water tanks & services",
-      "Served by both lifts + stair",
+      "Served by the lift + stair",
     ],
   },
 ];
@@ -221,10 +225,12 @@ export const floorPlans: FloorPlan[] = [
    the two numbers on a cell always agree. The averaging is disclosed
    in `unitTypesNote` below.
 
-   `rooms` still holds the figures supplied with the render set in
-   Jul 2026, not the approved drawing — see the note below `unitTypes`.
-   Fill `features` and the tick-list appears; both features and rooms
-   are hidden while empty rather than faked.                       */
+   Room dimensions were dropped on 11 Aug 2026 (owner's instruction
+   #9: no room dimensions on any project page). They had come from the
+   render set supplied in Jul 2026 rather than the approved drawing,
+   which is worth knowing if they are ever asked for again.
+   Fill `features` and the tick-list appears; it is hidden while empty
+   rather than faked.                                              */
 export type UnitType = {
   type: string;
   units: string;
@@ -234,7 +240,6 @@ export type UnitType = {
   blurb: string;
   stats: { label: string; value: string }[];
   features: string[];
-  rooms: { room: string; dim: string }[];
 };
 
 export const unitTypes: UnitType[] = [
@@ -256,12 +261,6 @@ export const unitTypes: UnitType[] = [
       "Separate kitchen",
       "Attached toilet",
     ],
-    rooms: [
-      { room: "Living", dim: "15′0″ × 10′6″" },
-      { room: "Bedroom", dim: "10′0″ × 10′6″" },
-      { room: "Kitchen", dim: "8′0″ × 7′0″" },
-      { room: "Toilet", dim: "7′0″ × 4′0″" },
-    ],
   },
   {
     type: "2BHK",
@@ -282,14 +281,6 @@ export const unitTypes: UnitType[] = [
       "Built-up area — 1,010 sq.ft",
       "Super built-up area — 1,380 sq.ft",
       "Two balconies — 4′0″ wide · plus utility",
-    ],
-    rooms: [
-      { room: "Living / Dining", dim: "15′0″ × 16′0″" },
-      { room: "Bedroom 1", dim: "11′0″ × 12′0″" },
-      { room: "Bedroom 2", dim: "11′0″ × 12′0″" },
-      { room: "Kitchen", dim: "9′0″ × 7′0″" },
-      { room: "Toilet 1", dim: "7′6″ × 4′6″" },
-      { room: "Toilet 2", dim: "7′6″ × 4′6″" },
     ],
   },
 ];
@@ -411,8 +402,8 @@ export const amenityGroups: AmenityGroup[] = [
     items: [
       {
         icon: "elevator",
-        name: "Two automatic high-speed lifts",
-        desc: "Two automatic high-speed elevators serve every floor, for safety and comfort.",
+        name: "One automatic high-speed lift",
+        desc: "One automatic high-speed elevator serves every floor, for safety and comfort.",
         featured: true,
       },
       { icon: "parking", name: "Ample parking", desc: "Room to park without circling for a spot." },
@@ -438,11 +429,9 @@ export const amenityGroups: AmenityGroup[] = [
         desc: "A shared rooftop terrace open to the sky, the whole building's outdoor room.",
         featured: true,
       },
-      {
-        icon: "tiles",
-        name: "Rooftop solar panels",
-        desc: "Solar panels on the roof, cutting the common-area running costs.",
-      },
+      // The "Rooftop solar panels" tile was here. Removed outright on the
+      // owner's instruction of 11 Aug 2026 — Prithvi has no rooftop solar.
+      // Do not reinstate it in a softer form.
       {
         icon: "loft",
         name: "Private terraces",
@@ -528,7 +517,7 @@ export const whyPrithvi: { title: string; body: string }[] = [
   },
   {
     title: "Amenities as standard",
-    body: "Two automatic high-speed lifts, ample parking, a rooftop terrace with solar, CCTV and a full fire-fighting system: built in, not sold as extras.",
+    body: "One automatic high-speed lift, ample parking, a rooftop terrace, CCTV and a full fire-fighting system: built in, not sold as extras.",
   },
   {
     title: "Built to last",

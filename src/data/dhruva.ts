@@ -25,13 +25,10 @@ export const dhruva = {
     "https://www.google.com/maps/search/?api=1&query=Dhruva+Nesting+Tree+Karanjade+Panvel+Navi+Mumbai",
 };
 
-/* ---------- Sales / office contact ---------- */
-export const sales = {
-  name: "Vipin",
-  phone: "95940 79317",
-  phoneHref: "tel:+919594079317",
-  office: "1313, Realtech Park, Sector 30A, Vashi",
-};
+/* ---------- Sales / office contact ----------
+   Moved to src/data/site.ts on 11 Aug 2026. Vipin is the single point of
+   contact for every project, so the block is defined once there and
+   dhruva.astro imports it from site.ts. Do not re-add it here. */
 
 /* ---------- Headline stats band (4 figures) ---------- */
 export const heroStats = [
@@ -126,8 +123,9 @@ export const floorPlans: FloorPlan[] = [
    approved 16 Dec 2019): units 101–103 are the 1BHK homes
    (25.04 / 24.13 / 22.06 sq. m. carpet, with 6.90 / 6.85 / 10.21
    sq. m. of enclosed balcony) and 104–106 are the 1RK homes
-   (22.32 / 21.83 / 22.27 sq. m. carpet, no balcony). Room sizes are
-   the dimensions marked on the typical-floor plan.
+   (22.32 / 21.83 / 22.27 sq. m. carpet, no balcony). Room dimensions
+   were shown alongside these until 11 Aug 2026, when the owner's
+   instruction #9 took them off every project page.
 
    `stats` prints ONE figure per row rather than the range across the
    three series — a range reads as uncertainty on a sales page. Each
@@ -149,7 +147,6 @@ export type UnitType = {
   blurb: string;
   stats: { label: string; value: string }[];
   features: string[];
-  rooms: { room: string; dim: string }[];
 };
 
 export const unitTypes: UnitType[] = [
@@ -171,13 +168,6 @@ export const unitTypes: UnitType[] = [
       "Enclosed balcony along the living room",
       "Kitchen with full-length counter & sink",
     ],
-    rooms: [
-      { room: "Living", dim: "2.70 × 3.95 m" },
-      { room: "Bedroom", dim: "3.20 × 2.75 m" },
-      { room: "Kitchen", dim: "2.30 × 2.15 m" },
-      { room: "Bath", dim: "1.35 × 1.45 m" },
-      { room: "WC", dim: "1.20 × 1.00 m" },
-    ],
   },
   {
     type: "1RK",
@@ -195,12 +185,6 @@ export const unitTypes: UnitType[] = [
       "Full bath plus a separate WC",
       "Kitchen fitted along one wall",
       "Corner variant with a wider 4.49 × 2.75 m living",
-    ],
-    rooms: [
-      { room: "Living", dim: "2.70 × 4.30 m" },
-      { room: "Kitchen", dim: "2.20 × 2.35 m" },
-      { room: "Bath", dim: "1.45 × 1.35 m" },
-      { room: "WC", dim: "1.40 × 1.00 m" },
     ],
   },
 ];
@@ -252,7 +236,7 @@ export const amenityGroups: AmenityGroup[] = [
         name: "High-speed elevator (8-person)",
         desc: "An 8-person high-speed automatic lift serving every upper floor.",
         featured: true,
-        image: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg",
+        image: "/images/projects/dhruva/photos/dhruva-lift-01.webp",
         // portrait shot — bias low so the full lift doors stay in frame
         objectPosition: "center 80%",
       },
@@ -262,8 +246,8 @@ export const amenityGroups: AmenityGroup[] = [
         desc: "Green-marble stairs with steel railings rise beside broad, tiled corridors. Generous, light-filled circulation that makes every floor easy to reach and airy to move through.",
         featured: true,
         images: [
-          "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg",
-          "/images/Project_Images/Dhruva/Corridor/IMG20260627113731.jpeg",
+          "/images/projects/dhruva/photos/dhruva-lobby-02.webp",
+          "/images/projects/dhruva/photos/dhruva-corridor-03.webp",
         ],
         objectPositions: ["center", "center"],
       },
@@ -496,29 +480,40 @@ export const whyDhruva: { title: string; body: string }[] = [
 
 /* ---------- Gallery — real on-site photographs ----------
    Complete set of documentary photos for this project (renders and
-   near-duplicate "(1)" variants excluded). Generated from the folders
-   under public/images/Project_Images/Dhruva/. Rendered by
-   <ProjectGallery/> on the project page and on /gallery — real
-   photography only, never renders or stock. */
-export const gallery: { src: string; alt: string; category: string }[] = [
-  { src: "/images/Project_Images/Dhruva/Exterior/DSC_0005.jpeg", alt: "Dhruva — exterior of the building", category: "Exterior" },
-  { src: "/images/Project_Images/Dhruva/Exterior/DSC_0006.jpeg", alt: "Dhruva — exterior of the building", category: "Exterior" },
-  { src: "/images/Project_Images/Dhruva/Exterior/IMG20260627112705.jpeg", alt: "Dhruva — exterior of the building", category: "Exterior" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0015.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0017.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0025.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0036.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/DSC_0045.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/IMG20260627113437.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/IMG20260627113444.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Aerial_View/IMG20260627115053.jpeg", alt: "Dhruva — aerial view over the rooftop and surroundings", category: "Aerial view" },
-  { src: "/images/Project_Images/Dhruva/Lobby/DSC_0199.jpeg", alt: "Dhruva — ground-floor entrance lobby", category: "Lobby" },
-  { src: "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg", alt: "Dhruva — ground-floor entrance lobby", category: "Lobby" },
-  { src: "/images/Project_Images/Dhruva/Lobby/IMG20260627140500.jpeg", alt: "Dhruva — ground-floor entrance lobby", category: "Lobby" },
-  { src: "/images/Project_Images/Dhruva/Corridor/corridor.png", alt: "Dhruva — bright tiled common corridor", category: "Corridor" },
-  { src: "/images/Project_Images/Dhruva/Corridor/DSC_0049.jpeg", alt: "Dhruva — bright tiled common corridor", category: "Corridor" },
-  { src: "/images/Project_Images/Dhruva/Corridor/IMG20260627113731.jpeg", alt: "Dhruva — bright tiled common corridor", category: "Corridor" },
-  { src: "/images/Project_Images/Dhruva/Lift/DSC_0205.jpeg", alt: "Dhruva — passenger lift serving every floor", category: "Lift" },
-  { src: "/images/Project_Images/Dhruva/Lift/IMG20260627140541.jpeg", alt: "Dhruva — passenger lift serving every floor", category: "Lift" },
+   near-duplicate "(1)" variants excluded). Files live under
+   public/images/projects/dhruva/photos/. Rendered by <ProjectGallery/>
+   on the project page and on /gallery — real photography only, never
+   renders or stock.
+
+   Filenames, alt text and the width/height pairs are produced by
+   `node scripts/optimise-project-images.mjs dhruva`, which reads
+   scripts/alt-text/dhruva.tsv. Edit the alt text there, not here, or the
+   next run will overwrite it. Each entry also has a 640 px `-640.webp`
+   companion on disk that ProjectGallery puts in the srcset; the `src`
+   below is the full-size file the lightbox opens.
+
+   Alt text was rewritten on 12 Aug 2026: the previous strings described
+   nine "aerial views over the rooftop" that are in fact views across the
+   Navi Mumbai International Airport site. See IMAGE-SEO-BRIEF.md §1. */
+export const gallery: { src: string; alt: string; category: string; width?: number; height?: number }[] = [
+  { src: "/images/projects/dhruva/photos/dhruva-exterior-01.webp", alt: "Curved corner elevation in grey and white, green balcony panels above shuttered shops — Dhruva, Karanjade", category: "Exterior", width: 1066, height: 1600 },
+  { src: "/images/projects/dhruva/photos/dhruva-exterior-02.webp", alt: "The corner plot seen along the street, past parked trucks and the neighbouring buildings — Dhruva, Karanjade", category: "Exterior", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-exterior-03.webp", alt: "Street-level view of the name board and red shop shutters, an autorickshaw parked outside — Dhruva, Karanjade", category: "Exterior", width: 1600, height: 1200 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-01.webp", alt: "Trucks on the highway below the compound wall, the Navi Mumbai International Airport site beyond — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-02.webp", alt: "Airport terminal building and taxiway across the boundary road, past street lights and parked cars — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-03.webp", alt: "Seen through a concrete opening: the highway, the airfield beyond it and a wooded hill to the left — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-04.webp", alt: "Runway lights running out to the terminal building and control tower across the airfield — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-05.webp", alt: "Green runway lights and a red-and-white marker board on the airfield, over the perimeter road — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-06.webp", alt: "A line of red trucks on the highway, with the flat airfield and the hills behind them — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-07.webp", alt: "The compound wall and its drainage channels below, the airfield and a wide cloudy sky beyond — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1200 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-08.webp", alt: "Cars parked on the unmade road below, the highway curving away past the airfield — Dhruva, Karanjade", category: "Aerial view", width: 1600, height: 1200 },
+  { src: "/images/projects/dhruva/photos/dhruva-aerial-view-09.webp", alt: "Autorickshaws and cars parked along the road below, against the cut hillside and a neighbouring block — Dhruva, Karanjade", category: "Aerial view", width: 1400, height: 1050 },
+  { src: "/images/projects/dhruva/photos/dhruva-lobby-01.webp", alt: "Brass society name board beside the lift landing in the entrance lobby, under a pendant light — Dhruva, Karanjade", category: "Lobby", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-lobby-02.webp", alt: "Green-marble staircase and steel railing rising from the entrance lobby past the name board — Dhruva, Karanjade", category: "Lobby", width: 1600, height: 1200 },
+  { src: "/images/projects/dhruva/photos/dhruva-lobby-03.webp", alt: "Lift doors, name board and window across the tiled entrance lobby, ceiling fan above — Dhruva, Karanjade", category: "Lobby", width: 1600, height: 1120 },
+  { src: "/images/projects/dhruva/photos/dhruva-corridor-01.webp", alt: "Wide tiled landing at the head of the green-marble stairs, two flat doors at the far end — Dhruva", category: "Corridor", width: 1448, height: 1086 },
+  { src: "/images/projects/dhruva/photos/dhruva-corridor-02.webp", alt: "Glossy tiled common landing looking along to the dark panelled entrance doors of two flats — Dhruva", category: "Corridor", width: 1600, height: 1066 },
+  { src: "/images/projects/dhruva/photos/dhruva-corridor-03.webp", alt: "Green-marble steps and a steel railing meeting the tiled landing on a typical floor — Dhruva", category: "Corridor", width: 1600, height: 1200 },
+  { src: "/images/projects/dhruva/photos/dhruva-lift-01.webp", alt: "Stainless-steel lift doors on the ground-floor landing, notices posted on the wall alongside — Dhruva", category: "Lift", width: 1066, height: 1600 },
+  { src: "/images/projects/dhruva/photos/dhruva-lift-02.webp", alt: "The lift landing opening out to the covered stilt parking, a motorcycle parked beyond — Dhruva", category: "Lift", width: 1600, height: 1200 },
 ];

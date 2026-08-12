@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# image-audit working directory — contact sheets, thumbnails and the
+# generated worklist for punch-list item 12. All of it is rebuilt by
+# `node scripts/image-audit.mjs`, so none of it is worth committing.
+.image-audit/

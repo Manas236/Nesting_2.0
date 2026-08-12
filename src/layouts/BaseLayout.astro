@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { CACHE_PREFIX } from "../lib/editable";
+import { organizationSchema, jsonLd } from "../lib/structured-data";
 
 interface Props {
   title?: string;
@@ -28,6 +29,13 @@ const {
    architect's title block is baked into the bottom of several of them. */
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
+
+/* ---------- Structured data ----------
+   The same Organization node on every page, which is what schema.org's
+   @id is for: crawlers fold the repeats into one entity rather than
+   reading each page as a separate company. Built from src/data/site.ts —
+   see src/lib/structured-data.ts before changing any value. */
+const orgLd = jsonLd(organizationSchema(new URL(Astro.site!)));
 
 /* ---------- In-page text editing ----------
    The feature is injected here and only here, as two script tags.
@@ -83,6 +91,8 @@ const ogImage = new URL(image, Astro.site);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={orgLd} is:inline />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
