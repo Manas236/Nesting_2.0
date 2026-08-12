@@ -7,7 +7,7 @@
    have shared and in the Open Graph cards WhatsApp and Facebook have
    cached. See IMAGE-SEO-BRIEF.md §3.2.
 
-   65 entries.
+   74 entries.
    ============================================================ */
 export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg": "/images/projects/dhruva/photos/dhruva-aerial-view-01.webp",
@@ -31,6 +31,15 @@ export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg": "/images/projects/dhruva/photos/dhruva-lobby-02.webp",
   "/images/Project_Images/Dhruva/Lobby/IMG20260627140500.jpeg": "/images/projects/dhruva/photos/dhruva-lobby-03.webp",
   "/images/Project_Images/Dhruva/Render/dhruva-startrail-scene.png": "/images/projects/dhruva/photos/dhruva-render-01.webp",
+  "/images/Project_Images/Ishaan/Exterior/DSC_0095.jpeg": "/images/projects/ishaan/photos/ishaan-exterior-01.webp",
+  "/images/Project_Images/Ishaan/Exterior/DSC_0098.jpeg": "/images/projects/ishaan/photos/ishaan-exterior-02.webp",
+  "/images/Project_Images/Ishaan/Exterior/IMG20260627121926.jpeg": "/images/projects/ishaan/photos/ishaan-exterior-03.webp",
+  "/images/Project_Images/Ishaan/Exterior/IMG20260627122601%20(1).jpeg": "/images/projects/ishaan/photos/ishaan-exterior-04.webp",
+  "/images/Project_Images/Ishaan/Exterior/IMG20260627122628.jpeg": "/images/projects/ishaan/photos/ishaan-exterior-05.webp",
+  "/images/Project_Images/Ishaan/Interior/IMG20260627122133.jpeg": "/images/projects/ishaan/photos/ishaan-interior-01.webp",
+  "/images/Project_Images/Ishaan/Interior/IMG20260627122150.jpeg": "/images/projects/ishaan/photos/ishaan-interior-02.webp",
+  "/images/Project_Images/Ishaan/Interior/IMG20260627122250.jpeg": "/images/projects/ishaan/photos/ishaan-interior-03.webp",
+  "/images/Project_Images/Ishaan/Interior/IMG20260627122308.jpeg": "/images/projects/ishaan/photos/ishaan-interior-04.webp",
   "/images/Project_Images/Rudra/Aerial_View/DSC_0074.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-01.webp",
   "/images/Project_Images/Rudra/Aerial_View/DSC_0134.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-02.webp",
   "/images/Project_Images/Rudra/Aerial_View/DSC_0137.jpeg": "/images/projects/rudra/photos/rudra-aerial-view-03.webp",

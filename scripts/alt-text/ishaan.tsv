@@ -1,0 +1,33 @@
+# Ishaan — image manifest for scripts/optimise-project-images.mjs
+#
+# Columns: old_path <TAB> new_path <TAB> alt
+# Alt written 12 Aug 2026 from contact sheets 03, 04, 06 and 07, plus
+# direct renders of 17, 34 and 35.
+#
+# NINE of Ishaan's ten photographs are here. Index 17,
+# /images/Project_Images/Ishaan/DSC_0101.jpeg, is deliberately NOT
+# migrated — see IMAGE-ROLLOUT-STATUS.md. It is the entrance arch of
+# "महात्मा फुले कला, विज्ञान व वाणिज्य महाविद्यालय, पनवेल /
+# M PA SC COLLEGE, PANVEL", photographed with its security guard and a
+# parked car. It sits in Ishaan's gallery captioned "Ishaan — exterior of
+# the building". Same class of problem as Shaurya's gram panchayat frame:
+# a third party's building filed as a project exterior. Whether a
+# neighbourhood landmark belongs in the gallery is the owner's call.
+#
+# IMG20260627122601%20(1).jpeg is URL-encoded in the data and has a real
+# space on disk (§10.4), and image-audit.mjs drops parenthesised names
+# from rename-map.tsv, so exterior-04 and -05 were numbered by hand.
+#
+# Ishaan is under construction and pre-launch, so bare shells, brick
+# infill and workers at the plaster are current fact, not a §6.7 problem.
+# All twelve units are 1RK (§4), so a room in this building is a 1RK.
+old_path	new_path	alt
+/images/Project_Images/Ishaan/Exterior/DSC_0095.jpeg	/images/projects/ishaan/photos/ishaan-exterior-01.webp	The frame going up in brick and concrete, a mixer and a parked autorickshaw at the roadside — Ishaan, Karanjade
+/images/Project_Images/Ishaan/Exterior/DSC_0098.jpeg	/images/projects/ishaan/photos/ishaan-exterior-02.webp	The curved corner in red brick infill, a stack of bricks and a car on the unmade road — Ishaan, Karanjade
+/images/Project_Images/Ishaan/Exterior/IMG20260627121926.jpeg	/images/projects/ishaan/photos/ishaan-exterior-03.webp	The full height of the shell against a clear sky, brick stacked ready at the base — Ishaan, Karanjade
+/images/Project_Images/Ishaan/Exterior/IMG20260627122601%20(1).jpeg	/images/projects/ishaan/photos/ishaan-exterior-04.webp	Seen at an angle from the unmade road, brickwork rising between the concrete floors — Ishaan, Karanjade
+/images/Project_Images/Ishaan/Exterior/IMG20260627122628.jpeg	/images/projects/ishaan/photos/ishaan-exterior-05.webp	The corner plot from further down the road, the frame still open to the sky at the top — Ishaan, Karanjade
+/images/Project_Images/Ishaan/Interior/IMG20260627122133.jpeg	/images/projects/ishaan/photos/ishaan-interior-01.webp	Bare brick walls and a raw floor in a 1RK, the opening framing the building next door — Ishaan
+/images/Project_Images/Ishaan/Interior/IMG20260627122150.jpeg	/images/projects/ishaan/photos/ishaan-interior-02.webp	A wide corner window opening over the street in a 1RK, brick and rubble still on the floor — Ishaan
+/images/Project_Images/Ishaan/Interior/IMG20260627122250.jpeg	/images/projects/ishaan/photos/ishaan-interior-03.webp	A worker rendering the wall of a narrow brick-lined space, standing on a folding platform — Ishaan
+/images/Project_Images/Ishaan/Interior/IMG20260627122308.jpeg	/images/projects/ishaan/photos/ishaan-interior-04.webp	A worker running plaster down a doorway reveal, the brickwork still open beside it — Ishaan
