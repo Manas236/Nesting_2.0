@@ -448,9 +448,10 @@ html.menu-lock body {
 /* ============================================================
    In-page text editing
    ------------------------------------------------------------
-   All of these hooks are attributes written at runtime by
-   src/scripts/inline-edit.js — nothing in the built HTML carries them,
-   so with JS off this section styles nothing at all.
+   Every hook here is written at runtime — the attributes by
+   src/scripts/inline-edit.js, the <nt-t> element by the head script in
+   BaseLayout.astro. Nothing in the built HTML carries any of them, so
+   with JS off this section styles nothing at all.
 
    The whole treatment is deliberately quiet. A visitor who is only
    reading should never notice the site is editable; the affordance
@@ -467,6 +468,16 @@ html.menu-lock body {
     border-radius: 2px;
     cursor: text;
   }
+}
+
+/* The wrapper the head script puts around a run of copy that shares its
+   parent with a <br>, an icon or a <strong> — without it that run has no
+   element of its own to edit. Unknown elements are inline anyway; the
+   rule is here so that a future reset cannot quietly make it a block and
+   break a line in half. It carries no other style: whatever the copy
+   around it inherits, it inherits. */
+nt-t {
+  display: inline;
 }
 
 /* Prices, RERA numbers, phone numbers, measurements. The server refuses

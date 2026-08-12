@@ -204,6 +204,92 @@ const pageLd = schema ? jsonLd(schema) : null;
           el.textContent = t;
         }
 
+        /* Tags whose text is not copy, or which have no text to speak
+           of, and the blocks the markup has opted out by hand. Both live
+           here rather than in the editor because the wrap pass below and
+           the editor's marking pass have to agree on them exactly. */
+        var SKIP_TAGS =
+          " SCRIPT STYLE SVG INPUT TEXTAREA SELECT OPTION IFRAME " +
+          "NOSCRIPT CANVAS VIDEO AUDIO IMG BR HR TEMPLATE ";
+        var OPT_OUT = "svg, [data-nt-ui], [data-no-edit], [aria-hidden='true']";
+
+        function skipTag(el) {
+          return SKIP_TAGS.indexOf(" " + el.tagName + " ") !== -1;
+        }
+
+        /* ---- Loose copy ----
+           A heading broken by a <br>, a button with an icon beside its
+           label, a legal clause with a <strong> in the middle of it: the
+           words are there, but the element holding them is not a text
+           leaf, and writing textContent to it would delete the <br>, the
+           icon or the <strong>. Before anything is applied or marked,
+           every such run is given a wrapper element of its own, which
+           makes it a leaf and so editable on its own terms.
+
+           The wrapper is <nt-t>, a tag that appears nowhere in the
+           markup, and that is the whole trick: an edit_key is a path of
+           tag:nth-of-type() segments, nth-of-type counts per tag, so
+           introducing a tag nothing else uses cannot renumber a single
+           existing key. Every edit already in the database still lands
+           on the element it was made on.
+
+           Leading and trailing spaces are left outside the wrapper.
+           They are what separates "Or call" from the link after it, and
+           an edit normalises away everything inside the element it
+           touches. */
+        var WRAP_TAG = "nt-t";
+        var RE_LETTER = /[a-z]/i;
+        var RE_EDGES = /^(\s*)([\s\S]*?)(\s*)$/;
+        var didWrap = false;
+
+        function looseRuns() {
+          var out = [];
+          var walker = document.createTreeWalker(
+            document.body,
+            NodeFilter.SHOW_TEXT,
+            null
+          );
+          var node = walker.nextNode();
+          while (node) {
+            var p = node.parentElement;
+            if (
+              p &&
+              p.tagName !== "NT-T" &&
+              normalize(node.nodeValue) !== "" && // the gaps between tags
+              !isTextLeaf(p) && // already reachable whole
+              !skipTag(p) &&
+              !p.closest(OPT_OUT) &&
+              RE_LETTER.test(node.nodeValue) // "·", ".", a stray dash
+            ) {
+              out.push(node);
+            }
+            node = walker.nextNode();
+          }
+          return out;
+        }
+
+        function wrapRun(node) {
+          var parts = RE_EDGES.exec(node.nodeValue);
+          var el = document.createElement(WRAP_TAG);
+          el.textContent = parts[2];
+          var parent = node.parentNode;
+          if (parts[1]) parent.insertBefore(document.createTextNode(parts[1]), node);
+          parent.insertBefore(el, node);
+          if (parts[3]) parent.insertBefore(document.createTextNode(parts[3]), node);
+          parent.removeChild(node);
+        }
+
+        /* Idempotent, and called by both halves: whichever runs first
+           settles the shape of the DOM that keys are computed against. */
+        function ensureWrapped() {
+          if (didWrap || !document.body) return;
+          didWrap = true;
+          /* Collected in full first, so the walk never meets a wrapper
+             it has just made. */
+          var runs = looseRuns();
+          for (var i = 0; i < runs.length; i++) wrapRun(runs[i]);
+        }
+
         /* tag:nth-of-type(n) segments from <body>, joined by ">".
            nth-of-type counts from the start of the sibling list, so the
            toolbar the editor appends to <body> cannot renumber anything
@@ -320,6 +406,7 @@ const pageLd = schema ? jsonLd(schema) : null;
            parsed and BEFORE deferred scripts run, so the cached copy is
            on screen by the time the editor boots. */
         function applyCache() {
+          ensureWrapped();
           applyAll(readCache());
         }
         if (document.readyState === "loading") {
@@ -339,6 +426,9 @@ const pageLd = schema ? jsonLd(schema) : null;
           textOf: textOf,
           isTextLeaf: isTextLeaf,
           setText: setText,
+          skipTag: skipTag,
+          optOut: OPT_OUT,
+          ensureWrapped: ensureWrapped,
           keyFor: keyFor,
           elFor: elFor,
           applyOne: applyOne,

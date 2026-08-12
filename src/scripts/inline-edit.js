@@ -15,7 +15,9 @@
 
    Shape of the thing:
 
-     · every leaf that holds one run of words becomes editable
+     · every leaf that holds one run of words becomes editable, and a
+       run that shares its parent with a <br>, an icon or a <strong> is
+       given a leaf of its own so that it can be one too
      · figures — prices, RERA numbers, phone numbers, measurements —
        are locked, in the browser and again on the server
      · desktop enters an element by double-click, touch by a ~500 ms
@@ -43,26 +45,6 @@ const AFTER_HOLD_MS = 700;
 
 const LOCK_TITLE = "Locked — contains figures from official documents";
 
-/** Tags whose text is not copy, or which have no text to speak of. */
-const SKIP_TAGS = new Set([
-  "SCRIPT",
-  "STYLE",
-  "SVG",
-  "INPUT",
-  "TEXTAREA",
-  "SELECT",
-  "OPTION",
-  "IFRAME",
-  "NOSCRIPT",
-  "CANVAS",
-  "VIDEO",
-  "AUDIO",
-  "IMG",
-  "BR",
-  "HR",
-  "TEMPLATE",
-]);
-
 const state = {
   /** key -> { text, original, id } for this page. */
   edits: {},
@@ -83,6 +65,13 @@ if (NT) boot();
 
 async function boot() {
   const data = await NT.ready;
+
+  // Copy that shares its parent with a <br>, an icon or a <strong> gets
+  // a wrapper of its own first, so that everything below — applying,
+  // marking, keying — sees one settled shape of the document. The head
+  // script has normally done this already; this is the offline path,
+  // where nothing else would have asked.
+  NT.ensureWrapped();
 
   if (data && data.edits) {
     // Server wins over the cache, and refreshes it.
@@ -111,10 +100,9 @@ function markElements() {
   const all = document.body.querySelectorAll("*");
 
   for (const el of all) {
-    if (SKIP_TAGS.has(el.tagName)) continue;
+    if (NT.skipTag(el)) continue;
     // Inside an <svg>, our own furniture, or an opted-out block.
-    if (el.closest("svg, [data-nt-ui], [data-no-edit], [aria-hidden='true']"))
-      continue;
+    if (el.closest(NT.optOut)) continue;
     // A leaf holding exactly one run of words. This is also what keeps
     // <a> wrappers around images out: they own no text of their own.
     if (!NT.isTextLeaf(el)) continue;
