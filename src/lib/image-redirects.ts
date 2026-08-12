@@ -7,7 +7,7 @@
    have shared and in the Open Graph cards WhatsApp and Facebook have
    cached. See IMAGE-SEO-BRIEF.md §3.2.
 
-   21 entries.
+   34 entries.
    ============================================================ */
 export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg": "/images/projects/dhruva/photos/dhruva-aerial-view-01.webp",
@@ -31,4 +31,17 @@ export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Lobby/IMG20260627140435.jpeg": "/images/projects/dhruva/photos/dhruva-lobby-02.webp",
   "/images/Project_Images/Dhruva/Lobby/IMG20260627140500.jpeg": "/images/projects/dhruva/photos/dhruva-lobby-03.webp",
   "/images/Project_Images/Dhruva/Render/dhruva-startrail-scene.png": "/images/projects/dhruva/photos/dhruva-render-01.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/DSC_0153.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-01.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/DSC_0161.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-02.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/DSC_0166.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-03.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/DSC_0183.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-04.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/IMG20260627132223.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-05.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/IMG20260627132240.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-06.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/IMG20260627132537.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-07.webp",
+  "/images/Project_Images/Shikhar/Aerial_View/IMG20260627133708.jpeg": "/images/projects/shikhar/photos/shikhar-aerial-view-08.webp",
+  "/images/Project_Images/Shikhar/Exterior/DSC_0108.jpeg": "/images/projects/shikhar/photos/shikhar-exterior-01.webp",
+  "/images/Project_Images/Shikhar/Exterior/DSC_0113.jpeg": "/images/projects/shikhar/photos/shikhar-exterior-02.webp",
+  "/images/Project_Images/Shikhar/Exterior/DSC_0114.jpeg": "/images/projects/shikhar/photos/shikhar-exterior-03.webp",
+  "/images/Project_Images/Shikhar/Exterior/IMG20260627130037.jpeg": "/images/projects/shikhar/photos/shikhar-exterior-04.webp",
+  "/images/Project_Images/Shikhar/Interior/IMG20260627131512.jpeg": "/images/projects/shikhar/photos/shikhar-interior-01.webp",
 };

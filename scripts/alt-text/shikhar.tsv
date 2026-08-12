@@ -1,0 +1,28 @@
+# Shikhar — image manifest for scripts/optimise-project-images.mjs
+#
+# Columns: old_path <TAB> new_path <TAB> alt
+# Alt written 12 Aug 2026 from contact sheets 02, 03, 07, 08 and 11, plus
+# direct renders of indices 12 and 63 where the cell was too small to read.
+# Formula §3.3, templates §5, tail ruling §5 (— <project>, Karanjade).
+#
+# Shikhar is "Ongoing · bookings open", so the scaffolding and safety
+# netting in the exteriors are current fact, not a §6.7 problem — that
+# guardrail protects the three DELIVERED projects only.
+#
+# The eight aerials look three ways: over the railway line to the wooded
+# hill, over the neighbourhood streets, and across to the airport.
+# None of them is "aerial view over the rooftop and surroundings".
+old_path	new_path	alt
+/images/Project_Images/Shikhar/Exterior/DSC_0108.jpeg	/images/projects/shikhar/photos/shikhar-exterior-01.webp	The tower under scaffolding and green safety netting, its curved crown against the sky — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Exterior/DSC_0113.jpeg	/images/projects/shikhar/photos/shikhar-exterior-02.webp	Seen from the street corner past the trees: scaffolding, green netting and the site hoarding — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Exterior/DSC_0114.jpeg	/images/projects/shikhar/photos/shikhar-exterior-03.webp	The full height of the building under scaffolding, netting billowing from the upper floors — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Exterior/IMG20260627130037.jpeg	/images/projects/shikhar/photos/shikhar-exterior-04.webp	The netted tower from across the road, red site hoarding at its base and an autorickshaw waiting — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/DSC_0153.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-01.webp	A freight train on the line below the wooded hillside, apartment blocks along its foot — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/DSC_0161.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-02.webp	Container wagons standing on the railway line, apartment blocks and the green hillside behind — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/DSC_0166.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-03.webp	Traffic crossing the flyover beneath the quarried cliff face, container wagons on the line below — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/DSC_0183.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-04.webp	An airliner on final approach over the Navi Mumbai International Airport terminal and apron — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/IMG20260627132223.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-05.webp	An unmade road curving past open ground, a tower under construction at its edge and hills beyond — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/IMG20260627132240.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-06.webp	Low-rise apartment blocks along the streets below, the airport flatland and hills on the horizon — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/IMG20260627132537.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-07.webp	A tree-lined road running out between apartment blocks toward the hills, open ground either side — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Aerial_View/IMG20260627133708.jpeg	/images/projects/shikhar/photos/shikhar-aerial-view-08.webp	Cumulus building over the neighbourhood rooftops, the town running out to the hills — Shikhar, Karanjade
+/images/Project_Images/Shikhar/Interior/IMG20260627131512.jpeg	/images/projects/shikhar/photos/shikhar-interior-01.webp	Bathroom under fit-out: a patterned tile feature wall, plain white tiles and a bare floor — Shikhar
