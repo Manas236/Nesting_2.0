@@ -89,8 +89,10 @@ export const about = {
     {
       no: "01",
       kicker: "Our Mission",
+      // Owner's text, 12 Aug 2026, verbatim — do not paraphrase it back
+      // towards the previous wording.
       body:
-        "To create homes and communities that stand the test of time through unwavering integrity, relentless grit, and uncompromising quality. We are committed to delivering thoughtfully designed developments that enrich everyday living, earn the trust of every customer, and create lasting value for generations to come.",
+        "We aspire to be a trusted real estate brand that transforms dreams into enduring homes and vibrant communities, setting new benchmarks in quality, innovation and sustainable development.",
       // Three further commitments were deleted in the live editor on 6 Aug 2026
       // (content_edits 91, 92, 93). The survivor reads as prose, not as one item
       // of a list, so it renders as a follow-on paragraph — a single bullet is
@@ -105,8 +107,10 @@ export const about = {
       // All three commitments here were deleted in the live editor on 6 Aug 2026
       // (content_edits 96, 97, 98). `points` is omitted entirely rather than left
       // empty — about.astro falls back to `body` when it is absent.
+      // Owner's text, 12 Aug 2026, verbatim — do not paraphrase it back
+      // towards the previous wording.
       body:
-        "To build every home with the same care, quality, and integrity we would expect for our own family.",
+        "We envision creating timeless spaces that enrich lives, inspire future generations and leave a lasting legacy for the communities we serve.",
     },
     // Both list shapes stay declared even while unused, so about.astro can read
     // `points` and `paragraphs` off either entry without a union narrowing error.
