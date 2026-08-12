@@ -478,33 +478,13 @@ export const amenityGroups: AmenityGroup[] = [
    back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
    in the same commit, so no project page now sells the company. */
 
-/* ---------- Why Rudra (6 cards) ---------- */
-export const whyRudra: { title: string; body: string }[] = [
-  {
-    title: "Delivered & handed over",
-    body: "Rudra is complete; homes and shops handed over to end-user buyers.",
-  },
-  {
-    title: "All flats sold",
-    body: "Every residential unit and shop at Rudra is fully sold out.",
-  },
-  {
-    title: "Society formed",
-    body: "A functioning residents' society manages the building day-to-day.",
-  },
-  {
-    title: "MahaRERA registered",
-    body: "Registered under MahaRERA P52000026245. Clean title, watertight paperwork.",
-  },
-  {
-    title: "Where Nesting Tree began",
-    body: "Rudra is the brand's earliest delivered project at Karanjade.",
-  },
-  {
-    title: "Road-facing commercial",
-    body: "Four shops front the busy 9 m road, giving prominent street presence.",
-  },
-];
+/* ---------- Why Rudra (6 cards) — REMOVED 12 Aug 2026 ----------
+   The "Why Rudra" band is gone from this project page, and the same
+   removal was made on all six pages that carried it. `whyRudra` went
+   with it rather than being left as an unread export; git has the six
+   cards if they are ever wanted back. Nothing factual was lost with
+   them — the MahaRERA number still shows in the hero pill, the facts
+   table and the footer.                                              */
 
 /* ---------- Gallery — real on-site photographs ----------
    Complete set of documentary photos for this project (renders and

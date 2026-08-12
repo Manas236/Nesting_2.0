@@ -18,7 +18,6 @@ import {
   levels,
   amenityGroups,
   amenitiesNeeded,
-  whyPrithvi,
   gallery,
 } from "../../data/prithvi";
 import { residenceSchema } from "../../lib/structured-data";
@@ -787,45 +786,6 @@ const schema = residenceSchema(prithvi, gallery, new URL(Astro.site!));
           </div>
         )
       }
-    </div>
-  </section>
-
-  <!-- ===================== WHY PRITHVI ===================== -->
-  <section class="bg-olive-50 py-24 lg:py-32">
-    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
-      <div class="reveal max-w-3xl">
-        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
-          >Why Prithvi</span
-        >
-        <h2
-          class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
-        >
-          The Nesting Tree standard.
-        </h2>
-        <p class="text-muted text-lg sm:text-xl leading-relaxed mt-6">
-          Building homes with more amenities in Navi Mumbai since {
-            brand.legacyYear
-          }.
-        </p>
-      </div>
-
-      <div
-        class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-olive-100 border border-olive-100 mt-14 lg:mt-16"
-      >
-        {
-          whyPrithvi.map((r, i) => (
-            <div class="reveal bg-olive-50 p-8 lg:p-10" style={`--reveal-d:${(i * 0.07).toFixed(2)}s`}>
-              <span class="font-display font-bold text-3xl text-olive/45 leading-none">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 class="font-display font-bold text-xl lg:text-2xl tracking-tight mt-5">
-                {r.title}
-              </h3>
-              <p class="text-muted text-base leading-relaxed mt-3">{r.body}</p>
-            </div>
-          ))
-        }
-      </div>
     </div>
   </section>
 

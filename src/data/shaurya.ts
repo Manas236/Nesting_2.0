@@ -399,33 +399,11 @@ export const amenitiesNeeded: string[] = [];
    back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
    in the same commit, so no project page now sells the company. */
 
-/* ---------- Why Shaurya (6 cards) ---------- */
-export const whyShaurya: { title: string; body: string }[] = [
-  {
-    title: "Delivered & handed over",
-    body: "Shaurya is complete; every home handed over to its buyer.",
-  },
-  {
-    title: "Completely sold out",
-    body: "All eight homes at Shaurya are fully sold.",
-  },
-  {
-    title: "Society forming",
-    body: "The residents' society is being formed to manage the building day-to-day.",
-  },
-  {
-    title: "100% owner-occupied",
-    body: "No gaonwala and no 50:50. Every home bought by a family to live in, not to rent.",
-  },
-  {
-    title: "Clean, direct paperwork",
-    body: "Bought straight from the landowner with no tri-party agreement: strong paperwork, no legal hassles.",
-  },
-  {
-    title: "Purely residential corner plot",
-    body: "Eight homes, no shops, and an automatic high-speed lift on a corner plot.",
-  },
-];
+/* ---------- Why Shaurya (6 cards) — REMOVED 12 Aug 2026 ----------
+   The "Why Shaurya" band is gone from this project page, and the same
+   removal was made on all six pages that carried it. `whyShaurya` went
+   with it rather than being left as an unread export; git has the six
+   cards if they are ever wanted back.                                */
 
 /* ---------- Gallery — real on-site photographs ----------
    Complete set of documentary photos for this project (renders and

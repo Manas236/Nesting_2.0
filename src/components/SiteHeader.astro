@@ -23,7 +23,7 @@ interface Props {
 
 const { sections = [], project } = Astro.props;
 
-// "Enquire Now" opens a WhatsApp chat with the sales number. It used to open
+// "WhatsApp Us" opens a WhatsApp chat with the sales number. It used to open
 // the visitor's email app on desktop and the dialer on touch devices, which
 // needed the two data-cta-* attributes and a pointer check in the script
 // below; wa.me covers both (app on a phone, WhatsApp Web on a desktop), so
@@ -83,6 +83,7 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
         />
         <span
           class="nav-wordmark font-display font-extrabold text-base lg:text-lg tracking-tight leading-[1.05]"
+          data-no-edit
           >Nesting<br />Tree</span
         >
       </a>
@@ -109,7 +110,7 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
         target="_blank"
         rel="noopener"
         class="nav-cta nav-animate hidden md:inline-flex font-display font-bold text-[13px] uppercase tracking-[0.08em] px-5 py-2.5 rounded-[2px]"
-        style={`--nav-d:${ctaDelay}s`}>Enquire Now</a
+        style={`--nav-d:${ctaDelay}s`}>WhatsApp Us</a
       >
 
       <button
@@ -154,7 +155,7 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
           target="_blank"
           rel="noopener"
           class="mobile-cta mobile-link mt-4 text-center px-5 py-3.5 rounded-[2px]"
-          >Enquire Now</a
+          >WhatsApp Us</a
         >
       </nav>
     </div>
@@ -163,7 +164,7 @@ const ctaDelay = (0.3 + nav.length * 0.08).toFixed(2);
 
 <script is:inline>
   (() => {
-    // Nothing to do for "Enquire Now" any more: it is a plain wa.me link that
+    // Nothing to do for "WhatsApp Us" any more: it is a plain wa.me link that
     // works the same on every device. This script is scroll state and the
     // mobile menu only.
     const header = document.getElementById("site-header");

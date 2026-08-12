@@ -89,22 +89,24 @@ export const heroStats = [
 
 /* ---------- Overview ----------
    `intro` is the OWNER'S OWN Project Overview wording (his review point
-   #7, 11 Aug 2026), verbatim but for three deliberate departures:
+   #7, 11 Aug 2026), verbatim but for two deliberate departures:
      · "elevator serve" → "lift serves". His typo, and "lift" is the word
        every other project page uses.
-     · "roof-top amenities" → "a rooftop common terrace". No amenity
-       schedule was supplied for Prithvi and the rooftop solar came out
-       on his #10, so the terrace is the only rooftop item we can stand
-       behind. Do not broaden it back to "amenities".
      · the 26 1BHKs are given their own clause, so that "on the seventh
        floor" lands on the 2BHK alone, which is what he means.
+
+   The rooftop clause was narrowed to "a rooftop common terrace" on
+   12 Aug 2026 and put back to the owner's "rooftop amenities" later the
+   same day at his instruction. No amenity schedule has been supplied
+   for Prithvi and the rooftop solar came out on his #10, so the terrace
+   is still the only rooftop item on file. Kept because he asked for it.
 
    THE 2BHK IS ON THE SEVENTH FLOOR — his #7 states it and the approved
    plan agrees: unit 702, 39.512 sq. m., much the largest home in the
    building. See the carpet-area statement quoted above `unitTypes`. */
 export const overview = {
   intro:
-    "A G+7 structure of 27 residential and 4 commercial units: four shops holding the ground floor, 26 one-bedroom apartments across the seven floors above, and a single 2BHK on the seventh floor. One automatic high-speed lift serves every floor, with a rooftop common terrace up top.",
+    "A G+7 structure of 27 residential and 4 commercial units: four shops holding the ground floor, 26 one-bedroom apartments across the seven floors above, and a single 2BHK on the seventh floor. One automatic high-speed lift serves every floor, with rooftop amenities.",
   facts: [
     { label: "Construction stage", value: "2 of 8 slabs cast · 6 to go" },
     { label: "Possession", value: "Targeting December 2027" },
@@ -521,36 +523,11 @@ export const amenitiesNeeded: string[] = [];
    back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
    in the same commit, so no project page now sells the company. */
 
-/* ---------- Why Prithvi (6 cards) ----------
-   Brand-level reasons carried from site.ts until project-specific
-   ones are supplied — nothing here claims anything about Prithvi
-   that we have not been told.                                     */
-export const whyPrithvi: { title: string; body: string }[] = [
-  {
-    title: "A track record, not a promise",
-    body: "Two decades of housing behind us, from Gopala in Vashi (2004) to residences delivered and handed over in Karanjade today.",
-  },
-  {
-    title: "Possession on time",
-    body: "We build to a schedule and hand over on it, exactly as our delivered projects were.",
-  },
-  {
-    title: "Clean title, direct from the owner",
-    body: "Buy straight from the landowner. No 50:50 or tri-party agreement. Strong paperwork, no legal hassles.",
-  },
-  {
-    title: "Amenities as standard",
-    body: "One automatic high-speed lift, ample parking, a rooftop terrace, CCTV and a full fire-fighting system: built in, not sold as extras.",
-  },
-  {
-    title: "Built to last",
-    body: "Construction quality you can live in, and still trust years after handover.",
-  },
-  {
-    title: "Better everyday living",
-    body: "You pay a little more, and you get more than a flat: a building that improves your day.",
-  },
-];
+/* ---------- Why Prithvi (6 cards) — REMOVED 12 Aug 2026 ----------
+   The "Why Prithvi / The Nesting Tree standard" band is gone from this
+   project page, and the same removal was made on all six pages that
+   carried it. `whyPrithvi` went with it rather than being left as an
+   unread export; git has the six cards if they are ever wanted back. */
 
 /* ---------- Gallery — real on-site photographs ----------
    Complete set of documentary photos for this project (renders and

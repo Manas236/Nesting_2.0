@@ -302,36 +302,11 @@ export const amenitiesNeeded: string[] = [
    back. Shikhar's equivalent block ("The Nesting Tree advantage") was removed
    in the same commit, so no project page now sells the company. */
 
-/* ---------- Why Udaan (6 cards) ----------
-   Brand-level reasons carried from site.ts, reworded for a commercial
-   building — nothing here claims anything about Udaan that we have not
-   been told, and #4 says plainly that there is nothing to sell yet.  */
-export const whyUdaan: { title: string; body: string }[] = [
-  {
-    title: "A track record, not a promise",
-    body: "Two decades of building behind us, from Gopala in Vashi (2004) to the residences delivered and handed over in Karanjade today.",
-  },
-  {
-    title: "Possession on time",
-    body: "We build to a schedule and hand over on it, exactly as our delivered projects were.",
-  },
-  {
-    title: "Clean title, direct from the owner",
-    body: "Clear-title land bought straight from the landowner. No 50:50 or tri-party agreement, so you buy with confidence.",
-  },
-  {
-    title: "Told straight, at every stage",
-    body: "Udaan is in approvals, and this page says so. No launch date, no pricing and no bookings until there is something real to publish.",
-  },
-  {
-    title: "Built to last",
-    body: "Construction quality you can work in, and still trust years after handover.",
-  },
-  {
-    title: "The same standard, a different use",
-    body: "Our first commercial building, held to the standard our residences are built to.",
-  },
-];
+/* ---------- Why Udaan (6 cards) — REMOVED 12 Aug 2026 ----------
+   The "Why Udaan / The Nesting Tree standard" band is gone from this
+   project page, and the same removal was made on all six pages that
+   carried it. `whyUdaan` went with it rather than being left as an
+   unread export; git has the six cards if they are ever wanted back. */
 
 /* ---------- Gallery — real on-site photographs ----------
    EMPTY BY DESIGN: nothing has been built, so there is nothing to
