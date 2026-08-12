@@ -27,6 +27,10 @@ export type ProjectGalleryGroup = {
   slug: string;
   name: string;
   location: string;
+  /** Carried through so the /gallery cards read the same as the listing
+      cards on / and /projects. Sourced from the project's own data file
+      via `projects` — never restated. See the note at the top of site.ts. */
+  address: string;
   status: "Ongoing" | "Delivered";
   statusLabel: string;
   count: number;
@@ -52,6 +56,7 @@ export const galleryGroups: ProjectGalleryGroup[] = projects
       slug: p.slug,
       name: p.name,
       location: p.location,
+      address: p.address,
       status: p.status,
       statusLabel: p.statusLabel,
       count: photos.length,

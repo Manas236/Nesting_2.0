@@ -11,6 +11,22 @@
    it in this file — every section reads from here.
    ============================================================ */
 
+/* Each project's own data file is the single source of truth for its site
+   address, so the listing cards read it from there rather than restating it.
+   This is not tidiness: on 12 Aug 2026 a full address was typed onto the
+   Shikhar card through the in-page editor and it was UDAAN's plot number —
+   live, on the home page, above a "View project" button. Wiring the card to
+   the project file makes card and project page incapable of disagreeing.
+
+   Safe from circular imports: none of these seven files imports site.ts. */
+import { shikhar as shikharData } from "./shikhar";
+import { prithvi as prithviData } from "./prithvi";
+import { ishaan as ishaanData } from "./ishaan";
+import { udaan as udaanData } from "./udaan";
+import { rudra as rudraData } from "./rudra";
+import { dhruva as dhruvaData } from "./dhruva";
+import { shaurya as shauryaData } from "./shaurya";
+
 /* ---------- Feature flags ----------
    Kill switches for whole content blocks. Flip one to false and the
    block disappears from every page that uses it — no markup or data
@@ -157,10 +173,17 @@ export const nav = [
 export type Project = {
   slug: string;
   name: string;
-  // City-level only. Card captions on the home page and /projects say
-  // "Navi Mumbai"; the exact plot/sector address belongs to the project's
-  // own page (see src/data/<slug>.ts `address`), not to a listing card.
+  /** City level. NOT shown on the listing cards any more — `address` is —
+      but still used where a place name has to read inside a sentence:
+      /thank-you says "…in {location} has reached the Nesting Tree team",
+      which a full plot address would wreck. Also the cards' image alt. */
   location: string;
+  /** The precise site address, shown on the listing cards since 12 Aug 2026
+      on the owner's instruction (punch-list item 6). This REVERSES the
+      earlier city-level-only decision, deliberately.
+      Always wired to the project's own data file — never retyped here, and
+      never edited through the in-page editor. See the note at the top. */
+  address: string;
   status: "Ongoing" | "Delivered";
   statusLabel: string;
   blurb: string;
@@ -185,6 +208,7 @@ export const projects: Project[] = [
     slug: "shikhar",
     name: "Shikhar",
     location: "Navi Mumbai",
+    address: shikharData.address,
     status: "Ongoing",
     statusLabel: "Bookings open",
     blurb:
@@ -197,6 +221,7 @@ export const projects: Project[] = [
     slug: "prithvi",
     name: "Prithvi",
     location: "Navi Mumbai",
+    address: prithviData.address,
     status: "Ongoing",
     // Under construction; bookings not yet open — hence "Pre-launch", not "Now Booking".
     statusLabel: "Pre-launch",
@@ -210,6 +235,7 @@ export const projects: Project[] = [
     slug: "ishaan",
     name: "Ishaan",
     location: "Navi Mumbai",
+    address: ishaanData.address,
     status: "Ongoing",
     // Under construction; bookings not yet open — hence "Pre-launch", not "Now Booking".
     statusLabel: "Pre-launch",
@@ -236,6 +262,7 @@ export const projects: Project[] = [
     slug: "udaan",
     name: "Udaan",
     location: "Navi Mumbai",
+    address: udaanData.address,
     status: "Ongoing",
     // NOT "Pre-launch" and NOT "Now booking": there is no Commencement
     // Certificate and no MahaRERA registration, so the project cannot be
@@ -254,6 +281,7 @@ export const projects: Project[] = [
     slug: "rudra",
     name: "Rudra",
     location: "Navi Mumbai",
+    address: rudraData.address,
     status: "Delivered",
     statusLabel: "Delivered & Handed Over",
     blurb:
@@ -266,6 +294,7 @@ export const projects: Project[] = [
     slug: "dhruva",
     name: "Dhruva",
     location: "Navi Mumbai",
+    address: dhruvaData.address,
     status: "Delivered",
     statusLabel: "Delivered & Handed Over",
     blurb:
@@ -278,6 +307,7 @@ export const projects: Project[] = [
     slug: "shaurya",
     name: "Shaurya",
     location: "Navi Mumbai",
+    address: shauryaData.address,
     status: "Delivered",
     statusLabel: "Delivered & Handed Over",
     blurb:
