@@ -21,6 +21,7 @@ import {
   whyIshaan,
   gallery,
 } from "../../data/ishaan";
+import { residenceSchema } from "../../lib/structured-data";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/ishaan.ts. Kept here as
@@ -72,9 +73,16 @@ const heroVideo = "/images/projects/ishaan.mp4";
 const pageTitle = `Ishaan — G+4 Residential, Karanjade · ${brand.name}`;
 const pageDesc =
   "Ishaan by Nesting Tree — a G+4 building at Karanjade, Navi Mumbai. Twelve homes, every one of them a 1RK, with no commercial units in the building.";
+
+/* This page's Residence node, emitted into <head> beside the site-wide
+   Organization one. Every value is read from src/data/ishaan.ts — see
+   src/lib/structured-data.ts before changing anything about it. Ishaan
+   is not RERA-registered, so the node carries no identifier: that is
+   the `maharera: TBD` in the data file doing its job. */
+const schema = residenceSchema(ishaan, gallery, new URL(Astro.site!));
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/ishaan.jpg">
+<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/ishaan.jpg" schema={schema}>
   <!-- ============================ NAVBAR ============================ -->
   <SiteHeader sections={sections} ctaHref="#enquire" project="Ishaan" />
 

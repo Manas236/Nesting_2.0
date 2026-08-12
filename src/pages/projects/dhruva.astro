@@ -18,6 +18,7 @@ import {
   whyDhruva,
   gallery,
 } from "../../data/dhruva";
+import { residenceSchema } from "../../lib/structured-data";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/dhruva.ts. Kept here as
@@ -62,9 +63,14 @@ const heroVideo = "/images/projects/Dhruva_Backdrop.mp4";
 const pageTitle = `Dhruva — Delivered Corner-Plot Residential & Commercial, Karanjade · ${brand.name}`;
 const pageDesc =
   "Dhruva by Nesting Tree — a completed, sold-out, society-formed G+4 R+C building on a 500 sq. m. corner plot at Sector R3, Karanjade, Navi Mumbai. 24 homes, 6 shops, twin road frontage. MahaRERA P52000033930.";
+
+/* This page's Residence node, emitted into <head> beside the site-wide
+   Organization one. Every value is read from src/data/dhruva.ts — see
+   src/lib/structured-data.ts before changing anything about it. */
+const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/dhruva.jpg">
+<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/dhruva.jpg" schema={schema}>
   <!-- ============================ NAVBAR ============================ -->
   <SiteHeader sections={sections} ctaHref="#enquire" project="Dhruva" />
 

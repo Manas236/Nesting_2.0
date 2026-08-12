@@ -22,6 +22,7 @@ import {
   whyPrithvi,
   gallery,
 } from "../../data/prithvi";
+import { residenceSchema } from "../../lib/structured-data";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/prithvi.ts. Kept here as
@@ -73,9 +74,16 @@ const heroVideo = "/images/projects/prithvi_backdrop.mp4";
 const pageTitle = `Prithvi — G+7 Residential & Retail, Karanjade · ${brand.name}`;
 const pageDesc =
   "Prithvi by Nesting Tree — a G+7 building at Karanjade, Navi Mumbai. Four shops at street level and 27 homes above: 26 × 1BHK and a single 2BHK.";
+
+/* This page's Residence node, emitted into <head> beside the site-wide
+   Organization one. Every value is read from src/data/prithvi.ts — see
+   src/lib/structured-data.ts before changing anything about it. Prithvi
+   is not RERA-registered, so the node carries no identifier: that is
+   the `maharera: TBD` in the data file doing its job. */
+const schema = residenceSchema(prithvi, gallery, new URL(Astro.site!));
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/prithvi.jpg">
+<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/prithvi.jpg" schema={schema}>
   <!-- ============================ NAVBAR ============================ -->
   <SiteHeader sections={sections} ctaHref="#enquire" project="Prithvi" />
 

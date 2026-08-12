@@ -23,6 +23,7 @@ import {
   whyUdaan,
   gallery,
 } from "../../data/udaan";
+import { residenceSchema } from "../../lib/structured-data";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/udaan.ts. Kept here as
@@ -80,9 +81,20 @@ const isTBD = (v: string) => v.includes(TBD);
 const pageTitle = `Udaan — Commercial Project in Approvals, Karanjade · ${brand.name}`;
 const pageDesc =
   "Udaan by Nesting Tree — a purely commercial building at Karanjade, Navi Mumbai, currently in approvals. No residential apartments and no ground-floor shops. Details to be announced.";
+
+/* THIS RESOLVES TO null, AND THAT IS THE ANSWER, NOT AN OVERSIGHT.
+   Udaan is a purely commercial building — no apartments anywhere in it —
+   so a `Residence` node would be a false claim in the one format that
+   gets read as authoritative. residenceSchema() refuses on the
+   `commercial` flag in src/data/site.ts rather than on anything written
+   here, and BaseLayout emits no second script when it gets null. The
+   call is left in place so this page reads like its six siblings and
+   the decision is visible at the point someone would come looking for
+   it. There is nothing to "fix" until Udaan stops being commercial. */
+const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc}>
+<BaseLayout title={pageTitle} description={pageDesc} schema={schema}>
   <!-- ============================ NAVBAR ============================ -->
   <SiteHeader sections={sections} ctaHref="#enquire" project="Udaan" />
 

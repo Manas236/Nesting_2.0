@@ -20,6 +20,7 @@ import {
   whyShaurya,
   gallery,
 } from "../../data/shaurya";
+import { residenceSchema } from "../../lib/structured-data";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/shaurya.ts. Kept here as
@@ -60,9 +61,14 @@ const heroVideo = "/images/projects/Shaurya_Backdrop.mp4";
 const pageTitle = `Shaurya — Delivered G+4 Residential, Karanjade · ${brand.name}`;
 const pageDesc =
   "Shaurya by Nesting Tree — a completed, sold-out, purely residential G+4 building on a corner plot. Eight homes (4 × 1BHK + 4 × 1RK), an automatic high-speed lift and ample parking. Delivered and handed over.";
+
+/* This page's Residence node, emitted into <head> beside the site-wide
+   Organization one. Every value is read from src/data/shaurya.ts — see
+   src/lib/structured-data.ts before changing anything about it. */
+const schema = residenceSchema(shaurya, gallery, new URL(Astro.site!));
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/shaurya.jpg">
+<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/shaurya.jpg" schema={schema}>
   <!-- ============================ NAVBAR ============================ -->
   <SiteHeader sections={sections} ctaHref="#enquire" project="Shaurya" />
 

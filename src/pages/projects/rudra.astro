@@ -17,6 +17,7 @@ import {
   whyRudra,
   gallery,
 } from "../../data/rudra";
+import { residenceSchema } from "../../lib/structured-data";
 
 /* ---------- Line-icon set (24×24, stroke currentColor) ----------
    Keyed to the `icon` fields in src/data/rudra.ts. Kept here as
@@ -64,9 +65,14 @@ const heroVideo = "/images/projects/Rudrar_Backdrop.mp4";
 const pageTitle = `Rudra — Delivered G+4 Residential & Commercial, Karanjade · ${brand.name}`;
 const pageDesc =
   "Rudra by Nesting Tree — the company's first delivered project. A completed, sold-out, society-formed G+4 building of 20 homes and 4 shops at Sector R2, Karanjade, Navi Mumbai. MahaRERA P52000026245.";
+
+/* This page's Residence node, emitted into <head> beside the site-wide
+   Organization one. Every value is read from src/data/rudra.ts — see
+   src/lib/structured-data.ts before changing anything about it. */
+const schema = residenceSchema(rudra, gallery, new URL(Astro.site!));
 ---
 
-<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/rudra.jpg">
+<BaseLayout title={pageTitle} description={pageDesc} image="/images/og/rudra.jpg" schema={schema}>
   <!-- ============================ NAVBAR ============================ -->
   <SiteHeader sections={sections} ctaHref="#enquire" project="Rudra" />
 
