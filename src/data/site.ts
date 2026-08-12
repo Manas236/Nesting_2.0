@@ -684,6 +684,11 @@ export const home = {
   // behalf, so those are drafted in a matching, understated tone — tweak freely.
   // Photos live in /public/images/Testimonials/ (folder spelling as-is on disk);
   // `pos` object-positions each face inside its disc.
+  // `detail` is the small-caps line under the name: FLAT AND BUILDING ONLY.
+  // Owner's instruction, 12 Aug 2026 — the occupations and home towns that used
+  // to prefix two of these ("Private Employee ·", "Ratnagiri ·") were removed.
+  // Keep the five consistent: one format, no exceptions. These are real named
+  // residents, so an inconsistency here is visible on the home page.
   testimonials: {
     eyebrow: "In Their Words",
     heading: "Trusted by Families Like Yours.",
@@ -694,7 +699,7 @@ export const home = {
         quote:
           "Owning a home in a tier-1 city like Mumbai was a major life goal for me, and Nesting Tree made it happen seamlessly. From booking confirmation and loan arrangements to timely registration and final possession, every step was transparent and hassle-free. The entire team is warm, approachable, and always ready to help. Buying my first flat at age 26 felt like a huge milestone, and Nesting Tree made the journey incredible. I highly recommend them to any middle-class family looking to realize their dream of owning a home.",
         name: "Karthik S. Salian",
-        detail: "Private Employee",
+        detail: "Flat 201, Rudra",
         photo: "/images/Testimonials/Karthik_S_Salian.jpeg",
         pos: "center 22%",
       },
@@ -702,7 +707,7 @@ export const home = {
         quote:
           "Since 2021 we were searching for a flat in Navi Mumbai. We visited many projects, and then we came across Nesting Tree. From the very first sight it amazed us — the view, the area, everything. We loved the porch, and the one thing that won us over was the light coming through the flat: bright and positive. The whole process, from the visit to owning the flat, was the best, and no fear was left about owning a home in Navi Mumbai.",
         name: "Navin Ravindra Salvi",
-        detail: "Ratnagiri",
+        detail: "Flat 403, Dhruva",
         photo: "/images/Testimonials/Navin_Ravindra_Salvi.jpeg",
         pos: "center 25%",
       },
@@ -710,7 +715,7 @@ export const home = {
         quote:
           "We had seen a few buildings before this one, and most of them looked good only until you started asking the difficult questions. Nesting Tree was different from the very first visit — the build quality, the open space around the building, and a team that answered plainly instead of pushing us to decide that day. The booking, the agreement and the bank formalities were all handled without us having to chase anyone, and possession came exactly when they said it would. Today it is not a decision we think about any more; it is simply home.",
         name: "Vijay Pagare",
-        detail: "Resident",
+        detail: "Flat 402, Shikhar",
         photo: "/images/Testimonials/Vijay_Pagare.jpeg",
         pos: "center 25%",
       },
@@ -718,7 +723,7 @@ export const home = {
         quote:
           "Buying my first flat was the biggest decision I had made, and I went into it knowing very little about the process. The team at Nesting Tree never once made me feel rushed — every question, however basic, got a straight answer, and I always knew which stage things were at, from the agreement to the loan to the handover. The flat itself is well built and full of light, with proper ventilation in every room, which is not something you find easily in this budget. It is the one big decision I have never second-guessed.",
         name: "Swapnil",
-        detail: "Resident",
+        detail: "Flat 405, Dhruva",
         photo: "/images/Testimonials/Swapnil.jpeg",
         pos: "center 20%",
       },
@@ -726,7 +731,7 @@ export const home = {
         quote:
           "What I appreciated most was how straightforward the whole thing was. The pricing was clear from the first meeting, the answers stayed honest even when they were not what I wanted to hear, and there was no running around behind documents or approvals at any point. The building itself is solid, the common areas are actually looked after, and the surroundings are quiet and green — you notice it most in the evenings. Moving in was effortless, and we have settled in far more comfortably than we expected to.",
         name: "Uttam",
-        detail: "Resident",
+        detail: "Flat 405, Dhruva",
         photo: "/images/Testimonials/Uttam.jpeg",
         pos: "center 20%",
       },
