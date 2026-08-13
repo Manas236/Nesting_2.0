@@ -37,8 +37,10 @@ const waHref = whatsappHref(
 const path = Astro.url.pathname;
 const isHome = path === "/";
 
-// Hash-only hrefs (#contact) only resolve on the home page; from anywhere else
-// they have to point back at the home page's section.
+// Hash-only hrefs only resolve on the home page; from anywhere else they have
+// to point back at the home page's section. `nav` has none today — Contact was
+// the last one and is now /contact — but a page-section link dropped into `nav`
+// would break on twelve pages without this, so it stays.
 const resolve = (href: string) => (href.startsWith("#") && !isHome ? `/${href}` : href);
 
 // /projects/shikhar should still light up the "Projects" link.

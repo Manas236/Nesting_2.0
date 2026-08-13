@@ -584,8 +584,11 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
         {home.cta.body}
       </p>
       <div class="reveal mt-9 flex flex-wrap items-center justify-center gap-3.5" style="--reveal-d:0.3s">
+        <!-- Leads to /contact, not `tel:` — the page has the enquiry form and
+             the office address, and the number is still one tap away on the
+             line directly below this row. -->
         <a
-          href={`tel:${contact.phone.replace(/\s/g, "")}`}
+          href="/contact"
           class="font-display font-bold uppercase tracking-[0.06em] text-sm bg-white text-ink px-7 py-4 rounded-[2px] hover:bg-stone transition-colors"
           >Schedule a Site Visit</a
         >

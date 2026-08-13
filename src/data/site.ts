@@ -182,7 +182,13 @@ export const nav = [
   { label: "About", href: "/about" },
   { label: "Projects", href: "/projects" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Contact", href: "#contact" },
+  // A page of its own since 13 Aug 2026, not the home page's #contact band.
+  // It was the only nav item that was an in-page anchor, so it behaved
+  // differently depending on which page you clicked it from — and the office
+  // address had nowhere to live but the foot of the seven project pages.
+  // The home band is still there as the home page's closing CTA; its primary
+  // button now leads here.
+  { label: "Contact", href: "/contact" },
 ];
 
 /* ---------- Projects ----------
@@ -573,7 +579,9 @@ export const home = {
     sub:
       "Homes built on integrity, guided by expertise and delivered with quality.",
     primaryCta: { label: "Explore the Residences", href: "/projects" },
-    secondaryCta: { label: "Book a Site Visit", href: "#contact" },
+    // Straight to /contact rather than scrolling to the closing #contact band,
+    // whose own button leads there anyway — one hop, not two.
+    secondaryCta: { label: "Book a Site Visit", href: "/contact" },
   },
 
   // Brand intro — one quiet editorial beat between the hero film and the

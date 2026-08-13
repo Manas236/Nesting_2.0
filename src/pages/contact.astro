@@ -1,0 +1,480 @@
+---
+/* ---------------------------------------------------------------------------
+   /contact — the Contact page.
+
+   Contact used to be the one item in the global nav that was not a page: it
+   was `#contact`, the closing enquiry band on the home page, which meant the
+   link behaved differently depending on where you clicked it from and the
+   office address had nowhere to live. It is a route now, and `nav` in
+   src/data/site.ts points at it.
+
+   THE HOME PAGE'S BAND IS STILL THERE and is meant to be: it is the home
+   page's closing call to action, and its primary button now leads here. This
+   page repeats its look on purpose — same photograph, same scrim, same stack —
+   so arriving here reads as continuing, not as landing somewhere else.
+--------------------------------------------------------------------------- */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+
+import { brand, contact, sales, projects, whatsappHref } from "../data/site";
+import { contactPage } from "../data/contact-page";
+
+const telHref = `tel:${contact.phone.replace(/\s/g, "")}`;
+const mailHref = `mailto:${contact.email}`;
+const waHref = whatsappHref(`Hi ${brand.name}, I'd like to enquire about your homes.`);
+
+/* A maps SEARCH for the office line, not a pinned coordinate: the address is
+   what we know, and a search takes the visitor to it while a hand-made pin
+   would be a guess at a location we have never verified. `sales.office` stops
+   at the locality, so the city is appended for the query only — the address
+   printed on the page is still exactly the string in site.ts. */
+const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${sales.office}, Navi Mumbai`
+)}`;
+
+// Same three glyphs as the footer's contact column, so the page and the
+// footer under it do not draw the same three things two different ways.
+const icons = {
+  pin: `<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/>`,
+  mail: `<path d="M4 5h16v14H4z"/><path d="m4 6 8 7 8-7"/>`,
+  phone: `<path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"/>`,
+};
+
+// Absolute links: in-page anchors resolve against the home page, not /contact.
+const footerLinks = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Enquire", href: "#enquire" },
+];
+---
+
+<BaseLayout
+  title="Contact — Nesting Tree · Navi Mumbai"
+  description={`Talk to Nesting Tree about a home in ${brand.region}. Office at ${sales.office}. Call ${contact.phone}, WhatsApp us or send an enquiry.`}
+>
+  <!-- ============================ NAVBAR ============================ -->
+  <SiteHeader />
+
+  <!-- ============================ MASTHEAD ============================ -->
+  <!-- The home page's enquiry band, rebuilt as a page header. Top padding
+       clears the fixed 72/80px bar; the rest of the spacing matches the band. -->
+  <section class="relative w-full overflow-hidden bg-olive-dark">
+    <img
+      src={contactPage.hero.image}
+      alt="A Nesting Tree residence in Navi Mumbai"
+      class="reveal-img absolute inset-0 w-full h-full object-cover"
+      style={`object-position: ${contactPage.hero.imagePos};`}
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/80 to-ink/45"></div>
+
+    <div
+      class="relative max-w-3xl mx-auto px-5 sm:px-6 pt-36 sm:pt-44 lg:pt-52 pb-24 sm:pb-32 lg:pb-40 flex flex-col items-center text-center"
+    >
+      <span
+        class="hero-rise font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-100"
+        style="--rise-d:0.1s">{contactPage.hero.eyebrow}</span
+      >
+      <h1
+        class="hero-rise font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-[1.05] mt-4"
+        style="--rise-d:0.22s"
+      >
+        {contactPage.hero.heading}
+      </h1>
+      <p
+        class="hero-rise text-white/72 mt-6 text-base sm:text-lg max-w-lg leading-relaxed"
+        style="--rise-d:0.34s"
+      >
+        {contactPage.hero.body}
+      </p>
+      <div class="hero-rise mt-9 flex flex-wrap items-center justify-center gap-3.5" style="--rise-d:0.46s">
+        <a
+          href="#enquire"
+          class="font-display font-bold uppercase tracking-[0.06em] text-sm bg-white text-ink px-7 py-4 rounded-[2px] hover:bg-stone transition-colors"
+          >Schedule a Site Visit</a
+        >
+        <a
+          href={waHref}
+          target="_blank"
+          rel="noopener"
+          class="font-display font-bold uppercase tracking-[0.06em] text-sm border border-white/40 text-white px-7 py-4 rounded-[2px] hover:bg-white/10 transition-colors"
+          >WhatsApp Us</a
+        >
+      </div>
+      <p
+        class="hero-fade font-display text-sm font-semibold text-olive-100 mt-8 tracking-wide"
+        style="--fade-d:0.6s"
+        data-no-edit
+      >
+        <a href={telHref} class="hover:text-white transition-colors">{contact.phone}</a>
+        &nbsp;·&nbsp;
+        <a href={mailHref} class="hover:text-white transition-colors">{contact.email}</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== WHERE TO FIND US ===================== -->
+  <!-- The office address is the reason this page exists as a route of its
+       own: it was printed at the foot of the seven project pages and nowhere
+       a visitor looking for "Contact" would ever have found it. -->
+  <section id="visit" class="bg-sand py-24 lg:py-32 scroll-mt-20">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+      <div class="reveal max-w-2xl">
+        <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+          >{contactPage.reach.eyebrow}</span
+        >
+        <h2
+          class="font-display font-bold text-4xl sm:text-5xl tracking-tight mt-4 leading-[1.05]"
+        >
+          {contactPage.reach.heading}
+        </h2>
+        <p class="text-muted text-lg leading-relaxed mt-6">
+          {contactPage.reach.lead}
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 mt-14">
+        <!-- Office -->
+        <div class="reveal bg-card border border-line rounded-[2px] p-8 lg:p-9 flex flex-col">
+          <span
+            class="w-11 h-11 rounded-full bg-olive-50 text-olive-600 flex items-center justify-center shrink-0"
+          >
+            <svg
+              class="w-5 h-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={icons.pin}
+            />
+          </span>
+          <h3 class="font-display font-bold text-xl tracking-tight mt-6" data-no-edit>
+            {contactPage.reach.office.label}
+          </h3>
+          <!-- Never retyped here: `sales.office` is the one place the office
+               address is written down, and the seven project pages print the
+               same string. -->
+          <p class="text-ink text-base leading-relaxed mt-3 font-medium" data-no-edit>
+            {sales.office}
+          </p>
+          <p class="text-muted text-base leading-relaxed mt-3">
+            {contactPage.reach.office.note}
+          </p>
+          <a
+            href={mapsHref}
+            target="_blank"
+            rel="noopener"
+            class="font-display text-xs font-bold uppercase tracking-[0.14em] text-olive-600 hover:text-olive-dark transition-colors mt-auto pt-6"
+            >{contactPage.reach.office.directions} →</a
+          >
+        </div>
+
+        <!-- Phone / WhatsApp -->
+        <div class="reveal bg-card border border-line rounded-[2px] p-8 lg:p-9 flex flex-col" style="--reveal-d:0.08s">
+          <span
+            class="w-11 h-11 rounded-full bg-olive-50 text-olive-600 flex items-center justify-center shrink-0"
+          >
+            <svg
+              class="w-5 h-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={icons.phone}
+            />
+          </span>
+          <h3 class="font-display font-bold text-xl tracking-tight mt-6" data-no-edit>
+            {contactPage.reach.phone.label}
+          </h3>
+          <p class="text-base leading-relaxed mt-3 font-medium" data-no-edit>
+            <a href={telHref} class="text-ink hover:text-olive-600 transition-colors"
+              >{contact.phone}</a
+            >
+          </p>
+          <p class="text-muted text-base leading-relaxed mt-3">
+            {contactPage.reach.phone.note}
+          </p>
+          <a
+            href={waHref}
+            target="_blank"
+            rel="noopener"
+            class="font-display text-xs font-bold uppercase tracking-[0.14em] text-olive-600 hover:text-olive-dark transition-colors mt-auto pt-6"
+            >WhatsApp {sales.name} →</a
+          >
+        </div>
+
+        <!-- Email -->
+        <div class="reveal bg-card border border-line rounded-[2px] p-8 lg:p-9 flex flex-col" style="--reveal-d:0.16s">
+          <span
+            class="w-11 h-11 rounded-full bg-olive-50 text-olive-600 flex items-center justify-center shrink-0"
+          >
+            <svg
+              class="w-5 h-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={icons.mail}
+            />
+          </span>
+          <h3 class="font-display font-bold text-xl tracking-tight mt-6" data-no-edit>
+            {contactPage.reach.email.label}
+          </h3>
+          <p class="text-base leading-relaxed mt-3 font-medium" data-no-edit>
+            <a href={mailHref} class="text-ink hover:text-olive-600 transition-colors break-words"
+              >{contact.email}</a
+            >
+          </p>
+          <p class="text-muted text-base leading-relaxed mt-3">
+            {contactPage.reach.email.note}
+          </p>
+          <a
+            href="#enquire"
+            class="font-display text-xs font-bold uppercase tracking-[0.14em] text-olive-600 hover:text-olive-dark transition-colors mt-auto pt-6"
+            >Use the form instead →</a
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ENQUIRY FORM ===================== -->
+  <!-- The same form the project pages carry, posting to the same endpoint.
+       The one difference: no project is preselected, because a visitor who
+       arrived from the nav has not told us which building they mean. -->
+  <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
+    <div class="reveal max-w-2xl mx-auto px-5 sm:px-6 text-center">
+      <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+        >{contactPage.form.eyebrow}</span
+      >
+      <h2
+        class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight mt-4 leading-[1.05]"
+      >
+        {contactPage.form.heading}
+      </h2>
+      <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl mx-auto">
+        {contactPage.form.lead}
+      </p>
+      <p class="text-muted text-lg leading-relaxed mt-3 max-w-xl mx-auto" data-no-edit>
+        Or call {sales.name} on{" "}
+        <a href={telHref} class="font-semibold text-olive-600 hover:text-olive-dark transition-colors"
+          >{sales.phone}</a
+        >.
+      </p>
+
+      <form class="mt-12 text-left" action="/api/contact" method="POST">
+        <input type="hidden" name="source_page" value="/contact" />
+        <div class="grid sm:grid-cols-2 gap-5">
+          <div class="flex flex-col gap-2">
+            <label for="name" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Full name</label
+            >
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              placeholder="Your name"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="phone" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Phone</label
+            >
+            <input
+              id="phone"
+              name="phone"
+              type="tel"
+              required
+              placeholder="Mobile number"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="email" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Email</label
+            >
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition"
+            />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label for="project" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+              >Project</label
+            >
+            <select
+              id="project"
+              name="project"
+              class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition appearance-none"
+            >
+              <option value="">{contactPage.form.anyProject}</option>
+              {projects.map((p) => <option value={p.slug}>{p.name}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2 mt-5">
+          <label for="message" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"
+            >Message <span class="font-medium normal-case tracking-normal text-mutedlight">(optional)</span></label
+          >
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            placeholder="What would you like to know?"
+            class="bg-card border border-line rounded-[2px] px-4 py-3.5 text-ink placeholder:text-mutedlight focus:outline-none focus:border-olive focus:ring-2 focus:ring-olive/20 transition resize-y"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full mt-7 font-display font-bold uppercase tracking-[0.06em] text-sm bg-ink text-stone px-7 py-4 rounded-[2px] hover:bg-inksoft transition-colors"
+          >Send enquiry</button
+        >
+        <p class="text-mutedlight text-xs leading-relaxed mt-4 text-center">
+          {contactPage.form.consent}
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-ink text-stone">
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10">
+      <h3
+        class="reveal font-display font-bold text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+      >
+        NESTING TREE
+      </h3>
+    </div>
+
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-[minmax(300px,1fr)_1fr_1fr_1fr] gap-12">
+        <div class="reveal">
+          <p class="text-stone/55 text-sm leading-relaxed sm:whitespace-nowrap">
+            {brand.footerLine}
+          </p>
+          <SocialLinks />
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.08s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Explore
+          </h5>
+          <ul class="space-y-3 text-sm font-medium">
+            {
+              footerLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="hover:text-olive-100 transition-colors">
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.16s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Projects
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            {
+              projects.map((p) => (
+                <li>
+                  <a href={`/projects/${p.slug}`} class="hover:text-olive-100 transition-colors">
+                    {p.name} — {p.status}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.24s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Contact
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            <li class="flex items-start gap-2.5">
+              <svg
+                class="w-4 h-4 mt-0.5 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                set:html={icons.pin}
+              />
+              {contact.address}
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                set:html={icons.mail}
+              />
+              <a href={mailHref} class="hover:text-olive-100 transition-colors">{contact.email}</a>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                set:html={icons.phone}
+              />
+              <a href={telHref} class="hover:text-olive-100 transition-colors">{contact.phone}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40"
+      >
+        <p>&copy; {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
+        <p>{contact.maharera}</p>
+        <div class="flex items-center gap-5">
+          <a href="/privacy" class="hover:text-stone/70 transition-colors">Privacy Policy</a>
+          <a href="/terms" class="hover:text-stone/70 transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline>
+    // Scroll-reveal: fade/lift elements in as they enter the viewport.
+    if (document.documentElement.classList.contains("reveal-on")) {
+      const revealTargets = document.querySelectorAll(".reveal, .reveal-img");
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              obs.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
+      revealTargets.forEach((el) => io.observe(el));
+    }
+  </script>
+</BaseLayout>
