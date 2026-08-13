@@ -788,7 +788,7 @@ export const home = {
       {
         quote:
           "Buying my first flat was the biggest decision I had made, and I went into it knowing very little about the process. The team at Nesting Tree never once made me feel rushed — every question, however basic, got a straight answer, and I always knew which stage things were at, from the agreement to the loan to the handover. The flat itself is well built and full of light, with proper ventilation in every room, which is not something you find easily in this budget. It is the one big decision I have never second-guessed.",
-        name: "Swapnil",
+        name: "Swapnil Yamkar",
         detail: "Flat 405, Dhruva",
         photo: "/images/Testimonials/Swapnil.jpeg",
         pos: "center 20%",
@@ -796,7 +796,7 @@ export const home = {
       {
         quote:
           "What I appreciated most was how straightforward the whole thing was. The pricing was clear from the first meeting, the answers stayed honest even when they were not what I wanted to hear, and there was no running around behind documents or approvals at any point. The building itself is solid, the common areas are actually looked after, and the surroundings are quiet and green — you notice it most in the evenings. Moving in was effortless, and we have settled in far more comfortably than we expected to.",
-        name: "Uttam",
+        name: "Uttam Yamkar",
         detail: "Flat 405, Dhruva",
         photo: "/images/Testimonials/Uttam.jpeg",
         pos: "center 20%",
