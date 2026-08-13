@@ -26,7 +26,7 @@ export const contactPage = {
     heading: "Let's find you a Home.",
     body:
       "Book a site visit and see a Nesting Tree home for yourself. Clear title, honest paperwork and a straight answer to every question — you'll always know where you stand. No surprises, no fine print games.",
-    image: "/images/projects/Prithvi-Elevation.jpg",
+    image: "/images/projects/Prithvi-Elevation.webp",
     imagePos: "center 10%",
   },
 

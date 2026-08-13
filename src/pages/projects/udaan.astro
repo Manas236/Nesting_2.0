@@ -74,7 +74,10 @@ const isTBD = (v: string) => v.includes(TBD);
    be worse. When the real elevation (and film) arrive, swap this block
    for the <video> the other pages use. */
 
-const pageTitle = `Udaan — Commercial Project in Approvals, Karanjade · ${brand.name}`;
+// Under 60 characters — see the note in dhruva.astro. "in Approvals" stays:
+// it is the honest status of this project and the qualifier must not be lost
+// to a length trim.
+const pageTitle = `Udaan — Commercial in Approvals, Karanjade · ${brand.name}`;
 const pageDesc =
   "Udaan by Nesting Tree — a purely commercial building at Karanjade, Navi Mumbai, currently in approvals. No apartments and no ground-floor shops.";
 

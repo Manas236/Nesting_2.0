@@ -57,7 +57,12 @@ const sections = [
    instant and reduced-motion visitors keep the premium frame. */
 const heroVideo = "/images/projects/Dhruva_Backdrop.mp4";
 
-const pageTitle = `Dhruva — Delivered Corner-Plot Residential & Commercial, Karanjade · ${brand.name}`;
+// Kept under 60 characters so Google prints it whole. The full descriptor
+// ("Delivered Corner-Plot Residential & Commercial") ran to 81 and was cut off
+// mid-word in the result, taking the brand name and the locality with it.
+// "Homes & Shops" is how this file's own copy describes the mix ("24 homes and
+// 6 shops"), and both words are what a buyer actually searches for.
+const pageTitle = `Dhruva — Delivered Homes & Shops, Karanjade · ${brand.name}`;
 const pageDesc =
   "Dhruva by Nesting Tree — a completed, sold-out G+4 on a 500 sq. m. corner plot at Karanjade, Navi Mumbai. 24 homes, 6 shops. MahaRERA P52000033930.";
 
@@ -82,7 +87,7 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
       muted
       loop
       playsinline
-      preload="auto"
+      preload="none"
       aria-label="Dhruva — delivered corner-plot residential & commercial building by Nesting Tree, Karanjade"></video>
     <!-- top scrim for nav legibility + bottom scrim for copy -->
     <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-transparent"></div>

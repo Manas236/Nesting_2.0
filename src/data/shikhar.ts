@@ -14,7 +14,7 @@ export const shikhar = {
   tagline: "A landmark residential tower, the tallest building in the neighbourhood.",
   address:
     "Plot no. 73, Sector R2, Karanjade, Panvel, 410206",
-  hero: "/images/projects/ShikharElevationFinal.jpeg",
+  hero: "/images/projects/ShikharElevationFinal.webp",
   mapsUrl:
     "https://www.google.com/maps/search/?api=1&query=Shikhar+Nesting+Tree+Karanjade+Panvel+Navi+Mumbai",
 };

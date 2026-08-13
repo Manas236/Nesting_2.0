@@ -25,6 +25,13 @@ const ongoing = homeFeaturedSlugs
 // background shows through while the film loads (and for reduced-motion
 // visitors), so there's nothing to flash — dark blends straight into dark.
 const heroVideo = "/images/projects/homepage_video.mp4";
+// First frame of that video, extracted with ffmpeg at 1600px / 58 KB. It is the
+// LCP element: without it the hero is `bg-ink` until enough of a 9.4 MB MP4 has
+// arrived to paint, which on a 4G phone is seconds. Re-extract it if the video
+// is ever replaced or the poster will show the wrong scene:
+//   ffmpeg -ss 0.5 -i public/images/projects/homepage_video.mp4 \
+//     -frames:v 1 -vf scale=1600:-2 -q:v 6 public/images/projects/homepage-poster.jpg
+const heroPoster = "/images/projects/homepage-poster.jpg";
 
 const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
 ---
@@ -39,11 +46,12 @@ const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
       id="hero-video"
       class="hero-img-reveal absolute top-0 left-0 w-full h-full object-cover object-[65%_center] sm:object-center bg-ink"
       src={heroVideo}
+      poster={heroPoster}
       autoplay
       muted
       loop
       playsinline
-      preload="auto"
+      preload="none"
       aria-label="Nesting Tree residences in Navi Mumbai"></video>
     <!-- layered scrims: nav legibility (top), copy (bottom), headline (left) -->
     <div class="absolute inset-0 bg-gradient-to-b from-ink/45 via-transparent to-transparent"></div>

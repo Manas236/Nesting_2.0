@@ -30,3 +30,9 @@ pnpm-debug.log*
 # generated worklist for punch-list item 12. All of it is rebuilt by
 # `node scripts/image-audit.mjs`, so none of it is worth committing.
 .image-audit/
+
+# 325 MB of duplicated, unreferenced assets moved out of public/ on
+# 13 Aug 2026 — see SEO-AUDIT-13AUG2026.md. Nothing in src/ points at them and
+# they were never tracked; kept on disk rather than deleted so the decision is
+# reversible. Delete the folder once you are sure.
+_quarantine/

@@ -57,7 +57,7 @@ export const shaurya = {
   // they were outstanding and the segment was omitted, which the line
   // directly below it contradicted.
   address: "Plot no. 74, Sector R2, Karanjade, Panvel, 410206",
-  hero: "/images/projects/shaurya/Shaurya_Elevation.png",
+  hero: "/images/projects/shaurya/Shaurya_Elevation.webp",
   heroPosition: "center 25%",
   // extra status pills shown alongside the "Completed" pill in the hero
   pills: ["All flats sold", "Society forming"],
@@ -151,7 +151,7 @@ export const unitTypes: UnitType[] = [
     type: "1BHK",
     units: "4 homes",
     series: "Flat 101 · one per floor",
-    plan: "/images/projects/shaurya/Shaurya_1BHK_Plan.png",
+    plan: "/images/projects/shaurya/Shaurya_1BHK_Plan.webp",
     blurb:
       "Four of Shaurya's eight homes are one-bedroom apartments, flat 101 on each floor. A separate bedroom, its own kitchen and a living room opening onto a private balcony.",
     stats: [
@@ -171,7 +171,7 @@ export const unitTypes: UnitType[] = [
     // Shaurya_1RK_Plan.png is a typical-floor render rather than a
     // single-unit one — the 1RK reads as the flat with the 4.20 × 2.60
     // living room, shown alongside the 1BHK.
-    plan: "/images/projects/shaurya/Shaurya_1RK_Plan.png",
+    plan: "/images/projects/shaurya/Shaurya_1RK_Plan.webp",
     blurb:
       "The other four homes are efficient 1RK layouts, flat 102 on each floor. Compact, single-room living with a full 4.2-metre living room, and a bath and WC kept separate.",
     stats: [
@@ -208,21 +208,21 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Ground floor",
     label: "Stilt parking & the building core",
-    plan: "/images/projects/shaurya/Shaurya_Ground_Plan.png",
+    plan: "/images/projects/shaurya/Shaurya_Ground_Plan.webp",
     blurb:
       "No shops and no homes at street level. The ground floor is given over to the residents. Stilt parking fills the plot behind a sliding gate, with the lift, staircase, lobby and machine room held at the back.",
   },
   {
     title: "Typical floor",
     label: "Residential — floors 1 to 4",
-    plan: "/images/projects/shaurya/Shaurya_Floor_Plan.png",
+    plan: "/images/projects/shaurya/Shaurya_Floor_Plan.webp",
     blurb:
       "Two homes to a floor, four floors over. That is the whole building. Flat 101 is the 1BHK and flat 102 the 1RK, both reached off a small shared lobby at the lift.",
   },
   {
     title: "Terrace",
     label: "Above the fourth floor",
-    plan: "/images/projects/shaurya/Shaurya_Terrace_Plan.png",
+    plan: "/images/projects/shaurya/Shaurya_Terrace_Plan.webp",
     blurb:
       "An open terrace over the whole footprint, with the building's water storage and lift machinery tucked into one corner and planters run along the parapet.",
   },

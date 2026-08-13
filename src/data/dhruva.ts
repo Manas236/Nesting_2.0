@@ -75,14 +75,14 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Ground floor",
     label: "Retail & common amenities",
-    plan: "/images/projects/dhruva/Ground_Floor_Plan.png",
+    plan: "/images/projects/dhruva/Ground_Floor_Plan.webp",
     blurb:
       "Six shops face two sides of the corner plot for a wide street frontage, with ample parking, a society office, a fitness centre and a multi-purpose room.",
   },
   {
     title: "Typical upper floor",
     label: "Residential — 6 flats per floor",
-    plan: "/images/projects/dhruva/Typical_Floor_Plan_Dhurva.png",
+    plan: "/images/projects/dhruva/Typical_Floor_Plan_Dhurva.webp",
     blurb:
       "Each upper floor carries three 1BHK and three 1RK apartments off a wide corridor, served by an 8-person automatic elevator and a wide staircase. Top-floor homes add private terraces.",
   },
@@ -132,7 +132,7 @@ export const unitTypes: UnitType[] = [
     type: "1BHK",
     units: "12 homes",
     series: "3 per floor · Floors 1 to 4",
-    plan: "/images/projects/dhruva/1BHK_Render_Dhurva.png",
+    plan: "/images/projects/dhruva/1BHK_Render_Dhurva.webp",
     blurb:
       "The larger of Dhruva's two layouts: a separate bedroom off an open living-dining, a kitchen with a full-length counter, a split bath and WC, and an enclosed balcony running the width of the living room.",
     stats: [
@@ -145,7 +145,7 @@ export const unitTypes: UnitType[] = [
     type: "1RK",
     units: "12 homes",
     series: "3 per floor · Floors 1 to 4",
-    plan: "/images/projects/dhruva/1RK_Render_Dhurva.png",
+    plan: "/images/projects/dhruva/1RK_Render_Dhurva.webp",
     blurb:
       "One open living-and-sleeping space with the kitchen fitted along a single wall, plus a full bath and its own WC. Compact to run, easy to furnish and the same finish schedule as the 1BHK.",
     stats: [

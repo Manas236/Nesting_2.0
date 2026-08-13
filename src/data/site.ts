@@ -239,7 +239,7 @@ export const projects: Project[] = [
     blurb:
       "The latest Nesting Tree residence, a high-rise built on the same standard as every project before it: more amenities, better daily living, delivered on time.",
     amenities: "Rooftop Gym · Terrace · Lift · CCTV",
-    image: "/images/projects/ShikharElevationFinal.jpeg",
+    image: "/images/projects/ShikharElevationFinal.webp",
     objectPosition: "center 12%",
   },
   {
@@ -253,7 +253,7 @@ export const projects: Project[] = [
     blurb:
       "A corner-plot residence with street-level retail, designed for everyday convenience without leaving the building.",
     amenities: "Lift · CCTV · Fire Safety · Retail",
-    image: "/images/projects/Prithvi-Elevation.jpg",
+    image: "/images/projects/Prithvi-Elevation.webp",
     objectPosition: "center 12%",
   },
   {
@@ -338,7 +338,7 @@ export const projects: Project[] = [
     blurb:
       "A purely residential G+4 on a corner plot: eight homes with an automatic high-speed lift and ample parking. Completed, sold out and handed over.",
     amenities: "High-Speed Lift · Parking · Corner Plot",
-    image: "/images/projects/shaurya/Shaurya_Elevation.png",
+    image: "/images/projects/shaurya/Shaurya_Elevation.webp",
     objectPosition: "center 25%",
   },
 ];
@@ -678,7 +678,7 @@ export const home = {
     // Single framed hero render — the strongest premium asset in the repo.
     // (Site photographs are documentary construction shots, so the flagship
     // leans on the polished elevation render rather than a raw interior.)
-    image: "/images/projects/ShikharElevationFinal.jpeg",
+    image: "/images/projects/ShikharElevationFinal.webp",
     imagePos: "center 14%",
     // Quick spec chips — pulled straight from the Shikhar project record.
     chips: ["Now Booking", "Navi Mumbai", "Rooftop · Lift · CCTV · Parking"],
@@ -809,7 +809,7 @@ export const home = {
     heading: "Let's find you a Home.",
     body:
       "Book a site visit to experience a Nesting Tree home. Clear title, honest paperwork and you'll always know where you stand. No surprises, no fine print games.",
-    image: "/images/projects/Prithvi-Elevation.jpg",
+    image: "/images/projects/Prithvi-Elevation.webp",
     imagePos: "center 10%",
   },
 };

@@ -70,7 +70,7 @@ export const prithvi = {
     "A G+7 residence: four shops at street level and 27 homes on the floors above.",
   // Standard hero address format: Plot, Sector, Karanjade, Panvel, Pincode.
   address: "Plot no. 277, Sector 1, Karanjade, Panvel, 410206",
-  hero: "/images/projects/Prithvi-Elevation.jpg",
+  hero: "/images/projects/Prithvi-Elevation.webp",
   heroPosition: "center 12%",
   // Bookings have not opened yet — pre-launch, not "Now booking".
   pills: ["Pre-launch"],
@@ -189,14 +189,14 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Typical upper floor",
     label: "Residential — floors 1 to 7",
-    plan: "/images/projects/prithvi/Prithvi_Floor_Plan.png",
+    plan: "/images/projects/prithvi/Prithvi_Floor_Plan.webp",
     blurb:
       "Four homes to a typical floor, all one-bedroom apartments, each with a private balcony and a utility, opening off a central passage and served by the lift. Twenty-seven homes are stacked this way above the shops: twenty-six 1BHK, and a single 2BHK on the seventh floor.",
   },
   {
     title: "Rooftop terrace",
     label: "Above the seventh floor",
-    plan: "/images/projects/prithvi/Prithvi_Terrace_Plan.png",
+    plan: "/images/projects/prithvi/Prithvi_Terrace_Plan.webp",
     blurb:
       "The roof belongs to everyone. A common terrace open to the sky sits at the centre, private terraces flank the top-floor homes, and the overhead water tanks run the building's services, reached by the lift and the stair.",
   },
@@ -271,7 +271,7 @@ export const unitTypes: UnitType[] = [
     type: "1BHK",
     units: "26 units",
     series: TBD,
-    plan: "/images/projects/prithvi/Prithvi_1BHK_Plan.png",
+    plan: "/images/projects/prithvi/Prithvi_1BHK_Plan.webp",
     blurb:
       "The home Prithvi is mostly made of. Twenty-six of the building's twenty-seven homes are this one-bedroom plan: a 15-foot living room opening onto a private balcony, a separate kitchen and a bedroom of its own.",
     stats: [
@@ -285,7 +285,7 @@ export const unitTypes: UnitType[] = [
     type: "2BHK",
     units: "1 unit",
     series: TBD,
-    plan: "/images/projects/prithvi/Prithvi_2BHK_Plan.png",
+    plan: "/images/projects/prithvi/Prithvi_2BHK_Plan.webp",
     blurb:
       "The only two-bedroom home in the building, on the seventh floor. Twenty-six homes share a plan; this one does not: two bedrooms, two toilets, a 15 × 16 living-dining, two balconies and a utility.",
     stats: [

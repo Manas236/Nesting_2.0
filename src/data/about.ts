@@ -43,7 +43,7 @@ export const about = {
      The human root of the company. Full name confirmed by the owner:
      "Kailash Shankarlal Gindodia" (surname Gindodia). The card shows the
      shorter "Kailash Gindodia"; the full name leads the bio.
-     Portrait asset: /images/Kd_Sir.JPG (used in the founder card). The
+     Portrait asset: /images/Kd_Sir.webp (used in the founder card). The
      `monogram` below is kept as a fallback but no longer rendered. */
   founder: {
     label: "Leadership",

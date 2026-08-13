@@ -7,7 +7,7 @@
    have shared and in the Open Graph cards WhatsApp and Facebook have
    cached. See IMAGE-SEO-BRIEF.md §3.2.
 
-   80 entries.
+   103 entries.
    ============================================================ */
 export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Dhruva/Aerial_View/DSC_0012.jpeg": "/images/projects/dhruva/photos/dhruva-aerial-view-01.webp",
@@ -90,4 +90,37 @@ export const imageRedirects: Record<string, string> = {
   "/images/Project_Images/Shikhar/Exterior/DSC_0114.jpeg": "/images/projects/shikhar/photos/shikhar-exterior-03.webp",
   "/images/Project_Images/Shikhar/Exterior/IMG20260627130037.jpeg": "/images/projects/shikhar/photos/shikhar-exterior-04.webp",
   "/images/Project_Images/Shikhar/Interior/IMG20260627131512.jpeg": "/images/projects/shikhar/photos/shikhar-interior-01.webp",
+
+  /* --- 13 Aug 2026: plans, elevations and renders re-encoded to WebP.
+     Same job as the 80 photographs above, different sources: these are the
+     drawing sheets and elevation renders, which were never in the photograph
+     pipeline and were still shipping as 1-3 MB PNGs. 47.3 MB -> 10.1 MB.
+     Listed here for the same two reasons the photographs are: middleware
+     301s the old URL, and scripts/prune-superseded-images.mjs reads this map
+     to keep the superseded originals out of dist/client.
+     Two JPEGs were tried and reverted - Rudra.jpg and Ishan-Reduced.jpg came
+     out LARGER as WebP, being already-compressed sources. --- */
+  "/images/Kd_Sir.JPG": "/images/Kd_Sir.webp",
+  "/images/projects/Prithvi-Elevation.jpg": "/images/projects/Prithvi-Elevation.webp",
+  "/images/projects/ShikharElevationFinal.jpeg": "/images/projects/ShikharElevationFinal.webp",
+  "/images/projects/dhruva/1BHK_Render_Dhurva.png": "/images/projects/dhruva/1BHK_Render_Dhurva.webp",
+  "/images/projects/dhruva/1RK_Render_Dhurva.png": "/images/projects/dhruva/1RK_Render_Dhurva.webp",
+  "/images/projects/dhruva/Ground_Floor_Plan.png": "/images/projects/dhruva/Ground_Floor_Plan.webp",
+  "/images/projects/dhruva/Typical_Floor_Plan_Dhurva.png": "/images/projects/dhruva/Typical_Floor_Plan_Dhurva.webp",
+  "/images/projects/ishaan/Ishaan_1RK_Plan.png": "/images/projects/ishaan/Ishaan_1RK_Plan.webp",
+  "/images/projects/ishaan/Ishaan_Floor_Plan.png": "/images/projects/ishaan/Ishaan_Floor_Plan.webp",
+  "/images/projects/ishaan/Ishaan_Ground_Plan.png": "/images/projects/ishaan/Ishaan_Ground_Plan.webp",
+  "/images/projects/ishaan/Ishaan_Terrace_Plan.png": "/images/projects/ishaan/Ishaan_Terrace_Plan.webp",
+  "/images/projects/prithvi/Prithvi_1BHK_Plan.png": "/images/projects/prithvi/Prithvi_1BHK_Plan.webp",
+  "/images/projects/prithvi/Prithvi_2BHK_Plan.png": "/images/projects/prithvi/Prithvi_2BHK_Plan.webp",
+  "/images/projects/prithvi/Prithvi_Floor_Plan.png": "/images/projects/prithvi/Prithvi_Floor_Plan.webp",
+  "/images/projects/prithvi/Prithvi_Terrace_Plan.png": "/images/projects/prithvi/Prithvi_Terrace_Plan.webp",
+  "/images/projects/rudra/plan-fourth.png": "/images/projects/rudra/plan-fourth.webp",
+  "/images/projects/rudra/plan-ground.png": "/images/projects/rudra/plan-ground.webp",
+  "/images/projects/shaurya/Shaurya_1BHK_Plan.png": "/images/projects/shaurya/Shaurya_1BHK_Plan.webp",
+  "/images/projects/shaurya/Shaurya_1RK_Plan.png": "/images/projects/shaurya/Shaurya_1RK_Plan.webp",
+  "/images/projects/shaurya/Shaurya_Elevation.png": "/images/projects/shaurya/Shaurya_Elevation.webp",
+  "/images/projects/shaurya/Shaurya_Floor_Plan.png": "/images/projects/shaurya/Shaurya_Floor_Plan.webp",
+  "/images/projects/shaurya/Shaurya_Ground_Plan.png": "/images/projects/shaurya/Shaurya_Ground_Plan.webp",
+  "/images/projects/shaurya/Shaurya_Terrace_Plan.png": "/images/projects/shaurya/Shaurya_Terrace_Plan.webp",
 };

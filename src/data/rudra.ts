@@ -75,14 +75,14 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Ground floor",
     label: "Retail & parking",
-    plan: "/images/projects/rudra/plan-ground.png",
+    plan: "/images/projects/rudra/plan-ground.webp",
     blurb:
       "Four shops face the busy 9 m wide road, each with its own street frontage, alongside ground-floor parking for home buyers and the building's wide main entrance for easy access.",
   },
   {
     title: "Typical upper floor",
     label: "Residential — 5 homes per floor",
-    plan: "/images/projects/rudra/plan-fourth.png",
+    plan: "/images/projects/rudra/plan-fourth.webp",
     blurb:
       "Each upper floor carries one large 1BHK and four smart 1RK homes off a large entrance lobby, served by a 6–7 person elevator and a wide staircase, with 3 m wide openings on three sides for light and a sense of space.",
   },

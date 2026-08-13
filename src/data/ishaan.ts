@@ -231,7 +231,7 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Ground floor",
     label: "Entry, parking & lobby",
-    plan: "/images/projects/ishaan/Ishaan_Ground_Plan.png",
+    plan: "/images/projects/ishaan/Ishaan_Ground_Plan.webp",
     blurb:
       "Ishaan carries no shops, so the ground floor belongs entirely to the building. A sliding-gate entry off the road, covered parking, and the residents' lobby with the lift and staircase.",
   },
@@ -240,14 +240,14 @@ export const floorPlans: FloorPlan[] = [
     label: "1st–4th · three 1RK homes",
     // Presentation render, not the approved plan — it draws four units
     // and is captioned 2nd–4th. Swap in the reissued sheet when it comes.
-    plan: "/images/projects/ishaan/Ishaan_Floor_Plan.png",
+    plan: "/images/projects/ishaan/Ishaan_Floor_Plan.webp",
     blurb:
       "The homes sit on the typical floors, three to a floor, all of them 1RK, wrapped around a central lift-and-staircase core with a shared lobby. Every floor from the 1st to the 4th is identical.",
   },
   {
     title: "Terrace",
     label: "Open to sky",
-    plan: "/images/projects/ishaan/Ishaan_Terrace_Plan.png",
+    plan: "/images/projects/ishaan/Ishaan_Terrace_Plan.webp",
     blurb:
       "Above the homes sits an open terrace, with the building's services tucked to one side: the overhead water tank, the lift machine room and the pump room.",
   },
@@ -341,7 +341,7 @@ export const unitTypes: UnitType[] = [
     series: "Typical floors · 1st–4th",
     // Presentation render of one corner home. See the type above for
     // everything on this sheet that the approved plan overrules.
-    plan: "/images/projects/ishaan/Ishaan_1RK_Plan.png",
+    plan: "/images/projects/ishaan/Ishaan_1RK_Plan.webp",
     blurb:
       "The one-of-a-kind home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Three sit on every typical floor, from the 1st to the 4th.",
     stats: [
