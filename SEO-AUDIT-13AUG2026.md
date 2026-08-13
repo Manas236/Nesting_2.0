@@ -257,14 +257,21 @@ gallery entries, so the pattern exists to copy.
 
 A bad URL currently gets nginx's default page. Worth having; blocks nothing.
 
-### 4.4 Thirteen unreferenced videos still ship — ~130 MB
+### 4.4 Unreferenced files — ~~130 MB~~ **done, 252 MB deleted**
 
-`Prithvi2-scrub.mp4` (60 MB), `Prithvi2.mp4` (19 MB), `Shaurya_Backdrop_2.mp4`,
-`prithvi_backdrop_2.mp4`, `PRITHVI-scrub.mp4`, `Dhruva_Backdrop_2.mp4` and
-seven more. Nothing links to any of them. They cost deploy time and disk, not
-page speed — nobody downloads them. Unlike §3.7 these **are** tracked in git, so
-deleting them is fully reversible; I left them because that is a real deletion
-and it wasn't needed to launch.
+Closed the same day. `node scripts/asset-inventory.mjs` now classifies every
+file under `public/` as **used**, **superseded** or **orphan**, and `--prune`
+deletes the orphans. It found 46, totalling **251.9 MB** — thirteen unused
+videos (`Prithvi2-scrub.mp4` at 60 MB, `Prithvi2.mp4` at 19 MB and the rest),
+the two 40 MB+ `_og` files DEPLOYMENT.md §6 had already flagged, and a set of
+placeholder SVGs and superseded JPEG plans.
+
+Every one was confirmed tracked in git before deletion, so the whole thing is
+reversible with `git checkout`. A stray `node_modules/` and `.astro/` cache
+inside `public/images/projects/rudra/` went with them.
+
+`ASSET-INVENTORY.md` is the standing list. See it for what the three classes
+mean and why the 103 **superseded** originals are deliberately kept.
 
 ### 4.5 Two things Search Console needs, the day DNS resolves
 
