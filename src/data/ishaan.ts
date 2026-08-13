@@ -19,9 +19,13 @@
        (its room dimensions came too, but are no longer
         printed — see the `unitTypes` note below)
      · The homes are NOT one repeated plan — the living / kitchen /
-       toilet sizes differ by position. The unit card shows the
-       corner 1RK (the one flagged on the key plan) as the
-       representative home; do not call the plan "identical".
+       toilet sizes differ by position, and the reissued first-floor
+       sheet now draws all three side by side. The unit card shows
+       the stair-side 1RK — living 3.16 × 2.75, kitchen 1.70 × 2.75,
+       toilet 2.30 × 1.20, the same three the room-plan sheet draws —
+       as the representative home; do not call the plan "identical".
+       ("Stair-side" is read off the sheet, which carries no north
+       arrow. Do not upgrade it to a compass direction.)
      · Ground / typical / terrace floor drawings → floorPlans[].plan
      · Corner plot on an 11 m and a 9 m road (from the ground plan).
 
@@ -67,17 +71,29 @@
    │     reading "2nd–4th" was the portfolio's only outlier, and it
    │     came from the render title blocks.
    │
-   │ CONSEQUENCE for the two drawings that show the residential
-   │ floors: `Ishaan_Floor_Plan.png` and `Ishaan_1RK_Plan.png` both
-   │ draw four units per floor and are captioned 2nd–4th, so the
-   │ sheets themselves disagree with the text beside them. They were
-   │ off the page for that reason until 13 Aug 2026, when the owner
-   │ asked for them back. They now render with NO caveat beside them:
-   │ he is writing one line to cover every project's drawings and
-   │ will place it himself, elsewhere — so do not add a per-drawing
-   │ note here. The page text is NOT moved to match the sheets
-   │ either. Replace both the day the architect reissues them
-   │ against the approved plan. Ground and terrace are unaffected.
+   │ THE TWO DRAWINGS NOW AGREE — REISSUED 13 AUG 2026. Both sheets
+   │ that show the residential floors were replaced that evening,
+   │ under the same two paths (`Ishaan_Floor_Plan` and
+   │ `Ishaan_1RK_Plan`, PNG source + WebP served). What changed:
+   │   · The floor sheet draws THREE homes, not four, and is
+   │     title-blocked "FIRST FLOOR PLAN", not "(2ND TO 4TH)". A
+   │     visitor now counts three flats against a card that says
+   │     three, on a first floor the card calls residential.
+   │   · The 1RK sheet is now a plain "1 RK ROOM PLAN" at 1:50 —
+   │     no key plan, and no "RERA CARPET AREA 17.70 SQ.MT." Nothing
+   │     on the page contradicts the approved carpet figures in
+   │     `unitTypes[0].stats` any more.
+   │ ONE gap survives the reissue: both sheets still print ROOM
+   │ DIMENSIONS as baked-in pixels, which the owner's #9 took off
+   │ every page. No data-side flag can reach them; only a third
+   │ issue of the drawings would. Everything above is kept because
+   │ it is the record of WHY the page reads as it does — the text
+   │ was never moved to match the superseded sheets, and it should
+   │ not be moved now that they agree. Neither card carries a
+   │ caveat: he is writing one line to cover every project's
+   │ drawings and will place it himself, elsewhere — so do not add
+   │ a per-drawing note here. Ground and terrace never had the
+   │ problem and are untouched.
    └────────────────────────────────────────────────────────────────
 
    Real photography exists at public/images/Project_Images/Ishaan/
@@ -206,14 +222,12 @@ export const buildProgress: {
    public/images/projects/ishaan/. The set runs bottom to top:
    ground → residential floors → terrace.
 
-   `plan` is OPTIONAL. The residential-floor drawing is title-blocked
-   "2ND TO 4TH" and draws four units per floor, so it disagrees with
-   the approved plan this page follows (see the header block). It is
-   shown anyway, on the owner's ask of 13 Aug 2026, and it carries NO
-   caveat on the page: he is writing one line to cover every project's
-   drawings and will place it himself, elsewhere. Do not re-add a
-   per-drawing note here. The card's own text is not moved to match
-   the sheet either: three homes per floor, floors 1–4, stands.    */
+   `plan` is OPTIONAL. The residential-floor drawing was reissued on
+   13 Aug 2026 and now matches the approved plan this page follows:
+   three homes, title-blocked "FIRST FLOOR PLAN" (see the header
+   block). Neither this card nor the unit card carries a caveat — the
+   owner is writing one line to cover every project's drawings and
+   will place it himself, elsewhere. Do not add a per-drawing note. */
 export type FloorPlan = {
   title: string;
   label: string;
@@ -238,8 +252,8 @@ export const floorPlans: FloorPlan[] = [
   {
     title: "Typical floor",
     label: "1st–4th · three 1RK homes",
-    // Presentation render, not the approved plan — it draws four units
-    // and is captioned 2nd–4th. Swap in the reissued sheet when it comes.
+    // Reissued 13 Aug 2026: three homes, "FIRST FLOOR PLAN". Floors 1–4
+    // are identical, so the first-floor sheet IS the typical floor.
     plan: "/images/projects/ishaan/Ishaan_Floor_Plan.webp",
     blurb:
       "The homes sit on the typical floors, three to a floor, all of them 1RK, wrapped around a central lift-and-staircase core with a shared lobby. Every floor from the 1st to the 4th is identical.",
@@ -296,27 +310,39 @@ export const floorPlans: FloorPlan[] = [
 
    The room dimensions that used to sit on this card came off on
    11 Aug 2026 (owner's instruction #9: no room dimensions on any
-   project page). For the record, since it is the reasoning that tied
-   this card to a specific home: the drawn living 2.75 × 3.15, kitchen
-   1.70 × 2.75 and toilet 2.30 × 1.20 sum to 16.098 sq. m., a triple
-   that lands only on flat 103 of the fifteen possible splits — so the
-   card describes the 16.590 home. Never certain enough to print as a
-   single figure, which is why `stats` still lists all three series. */
+   project page). For the record, since it is the reasoning that ties
+   this card to a specific home — and it had to be redone when the
+   sheets were reissued on 13 Aug, because the new room plan draws a
+   DIFFERENT home from the old one (living 3.16 × 2.75, where the
+   superseded sheet drew 2.75 × 3.15):
+
+   The reissued first-floor sheet dimensions all three homes, so they
+   can be ranked instead of guessed at. Clear room areas, drawn:
+     stair-side   3.16×2.75 + 1.70×2.75 + 2.30×1.20 = 16.13 sq. m.
+     corner       4.10×2.75 + 2.00×1.75 + 1.78×1.50 = 17.45 sq. m.
+     road-side    2.75×3.15 + 2.00×1.85 + 1.75×1.40 = 14.81 sq. m.
+   Against the approved 15.223 / 16.590 / 19.080, the order is the
+   only thing that carries — carpet area includes the internal
+   partitions these clear sizes leave out, so the figures are not
+   meant to match. In order, the stair-side home the room plan draws
+   is the middle one: flat 103, 16.590. Never certain enough to print
+   as a single figure, which is why `stats` lists all three series. */
 export type UnitType = {
   type: string;
   units: string;
   series: string;
-  /* Optional, and carrying the same caveat as `FloorPlan.plan` above:
-     Ishaan_1RK_Plan.png is a presentation render, not the approved
-     plan. Its key plan draws four units, it is captioned "(2ND TO
-     4TH)", and it prints "RERA CARPET AREA 17.70 SQ.MT." — a figure
-     that is really the floor's built-up area divided by four, and
-     that matches none of the three approved carpet areas. Shown from
-     13 Aug 2026 on the owner's ask, with no caveat on the page — he
-     is writing one line to cover every project's drawings and will
-     place it himself, elsewhere. NOTE that this sheet carries room
-     dimensions and that carpet figure as baked-in pixels, which no
-     data-side flag can reach; only a reissued sheet fixes it. */
+  /* Optional. Ishaan_1RK_Plan was reissued on 13 Aug 2026 as a plain
+     "1 RK ROOM PLAN" at 1:50 — one home, no four-unit key plan, no
+     "(2ND TO 4TH)" title block, and no "RERA CARPET AREA 17.70
+     SQ.MT." That last one mattered most: 17.70 was the floor's
+     built-up area divided by the old sheet's own four-unit
+     assumption, it matched none of the three approved carpet areas,
+     and it printed a carpet figure on a page his #13 had cleared of
+     them. The sheet still bakes ROOM DIMENSIONS into the pixels,
+     which his #9 took off every page and which no data-side flag can
+     reach — the one thing a third issue of the drawing would fix.
+     No caveat sits beside it: he is writing one line to cover every
+     project's drawings and will place it himself, elsewhere. */
   plan?: string;
   planPending?: boolean;
   blurb: string;
@@ -339,8 +365,8 @@ export const unitTypes: UnitType[] = [
     type: "1RK",
     units: "12 units",
     series: "Typical floors · 1st–4th",
-    // Presentation render of one corner home. See the type above for
-    // everything on this sheet that the approved plan overrules.
+    // The reissued room plan of one stair-side home. See the type
+    // above for what the reissue fixed and the one thing it did not.
     plan: "/images/projects/ishaan/Ishaan_1RK_Plan.webp",
     blurb:
       "The one-of-a-kind home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Three sit on every typical floor, from the 1st to the 4th.",

@@ -401,8 +401,9 @@ it could have meant have changed underneath the question.
 
 ## Worked on, still open — don't close these yet
 
-### A. Ishaan's floor configuration — corrected 11 Aug 2026, drawings still owed
-**The text fix is done and confirmed. What is still missing is artwork.**
+### A. Ishaan's floor configuration — corrected 11 Aug, drawings reissued 13 Aug
+**The text fix is done and confirmed, and the artwork now agrees with it.** All
+that is left is the room dimensions printed on the sheets — see point 3 below.
 
 Was item 2 ("Ishaan's 1st floor"), and it turned out to be a floor-numbering
 mix-up, as suspected. **Ishaan is three homes per typical floor across floors
@@ -427,28 +428,35 @@ no building reaches once walls are counted. It is also the house pattern:
 Shaurya (G+4) is "Residential — floors 1 to 4" and Dhruva's series run "one per
 floor, floors 1–4".
 
-**➤ STILL OPEN — the two drawings are back on the page, but they are the wrong
-sheets.** `Ishaan_Floor_Plan.png` and `Ishaan_1RK_Plan.png` both draw four units
-and are captioned 2nd–4th, so they contradict the corrected text beside them.
-They were held off the page for that reason until **13 Aug 2026, when the owner
-asked for them back**. A per-drawing caveat was written under each and then
-removed the same day at his instruction: **he is writing one line to cover every
-project's drawings and will place it himself, elsewhere.** Do not re-add a note
-to these cards. The page text was not moved to match the sheets either.
+**➤ THE ARTWORK LANDED, 13 Aug 2026 — two of the three gaps are closed.** The
+owner supplied reissued sheets the same evening. They were re-encoded to WebP
+and dropped in under the existing two paths, so nothing in
+[`src/data/ishaan.ts`](src/data/ishaan.ts) had to be repointed:
 
-**Until his line lands, these read as plain fact on the page:**
+1. ~~A visitor can **count four flats** in the typical-floor sheet while the card
+   beside it says three.~~ **Closed.** The new sheet draws **three homes** and is
+   title-blocked **"FIRST FLOOR PLAN"**, not "(2ND TO 4TH)". Sheet and card now
+   say the same thing, on a first floor both call residential.
+2. ~~The 1RK sheet prints **"RERA CARPET AREA 17.70 SQ.MT."**~~ **Closed.** The
+   reissue is a plain **"1 RK ROOM PLAN"** at 1:50 — one home, no four-unit key
+   plan, and no carpet figure anywhere on it. Nothing on the page now contradicts
+   his #13.
+3. **STILL OPEN — both sheets still print room dimensions**, which his #9 took
+   off every page. They are baked-in pixels; no data-side flag reaches them.
+   Only a third issue of the drawings clears this one, and it is the least of
+   the three: a room size on an architect's sheet is not the page making a
+   claim in its own voice, which is what #9 was about.
 
-1. A visitor can **count four flats** in the typical-floor sheet while the card
-   beside it says three.
-2. The 1RK sheet prints **"RERA CARPET AREA 17.70 SQ.MT."** — a figure this file
-   shows to be wrong, and a carpet area back on a page after his own #13 took
-   every carpet figure off all seven. `features.areaStats` cannot reach it.
-3. Both sheets print **room dimensions**, which his #9 took off every page.
+A per-drawing caveat was written under each card on 13 Aug and removed the same
+day at his instruction: **he is writing one line to cover every project's
+drawings and will place it himself, elsewhere.** Do not re-add a note to these
+cards. The page text was not moved to match the old sheets and must not be moved
+now that they agree. Ground and terrace plans never had this problem.
 
-**Ask the architect to reissue both against the approved plan, then swap the two
-paths in [`src/data/ishaan.ts`](src/data/ishaan.ts).** That is the only thing
-that actually clears items 1–3 — a caption never could. Ground and terrace plans
-never had this problem and were always shown.
+Note for whoever reads the diff: the reissued room plan draws a **different home**
+from the superseded one (living 3.16 × 2.75, not 2.75 × 3.15). The arithmetic
+tying the unit card to flat 103 was redone against it and is recorded above
+`unitTypes` in the data file.
 
 ---
 
