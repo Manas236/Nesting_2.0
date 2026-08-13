@@ -44,32 +44,6 @@ body {
   font-family: var(--font-display);
 }
 
-/* ----- Disclaimer marker on every headline figure -----
-   Owner's instruction, 13 Aug 2026. Every prominent number on a project
-   page — storey counts, home counts, flat types, carpet areas — carries
-   an asterisk that points at the `brand.sizesNote` line above the
-   footer, so no figure reads as a promise on its own.
-
-   It is a ::after, not a character in the markup, for two reasons: the
-   inline editor (src/scripts/inline-edit.js) decides what is editable by
-   walking text leaves, and a real <span> inside a heading would change
-   what it sees; and generated content cannot be edited away on the live
-   page, which is the point of a legal marker.
-
-   Sized in `em` so it tracks whatever type it sits on — the same class
-   works on a 7xl hero figure and on a 12px small-caps label — and drawn
-   in currentColor at low opacity so it reads correctly on the dark stats
-   band and on the light cards without a second rule. */
-.nt-star::after {
-  content: "*";
-  font-size: 0.5em;
-  font-weight: 700;
-  vertical-align: super;
-  line-height: 0;
-  margin-left: 0.08em;
-  opacity: 0.55;
-}
-
 /* ----- Sticky header: transparent over hero, solid on scroll ----- */
 #site-header {
   transition: background-color 0.35s ease, border-color 0.35s ease,

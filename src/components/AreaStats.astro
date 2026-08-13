@@ -82,12 +82,8 @@ const rows = stats.map((s) => {
 {
   features.areaStats && (
     <div class:list={["border-t border-line", extra]}>
-      {/* The eyebrow carries the disclaimer asterisk for the whole grid
-          (see `.nt-star` in src/styles/global.css). It goes here rather
-          than on each figure because every cell below it is a size, and
-          eight stars in a four-cell grid is noise, not a warning. */}
       {heading && (
-        <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted pt-5 pb-4 nt-star">
+        <p class="font-display text-xs font-bold uppercase tracking-[0.16em] text-muted pt-5 pb-4">
           {heading}
         </p>
       )}

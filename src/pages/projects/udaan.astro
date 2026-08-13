@@ -221,7 +221,7 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
                 class={`font-display font-bold tracking-tight leading-none ${
                   s.figure === "TBA"
                     ? "text-3xl sm:text-4xl lg:text-5xl text-white/35 pt-2 lg:pt-4"
-                    : "text-5xl sm:text-6xl lg:text-7xl text-white nt-star"
+                    : "text-5xl sm:text-6xl lg:text-7xl text-white"
                 }`}
               >
                 {s.figure}
@@ -293,7 +293,7 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
                       class={`font-display font-bold tracking-tight leading-none ${
                         u.figure === "TBA"
                           ? "text-2xl lg:text-3xl text-mutedlight pt-2 lg:pt-3"
-                          : "text-4xl lg:text-5xl text-ink nt-star"
+                          : "text-4xl lg:text-5xl text-ink"
                       }`}
                     >
                       {u.figure}
@@ -493,7 +493,7 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
                 {/* details */}
                 <div class={i % 2 === 1 ? "lg:order-1" : ""}>
                   <div class="flex flex-wrap items-center gap-3">
-                    <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight nt-star">
+                    <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight">
                       {u.type}
                     </h3>
                     <span class="font-display text-xs font-bold uppercase tracking-[0.12em] bg-olive-100 text-olive-dark px-3 py-1.5 rounded-full">

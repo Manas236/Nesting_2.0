@@ -166,7 +166,7 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
               }`}
               style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}
             >
-              <p class="font-display font-bold text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none nt-star">
+              <p class="font-display font-bold text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none">
                 {s.figure}
               </p>
               <p class="font-display text-xs sm:text-sm font-bold uppercase tracking-[0.16em] text-olive-100 mt-4">
@@ -222,7 +222,7 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
               {
                 overview.spaceMix.map((u) => (
                   <div class="bg-card p-6 lg:p-8">
-                    <p class="font-display font-bold text-3xl lg:text-4xl tracking-tight text-ink leading-none nt-star">
+                    <p class="font-display font-bold text-3xl lg:text-4xl tracking-tight text-ink leading-none">
                       {u.figure}
                     </p>
                     <p class="text-muted text-sm leading-snug mt-3">{u.label}</p>
@@ -461,7 +461,7 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
               {/* details */}
               <div class={i % 2 === 1 ? "lg:order-1" : ""}>
                 <div class="flex flex-wrap items-center gap-3">
-                  <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight nt-star">
+                  <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight">
                     {u.type}
                   </h3>
                   <span class="font-display text-xs font-bold uppercase tracking-[0.12em] bg-olive-100 text-olive-dark px-3 py-1.5 rounded-full">
