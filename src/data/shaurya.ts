@@ -17,7 +17,7 @@
    Now supplied (from the render set added Jul 2026):
      · Plot No. 74, on an 11 m wide road    → shaurya.address
      · Sector R2 and pincode 410206         → shaurya.address
-     · 1BHK carpet area (19.316 sq.m)        → unitTypes[0].features
+     · 1BHK carpet area (19.316 sq.m)        → unitTypes[0].stats
      · Ground / typical-floor / terrace plans → floorPlans
      · Two overhead water tanks (5,040 + 7,875 L) → amenityGroups
 
@@ -25,7 +25,8 @@
    11 Aug 2026, when the owner's instruction #9 took room dimensions
    off every project page. They are not missing — they are withdrawn.
 
-   Still outstanding (renders as "Insufficient information"):
+   Still outstanding (prints nothing — the line is simply absent
+   from the page until it is filled in):
      · A dedicated 1RK layout render (the 1RK is shown within the
        typical-floor plan; its own unit card image stays pending)
      · Interior finishing spec (tiles, fittings, windows)
@@ -33,8 +34,11 @@
    Icon keys reference the line-icon set defined inside the page.
    ============================================================ */
 
-/** Marks a field we have not been given. Rendered as a muted
-    placeholder, never as a fact. Delete the TBD once you fill it in. */
+/** Marks a field we have not been given. It is a sentinel, not copy:
+    the page tests for it and leaves the line, row or block off
+    altogether, so the string itself never reaches the markup. It used
+    to print as a muted placeholder and that came off on the owner's
+    instruction, 13 Aug 2026. Delete the TBD once you fill it in. */
 export const TBD = "Insufficient information";
 
 export const shaurya = {
@@ -104,8 +108,9 @@ export const overview = {
 /* ---------- Unit types — the home layouts ----------
    `plan` points at the placeholder SVGs that already ship in
    public/images/projects/shaurya/; `planPending` flags them on the
-   page so a placeholder never reads as a plan. `features` is hidden
-   while empty rather than faked.
+   page so a placeholder never reads as a plan. The tick-list that used
+   to sit beside the render went on 13 Aug 2026 — see the note on the
+   removed `features` field below.
 
    `stats` carries the RERA carpet areas from the CIDCO-approved plan
    (CIDCO/BP-18395/TPO(NM & K)/2023/12046, approved 6 Mar 2024). Its
@@ -134,7 +139,11 @@ export type UnitType = {
   planPending?: boolean;
   blurb: string;
   stats: { label: string; value: string }[];
-  features: string[];
+  /* There is deliberately no `features` field. The green-tick feature
+     list was removed from every project page on the owner's
+     instruction — a ticked bullet reads as a promise about the
+     delivered flat, and the flat is what the approved plan and the
+     agreement say it is. Do not add one back. */
 };
 
 export const unitTypes: UnitType[] = [
@@ -150,14 +159,10 @@ export const unitTypes: UnitType[] = [
       { label: "Enclosed balcony", value: "None — open balcony only" },
       { label: "Homes of this type", value: "4 of 8" },
     ],
-    features: [
-      // The old "Carpet area — 19.316 sq.m (≈ 208 sq.ft)" bullet was
-      // removed: 19.316 is the 1RK's carpet, and leaving it here put
-      // two different carpet areas under the same label on one card.
-      "Private balcony off the living room",
-      "Separate bedroom & kitchen",
-      "Chajja weather projections over the windows",
-    ],
+    // A "Carpet area — 19.316 sq.m (≈ 208 sq.ft)" bullet was removed
+    // from this card's tick-list before the tick-list itself went:
+    // 19.316 is the 1RK's carpet, and leaving it here put two
+    // different carpet areas under the same label on one card.
   },
   {
     type: "1RK",
@@ -173,11 +178,6 @@ export const unitTypes: UnitType[] = [
       { label: "Carpet area", value: "19.32 sq. m. (208 sq. ft.)" },
       { label: "Enclosed balcony", value: "None — open balcony only" },
       { label: "Homes of this type", value: "4 of 8" },
-    ],
-    features: [
-      "Separate bath and WC",
-      "Full-width 4.2 m living room",
-      "Chajja weather projections over the windows",
     ],
   },
 ];
@@ -197,7 +197,11 @@ export type FloorPlan = {
   plan: string;
   planPending?: boolean;
   blurb: string;
-  points: string[];
+  /* There is deliberately no `points` field. The green-tick lists
+     were removed from every project page on the owner's instruction —
+     a ticked bullet reads as a promise about the delivered building,
+     and the building is what the approved plan and the agreement say
+     it is. Do not add one back. */
 };
 
 export const floorPlans: FloorPlan[] = [
@@ -207,14 +211,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/shaurya/Shaurya_Ground_Plan.png",
     blurb:
       "No shops and no homes at street level. The ground floor is given over to the residents. Stilt parking fills the plot behind a sliding gate, with the lift, staircase, lobby and machine room held at the back.",
-    points: [
-      "Stilt parking for residents",
-      "Sliding gate off an 11 m wide road",
-      "Lift + staircase core",
-      "Lobby — 2.50 × 2.10 m",
-      "Machine room",
-      "Common toilet & W.C.",
-    ],
   },
   {
     title: "Typical floor",
@@ -222,14 +218,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/shaurya/Shaurya_Floor_Plan.png",
     blurb:
       "Two homes to a floor, four floors over. That is the whole building. Flat 101 is the 1BHK and flat 102 the 1RK, both reached off a small shared lobby at the lift.",
-    points: [
-      "2 homes per floor — 1BHK + 1RK",
-      "Flat 101 — 1BHK with balcony",
-      "Flat 102 — 1RK",
-      "Shared lobby — 1.50 × 2.25 m",
-      "1 automatic high-speed lift",
-      "8 homes across floors 1–4",
-    ],
   },
   {
     title: "Terrace",
@@ -237,13 +225,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/shaurya/Shaurya_Terrace_Plan.png",
     blurb:
       "An open terrace over the whole footprint, with the building's water storage and lift machinery tucked into one corner and planters run along the parapet.",
-    points: [
-      "Open terrace",
-      "O.H. water tank — 5,040 litres (domestic)",
-      "O.H. water tank — 7,875 litres (domestic)",
-      "Lift machine room",
-      "Planters along the parapet",
-    ],
   },
 ];
 
@@ -265,7 +246,6 @@ export type Level = {
   icon: string;
   featured?: boolean;
   blurb: string;
-  points: string[];
 };
 
 export const levels: Level[] = [
@@ -277,7 +257,6 @@ export const levels: Level[] = [
     featured: true,
     blurb:
       "Shaurya carries no shops. Eight homes (four 1BHK and four 1RK), and the whole of the building belongs to the families who live in it.",
-    points: ["8 homes — 4 × 1BHK + 4 × 1RK", "No commercial units — purely residential"],
   },
   {
     marker: "G+4",
@@ -286,7 +265,6 @@ export const levels: Level[] = [
     icon: "tower",
     blurb:
       "Four floors on a corner plot, a small building that takes a prominent, exposed position and owns it, with one automatic high-speed lift serving every floor.",
-    points: ["G+4 structure on a corner plot", "One automatic high-speed elevator"],
   },
   {
     marker: "100%",
@@ -296,7 +274,6 @@ export const levels: Level[] = [
     featured: true,
     blurb:
       "Shaurya means valour, and here that shows not in a promise but in a finished building: completed, handed over, and every home sold.",
-    points: ["Completed & handed over", "Completely sold out"],
   },
 ];
 
@@ -386,10 +363,11 @@ export const amenityGroups: AmenityGroup[] = [
   },
 ];
 
-/** Retained for parity with the prithvi/ishaan pattern — the amenity
-    schedule above is filled, so the "Still needed" fallback panel on
-    the page never renders. Left empty on purpose. */
-export const amenitiesNeeded: string[] = [];
+/* `amenitiesNeeded` was here — the "Still needed" checklist printed
+   inside the empty-amenities panel. Both the panel and the checklist
+   came off shaurya.astro on 13 Aug 2026 (the owner does not want the
+   page announcing what it is missing), so the export had nothing left
+   to feed and went with them. Udaan keeps its own, in udaan.ts. */
 
 /* ---------- About the developer (dark section) — REMOVED 12 Aug 2026 ----------
    Owner's review point #11: "Projects page — remove the about the developer

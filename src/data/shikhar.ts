@@ -92,7 +92,11 @@ export type UnitType = {
   plan: string;
   blurb: string;
   stats: { label: string; value: string }[];
-  features: string[];
+  /* There is deliberately no `features` field. The green-tick feature
+     list was removed from every project page on the owner's
+     instruction — a ticked bullet reads as a promise about the
+     delivered flat, and the flat is what the approved plan and the
+     agreement say it is. Do not add one back. */
 };
 
 export const unitTypes: UnitType[] = [
@@ -109,11 +113,6 @@ export const unitTypes: UnitType[] = [
       { label: "Carpet + balcony", value: "32.32 sq. m. (348 sq. ft.)" },
       { label: "Homes of this type", value: "37 of 58" },
     ],
-    features: [
-      "Separate bedroom for privacy",
-      "Dual-toilet layout",
-      "Abundant natural light",
-    ],
   },
   {
     type: "1RK",
@@ -126,11 +125,6 @@ export const unitTypes: UnitType[] = [
       { label: "Carpet area", value: "20.06 sq. m. (216 sq. ft.)" },
       { label: "Enclosed balcony", value: "2.60 sq. m. (28 sq. ft.) — series 5 only" },
       { label: "Homes of this type", value: "18 of 58" },
-    ],
-    features: [
-      "Space-saving design",
-      "Dedicated functional zones",
-      "Integrated storage",
     ],
   },
   {
@@ -145,11 +139,6 @@ export const unitTypes: UnitType[] = [
       { label: "Enclosed balcony", value: "2.80 sq. m. (30 sq. ft.)" },
       { label: "Wrapping terrace", value: "355.66 sq. ft." },
       { label: "Homes of this type", value: "3 of 58" },
-    ],
-    features: [
-      "Large wrapping private terrace",
-      "High-end luxury finishes",
-      "Limited availability",
     ],
   },
 ];
@@ -299,7 +288,11 @@ export type AmenityStage = {
   blurb: string;
   icon: string;
   featured?: boolean;
-  points: string[];
+  /* There is deliberately no `points` field. The green-tick lists
+     were removed from every project page on the owner's instruction —
+     a ticked bullet reads as a promise about the delivered building,
+     and the building is what the approved plan and the agreement say
+     it is. Do not add one back. */
   at: { x: number; y: number };
 };
 
@@ -310,7 +303,6 @@ export const amenityStages: AmenityStage[] = [
     category: "Foundation",
     icon: "waterproof",
     blurb: "Before anything rises, the promises that protect it: backed in writing, bought straight from the owner.",
-    points: ["Water-proofing guarantee", "No tri-party agreement — buy direct"],
     at: { x: 10.3, y: 92.3 },
   },
   {
@@ -320,12 +312,6 @@ export const amenityStages: AmenityStage[] = [
     icon: "tower",
     featured: true,
     blurb: "The tallest structure in Karanjade, with the vertical transport a G+10 landmark demands.",
-    points: [
-      "G+10 — tallest in the neighbourhood",
-      "3 high-speed automatic elevators",
-      "1 dedicated stretcher elevator",
-      "Ample 2W & 4W parking",
-    ],
     at: { x: 21.5, y: 76.0 },
   },
   {
@@ -334,12 +320,6 @@ export const amenityStages: AmenityStage[] = [
     category: "Interiors",
     icon: "tiles",
     blurb: "Branded finishes fitted as standard, the details you live with every day, done right.",
-    points: [
-      "Branded vitrified tile flooring",
-      "Branded bathroom fittings",
-      "UPVC windows & external grills",
-      "All electric fittings",
-    ],
     at: { x: 22.9, y: 60.7 },
   },
   {
@@ -348,11 +328,6 @@ export const amenityStages: AmenityStage[] = [
     category: "Shared spaces",
     icon: "people",
     blurb: "Wide, considered common areas that make the building feel shared, not just stacked.",
-    points: [
-      "Spacious lobby & common areas",
-      "Multi-purpose common room",
-      "Premium, hotel-grade lobby",
-    ],
     at: { x: 28.7, y: 47.1 },
   },
   {
@@ -362,10 +337,6 @@ export const amenityStages: AmenityStage[] = [
     icon: "gym",
     featured: true,
     blurb: "Room to move and unwind without leaving home, from the gym floor to your own deck.",
-    points: [
-      "Fully equipped gymnasium",
-      "Large decks in select apartments",
-    ],
     at: { x: 27.8, y: 31.3 },
   },
   {
@@ -375,7 +346,6 @@ export const amenityStages: AmenityStage[] = [
     icon: "rooftop",
     featured: true,
     blurb: "An open rooftop made for evenings, festivals and the whole building: the peak of Shikhar.",
-    points: ["Rooftop amenities for gatherings"],
     at: { x: 33.6, y: 18.9 },
   },
 ];

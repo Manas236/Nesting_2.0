@@ -40,7 +40,8 @@
        on that same 11 Aug 2026 instruction — removed, not
        softened, so nothing on this page may imply them.
 
-   Still outstanding (renders as "Insufficient information"):
+   Still outstanding (prints nothing — the line is simply absent
+   from the page until it is filled in):
      · Plot size, unit series
      · A ground-floor plan that shows the four shops. The only
        ground-floor render supplied depicts a residential layout
@@ -50,8 +51,11 @@
    Icon keys reference the line-icon set defined inside the page.
    ============================================================ */
 
-/** Marks a field we have not been given. Rendered as a muted
-    placeholder, never as a fact. Delete the TBD once you fill it in. */
+/** Marks a field we have not been given. It is a sentinel, not copy:
+    the page tests for it and leaves the line, row or block off
+    altogether, so the string itself never reaches the markup. It used
+    to print as a muted placeholder and that came off on the owner's
+    instruction, 13 Aug 2026. Delete the TBD once you fill it in. */
 export const TBD = "Insufficient information";
 
 export const prithvi = {
@@ -174,7 +178,11 @@ export type FloorPlan = {
   plan: string;
   planPending?: boolean;
   blurb: string;
-  points: string[];
+  /* There is deliberately no `points` field. The green-tick lists
+     were removed from every project page on the owner's instruction —
+     a ticked bullet reads as a promise about the delivered building,
+     and the building is what the approved plan and the agreement say
+     it is. Do not add one back. */
 };
 
 export const floorPlans: FloorPlan[] = [
@@ -184,14 +192,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/prithvi/Prithvi_Floor_Plan.png",
     blurb:
       "Four homes to a typical floor, all one-bedroom apartments, each with a private balcony and a utility, opening off a central passage and served by the lift. Twenty-seven homes are stacked this way above the shops: twenty-six 1BHK, and a single 2BHK on the seventh floor.",
-    points: [
-      "4 homes per typical floor",
-      "1BHK apartments with balcony + utility",
-      "1 automatic high-speed lift",
-      "Central passage — 7′6″ × 10′0″",
-      "26 × 1BHK + 1 × 2BHK in all",
-      "Corner plot",
-    ],
   },
   {
     title: "Rooftop terrace",
@@ -199,12 +199,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/prithvi/Prithvi_Terrace_Plan.png",
     blurb:
       "The roof belongs to everyone. A common terrace open to the sky sits at the centre, private terraces flank the top-floor homes, and the overhead water tanks run the building's services, reached by the lift and the stair.",
-    points: [
-      "Common terrace, open to the sky",
-      "Private terraces for top-floor homes",
-      "Overhead water tanks & services",
-      "Served by the lift + stair",
-    ],
   },
 ];
 
@@ -255,8 +249,8 @@ export const floorPlans: FloorPlan[] = [
    #9: no room dimensions on any project page). They had come from the
    render set supplied in Jul 2026 rather than the approved drawing,
    which is worth knowing if they are ever asked for again.
-   Fill `features` and the tick-list appears; it is hidden while empty
-   rather than faked.                                              */
+   The tick-list itself went on 13 Aug 2026 — see the note on the
+   removed `features` field below.                                 */
 export type UnitType = {
   type: string;
   units: string;
@@ -265,7 +259,11 @@ export type UnitType = {
   planPending?: boolean;
   blurb: string;
   stats: { label: string; value: string }[];
-  features: string[];
+  /* There is deliberately no `features` field. The green-tick feature
+     list was removed from every project page on the owner's
+     instruction — a ticked bullet reads as a promise about the
+     delivered flat, and the flat is what the approved plan and the
+     agreement say it is. Do not add one back. */
 };
 
 export const unitTypes: UnitType[] = [
@@ -281,11 +279,6 @@ export const unitTypes: UnitType[] = [
       { label: "Enclosed balcony", value: "6.74 sq. m. (73 sq. ft.)" },
       { label: "Open balcony", value: "7.52 sq. m. (81 sq. ft.)" },
       { label: "Homes of this type", value: "26 of 27" },
-    ],
-    features: [
-      "Private balcony — 4′0″ wide",
-      "Separate kitchen",
-      "Attached toilet",
     ],
   },
   {
@@ -305,14 +298,15 @@ export const unitTypes: UnitType[] = [
        review point #13, "remove carpet area from every page":
          "Carpet area — 795 sq.ft"        "Balcony area — 80 sq.ft"
          "Built-up area — 1,010 sq.ft"    "Super built-up area — 1,380 sq.ft"
-       The tick-list is not the <AreaStats/> grid, so `features.areaStats`
-       could not reach these — they had to go by hand. All four went, not
-       just the one word "carpet": they came as a set off the Jul 2026
-       render sheet, and the note below records why the approved plan
-       cannot be reconciled with them. Keeping the built-up pair while
-       every carpet figure on the site is hidden would have left the one
-       set of numbers the approved plan actively contradicts. */
-    features: ["Two balconies — 4′0″ wide · plus utility"],
+       They sat in the tick-list, not the <AreaStats/> grid, so
+       `features.areaStats` could not reach them — they had to go by
+       hand. All four went, not just the one word "carpet": they came as
+       a set off the Jul 2026 render sheet, and the note below records
+       why the approved plan cannot be reconciled with them. Keeping the
+       built-up pair while every carpet figure on the site is hidden
+       would have left the one set of numbers the approved plan actively
+       contradicts. The tick-list they sat in is itself gone as of
+       13 Aug 2026. */
   },
 ];
 
@@ -347,7 +341,6 @@ export type Level = {
   icon: string;
   featured?: boolean;
   blurb: string;
-  points: string[];
 };
 
 export const levels: Level[] = [
@@ -359,7 +352,6 @@ export const levels: Level[] = [
     featured: true,
     blurb:
       "Four shops hold the ground floor. The building meets the street as a working one. The everyday errand starts and ends at the foot of your own address.",
-    points: ["4 commercial shops at street level", "The ground floor belongs to the street"],
   },
   {
     marker: "1–7",
@@ -368,7 +360,6 @@ export const levels: Level[] = [
     icon: "tower",
     blurb:
       "Seven floors of homes stand on that ground, twenty-seven in all, and all but one of them a one-bedroom apartment built to the same plan.",
-    points: ["G+7 storey structure", "27 homes across seven floors", "26 one-bedroom apartments"],
   },
   {
     marker: "×1",
@@ -378,18 +369,13 @@ export const levels: Level[] = [
     featured: true,
     blurb:
       "One 2BHK in the whole building, on the seventh floor. Twenty-six homes share a plan; this one does not. A single larger apartment, and there is no second.",
-    points: [
-      "1 two-bedroom apartment",
-      "On the seventh floor",
-      "The only one of its kind at Prithvi",
-    ],
   },
 ];
 
 /* ---------- Amenities ----------
    EMPTY BY DESIGN — no amenity schedule was supplied for Prithvi.
-   The page renders the "Insufficient information" panel while this
-   array is empty, and switches to the full grouped list the moment
+   While this array is empty the page leaves the whole "full spec"
+   block off, heading and all, and prints the grouped list the moment
    you fill it. Group it Building / Lifestyle / Interiors the way
    shikhar.ts and dhruva.ts do; the page's icon set already carries
    the keys those files use.                                       */
@@ -511,9 +497,11 @@ export const amenityGroups: AmenityGroup[] = [
   },
 ];
 
-/** Retained for reference — the amenity schedule above is now filled,
-    so this list no longer renders. */
-export const amenitiesNeeded: string[] = [];
+/* `amenitiesNeeded` was here — the "Still needed" checklist printed
+   inside the empty-amenities panel. Both the panel and the checklist
+   came off prithvi.astro on 13 Aug 2026 (the owner does not want the
+   page announcing what it is missing), so the export had nothing left
+   to feed and went with them. Udaan keeps its own, in udaan.ts. */
 
 /* ---------- About the developer (dark section) — REMOVED 12 Aug 2026 ----------
    Owner's review point #11: "Projects page — remove the about the developer

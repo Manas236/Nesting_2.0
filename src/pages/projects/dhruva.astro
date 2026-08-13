@@ -49,8 +49,8 @@ const sections = [
   { label: "Overview", href: "#overview" },
   { label: "Floor plans", href: "#floorplans" },
   { label: "Flat types", href: "#units" },
-  { label: "Amenities", href: "#amenities" },
   { label: "Gallery", href: "#gallery" },
+  { label: "Amenities", href: "#amenities" },
 ];
 
 /* Hero film. The still render stays on as the poster, so the first paint is
@@ -161,7 +161,7 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
               }`}
               style={`--reveal-d:${(i * 0.08).toFixed(2)}s`}
             >
-              <p class="font-display font-bold text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none">
+              <p class="font-display font-bold text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white leading-none nt-star">
                 {s.figure}
               </p>
               <p class="font-display text-xs sm:text-sm font-bold uppercase tracking-[0.16em] text-olive-100 mt-4">
@@ -217,7 +217,7 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
               {
                 overview.spaceMix.map((u) => (
                   <div class="bg-card p-6 lg:p-8">
-                    <p class="font-display font-bold text-3xl lg:text-4xl tracking-tight text-ink leading-none">
+                    <p class="font-display font-bold text-3xl lg:text-4xl tracking-tight text-ink leading-none nt-star">
                       {u.figure}
                     </p>
                     <p class="text-muted text-sm leading-snug mt-3">{u.label}</p>
@@ -227,31 +227,11 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
             </div>
           </div>
 
-          <!-- highlights at a glance -->
-          <div class="reveal mt-14">
-            <span class="font-display text-xs font-bold uppercase tracking-[0.2em] text-olive-600"
-              >Highlights at a glance</span
-            >
-            <ul class="grid sm:grid-cols-2 gap-x-10 gap-y-4 mt-6 max-w-2xl">
-              {
-                overview.highlights.map((h) => (
-                  <li class="flex items-start gap-3 text-ink border-b border-line pb-4">
-                    <svg
-                      class="w-5 h-5 mt-0.5 shrink-0 text-olive-600"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.8"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      set:html={check}
-                    />
-                    <span class="text-base leading-snug">{h}</span>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
+          <!-- "Highlights at a glance" was removed on the owner's
+               instruction: every green-tick list came off the project
+               pages, because a ticked bullet reads as a promise about
+               the delivered building. The facts grid above states the
+               same building without claiming anything for it. -->
 
           <!-- location & connectivity -->
           <div class="reveal mt-14 bg-olive-50 border border-olive-100 rounded-[3px] p-8 lg:p-10">
@@ -423,23 +403,10 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
                 </p>
                 <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{fp.blurb}</p>
 
-                <ul class="mt-8 grid sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-lg">
-                  {fp.points.map((pt) => (
-                    <li class="flex items-start gap-3 text-ink">
-                      <svg
-                        class="w-5 h-5 mt-0.5 shrink-0 text-olive-600"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        set:html={check}
-                      />
-                      <span class="text-base leading-snug">{pt}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* The green-tick list beside the drawing was removed on
+                    the owner's instruction — a ticked bullet reads as a
+                    promise about the delivered building. The plan itself
+                    is the statement. Do not reinstate it. */}
               </div>
             </article>
           ))
@@ -489,7 +456,7 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
               {/* details */}
               <div class={i % 2 === 1 ? "lg:order-1" : ""}>
                 <div class="flex flex-wrap items-center gap-3">
-                  <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight">
+                  <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight nt-star">
                     {u.type}
                   </h3>
                   <span class="font-display text-xs font-bold uppercase tracking-[0.12em] bg-olive-100 text-olive-dark px-3 py-1.5 rounded-full">
@@ -504,23 +471,11 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
                 {/* RERA carpet figures from the approved plan */}
                 <AreaStats stats={u.stats} heading="Areas — approved plan" class="mt-9 max-w-md" />
 
-                <ul class="mt-7 flex flex-col gap-3 max-w-md">
-                  {u.features.map((f) => (
-                    <li class="flex items-start gap-3 text-ink">
-                      <svg
-                        class="w-5 h-5 mt-0.5 shrink-0 text-olive-600"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.8"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        set:html={check}
-                      />
-                      <span class="text-base leading-snug">{f}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* The green-tick feature list that used to sit here was
+                    removed on the owner's instruction — a ticked bullet
+                    reads as a promise about the delivered flat. What the
+                    home is stays with the approved plan above and the
+                    drawing alongside. Do not reinstate it. */}
               </div>
             </article>
           ))
@@ -537,8 +492,16 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
     </div>
   </section>
 
+  <!-- ===================== GALLERY =====================
+       Directly under the flat renders, not down by the footer. -->
+  <ProjectGallery
+    project="Dhruva"
+    items={gallery}
+    lead="Real photographs from Dhruva: the delivered landmark, its lobby, corridors and rooftop, shot on site."
+  />
+
   <!-- ===================== AMENITIES — "DHRUVA DOES NOT MOVE" ===================== -->
-  <section id="amenities" class="bg-stone scroll-mt-20">
+  <section id="amenities" class="bg-stone border-t border-line scroll-mt-20">
     <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-24 lg:pt-32 pb-14 lg:pb-24">
       <div class="reveal max-w-3xl">
         <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
@@ -598,24 +561,9 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
               </h3>
               <p class="text-muted text-base leading-relaxed mt-3">{w.sub}</p>
 
-              <ul class="mt-6 pt-6 border-t border-line flex flex-col gap-3">
-                {w.points.map((p) => (
-                  <li class="flex items-start gap-2.5 text-ink">
-                    <svg
-                      class="w-4 h-4 mt-1 shrink-0 text-olive-600"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                      set:html={check}
-                    />
-                    <span class="text-[15px] leading-snug">{p}</span>
-                  </li>
-                ))}
-              </ul>
+              {/* The green-tick list that closed this card was removed on
+                  the owner's instruction — a ticked bullet reads as a
+                  promise about the delivered building. Do not reinstate. */}
             </article>
           ))
         }
@@ -664,13 +612,6 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
       </div>
     </div>
   </section>
-
-  <!-- ===================== GALLERY ===================== -->
-  <ProjectGallery
-    project="Dhruva"
-    items={gallery}
-    lead="Real photographs from Dhruva: the delivered landmark, its lobby, corridors and rooftop, shot on site."
-  />
 
   <!-- ===================== ENQUIRY FORM ===================== -->
   <section id="enquire" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
@@ -783,9 +724,9 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
        the footer so it is the last thing read on the page. -->
   <aside class="bg-stone border-t border-line">
     <p
-      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-7 text-mutedlight text-xs sm:text-sm leading-relaxed text-center"
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-7 text-ink font-bold text-xs sm:text-sm leading-relaxed text-center"
     >
-      {brand.sizesNote}
+      *{brand.sizesNote}
     </p>
   </aside>
 

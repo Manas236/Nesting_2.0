@@ -1,7 +1,8 @@
 ---
 /* ============================================================
    ProjectGallery — real photography strip for the project pages.
-   Sits between the amenities and the developer sections.
+   Sits directly below the flat/home layout renders: the owner's call,
+   13 Aug 2026 — down by the footer nobody ever reached it.
 
    Photos are documentary site shots (real buildings, real finishes),
    so the layout is a natural masonry (CSS columns) that keeps each
@@ -28,6 +29,10 @@ interface Props {
   eyebrow?: string;
   heading?: string;
   lead?: string;
+  /* Same escape hatch as <BuildProgress/>: the gallery now lands mid-page,
+     so each project page passes the background that keeps its own
+     stone/card alternation reading correctly. */
+  sectionClass?: string;
 }
 
 const {
@@ -36,12 +41,13 @@ const {
   eyebrow = "The gallery",
   heading = `${project}, in photographs.`,
   lead = `Real photographs from ${project}: the building, the common areas and the finishes, shot on site.`,
+  sectionClass = "bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20",
 } = Astro.props;
 ---
 
 {
   items && items.length > 0 && (
-    <section id="gallery" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
+    <section id="gallery" class={sectionClass}>
       <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
         <div class="reveal max-w-3xl mb-16 lg:mb-20">
           <span class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600">

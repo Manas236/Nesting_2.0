@@ -50,7 +50,6 @@ const icons: Record<string, string> = {
 
 const arrow = `<path d="M5 12h14M13 6l6 6-6 6"/>`;
 const pin = `<path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/>`;
-const check = `<path d="m5 12.5 4 4 10-10"/>`;
 
 /* Gallery is left out of the jump links on purpose: nothing has been
    built, so <ProjectGallery/> hides itself and #gallery would be a link
@@ -58,8 +57,8 @@ const check = `<path d="m5 12.5 4 4 10-10"/>`;
 const sections = [
   { label: "Overview", href: "#overview" },
   { label: "Units", href: "#units" },
-  { label: "Progress", href: "#progress" },
   { label: "Floor plans", href: "#floorplans" },
+  { label: "Progress", href: "#progress" },
   { label: "Amenities", href: "#amenities" },
 ];
 
@@ -219,7 +218,7 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
                 class={`font-display font-bold tracking-tight leading-none ${
                   s.figure === "TBA"
                     ? "text-3xl sm:text-4xl lg:text-5xl text-white/35 pt-2 lg:pt-4"
-                    : "text-5xl sm:text-6xl lg:text-7xl text-white"
+                    : "text-5xl sm:text-6xl lg:text-7xl text-white nt-star"
                 }`}
               >
                 {s.figure}
@@ -291,7 +290,7 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
                       class={`font-display font-bold tracking-tight leading-none ${
                         u.figure === "TBA"
                           ? "text-2xl lg:text-3xl text-mutedlight pt-2 lg:pt-3"
-                          : "text-4xl lg:text-5xl text-ink"
+                          : "text-4xl lg:text-5xl text-ink nt-star"
                       }`}
                     >
                       {u.figure}
@@ -491,7 +490,7 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
                 {/* details */}
                 <div class={i % 2 === 1 ? "lg:order-1" : ""}>
                   <div class="flex flex-wrap items-center gap-3">
-                    <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight">
+                    <h3 class="font-display font-bold text-4xl lg:text-5xl tracking-tight nt-star">
                       {u.type}
                     </h3>
                     <span class="font-display text-xs font-bold uppercase tracking-[0.12em] bg-olive-100 text-olive-dark px-3 py-1.5 rounded-full">
@@ -511,25 +510,11 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
 
                   <AreaStats stats={u.stats} heading="Areas — approved plan" class="mt-9 max-w-md" />
 
-                  {u.features.length > 0 && (
-                    <ul class="mt-7 flex flex-col gap-3 max-w-md">
-                      {u.features.map((f) => (
-                        <li class="flex items-start gap-3 text-ink">
-                          <svg
-                            class="w-5 h-5 mt-0.5 shrink-0 text-olive-600"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.8"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            set:html={check}
-                          />
-                          <span class="text-base leading-snug">{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  {/* The green-tick feature list that used to sit here was
+                      removed on the owner's instruction — a ticked bullet
+                      reads as a promise about the delivered flat. When the
+                      plan is sanctioned and this section fills in, it fills
+                      in without one. Do not reinstate it. */}
                 </div>
               </article>
             ))}
@@ -557,15 +542,6 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
       }
     </div>
   </section>
-
-  <!-- ===================== CONSTRUCTION PROGRESS ===================== -->
-  <BuildProgress
-    steps={buildProgress}
-    eyebrow="Where Udaan stands"
-    heading="On paper, and honest about it."
-    intro="Udaan has not started on site. Approvals and documentation are the live phase, and nothing can begin until the Commencement Certificate is in hand. Here is the whole road from here to handover — no dates against it, because no schedule has been set."
-    sectionClass="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20"
-  />
 
   <!-- ============================ FLOOR PLANS ============================ -->
   <section id="floorplans" class="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20">
@@ -627,29 +603,10 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
                   </p>
                   <p class="text-muted text-lg leading-relaxed mt-6 max-w-md">{fp.blurb}</p>
 
-                  <ul class="mt-8 grid sm:grid-cols-2 gap-x-8 gap-y-3.5 max-w-lg">
-                    {fp.points.map((pt) => (
-                      <li
-                        class={`flex items-start gap-3 ${isTBD(pt) ? "text-mutedlight" : "text-ink"}`}
-                      >
-                        <svg
-                          class={`w-5 h-5 mt-0.5 shrink-0 ${
-                            isTBD(pt) ? "text-mutedlight" : "text-olive-600"
-                          }`}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.8"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          set:html={isTBD(pt) ? `<path d="M5 12h14"/>` : check}
-                        />
-                        <span class={`text-base leading-snug ${isTBD(pt) ? "italic" : ""}`}>
-                          {pt}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* The green-tick list beside the drawing was removed on
+                      the owner's instruction — a ticked bullet reads as a
+                      promise about the delivered building. The plan itself
+                      is the statement. Do not reinstate it. */}
                 </div>
               </article>
             ))}
@@ -669,6 +626,27 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
       }
     </div>
   </section>
+
+  <!-- ===================== GALLERY =====================
+       Once every render is shown — flat layouts then floor plans — the
+       real photographs follow. Card, so it breaks from the stone floor
+       plans above and the stone progress stepper below.
+       Hides itself while `gallery` is empty — nothing is built yet. -->
+  <ProjectGallery
+    project="Udaan"
+    items={gallery}
+    lead="Photographs from the Udaan site, once there is a site to photograph."
+    sectionClass="bg-card py-24 lg:py-32 border-t border-line scroll-mt-20"
+  />
+
+  <!-- ===================== CONSTRUCTION PROGRESS ===================== -->
+  <BuildProgress
+    steps={buildProgress}
+    eyebrow="Where Udaan stands"
+    heading="On paper, and honest about it."
+    intro="Udaan has not started on site. Approvals and documentation are the live phase, and nothing can begin until the Commencement Certificate is in hand. Here is the whole road from here to handover — no dates against it, because no schedule has been set."
+    sectionClass="bg-stone py-24 lg:py-32 border-t border-line scroll-mt-20"
+  />
 
   <!-- ===================== AMENITIES — "ONE BUILDING, ONE USE" =====================
        Section backgrounds alternate stone → card → stone → card down the
@@ -734,24 +712,9 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
               </h3>
               <p class="text-muted text-base leading-relaxed mt-3">{l.blurb}</p>
 
-              <ul class="mt-6 pt-6 border-t border-line flex flex-col gap-3">
-                {l.points.map((p) => (
-                  <li class="flex items-start gap-2.5 text-ink">
-                    <svg
-                      class="w-4 h-4 mt-1 shrink-0 text-olive-600"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      aria-hidden="true"
-                      set:html={check}
-                    />
-                    <span class="text-[15px] leading-snug">{p}</span>
-                  </li>
-                ))}
-              </ul>
+              {/* The green-tick list that closed this card was removed on
+                  the owner's instruction — a ticked bullet reads as a
+                  promise about the delivered building. Do not reinstate. */}
             </article>
           ))
         }
@@ -824,14 +787,6 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
       }
     </div>
   </section>
-
-  <!-- ===================== GALLERY =====================
-       Hides itself while `gallery` is empty — nothing is built yet. -->
-  <ProjectGallery
-    project="Udaan"
-    items={gallery}
-    lead="Photographs from the Udaan site, once there is a site to photograph."
-  />
 
   <!-- ===================== ENQUIRY FORM =====================
        General enquiry only. No pricing, no availability and no booking:
@@ -962,9 +917,9 @@ const schema = residenceSchema(udaan, gallery, new URL(Astro.site!));
        the footer so it is the last thing read on the page. -->
   <aside class="bg-stone border-t border-line">
     <p
-      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-7 text-mutedlight text-xs sm:text-sm leading-relaxed text-center"
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-7 text-ink font-bold text-xs sm:text-sm leading-relaxed text-center"
     >
-      {brand.sizesNote}
+      *{brand.sizesNote}
     </p>
   </aside>
 

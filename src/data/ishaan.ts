@@ -67,13 +67,17 @@
    │     reading "2nd–4th" was the portfolio's only outlier, and it
    │     came from the render title blocks.
    │
-   │ CONSEQUENCE, and the reason two drawings vanished from the
-   │ page: `Ishaan_Floor_Plan.png` and `Ishaan_1RK_Plan.png` both
-   │ draw four units per floor and are captioned 2nd–4th, so they
-   │ now contradict the text beside them. Both files are still on
-   │ disk. Restore them the day the architect reissues them against
-   │ the approved plan — see `floorPlans` and `unitTypes` below.
-   │ The ground and terrace plans are unaffected and still shown.
+   │ CONSEQUENCE for the two drawings that show the residential
+   │ floors: `Ishaan_Floor_Plan.png` and `Ishaan_1RK_Plan.png` both
+   │ draw four units per floor and are captioned 2nd–4th, so the
+   │ sheets themselves disagree with the text beside them. They were
+   │ off the page for that reason until 13 Aug 2026, when the owner
+   │ asked for them back. They now render with NO caveat beside them:
+   │ he is writing one line to cover every project's drawings and
+   │ will place it himself, elsewhere — so do not add a per-drawing
+   │ note here. The page text is NOT moved to match the sheets
+   │ either. Replace both the day the architect reissues them
+   │ against the approved plan. Ground and terrace are unaffected.
    └────────────────────────────────────────────────────────────────
 
    Real photography exists at public/images/Project_Images/Ishaan/
@@ -84,8 +88,11 @@
    Icon keys reference the line-icon set defined inside the page.
    ============================================================ */
 
-/** Marks a field we have not been given. Rendered as a muted
-    placeholder, never as a fact. Delete the TBD once you fill it in. */
+/** Marks a field we have not been given. It is a sentinel, not copy:
+    the page tests for it and leaves the line, row or block off
+    altogether, so the string itself never reaches the markup. It used
+    to print as a muted placeholder and that came off on the owner's
+    instruction, 13 Aug 2026. Delete the TBD once you fill it in. */
 export const TBD = "Insufficient information";
 
 export const ishaan = {
@@ -199,21 +206,25 @@ export const buildProgress: {
    public/images/projects/ishaan/. The set runs bottom to top:
    ground → residential floors → terrace.
 
-   `plan` is OPTIONAL. The residential-floor entry carries none: the
-   supplied drawing draws four units per floor and is title-blocked
-   "2ND TO 4TH", so it contradicts the approved plan this page now
-   follows (see the header block). The entry keeps its text — the
-   core, the lobby, the chajjas are all still true — and simply has
-   no drawing until the architect reissues one. A card with no `plan`
-   renders full-width with no image and no "pending" badge, because
-   nothing here is pending: a drawing exists, it is just wrong.   */
+   `plan` is OPTIONAL. The residential-floor drawing is title-blocked
+   "2ND TO 4TH" and draws four units per floor, so it disagrees with
+   the approved plan this page follows (see the header block). It is
+   shown anyway, on the owner's ask of 13 Aug 2026, and it carries NO
+   caveat on the page: he is writing one line to cover every project's
+   drawings and will place it himself, elsewhere. Do not re-add a
+   per-drawing note here. The card's own text is not moved to match
+   the sheet either: three homes per floor, floors 1–4, stands.    */
 export type FloorPlan = {
   title: string;
   label: string;
   plan?: string;
   planPending?: boolean;
   blurb: string;
-  points: string[];
+  /* There is deliberately no `points` field. The green-tick lists
+     were removed from every project page on the owner's instruction —
+     a ticked bullet reads as a promise about the delivered building,
+     and the building is what the approved plan and the agreement say
+     it is. Do not add one back. */
 };
 
 export const floorPlans: FloorPlan[] = [
@@ -223,30 +234,15 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/ishaan/Ishaan_Ground_Plan.png",
     blurb:
       "Ishaan carries no shops, so the ground floor belongs entirely to the building. A sliding-gate entry off the road, covered parking, and the residents' lobby with the lift and staircase.",
-    points: [
-      "Sliding-gate entry / exit",
-      "Car & two-wheeler parking",
-      "Lobby 2.50 × 3.80 m",
-      "Lift 1.65 × 1.80 m + staircase",
-      "Corner plot — 11 m & 9 m roads",
-      "No commercial units",
-    ],
   },
   {
     title: "Typical floor",
     label: "1st–4th · three 1RK homes",
-    // Drawing withheld — Ishaan_Floor_Plan.png draws four units and is
-    // captioned 2nd–4th. Restore it here once reissued.
+    // Presentation render, not the approved plan — it draws four units
+    // and is captioned 2nd–4th. Swap in the reissued sheet when it comes.
+    plan: "/images/projects/ishaan/Ishaan_Floor_Plan.png",
     blurb:
       "The homes sit on the typical floors, three to a floor, all of them 1RK, wrapped around a central lift-and-staircase core with a shared lobby. Every floor from the 1st to the 4th is identical.",
-    points: [
-      "Three 1RK homes per floor",
-      "Central lift & staircase core",
-      "Shared lobby 3.65 × 1.60 m",
-      "Chajja / balcony to each home",
-      "Floors 1st–4th identical",
-      "12 homes in all",
-    ],
   },
   {
     title: "Terrace",
@@ -254,12 +250,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/ishaan/Ishaan_Terrace_Plan.png",
     blurb:
       "Above the homes sits an open terrace, with the building's services tucked to one side: the overhead water tank, the lift machine room and the pump room.",
-    points: [
-      "Terrace open to sky",
-      "Parapet wall 1.20 m high",
-      "O.H. water tank — 7,182 L",
-      "Lift machine room",
-    ],
   },
 ];
 
@@ -267,12 +257,13 @@ export const floorPlans: FloorPlan[] = [
    Ishaan follows Shikhar's per-flat pattern rather than Dhruva's
    floor-only one: a buyer choosing a home needs to see the home, not
    just the storey it sits on. Same shape as `unitTypes` in shikhar.ts
-   — there is simply one entry, because there is one kind of home.
+   — there is simply one entry, because all twelve homes share one plan.
    (Bookings have NOT opened: the page reads "Pre-launch". The layout
    choice holds either way; this comment used to justify it with "Ishaan
    is now booking", which was never true of this project.)
 
-   `features` is hidden while empty rather than faked.
+   The tick-list that used to sit beside the render went on
+   13 Aug 2026 — see the note on the removed `features` field below.
 
    `stats` carries the RERA carpet areas from the CIDCO-approved plan
    (CIDCO/BP-19208/TPO(NM & K)/2024/13290, approved 20 Dec 2024). Its
@@ -289,7 +280,7 @@ export const floorPlans: FloorPlan[] = [
    the 15.22 – 19.08 range — a range reads as uncertainty on a sales
    page. It is the mean of the three series, unweighted because each
    carries four homes: (15.223 + 19.080 + 16.590) / 3 = 16.964, the
-   same 16.964 the `features` comment below refers to. It is labelled
+   same 16.964 the note on the removed `features` field refers to. It is labelled
    an average precisely because the three exact per-series rows sit
    directly under it — an unqualified "all 12 homes" against a single
    figure would contradict them.
@@ -315,17 +306,32 @@ export type UnitType = {
   type: string;
   units: string;
   series: string;
-  /* Optional for the same reason as `FloorPlan.plan` above:
-     Ishaan_1RK_Plan.png is withheld. Its key plan draws four units,
-     it is captioned "(2ND TO 4TH)", and it prints "RERA CARPET AREA
-     17.70 SQ.MT." — a figure that is really the floor's built-up
-     area divided by four, and that matches none of the three
-     approved carpet areas printed on this very card. */
+  /* Optional, and carrying the same caveat as `FloorPlan.plan` above:
+     Ishaan_1RK_Plan.png is a presentation render, not the approved
+     plan. Its key plan draws four units, it is captioned "(2ND TO
+     4TH)", and it prints "RERA CARPET AREA 17.70 SQ.MT." — a figure
+     that is really the floor's built-up area divided by four, and
+     that matches none of the three approved carpet areas. Shown from
+     13 Aug 2026 on the owner's ask, with no caveat on the page — he
+     is writing one line to cover every project's drawings and will
+     place it himself, elsewhere. NOTE that this sheet carries room
+     dimensions and that carpet figure as baked-in pixels, which no
+     data-side flag can reach; only a reissued sheet fixes it. */
   plan?: string;
   planPending?: boolean;
   blurb: string;
   stats: { label: string; value: string }[];
-  features: string[];
+  /* There is deliberately no `features` field. The green-tick feature
+     list was removed from every project page on the owner's
+     instruction — a ticked bullet reads as a promise about the
+     delivered flat, and the flat is what the approved plan and the
+     agreement say it is. Do not add one back.
+
+     An earlier "RERA carpet area — 17.70 sq.mt (≈ 190 sq.ft)" bullet
+     had already been pulled from that list: the approved plan records
+     15.223, 19.080 and 16.590 — 17.70 matches none of them, and is not
+     their mean (16.964) either. Leaving it put two different RERA
+     carpet areas under the same label on one card. */
 };
 
 export const unitTypes: UnitType[] = [
@@ -333,24 +339,17 @@ export const unitTypes: UnitType[] = [
     type: "1RK",
     units: "12 units",
     series: "Typical floors · 1st–4th",
+    // Presentation render of one corner home. See the type above for
+    // everything on this sheet that the approved plan overrules.
+    plan: "/images/projects/ishaan/Ishaan_1RK_Plan.png",
     blurb:
-      "The one kind of home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Three sit on every typical floor, from the 1st to the 4th.",
+      "The one-of-a-kind home at Ishaan: a living-cum-bedroom, a separate kitchen and an attached toilet, each opening to its own chajja. Three sit on every typical floor, from the 1st to the 4th.",
     stats: [
       { label: "Carpet area — 12-home average", value: "16.96 sq. m. (183 sq. ft.)" },
       { label: "Flats 101 / 201 / 301 / 401", value: "15.22 sq. m. (164 sq. ft.)" },
       { label: "Flats 102 / 202 / 302 / 402", value: "19.08 sq. m. (205 sq. ft.)" },
       { label: "Flats 103 / 203 / 303 / 403", value: "16.59 sq. m. (179 sq. ft.)" },
       { label: "Enclosed balcony", value: "None recorded" },
-    ],
-    features: [
-      // The old "RERA carpet area — 17.70 sq.mt (≈ 190 sq.ft)" bullet
-      // was removed: the approved plan records 15.223, 19.080 and
-      // 16.590 — 17.70 matches none of them, and is not their mean
-      // (16.964) either. Leaving it put two different RERA carpet
-      // areas under the same label on one card.
-      "Separate kitchen with cooking platform",
-      "Attached toilet with WC & washbasin",
-      "Private chajja / balcony",
     ],
   },
 ];
@@ -378,7 +377,6 @@ export type Level = {
   icon: string;
   featured?: boolean;
   blurb: string;
-  points: string[];
 };
 
 export const levels: Level[] = [
@@ -390,7 +388,6 @@ export const levels: Level[] = [
     featured: true,
     blurb:
       "There are no shops at Ishaan. The building carries one use and one only. The whole of it belongs to the people who live in it.",
-    points: ["No commercial units", "A single-use, purely residential building"],
   },
   {
     marker: "12",
@@ -399,30 +396,29 @@ export const levels: Level[] = [
     icon: "tower",
     blurb:
       "Four floors and twelve homes, three to a typical floor. A small building with a short list of neighbours, and the whole of Ishaan fits on one page.",
-    points: ["G+4 storey structure", "Three 1RK homes per typical floor"],
   },
   {
     marker: "1RK",
-    title: "One kind of home",
+    title: "One plan",
     category: "The plan",
     icon: "window",
     featured: true,
     blurb:
-      "Every home at Ishaan is a 1RK: a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja. One kind of home, top to bottom.",
+      "Every home at Ishaan is a 1RK: a living-cum-bedroom, a kitchen and an attached toilet opening to its own chajja. The same plan, top to bottom.",
     /* The blurb used to close on "about 17 sq.mt of carpet" and the
        points carried "≈ 17 sq.mt carpet, average". Both went on the
        owner's #13, 12 Aug 2026 — carpet area off every page — and
        neither was reachable by the `features.areaStats` flag. */
-    points: ["12 × 1RK apartments", "Living-cum-bedroom, kitchen & toilet"],
   },
 ];
 
 /* ---------- Amenities ----------
    FILLED. This block used to read "empty by design" because no
    schedule had been supplied; one has been since, and `amenityGroups`
-   below carries it. The page still falls back to the "Insufficient
-   information" panel if the array is ever emptied again — that is why
-   the fallback markup is kept in ishaan.astro.
+   below carries it. Empty it again and the page drops the whole
+   "full spec" block, heading and all — the "Insufficient information"
+   fallback panel that used to stand there was removed on the owner's
+   instruction, 13 Aug 2026. Do not reinstate it.
 
    Ishaan groups as "Buy with confidence" / "Building" rather than
    shikhar.ts's Building / Lifestyle / Interiors, because it has no
@@ -494,10 +490,10 @@ export const amenityGroups: AmenityGroup[] = [
    inside the empty-amenities panel. The schedule above is filled, so
    the panel never renders and the array had been sitting at [] with
    nothing to say. Deleted on 11 Aug 2026 along with the "Still needed"
-   list in ishaan.astro; the empty-amenities panel itself is kept, since
-   it is what appears if `amenityGroups` is ever emptied again. The
-   sibling files that are genuinely still waiting on a schedule
-   (udaan.ts) keep theirs. */
+   list in ishaan.astro. The panel itself went on 13 Aug 2026 — an empty
+   `amenityGroups` now drops the whole "full spec" block instead of
+   announcing the gap. The sibling file that is genuinely still waiting
+   on a schedule (udaan.ts) keeps its own list. */
 
 /* ---------- About the developer (dark section) — REMOVED 12 Aug 2026 ----------
    Owner's review point #11: "Projects page — remove the about the developer

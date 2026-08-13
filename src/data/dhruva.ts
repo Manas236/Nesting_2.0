@@ -54,20 +54,6 @@ export const overview = {
     { figure: "3+3", label: "1BHK + 1RK per floor" },
     { figure: "500", label: "Plot size (sq. m.)" },
   ],
-  highlights: [
-    "Corner plot with road frontage on two sides",
-    "500 sq. m. plot — large, well-ventilated homes",
-    "8-person high-speed automatic elevator",
-    "Wide staircase & wide corridors",
-    "UPVC windows (sound-proof living)",
-    "Rooftop community sit-out",
-    "Stack parking",
-    "Premium lobby",
-    "Branded vitrified tiles",
-    "Branded WC & bathroom fittings",
-    "External & internal water-proofing",
-    "Multi-purpose room & fitness centre",
-  ],
   connectivity:
     "Dhruva sits on a corner plot in Karanjade, a fast-growing residential pocket of Navi Mumbai with strong road connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
@@ -78,7 +64,11 @@ export type FloorPlan = {
   label: string;
   plan: string;
   blurb: string;
-  points: string[];
+  /* There is deliberately no `points` field. The green-tick lists
+     were removed from every project page on the owner's instruction —
+     a ticked bullet reads as a promise about the delivered building,
+     and the building is what the approved plan and the agreement say
+     it is. Do not add one back. */
 };
 
 export const floorPlans: FloorPlan[] = [
@@ -88,14 +78,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/dhruva/Ground_Floor_Plan.png",
     blurb:
       "Six shops face two sides of the corner plot for a wide street frontage, with ample parking, a society office, a fitness centre and a multi-purpose room.",
-    points: [
-      "6 commercial shops",
-      "Ample stack parking",
-      "Multi-purpose room",
-      "Fitness centre",
-      "Society office & lobby",
-      "Ground-floor WC",
-    ],
   },
   {
     title: "Typical upper floor",
@@ -103,14 +85,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/dhruva/Typical_Floor_Plan_Dhurva.png",
     blurb:
       "Each upper floor carries three 1BHK and three 1RK apartments off a wide corridor, served by an 8-person automatic elevator and a wide staircase. Top-floor homes add private terraces.",
-    points: [
-      "3 × 1BHK per floor",
-      "3 × 1RK per floor",
-      "1BHK + terrace homes (top floor)",
-      "8-person automatic elevator",
-      "Wide staircase & wide corridors",
-      "UPVC windows throughout",
-    ],
   },
 ];
 
@@ -146,7 +120,11 @@ export type UnitType = {
   plan: string;
   blurb: string;
   stats: { label: string; value: string }[];
-  features: string[];
+  /* There is deliberately no `features` field. The green-tick feature
+     list was removed from every project page on the owner's
+     instruction — a ticked bullet reads as a promise about the
+     delivered flat, and the flat is what the approved plan and the
+     agreement say it is. Do not add one back. */
 };
 
 export const unitTypes: UnitType[] = [
@@ -162,12 +140,6 @@ export const unitTypes: UnitType[] = [
       { label: "Carpet + balcony", value: "31.73 sq. m. (342 sq. ft.)" },
       { label: "Homes of this type", value: "12 of 24" },
     ],
-    features: [
-      "Separate bedroom for privacy",
-      "Split bath and WC — two people, no queue",
-      "Enclosed balcony along the living room",
-      "Kitchen with full-length counter & sink",
-    ],
   },
   {
     type: "1RK",
@@ -179,12 +151,6 @@ export const unitTypes: UnitType[] = [
     stats: [
       { label: "Carpet area", value: "22.14 sq. m. (238 sq. ft.)" },
       { label: "Homes of this type", value: "12 of 24" },
-    ],
-    features: [
-      "Single open living–sleeping space",
-      "Full bath plus a separate WC",
-      "Kitchen fitted along one wall",
-      "Corner variant with a wider 4.49 × 2.75 m living",
     ],
   },
 ];
@@ -349,7 +315,6 @@ export type SkyWaypoint = {
   title: string;
   sub: string;
   badge?: string;
-  points: string[];
 };
 
 export const skyWaypoints: SkyWaypoint[] = [
@@ -359,11 +324,6 @@ export const skyWaypoints: SkyWaypoint[] = [
     icon: "corner",
     title: "A corner that everything passes",
     sub: "Six road-facing shops and a premium lobby open onto twin frontage, the busiest edge of the plot, by design.",
-    points: [
-      "Six road-facing commercial shops",
-      "Twin road frontage on a corner plot",
-      "Premium entrance lobby",
-    ],
   },
   {
     index: "02",
@@ -372,11 +332,6 @@ export const skyWaypoints: SkyWaypoint[] = [
     badge: "Signature",
     title: "G+4 R+C on 500 sq. m.",
     sub: "A G+4 R+C frame on a 500 sq. m. corner plot, water-proofed inside and out, with stack parking below.",
-    points: [
-      "G+4 R+C structure on a 500 sq. m. corner plot",
-      "External and internal water-proofing",
-      "Stack parking on the ground floor",
-    ],
   },
   {
     index: "03",
@@ -385,11 +340,6 @@ export const skyWaypoints: SkyWaypoint[] = [
     badge: "Signature",
     title: "Room to move",
     sub: "An 8-person automatic lift, a green-marble staircase and broad tiled corridors move the whole building with ease.",
-    points: [
-      "High-speed 8-person automatic elevator",
-      "Green-marble staircase with steel railings",
-      "Broad, tiled, light-filled corridors",
-    ],
   },
   {
     index: "04",
@@ -398,11 +348,6 @@ export const skyWaypoints: SkyWaypoint[] = [
     badge: "Signature",
     title: "The still point",
     sub: "The open rooftop, the multi-purpose room and the fitness centre: the calm centre the rest of the day turns around.",
-    points: [
-      "Open rooftop community sit-out",
-      "Multi-purpose room on the ground floor",
-      "Fitness centre",
-    ],
   },
   {
     index: "05",
@@ -410,12 +355,6 @@ export const skyWaypoints: SkyWaypoint[] = [
     icon: "tiles",
     title: "Fitted, not finished later",
     sub: "Branded tiles and fittings, sound-proofing windows and a bathroom loft, all in place before you get the keys, not after.",
-    points: [
-      "Sound-proofing UPVC windows",
-      "Branded vitrified tile flooring",
-      "Branded WC and bathroom fittings",
-      "Internal lofts in the bathroom",
-    ],
   },
   {
     index: "06",
@@ -423,10 +362,6 @@ export const skyWaypoints: SkyWaypoint[] = [
     icon: "fan",
     title: "Handover-ready",
     sub: "Lights, fans and factory-fitted grills already in place. Open the door and move in.",
-    points: [
-      "Internal lights and fans pre-installed",
-      "Factory-fitted external grills on every opening",
-    ],
   },
 ];
 

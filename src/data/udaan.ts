@@ -176,7 +176,11 @@ export type FloorPlan = {
   plan: string;
   planPending?: boolean;
   blurb: string;
-  points: string[];
+  /* There is deliberately no `points` field. The green-tick lists
+     were removed from every project page on the owner's instruction —
+     a ticked bullet reads as a promise about the delivered building,
+     and the building is what the approved plan and the agreement say
+     it is. Do not add one back. */
 };
 
 export const floorPlans: FloorPlan[] = [];
@@ -200,7 +204,12 @@ export type UnitType = {
   planPending?: boolean;
   blurb: string;
   stats: { label: string; value: string }[];
-  features: string[];
+  /* There is deliberately no `features` field. The green-tick feature
+     list was removed from every project page on the owner's
+     instruction — a ticked bullet reads as a promise about the
+     delivered flat, and the flat is what the approved plan and the
+     agreement say it is. When the plan is sanctioned and `unitTypes`
+     fills in, it fills in without one. */
 };
 
 export const unitTypes: UnitType[] = [];
@@ -225,7 +234,6 @@ export type Level = {
   icon: string;
   featured?: boolean;
   blurb: string;
-  points: string[];
 };
 
 export const levels: Level[] = [
@@ -237,7 +245,6 @@ export const levels: Level[] = [
     featured: true,
     blurb:
       "Udaan carries one use and one only. There are no apartments in it — the whole building is commercial space, so nothing in it is competing with anything else.",
-    points: ["Purely commercial", "No residential apartments"],
   },
   {
     marker: "0",
@@ -246,7 +253,6 @@ export const levels: Level[] = [
     icon: "shop",
     blurb:
       "The ground floor is not given over to retail. What it does carry is being drawn now, and it will be published here once the plans are through.",
-    points: ["No ground-floor shops", "One use, from the ground up"],
   },
   {
     marker: "07",
@@ -256,7 +262,6 @@ export const levels: Level[] = [
     featured: true,
     blurb:
       "Udaan means take-off. It is our seventh project and the first that isn't a home: the same builder, the same standard, a different kind of building.",
-    points: ["Nesting Tree's 7th project", "The first that isn't a residence"],
   },
 ];
 

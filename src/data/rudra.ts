@@ -54,20 +54,6 @@ export const overview = {
     { figure: "1+4", label: "1BHK + 1RK per floor" },
     { figure: "340–560", label: "Home sizes (sq. ft.)" },
   ],
-  highlights: [
-    "4 ground-floor shops fronting the 9 m wide road",
-    "Ground-floor parking for buyers",
-    "High-speed elevator (6–7 person)",
-    "Large entrance lobby & wide staircase",
-    "Wide openings on three sides for light & ventilation",
-    "Rooftop community sit-out",
-    "Stack parking",
-    "Premium lobby",
-    "Branded bathroom fittings",
-    "UPVC windows",
-    "External & internal water-proofing guarantee",
-    "Electric back-up",
-  ],
   connectivity:
     "Rudra sits on a road-facing plot in Karanjade, a fast-growing residential pocket of Navi Mumbai with strong connectivity across the Mumbai–Pune corridor and the wider Navi Mumbai area.",
 };
@@ -78,7 +64,11 @@ export type FloorPlan = {
   label: string;
   plan: string;
   blurb: string;
-  points: string[];
+  /* There is deliberately no `points` field. The green-tick lists
+     were removed from every project page on the owner's instruction —
+     a ticked bullet reads as a promise about the delivered building,
+     and the building is what the approved plan and the agreement say
+     it is. Do not add one back. */
 };
 
 export const floorPlans: FloorPlan[] = [
@@ -88,14 +78,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/rudra/plan-ground.png",
     blurb:
       "Four shops face the busy 9 m wide road, each with its own street frontage, alongside ground-floor parking for home buyers and the building's wide main entrance for easy access.",
-    points: [
-      "4 commercial shops",
-      "Street frontage on 9 m road",
-      "Ground-floor parking",
-      "Underground & overhead water tanks",
-      "Society & sanitary block",
-      "Wide main entrance gate",
-    ],
   },
   {
     title: "Typical upper floor",
@@ -103,14 +85,6 @@ export const floorPlans: FloorPlan[] = [
     plan: "/images/projects/rudra/plan-fourth.png",
     blurb:
       "Each upper floor carries one large 1BHK and four smart 1RK homes off a large entrance lobby, served by a 6–7 person elevator and a wide staircase, with 3 m wide openings on three sides for light and a sense of space.",
-    points: [
-      "1 × 1BHK per floor",
-      "4 × 1RK per floor",
-      "Large entrance lobby",
-      "6–7 person elevator",
-      "Wide staircase",
-      "3 m openings on three sides",
-    ],
   },
 ];
 
@@ -179,14 +153,16 @@ export type UnitType = {
   /* RERA carpet figures from the approved plan, rendered by
      <AreaStats/> beside the layout render. Keep to two entries. */
   stats: { label: string; value: string }[];
-  /* Four each, and none of them a restatement of the blurb, the type
-     name or the series line — the column has to stay short. */
-  features: string[];
+  /* There is deliberately no `features` field. The green-tick feature
+     list was removed from every project page on the owner's
+     instruction — a ticked bullet reads as a promise about the
+     delivered flat, and the flat is what the approved plan and the
+     agreement say it is. Do not add one back. */
   /* Dimensions marked on the typical-floor plan (floors 1 to 3).
      The fourth floor sets back for the terrace — see the note.
      Habitable rooms only, as on Dhruva and Shikhar: balconies are
-     covered by the "carpet + balcony" stat and the feature list, and
-     listing them here only made the column taller than the render.
+     covered by the "carpet + balcony" stat, and listing them here
+     only made the column taller than the render.
      Their sizes stay in the record below. */
   featured?: boolean;
 };
@@ -203,12 +179,6 @@ export const unitTypes: UnitType[] = [
       { label: "Carpet area", value: "20.96 sq. m. (226 sq. ft.)" },
       { label: "Carpet + balcony", value: "27.60 sq. m. (297 sq. ft.)" },
     ],
-    features: [
-      "Separate bedroom",
-      "Two enclosed balconies",
-      "Separate bath and WC",
-      "Kitchen on the window wall",
-    ],
     featured: true,
   },
   {
@@ -222,12 +192,6 @@ export const unitTypes: UnitType[] = [
       { label: "Carpet area", value: "13.25 sq. m. (143 sq. ft.)" },
       { label: "Carpet + balcony", value: "20.24 sq. m. (218 sq. ft.)" },
     ],
-    features: [
-      "Widest 1RK living space",
-      "Kitchen in its own bay",
-      "Two enclosed balconies",
-      "Attached bathroom",
-    ],
   },
   {
     type: "Spacious 1 RK",
@@ -239,12 +203,6 @@ export const unitTypes: UnitType[] = [
     stats: [
       { label: "Carpet area", value: "17.36 sq. m. (187 sq. ft.)" },
       { label: "Homes of this type", value: "4 of 20" },
-    ],
-    features: [
-      "Kitchen on the far wall",
-      "Full-width enclosed balcony",
-      "Square plan, easy to furnish",
-      "Attached bathroom",
     ],
   },
   {
@@ -258,12 +216,6 @@ export const unitTypes: UnitType[] = [
       { label: "Carpet area", value: "19.38 sq. m. (209 sq. ft.)" },
       { label: "Homes of this type", value: "4 of 20" },
     ],
-    features: [
-      "Living front, kitchen back",
-      "Enclosed balcony off the living",
-      "Second balcony at the kitchen",
-      "Attached bathroom",
-    ],
   },
   {
     type: "Value 1 RK",
@@ -275,12 +227,6 @@ export const unitTypes: UnitType[] = [
     stats: [
       { label: "Carpet area", value: "15.36 sq. m. (165 sq. ft.)" },
       { label: "Carpet + balcony", value: "16.19 sq. m. (174 sq. ft.)" },
-    ],
-    features: [
-      "Defined zones in one room",
-      "Enclosed balcony off the living",
-      "Kitchen counter on one wall",
-      "Attached bathroom",
     ],
   },
 ];

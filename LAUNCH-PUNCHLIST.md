@@ -427,14 +427,28 @@ no building reaches once walls are counted. It is also the house pattern:
 Shaurya (G+4) is "Residential — floors 1 to 4" and Dhruva's series run "one per
 floor, floors 1–4".
 
-**➤ STILL OPEN — two drawings are off the page.** `Ishaan_Floor_Plan.png` and
-`Ishaan_1RK_Plan.png` both draw four units and are captioned 2nd–4th, so they
-contradict the corrected text beside them. Both are still on disk. `plan` is now
-optional on both `FloorPlan` and `UnitType`, and a card without one renders
-full-width, so the typical-floor card and the 1RK card currently carry text but
-no image. **Ask the architect to reissue both against the approved plan, then
-put the paths back in [`src/data/ishaan.ts`](src/data/ishaan.ts).** Ground and
-terrace plans were unaffected and are still shown.
+**➤ STILL OPEN — the two drawings are back on the page, but they are the wrong
+sheets.** `Ishaan_Floor_Plan.png` and `Ishaan_1RK_Plan.png` both draw four units
+and are captioned 2nd–4th, so they contradict the corrected text beside them.
+They were held off the page for that reason until **13 Aug 2026, when the owner
+asked for them back**. A per-drawing caveat was written under each and then
+removed the same day at his instruction: **he is writing one line to cover every
+project's drawings and will place it himself, elsewhere.** Do not re-add a note
+to these cards. The page text was not moved to match the sheets either.
+
+**Until his line lands, these read as plain fact on the page:**
+
+1. A visitor can **count four flats** in the typical-floor sheet while the card
+   beside it says three.
+2. The 1RK sheet prints **"RERA CARPET AREA 17.70 SQ.MT."** — a figure this file
+   shows to be wrong, and a carpet area back on a page after his own #13 took
+   every carpet figure off all seven. `features.areaStats` cannot reach it.
+3. Both sheets print **room dimensions**, which his #9 took off every page.
+
+**Ask the architect to reissue both against the approved plan, then swap the two
+paths in [`src/data/ishaan.ts`](src/data/ishaan.ts).** That is the only thing
+that actually clears items 1–3 — a caption never could. Ground and terrace plans
+never had this problem and were always shown.
 
 ---
 
