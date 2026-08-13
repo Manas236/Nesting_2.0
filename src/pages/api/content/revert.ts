@@ -22,7 +22,6 @@ import {
   MAX_TEXT,
   cleanText,
   clientIpFrom,
-  denyReason,
   isValidKey,
   normalizePath,
   userAgentFrom,
@@ -114,13 +113,11 @@ export const POST: APIRoute = async (context) => {
 
     target = cleanText(target);
 
-    // A stored row was legal when it was written, but the denylist may
-    // have grown since. Re-check rather than let an old row smuggle a
-    // now-banned string back onto the page.
+    // A stored row was legal when it was written, and the limits may have
+    // tightened since. Re-check rather than let an old row smuggle an
+    // over-long string back onto the page.
     if (!target || target.length > MAX_TEXT)
       return json({ error: "That version can no longer be restored." }, 400);
-    const denied = denyReason(target);
-    if (denied) return json({ error: denied }, 400);
 
     if (target === cleanText(current.new_text))
       return json({ error: "That is already what the page says." }, 400);

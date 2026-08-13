@@ -6,10 +6,24 @@
      · the API routes in src/pages/api/content*        (server)
      · src/scripts/inline-edit.js                      (browser)
 
-   That is the whole point of this file. The browser greys out what it
-   will not let you edit, and the server rejects what it will not let you
-   save — and those two answers must never disagree. Duplicating the
-   regexes would guarantee that they eventually do.
+   That is the whole point of this file. What the browser will let you
+   click into and what the server will let you save must never disagree,
+   so both answers are computed from the rules here rather than from two
+   copies that drift apart.
+
+   WHAT IS CHECKED, as of the owner's decision on 13 Aug 2026:
+
+     · the page is one of KNOWN_PATHS
+     · the edit_key is shaped like a key we generated
+     · the text is non-empty, and no longer than MAX_TEXT
+     · the text is stripped of markup and control characters
+
+   That is all. There is deliberately NO check on what the text SAYS.
+   Until 13 Aug 2026 this file also carried a denylist that locked any
+   string shaped like a figure off an official document — prices, RERA
+   numbers, phone numbers, measurements. The owner asked for it gone, so
+   it is gone: every run of copy on an editable page is now editable by
+   anyone who loads the page, because this feature has no login.
 
    Keep this file free of server-only imports (no mysql2, no node:*): it
    is bundled into the client script.
@@ -37,6 +51,7 @@ export const CACHE_PREFIX = "nt-edits:";
 export const KNOWN_PATHS: readonly string[] = [
   "/",
   "/about",
+  "/contact",
   "/gallery",
   "/privacy",
   "/terms",
@@ -116,159 +131,6 @@ export function stripTags(raw: unknown): string {
 /** stripTags + normalizeText: the form everything is judged in. */
 export function cleanText(raw: unknown): string {
   return normalizeText(stripTags(raw));
-}
-
-/* ------------------------------------------------------------
-   THE DENYLIST
-   ------------------------------------------------------------
-   Figures on this site are not copy. Carpet areas come off approved
-   plans, RERA numbers off certificates, the sales number belongs to one
-   person. A passer-by with the page open must not be able to move the
-   decimal point on a floor area or retype a phone number, so anything
-   shaped like a figure from an official document is locked — both the
-   text being replaced AND the replacement.
-
-   Every rule is tested against the normalised string.
-   ------------------------------------------------------------ */
-
-/** Rupee sign, "Rs" / "Rs." (not the start of a longer word), or INR. */
-export const RE_CURRENCY = new RegExp(
-  "\\u20b9|\\bRs\\.?(?![a-z])|\\bINR\\b",
-  "i"
-);
-
-/** RERA in any casing. A plain substring, so MahaRERA is caught too. */
-export const RE_RERA = /rera/i;
-
-/**
- * Six or more digits in one run, ignoring the separators a phone number
- * gets written with: "+91 95940 79317", "022-2757-1234", "9594079317".
- * Each repetition is anchored on a digit, so there is no backtracking
- * blow-up on a long line of spaces.
- */
-export const RE_PHONE_LIKE = new RegExp(
-  "(?:\\d[\\s+()\\u002d\\u2010-\\u2015]*){6,}"
-);
-
-/** Three or more separate groups of digits anywhere in the string. */
-export const RE_DIGIT_GROUP = /\d+/g;
-export const MAX_DIGIT_GROUPS = 2;
-
-/**
- * Units that may trail a bare number without making it prose.
- * Longest alternative first within a family — "mm" must beat "m".
- */
-const UNIT_WORDS = [
-  "%",
-  "\\+",
-  "sq\\.?\\s?ft",
-  "sq\\.?\\s?mt?rs?",
-  "sqft",
-  "sqm",
-  "sft",
-  "bhk",
-  "rk",
-  "crores?",
-  "cr",
-  "lakhs?",
-  "lacs?",
-  "acres?",
-  "gunthas?",
-  "units?",
-  "floors?",
-  "storeys",
-  "stories",
-  "levels?",
-  "homes?",
-  "flats?",
-  "towers?",
-  "wings?",
-  "years?",
-  "yrs?",
-  "months?",
-  "weeks?",
-  "days?",
-  "hours?",
-  "hrs?",
-  "minutes?",
-  "mins?",
-  "seconds?",
-  "secs?",
-  "kms?",
-  "mm",
-  "cm",
-  "km",
-  "ft",
-  "mtrs?",
-  "met(?:er|re)s?",
-  "bed(?:room)?s?",
-  "bath(?:room)?s?",
-  "cars?",
-  "seats?",
-  "pax",
-  "m",
-  "k",
-].join("|");
-
-/**
- * The whole string is a number, optionally carrying one unit:
- * "3", "2004", "3 BHK", "1,250 sq ft", "24x7", "12%", "10.5 m".
- */
-export const RE_NUMERIC_ONLY = new RegExp(
-  "^[+~<>\\u002d\\u2013\\u2014\\u2248]?\\s*" + // optional leading sign
-    "\\d[\\d.,\\s/:x\\u00d7+\\u002d]*\\s*" + // the number itself
-    "(?:" +
-    UNIT_WORDS +
-    ")?\\s*[.)]?$",
-  "i"
-);
-
-export interface DenyRule {
-  id: string;
-  /** Shown to the visitor in the failure toast. */
-  reason: string;
-  test(s: string): boolean;
-}
-
-export const DENY_RULES: readonly DenyRule[] = [
-  {
-    id: "currency",
-    reason: "Prices are locked — this text carries a rupee figure.",
-    test: (s) => RE_CURRENCY.test(s),
-  },
-  {
-    id: "rera",
-    reason: "RERA text is locked — it comes off the registration certificate.",
-    test: (s) => RE_RERA.test(s),
-  },
-  {
-    id: "phone",
-    reason: "This looks like a phone number, so it is locked.",
-    test: (s) => RE_PHONE_LIKE.test(s),
-  },
-  {
-    id: "figures",
-    reason: "Locked — too many figures to be ordinary copy.",
-    test: (s) => (s.match(RE_DIGIT_GROUP) || []).length > MAX_DIGIT_GROUPS,
-  },
-  {
-    id: "numeric",
-    reason: "Measurements are locked — they come off the approved plans.",
-    test: (s) => RE_NUMERIC_ONLY.test(s),
-  },
-];
-
-/** The first rule a string trips, or null if it trips none. */
-export function denyReason(raw: unknown): string | null {
-  const s = normalizeText(raw);
-  if (!s) return null;
-  for (const rule of DENY_RULES) if (rule.test(s)) return rule.reason;
-  return null;
-}
-
-/** Convenience wrapper for the client, which only needs yes/no. */
-export function isDenied(raw: unknown): boolean {
-  return denyReason(raw) !== null;
 }
 
 /* ------------------------------------------------------------
@@ -446,11 +308,6 @@ export function validateEdit(input: EditInput): EditCheck {
   if (!text) return { ok: false, reason: "Text cannot be empty." };
   if (text.length > MAX_TEXT)
     return { ok: false, reason: `Keep it under ${MAX_TEXT} characters.` };
-
-  // Both sides of the change are checked: you may not edit a locked
-  // string, and you may not turn an ordinary one into a locked one.
-  const denied = denyReason(original) ?? denyReason(text);
-  if (denied) return { ok: false, reason: denied };
 
   // Note there is no "text === original" check here. `original` is the
   // text the page was BUILT with, not necessarily what it says now, so

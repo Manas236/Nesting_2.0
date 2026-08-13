@@ -11,6 +11,14 @@
    validateEdit() in src/lib/editable.ts, which is the same module the
    browser uses to decide what it will let you click into.
 
+   Be clear about how little that is now. validateEdit checks the SHAPE
+   of a request — known page, well-formed key, non-empty text under the
+   length cap, markup stripped — and, since the denylist was removed on
+   13 Aug 2026, nothing whatever about what the text says. Anyone who
+   can load a page can rewrite any of its copy, including prices, RERA
+   numbers and the sales phone number. What survives is not prevention
+   but the audit trail below.
+
    content_edits is APPEND-ONLY. A save is an INSERT; the current text
    for a key is the row with the highest id. Nothing here UPDATEs or
    DELETEs, so the table doubles as the audit trail of who changed what

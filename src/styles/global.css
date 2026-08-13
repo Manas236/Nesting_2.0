@@ -484,15 +484,26 @@ html.menu-lock body {
    appears on hover, which is a gesture a phone cannot make.
    ============================================================ */
 
-/* Hover outline is desktop-only on purpose: on a touch screen :hover
-   sticks after a tap, so every tapped paragraph would keep a dashed box
+/* Everything below is scoped to :root[data-nt-mode] — the attribute the
+   "Edit text" button sets. With the mode off, an editable element is
+   styled exactly like any other text on the page, because a reader is
+   not editing and should see no trace of the machinery. */
+
+/* Every editable run is outlined while the mode is on, so what can be
+   changed is visible rather than something you discover by accident. */
+:root[data-nt-mode] [data-nt-editable] {
+  outline: 1px dashed rgba(110, 122, 69, 0.4);
+  outline-offset: 3px;
+  border-radius: 2px;
+  cursor: text;
+}
+
+/* Hover emphasis stays desktop-only: on a touch screen :hover sticks
+   after a tap, so every tapped paragraph would keep the stronger box
    around it for the rest of the visit. */
 @media (hover: hover) and (pointer: fine) {
-  [data-nt-editable]:hover {
-    outline: 1px dashed rgba(110, 122, 69, 0.55);
-    outline-offset: 3px;
-    border-radius: 2px;
-    cursor: text;
+  :root[data-nt-mode] [data-nt-editable]:hover {
+    outline-color: rgba(110, 122, 69, 0.85);
   }
 }
 
@@ -506,14 +517,10 @@ nt-t {
   display: inline;
 }
 
-/* Prices, RERA numbers, phone numbers, measurements. The server refuses
-   these too — this is the cursor telling the truth in advance. */
-[data-nt-locked] {
-  cursor: not-allowed;
-}
-
-[data-nt-editable] {
-  /* We take over the long press, so iOS must not also raise its callout. */
+/* While editing we take over the long press, so iOS must not also raise
+   its callout. Scoped to the mode: with editing off, long-press has to
+   go back to selecting text, which is what it is for. */
+:root[data-nt-mode] [data-nt-editable] {
   -webkit-touch-callout: none;
 }
 
@@ -525,12 +532,32 @@ nt-t {
   background-color: rgba(239, 240, 226, 0.14);
 }
 
-/* ---- Toolbar pill ---- */
-.nt-pill {
+/* ---- Toolbar ----
+   The bar is what is positioned; the pills inside it are in flow, so a
+   second button sits beside the first instead of on top of it. */
+.nt-bar {
   position: fixed;
   right: 16px;
   bottom: 16px;
   z-index: 9998;
+  display: flex;
+  flex-direction: row-reverse; /* the mode button stays nearest the corner */
+  align-items: center;
+  gap: 8px;
+}
+
+/* Undo is only meaningful once you are editing, so it appears with the
+   mode and is not clutter for a reader. */
+.nt-bar .nt-pill:not(.nt-pill-mode) {
+  display: none;
+}
+:root[data-nt-mode] .nt-bar .nt-pill {
+  display: block;
+}
+
+/* The mode button is the one thing a reader might see, so it sits
+   quieter than the rest until pointed at. */
+.nt-pill {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 11px;
@@ -552,6 +579,14 @@ nt-t {
 .nt-pill:focus-visible {
   opacity: 1;
   background-color: var(--color-ink);
+}
+
+/* Editing on: the button stops being a suggestion and reads as state. */
+:root[data-nt-mode] .nt-pill-mode {
+  opacity: 1;
+  background-color: var(--color-olive);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
 }
 
 /* ---- Toast ---- */
@@ -631,6 +666,7 @@ nt-t {
 }
 
 @media print {
+  .nt-bar,
   .nt-pill,
   .nt-toast,
   .nt-menu {

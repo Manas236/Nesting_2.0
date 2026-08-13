@@ -113,7 +113,6 @@ const footerLinks = [
       <p
         class="hero-fade font-display text-sm font-semibold text-olive-100 mt-8 tracking-wide"
         style="--fade-d:0.6s"
-        data-no-edit
       >
         <a href={telHref} class="hover:text-white transition-colors">{contact.phone}</a>
         &nbsp;·&nbsp;
@@ -159,13 +158,15 @@ const footerLinks = [
               set:html={icons.pin}
             />
           </span>
-          <h3 class="font-display font-bold text-xl tracking-tight mt-6" data-no-edit>
+          <h3 class="font-display font-bold text-xl tracking-tight mt-6">
             {contactPage.reach.office.label}
           </h3>
-          <!-- Never retyped here: `sales.office` is the one place the office
-               address is written down, and the seven project pages print the
-               same string. -->
-          <p class="text-ink text-base leading-relaxed mt-3 font-medium" data-no-edit>
+          <!-- `sales.office` is the one place the office address is written
+               down, and the seven project pages print the same string. An
+               inline edit here changes only this page's stored row, so the
+               two will read differently until the edit is undone or the same
+               change is made in src/data/site.ts. -->
+          <p class="text-ink text-base leading-relaxed mt-3 font-medium">
             {sales.office}
           </p>
           <p class="text-muted text-base leading-relaxed mt-3">
@@ -196,10 +197,10 @@ const footerLinks = [
               set:html={icons.phone}
             />
           </span>
-          <h3 class="font-display font-bold text-xl tracking-tight mt-6" data-no-edit>
+          <h3 class="font-display font-bold text-xl tracking-tight mt-6">
             {contactPage.reach.phone.label}
           </h3>
-          <p class="text-base leading-relaxed mt-3 font-medium" data-no-edit>
+          <p class="text-base leading-relaxed mt-3 font-medium">
             <a href={telHref} class="text-ink hover:text-olive-600 transition-colors"
               >{contact.phone}</a
             >
@@ -232,10 +233,10 @@ const footerLinks = [
               set:html={icons.mail}
             />
           </span>
-          <h3 class="font-display font-bold text-xl tracking-tight mt-6" data-no-edit>
+          <h3 class="font-display font-bold text-xl tracking-tight mt-6">
             {contactPage.reach.email.label}
           </h3>
-          <p class="text-base leading-relaxed mt-3 font-medium" data-no-edit>
+          <p class="text-base leading-relaxed mt-3 font-medium">
             <a href={mailHref} class="text-ink hover:text-olive-600 transition-colors break-words"
               >{contact.email}</a
             >
@@ -270,7 +271,7 @@ const footerLinks = [
       <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl mx-auto">
         {contactPage.form.lead}
       </p>
-      <p class="text-muted text-lg leading-relaxed mt-3 max-w-xl mx-auto" data-no-edit>
+      <p class="text-muted text-lg leading-relaxed mt-3 max-w-xl mx-auto">
         Or call {sales.name} on{" "}
         <a href={telHref} class="font-semibold text-olive-600 hover:text-olive-dark transition-colors"
           >{sales.phone}</a

@@ -9,19 +9,20 @@
    out, exactly, forever.
 
    The rules about WHAT may be edited come from src/lib/editable.ts —
-   the same module the API routes import. The browser and the server
-   therefore lock the same strings, and the greyed-out cursor is never
-   a lie about what would be rejected.
+   the same module the API routes import, so the browser never offers an
+   edit the server is going to refuse.
 
    Shape of the thing:
 
      · every leaf that holds one run of words becomes editable, and a
        run that shares its parent with a <br>, an icon or a <strong> is
        given a leaf of its own so that it can be one too
-     · figures — prices, RERA numbers, phone numbers, measurements —
-       are locked, in the browser and again on the server
-     · desktop enters an element by double-click, touch by a ~500 ms
-       hold that a scroll cancels
+     · nothing is locked by what it says — the figure denylist was
+       removed on 13 Aug 2026 at the owner's request. The only copy the
+       editor still leaves alone is what an author opted out by hand
+       with data-no-edit.
+     · none of it is live until "Edit text" is pressed; with the mode on,
+       one click enters an element and no link navigates
      · one element is editable at a time, and only while it has focus
      · saving is optimistic: the text changes, then the POST goes; a
        rejection puts the old text back and says why
@@ -29,7 +30,7 @@
 
    No framework, no build-time dependency beyond the shared rules.
    ============================================================ */
-import { MAX_TEXT, denyReason } from "../lib/editable";
+import { MAX_TEXT } from "../lib/editable";
 
 const NT = window.__ntEdit;
 
@@ -40,10 +41,12 @@ const MOVE_CANCEL_PX = 10;
 /** Versions offered in the per-element menu. */
 const MENU_VERSIONS = 5;
 const TOAST_MS = 4200;
-/** Window in which the click/callout that follows a hold is swallowed. */
-const AFTER_HOLD_MS = 700;
 
-const LOCK_TITLE = "Locked — contains figures from official documents";
+/** Where the mode is remembered. sessionStorage, not localStorage: this
+    is a static multi-page site, so edit mode has to survive a navigation
+    or you would switch it back on for every page — but it should not
+    outlive the tab. */
+const MODE_KEY = "nt-edit-mode";
 
 const state = {
   /** key -> { text, original, id } for this page. */
@@ -53,9 +56,12 @@ const state = {
   /** Its text when we entered, for the failure path. */
   before: "",
   menu: null,
+  /** Editing is off until someone asks for it. See the note on gestures. */
+  editing: false,
+  /** The mode button, so setMode can relabel it. */
+  toggle: null,
   holdTimer: 0,
   holdFrom: null,
-  swallowUntil: 0,
 };
 
 /* ============================================================
@@ -110,12 +116,6 @@ function markElements() {
     const text = NT.textOf(el);
     if (!text) continue;
 
-    if (denyReason(text)) {
-      el.setAttribute("data-nt-locked", "");
-      el.title = LOCK_TITLE;
-      continue;
-    }
-
     el.setAttribute("data-nt-editable", "");
   }
 }
@@ -140,49 +140,87 @@ function editableFrom(target) {
 /* ============================================================
    Gestures
    ------------------------------------------------------------
-   Getting in has to be deliberate — a phone visitor scrolling past
-   must never find themselves typing into the page.
+   Everything here is off until someone presses "Edit text".
 
-     desktop  double-click
-     touch    hold ~500 ms, cancelled by a 10 px drift
-     both     a hold on an element that is already open, or a
-              right-click on one that has been edited, opens its
-              version list
+   That switch is the whole design. Before it existed, the editor had to
+   infer intent from the gesture alone, and the only gestures available
+   were the two the browser had already spoken for: double-click, which
+   is how you select a word, and long-press, which is how you select
+   text on a phone. So a reader could fall into editing, and — worse —
+   copy inside a link could not reliably be reached at all. The first
+   click of a double-click follows the href before the second one
+   arrives, and holding an anchor starts the browser's own link drag,
+   which cancels the hold. Every CTA on this site is an anchor.
 
-   The hold is wired through pointer events, so it also works with a
-   mouse. That is deliberate: a double-click on a link races the
-   browser's own navigation, and holding a link does not.
+   With an explicit mode, intent is stated once and the gestures stop
+   competing:
+
+     off   nothing is bound. Reading is reading; links are links.
+     on    one click enters an element. A capture-phase handler calls
+           preventDefault on every click first, so an anchor stays put
+           instead of navigating.
+     both  a right-click (desktop) or a ~500 ms hold (touch) on an
+           element that has been edited opens its version list.
+
+   The click rule is narrower than "swallow everything", and the
+   difference matters. A click is only intercepted when it lands on
+   something editable; anything else is left completely alone. So while
+   the mode is on you can still work the page — open the mobile menu,
+   drive a carousel, open a lightbox — and reach the copy you actually
+   want to change, while the copy itself stops behaving like a control.
+
+   That distinction is what makes the site's own click handlers safe.
+   Several of them would otherwise fight the editor:
+
+     · every .mobile-link closes the mobile menu (SiteHeader), so
+       clicking a nav link to edit it would shut the panel first
+     · "View all N photos" opens the lightbox (gallery.astro)
+     · the project rails and dots move the carousel
+
+   All three hang off text that is itself editable, and all three are
+   suppressed by stopPropagation here — while the menu toggle, the
+   gallery tiles and the arrows, none of which are editable, keep
+   working normally.
    ============================================================ */
 function installGestures() {
-  document.addEventListener("dblclick", (e) => {
-    const el = editableFrom(e.target);
-    if (!el) return;
-    e.preventDefault(); // the second click of a double must not follow a link
-    enter(el);
-  });
+  // Capture phase: this has to beat both the browser's own click
+  // handling and every listener the page has of its own.
+  document.addEventListener(
+    "click",
+    (e) => {
+      if (!state.editing) return;
+      if (e.target.closest && e.target.closest("[data-nt-ui]")) return;
 
+      const el = editableFrom(e.target);
+      // Not editable: leave it entirely alone, so the page still works.
+      // A click out here also commits whatever was open, which the
+      // focusout handler below has normally done already.
+      if (!el) return;
+
+      // No href is followed, no menu closes, no lightbox opens. Caret
+      // placement is unaffected: that happens on pointerdown, not click.
+      e.preventDefault();
+      e.stopPropagation();
+      enter(el);
+    },
+    true
+  );
+
+  /* The version list. Touch has no right-click, so it keeps the hold —
+     but only ever to open history, never to enter an element, so it no
+     longer races anything. */
   document.addEventListener(
     "pointerdown",
     (e) => {
       clearHold();
-      if (e.button > 0) return; // right-click has its own path
+      if (!state.editing || e.button > 0) return;
       const el = editableFrom(e.target);
-      if (!el) return;
+      if (!el || !el.hasAttribute("data-nt-edited")) return;
 
       state.holdFrom = { x: e.clientX, y: e.clientY };
       state.holdTimer = window.setTimeout(() => {
         state.holdTimer = 0;
-        // A second hold on an element already open, that has history,
-        // asks for the version list instead of another edit.
-        if (state.active === el && el.hasAttribute("data-nt-edited")) {
-          openVersions(el);
-        } else {
-          enter(el);
-        }
-        // Swallow the click and the OS callout the hold is about to
-        // produce, so holding a nav link neither navigates nor opens
-        // the browser's own menu.
-        state.swallowUntil = Date.now() + AFTER_HOLD_MS;
+        openVersions(el);
       }, HOLD_MS);
     },
     { passive: true }
@@ -206,30 +244,10 @@ function installGestures() {
     document.addEventListener(type, clearHold, { passive: true, capture: true });
   }
 
-  // Capture phase: this has to beat the browser's own click handling.
-  document.addEventListener(
-    "click",
-    (e) => {
-      if (e.target.closest && e.target.closest("[data-nt-ui]")) return;
-      if (Date.now() < state.swallowUntil) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
-      // Clicking about inside the element you are editing moves the
-      // caret; it must not also follow a link.
-      if (state.active && state.active.contains(e.target)) e.preventDefault();
-    },
-    true
-  );
-
   document.addEventListener("contextmenu", (e) => {
-    if (Date.now() < state.swallowUntil) {
-      e.preventDefault(); // the callout a touch hold just triggered
-      return;
-    }
+    if (!state.editing) return; // leave the browser menu alone
     const el = editableFrom(e.target);
-    if (!el || !el.hasAttribute("data-nt-edited")) return; // leave the browser menu alone
+    if (!el || !el.hasAttribute("data-nt-edited")) return;
     e.preventDefault();
     openVersions(el);
   });
@@ -241,6 +259,11 @@ function installGestures() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && state.menu) {
       closeMenu();
+      return;
+    }
+    // Escape with nothing open is the way out of the mode itself.
+    if (e.key === "Escape" && !state.active && state.editing) {
+      setMode(false);
       return;
     }
     if (!state.active) return;
@@ -346,14 +369,8 @@ function saveEdit(el, before, after) {
   if (!key) return;
   const anchor = anchorOf(el, before);
 
-  // The same rules the server is about to apply, so an obvious refusal
+  // The same rule the server is about to apply, so an obvious refusal
   // costs no round trip.
-  const denied = denyReason(after) || denyReason(anchor);
-  if (denied) {
-    NT.setText(el, before);
-    toast(denied);
-    return;
-  }
   if (after.length > MAX_TEXT) {
     NT.setText(el, before);
     toast(`Keep it under ${MAX_TEXT} characters.`);
@@ -556,15 +573,76 @@ function whenever(iso) {
 /* ============================================================
    Toolbar and toast
    ============================================================ */
+/* Both buttons live in one bar, and that bar is APPENDED to <body> —
+   never inserted. An edit_key is a path of tag:nth-of-type() segments
+   from <body>, so anything placed ahead of existing content renumbers
+   those paths and quietly detaches every edit already in the database
+   from the element it was made on. Append only. */
 function buildToolbar() {
-  const pill = document.createElement("button");
-  pill.type = "button";
-  pill.className = "nt-pill";
-  pill.setAttribute("data-nt-ui", "");
-  pill.textContent = "Undo last change";
-  pill.addEventListener("click", undoLast);
-  // Appended, never inserted: nth-of-type keys stay put.
-  document.body.appendChild(pill);
+  const bar = document.createElement("div");
+  bar.className = "nt-bar";
+  bar.setAttribute("data-nt-ui", "");
+
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "nt-pill nt-pill-mode";
+  toggle.addEventListener("click", () => setMode(!state.editing));
+
+  const undo = document.createElement("button");
+  undo.type = "button";
+  undo.className = "nt-pill";
+  undo.textContent = "Undo last change";
+  undo.addEventListener("click", undoLast);
+
+  bar.appendChild(toggle);
+  bar.appendChild(undo);
+  document.body.appendChild(bar);
+
+  state.toggle = toggle;
+  // Restore the mode this tab was left in, so it survives a navigation.
+  setMode(readMode(), true);
+}
+
+function readMode() {
+  try {
+    return sessionStorage.getItem(MODE_KEY) === "1";
+  } catch (err) {
+    return false; // storage disabled — start off, as we would anyway
+  }
+}
+
+/**
+ * Turn editing on or off. `quiet` suppresses the toast, so restoring the
+ * mode after a navigation does not announce itself on every page.
+ */
+function setMode(on, quiet) {
+  state.editing = !!on;
+
+  if (!state.editing) {
+    exit(true); // commit whatever was open, then let go of the page
+    closeMenu();
+    clearHold();
+  }
+
+  document.documentElement.toggleAttribute("data-nt-mode", state.editing);
+  if (state.toggle) {
+    state.toggle.textContent = state.editing ? "Done editing" : "Edit text";
+    state.toggle.setAttribute("aria-pressed", String(state.editing));
+  }
+
+  try {
+    if (state.editing) sessionStorage.setItem(MODE_KEY, "1");
+    else sessionStorage.removeItem(MODE_KEY);
+  } catch (err) {
+    /* storage disabled: the mode just will not survive the next page */
+  }
+
+  if (quiet) return;
+  toast(
+    state.editing
+      ? "Editing on — click any text to change it."
+      : "Editing off."
+  );
 }
 
 let toastTimer = 0;
