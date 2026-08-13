@@ -179,15 +179,45 @@ over what is in fact the **Prithvi elevation render**; it now says so. Locality
 stays at region level because Prithvi's street address is one of the two the
 owner has flagged as wrong.
 
-### 3.7 325 MB of duplicated assets moved out of `public/`
+### 3.7 A nested duplicate of the projects folder, moved out of `public/`
 
-`public/images/projects/**projects**/` — a stray nested copy of the projects
-folder. **Untracked in git, referenced by nothing in `src/`, and shipping in
-every build**, where it also silently doubled every video in `dist`.
+`public/images/projects/`**`projects/`** — a second copy of the projects folder,
+nested inside itself. **Untracked in git and referenced by nothing in `src/`**,
+but `public/` is copied into the build wholesale, so every build shipped the
+whole projects folder twice. That alone is why `dist/client` was 644 MB.
 
-Moved to `_quarantine/` (now gitignored) rather than deleted, because it is
-325 MB that exists nowhere else. **It is safe to delete once you've had a look
-— nothing reads it.** That single move is 325 MB of the 325 MB the deploy shed.
+Moved to `_quarantine/` (gitignored) rather than deleted. It is now 326 MB of
+real files, and **every one of them is a byte-identical duplicate** — verified
+by comparison, not assumed:
+
+```
+files in _quarantine:                                271
+identical copy exists in public/images/projects:     271
+same name but different size:                          0
+exists only in _quarantine:                            0
+```
+
+**The confusing part, and the reason it looks alarming:** the filenames in
+`_quarantine` are the same filenames the site uses — `homepage_video.mp4`,
+`about.mp4`, `Dhruva_Backdrop.mp4`. They are not the files being served. The
+served ones are one directory up, at `public/images/projects/<name>.mp4`, and
+all nine were checked present at the right sizes after the move:
+
+| Referenced URL | Live file |
+|---|---|
+| `/images/projects/homepage_video.mp4` | 1,040 KB ✅ |
+| `/images/projects/about.mp4` | 4,743 KB ✅ |
+| `/images/projects/ishaan.mp4` | 1,688 KB ✅ |
+| `/images/projects/Rudrar_Backdrop.mp4` | 1,458 KB ✅ |
+| `/images/projects/Shikhar_Backdrop.mp4` | 850 KB ✅ |
+| `/images/projects/prithvi_backdrop.mp4` | 1,244 KB ✅ |
+| `/images/projects/Dhruva_Backdrop.mp4` | 2,480 KB ✅ |
+| `/images/projects/Shaurya_Backdrop.mp4` | 2,523 KB ✅ |
+| `/images/projects/construction.mp4` | 2,331 KB ✅ |
+
+**`_quarantine/` can be deleted.** It holds nothing that does not already exist,
+byte for byte, in `public/images/projects/`. It was kept only so the decision
+was yours rather than mine.
 
 ---
 
