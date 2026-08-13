@@ -369,13 +369,27 @@ None — every file under `public/images/` is either used or a superseded origin
 
 ## ⚠ Unreferenced, but NOT in git — never auto-deleted
 
-Nothing references these, but git has no copy, so deleting one is permanent.
-Usually that means a file was added recently and has not been wired up yet.
-**Wire it up, commit it, or delete it by hand — the script will not touch it.**
+Nothing references these, and git has no copy under **any** name, so deleting
+one is permanent. Usually that means a file was added recently and has not been
+wired up yet. **Wire it up, commit it, or delete it by hand — the script will
+not touch it.**
 
-| File | Size |
-|---|---|
-| `/images/projects/Rudra_Backdrop.mp4` | 1458 KB |
+Check the second half before trusting this heading: a file can be untracked
+under its own name and still be safe to delete, because git holds the identical
+bytes under a different one. Compare `git hash-object <file>` against the blob
+hashes in history before calling a deletion permanent.
+
+None at present.
+
+`Rudra_Backdrop.mp4` (1458 KB) was listed here and deleted on 13 Aug 2026. It
+was a hand-made backup of the old Rudra hero video, taken just before the new
+one was dropped in over `Rudrar_Backdrop.mp4` — note the typo'd name, which is
+the one [`rudra.astro`](src/pages/projects/rudra.astro) actually references and
+the reason the backup looked orphaned. Nothing pointed at it but this table.
+Its bytes are blob `e4608f0`, still in history as `Rudrar_Backdrop.mp4` up to
+`4b9a74b`, so the delete cost nothing:
+
+    git show 4b9a74b:public/images/projects/Rudrar_Backdrop.mp4 > restored.mp4
 
 ## Left alone deliberately
 
