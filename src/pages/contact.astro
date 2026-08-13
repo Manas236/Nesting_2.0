@@ -53,7 +53,10 @@ const footerLinks = [
 
 <BaseLayout
   title="Contact — Nesting Tree · Navi Mumbai"
-  description={`Talk to Nesting Tree about a home in ${brand.region}. Office at ${sales.office}. Call ${contact.phone}, WhatsApp us or send an enquiry.`}
+  {/* Kept under ~155 characters so Google prints it whole rather than
+      truncating mid-address. The three interpolations are the long part —
+      re-measure the rendered string if any of them changes. */}
+  description={`Talk to Nesting Tree about a home in ${brand.region}. Office at ${sales.office}. Call ${contact.phone} or WhatsApp us.`}
 >
   <!-- ============================ NAVBAR ============================ -->
   <SiteHeader />
@@ -64,7 +67,11 @@ const footerLinks = [
   <section class="relative w-full overflow-hidden bg-olive-dark">
     <img
       src={contactPage.hero.image}
-      alt="A Nesting Tree residence in Navi Mumbai"
+      {/* Names what the image actually is. It is the Prithvi elevation
+          render, not a photograph, and not a generic "residence" — the
+          locality is left at region level because Prithvi's street address
+          is one of the two the owner has flagged as wrong. */}
+      alt="Architect's elevation render of Prithvi, a Nesting Tree residence in Navi Mumbai"
       class="reveal-img absolute inset-0 w-full h-full object-cover"
       style={`object-position: ${contactPage.hero.imagePos};`}
     />

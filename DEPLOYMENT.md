@@ -332,9 +332,16 @@ WhatsApp caches aggressively — if you share a link before DNS resolves, it can
 cache the failure for days. Test with the debugger first, not by messaging
 yourself.
 
-### No robots.txt and no sitemap.xml
-Neither exists. Google will still crawl the site, but a sitemap helps.
-`@astrojs/sitemap` generates one automatically once `site` is set (above).
+### robots.txt and sitemap.xml — DONE, 12 Aug 2026
+Both ship in the build. `robots.txt` is a **generated route**
+(`src/pages/robots.txt.ts`), not a static file in `public/`, so its `Sitemap:`
+line follows `PUBLIC_SITE_URL` instead of hard-coding the origin — see
+`SEO-SCORE-FIX.md` §9. `@astrojs/sitemap` writes `sitemap-index.xml` +
+`sitemap-0.xml` (14 URLs, `/thank-you` excluded).
+
+⚠️ **Read the origin inside `dist/client/sitemap-0.xml` before submitting it to
+Search Console.** Build with `PUBLIC_SITE_URL` set and you get a sitemap full of
+that host's URLs — submitting it asks Google to index the staging host.
 
 ### No canonical URLs
 With `site` set, adding `<link rel="canonical" href={Astro.url}>` to
@@ -406,7 +413,8 @@ Ordered. Everything above the line must be true before the site is public.
 
 - [ ] Delete the two unreferenced `_og` files (83.7 MB)
 - [ ] Set `site` in `astro.config.mjs` and fix `og:image` (§7)
-- [ ] Add `robots.txt` and a sitemap
+- [x] Add `robots.txt` and a sitemap — done 12 Aug 2026; **still to submit the
+      sitemap in Search Console**, which needs the domain off its parking page
 - [ ] Decide lead notification method
 - [ ] Add rate limiting to `/api/contact`
 - [ ] Fill in or hide social links

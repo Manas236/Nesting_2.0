@@ -602,6 +602,15 @@ export const home = {
   // photography of real residents exists. The trio carries the section's whole
   // message — a home is where a life happens, not an asset — so the copy stays
   // short and lets the pictures do the talking.
+  //
+  // This rule has already been challenged once and held. On 13 Aug 2026 an SEO
+  // review proposed rewriting these three as e.g. "Family enjoying their new
+  // Nesting Tree apartment in Navi Mumbai" to make the alt text "an SEO asset".
+  // REJECTED: that is a false statement about a stranger's photograph, made in
+  // the one field a sighted visitor cannot check and a screen-reader user must
+  // trust. It is also what Google reads as keyword-stuffed alt. If the next
+  // audit raises it again, the answer is to replace the PHOTOGRAPHS, not the
+  // descriptions.
   //   rooftop — unsplash.com/photos/photo-1635770618588-06bd8d5d73b9
   intro: {
     heading: "No hidden fees, no shortcuts. Just honest guidance you can rely on.",

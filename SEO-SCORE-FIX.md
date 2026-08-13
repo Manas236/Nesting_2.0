@@ -314,8 +314,15 @@ Then, by hand:
 ## 9. Status — C1 to C5 are done, 12 Aug 2026
 
 Five commits on `feat/inline-edit`, one per item, plus this section, on top of
-the seven that were already unpushed. **Nothing has been pushed.** The count at
-§0 is now thirteen.
+the seven that were already unpushed. ~~**Nothing has been pushed.**~~
+**All of it is pushed** as of 13 Aug 2026 — `feat/inline-edit` is level with
+`origin/feat/inline-edit`.
+
+**The one thing left on this brief is not a code change.** `/robots.txt` and
+`/sitemap-index.xml` are in the build and correct, but `nestingtree.in` is still
+a **parked domain** — it answers with a 114-byte redirect to `/lander` and the
+parking provider's own `robots.txt`. Nothing can be submitted to Search Console
+until DNS points at the server. Checked 13 Aug 2026.
 
 | # | Commit | What landed |
 |---|---|---|
