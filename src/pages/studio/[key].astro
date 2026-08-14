@@ -158,14 +158,39 @@ const field =
         });
       }
 
+      /* Where both halves end up: signing in and signing out each leave
+         this page for the site.
+
+         replace, not assign: the secret URL must not be left in the
+         address bar or sitting one Back press away in the history of a
+         browser somebody else may pick up. That matters MORE on the way
+         out than on the way in — signing out is what you do on a shared
+         or borrowed machine, and it is the moment the slug is most
+         likely to be left behind for the next person. */
+      function goHome() {
+        window.location.replace("/");
+      }
+
       var out = document.getElementById("out");
       if (out) {
         out.addEventListener("click", function () {
+          out.disabled = true;
           post("DELETE").then(
-            function () {
-              location.reload();
+            function (res) {
+              /* fetch only rejects on a network failure, so a 500 from
+                 the server arrives here as a fulfilled promise. Without
+                 this check the button would send you to the home page
+                 looking signed out while the cookie was still set —
+                 the one lie a sign-out button must never tell. */
+              if (res.ok) {
+                goHome();
+                return;
+              }
+              out.disabled = false;
+              fail("Could not sign out. Try again.");
             },
             function () {
+              out.disabled = false;
               fail("Could not reach the server. Try again.");
             }
           );
@@ -195,10 +220,7 @@ const field =
         post("POST", { passphrase: value }).then(
           function (res) {
             if (res.ok) {
-              // replace, not assign: the secret URL must not be left in
-              // the address bar or sitting one Back press away in the
-              // history of a browser somebody else may pick up.
-              window.location.replace("/");
+              goHome();
               return;
             }
             busy = false;
