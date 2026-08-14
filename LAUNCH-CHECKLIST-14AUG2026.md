@@ -9,6 +9,16 @@ the older one is wrong.
 is pushed. §0 below now records what was decided and what it leaves open;
 everything from §1 down is unchanged and still stands.
 
+**Updated 15:30 — everything that could be closed inside the repo is closed.**
+A pass through this file picked up every item that needed neither the owner nor
+a shell on the server, and did it: the honeypot, the `start` script, the
+schema's `source_page` width, the two apostrophes, and the whole of
+`DEPLOYMENT.md` §1/§4/§5/§6/§7/§9, which was wrong in ways that would each have
+broken launch day. Items closed that way are marked **[x] — done 15:30** below.
+**Nothing left unticked in this file can be finished from the repo.** What
+remains is on the server (§1, §3), on the live site (§4, §5), or on the owner
+(§6, §7). Full build re-run and clean after every change.
+
 **Verdict: the code is ready. One thing is not.** The finished work is now on
 `origin`, but the domain is still parked. That is not a coding job; it is on the
 critical path and it is inside a two-hour budget.
@@ -53,11 +63,18 @@ any visitor who reads the page source.
       `BRANCH="${1:-full-snapshot}"`. A bare `./deploy.sh`, by anyone, at any
       point, rolls the server back to `full-snapshot` — which does **not**
       contain `ace5024`. That is a live footgun for as long as the default
-      stands.
-- [ ] **DEPLOYMENT.md §9 describes a different host** — `/var/www/nestingtree`,
-      service `nestingtree`, `git pull`. The preview box is
-      `/home/ubuntu/nesting`, service `nesting`, `deploy.sh`. Reconcile the two
-      before anyone deploys from the document rather than from this file.
+      stands. **Still open and it cannot be closed from here: `deploy.sh` is
+      not in this repo, it lives in `~` on the server.** DEPLOYMENT.md §9 now
+      documents the footgun so nobody meets it unwarned, but documenting it is
+      not fixing it.
+- [x] **DEPLOYMENT.md §9 describes a different host** — **done 15:30.** §5 now
+      opens with a table naming both: `/var/www/nestingtree` + service
+      `nestingtree` + `git pull` is the greenfield recipe, `/home/ubuntu/nesting`
+      + service `nesting` + `deploy.sh` is the box that actually serves the
+      site. §9 now has a section per host, the `deploy.sh` one carrying all four
+      of its traps (name the branch, verify by SHA, `=== DEPLOYED ===` proves
+      nothing, `.env` never arrives by git). Every `systemctl`/`journalctl` line
+      in the file names both units.
 
 Merging to `main` would have retired this risk outright. It was not, so
 deploying the branch **by name** is a launch blocker in its own right.
@@ -147,6 +164,15 @@ the edited copy for the public; throttling it would break the site for visitors.
    comparison itself is sound — but that only stops a timing attack, not
    guessing.
 
+**Since 15:30 there is a second layer, and it is in the application.** All eight
+enquiry forms carry an off-screen `subject` input; `src/pages/api/contact.ts`
+drops any submission that arrives with it filled, before MySQL, answering with
+the same 303 a real enquiry gets. Verified end-to-end against a built server and
+a real database: bot POST → 303 and **no row**; genuine POST → 303 and exactly
+one row. Reason 1 below is now covered whether or not traffic comes through
+nginx. Reason 2 — brute-forcing the shared passphrase — is **not**; only the
+nginx limit stops that, so the items below are still launch work.
+
 - [ ] **Install `deploy/nginx-nestingtree.conf` itself**, not the sketch in
       DEPLOYMENT.md §5 (which omits every limit above).
 - [ ] **Move the four `limit_req_zone` lines and the `map` into the `http { }`
@@ -158,11 +184,12 @@ the edited copy for the public; throttling it would break the site for visitors.
       `X-Robots-Tag: noindex, nofollow` and would deindex the whole site
       regardless of `robots.txt`.
 
-**What this does not cover, and you should know it today:** this is perimeter
-defence only. Expose the Node process directly, or move off nginx, and every
-limit above disappears with the config. An application-level honeypot field on
-the contact form (~15 minutes) would survive either change. **Not a launch
-blocker** — ship behind nginx today, add the honeypot this week.
+**What this does not cover, and you should know it today:** the nginx half is
+perimeter defence only. Expose the Node process directly, or move off nginx, and
+every limit above disappears with the config — which is exactly why the honeypot
+went into the application instead of being left to nginx. Keep both: the
+honeypot catches high-volume form spam anywhere it is deployed, the rate limit
+is what puts a ceiling on passphrase guessing, and neither does the other's job.
 
 ---
 
@@ -205,7 +232,8 @@ Straight from DEPLOYMENT.md §8, with the corrections found today folded in.
       Everything below is worthless if the code is wrong, so verify it first
 - [ ] Node 22.12+ installed
 - [ ] MySQL installed and **`db/schema.sql` run** — see the ⚠️ below
-- [ ] Dedicated DB user (`SELECT, INSERT` only); credentials in `.env` on the server
+- [ ] Dedicated DB user (`SELECT, INSERT` only, **on both tables** — see below);
+      credentials in `.env` on the server
 - [ ] `EDIT_LOGIN_SLUG`, `EDIT_PASSPHRASE`, `EDIT_SECRET` set in `.env` — all
       three long and random, none of them ever written into this repo
 - [ ] `npm ci && npm run build` completes clean **on the server**
@@ -218,26 +246,32 @@ Straight from DEPLOYMENT.md §8, with the corrections found today folded in.
 - [ ] TLS issued; HTTP 301s to HTTPS
 - [ ] DNS A records for apex **and** `www` resolve to the server
 
-### ⚠️ DEPLOYMENT.md §4 is wrong about the database — read this
+### ✅ DEPLOYMENT.md §4 was wrong about the database — fixed 15:30
 
-§4 opens *"There is no migration file in this repo"*. **There is:
-[`db/schema.sql`](db/schema.sql).** Two consequences, both bite on launch day:
+§4 used to open *"There is no migration file in this repo"* and then print a
+hand-written DDL that created **only `leads`** — so a database built from it
+would have failed on `content_edits`, the table `GET /api/content` reads on
+every single page view, and every page would have answered 500. The two `leads`
+definitions also disagreed on four column types.
 
-1. **§4's DDL creates only `leads`. It does not create `content_edits`.** That
-   is the table the in-page editor writes to and that `GET /api/content` reads
-   on every single page view. Follow §4 and every page load queries a table
-   that does not exist.
-2. **The two `leads` definitions disagree.** §4 says `BIGINT UNSIGNED`,
-   `email VARCHAR(190)`, `source_page VARCHAR(500)`, plus two indexes.
-   `db/schema.sql` says `INT`, `VARCHAR(160)`, `VARCHAR(255)`, no indexes.
+**§4 now says: run [`db/schema.sql`](db/schema.sql), do not hand-write the
+DDL.** It carries the table of what writes and reads each table, the
+`SHOW TABLES;` check, and the `ALTER` for a `leads` that already exists.
 
-**Run `db/schema.sql` — it is the one that matches the app and creates both
-tables.** One real gap in it: `source_page` at `VARCHAR(255)` will silently
-truncate (or, in strict mode, reject) a long `Referer`. Widen it to 500 before
-you run it, or accept the truncation knowingly.
+**The schema decision is taken: `db/schema.sql` is the schema of record, and
+`source_page` is now `VARCHAR(500)` in it** — the one real gap the old version
+had, since a full `Referer` overruns 255 and is either truncated silently or,
+in strict mode, rejected, losing the enquiry.
 
-- [ ] Decide and run one schema, then `SHOW TABLES;` → **both** `leads` and
-      `content_edits` present
+⚠️ **One thing this turned up that was in neither document: the DB grant.** §4
+granted `SELECT, INSERT` on `nesting_tree.leads` **only**. Follow that and the
+app connects, serves nothing, and every page view fails on `content_edits`.
+Both §4 and `db/schema.sql` now grant on **both tables**.
+
+- [x] **Decide one schema — done 15:30.** `db/schema.sql`, `source_page`
+      widened, grant corrected.
+- [ ] **Run it on the server**, then `SHOW TABLES;` → **both** `leads` and
+      `content_edits` present. Still a server step; nobody can run it from here.
 
 ---
 
@@ -310,18 +344,25 @@ two are the ones I would put in front of him this afternoon.
       even if it is only *"Vipin checks the table every morning"*, and write the
       name down. An enquiry that sits unseen for a week is worse than a bug.
 - [ ] **Database backups.** `mysqldump` on a cron. `leads` and `content_edits`
-      are the only things on that server that cannot be rebuilt from git.
-- [ ] **Add a `start` script** to `package.json` — there is still none. systemd
-      calls the path directly so nothing breaks, but the next person will look
-      for it.
+      are the only things on that server that cannot be rebuilt from git — dump
+      **both**; a backup of `leads` alone silently loses every published copy
+      edit.
+- [x] **Add a `start` script** to `package.json` — **done 15:30.**
+      `npm start` = `node ./dist/server/entry.mjs`. The systemd unit still calls
+      the path directly and should keep doing so; the script is there so the
+      next person does not have to know the path.
 
 ---
 
 ## 8. Explicitly not blocking — after launch
 
-- Contact-form honeypot (see §1 — nginx covers today)
+- ✅ **Contact-form honeypot — done 15:30, ahead of its slot.** In the
+  application, on all eight forms, verified against a real database. See §1.
 - `width`/`height` on homepage and `/projects` images (CLS). 12 of 13 and 13 of
-  14 declare none. Real work at every call site, not a sweep.
+  14 declare none. Real work at every call site, not a sweep — **deliberately
+  left alone today**: it is layout-affecting work across two dozen call sites,
+  which is not what you do in the hours before a launch with nobody watching
+  the result.
 - Ishaan and Shaurya have no interior finishes spec — 2 amenity groups where
   peers show 3
 - Ishaan's gallery is the thinnest on the site — 10 photos, 2 categories
@@ -329,11 +370,20 @@ two are the ones I would put in front of him this afternoon.
   every page. Baked-in pixels; only a third issue of the drawings clears it,
   and a dimension on an architect's sheet is not the page making a claim in its
   own voice
-- Two apostrophe outliers (`shikhar.ts:32`, `site.ts:363`) — a 2-edit fix
-  waiting on one house-style call
-- Shaurya duplicates its address in `overview.facts`
-- `_quarantine/` can be deleted — 326 MB, every file byte-identical to one in
-  `public/images/projects/`, verified file by file
+- ✅ **Two apostrophe outliers — done 15:30.** The house-style call did not need
+  making: visible copy in `src/data/` uses the straight `'` **39 times against
+  2**, so the two curly ones were the outliers, not a competing style.
+  `shikhar.ts` "Years' experience" and `site.ts` "that's actually yours" now
+  match the other 39.
+- **Shaurya duplicates its address in `overview.facts`** — still open, and left
+  open on purpose. `Frontage: Plot No. 74 · on an 11 m wide road` and
+  `Address: Plot no. 74, Sector R2, Karanjade, Panvel, 410206` both print the
+  plot number. Which half loses it is a taste call on his copy, not a defect,
+  and §6 has him re-checking two other addresses this afternoon — worth one
+  question rather than a silent edit.
+- ✅ **`_quarantine/` — already gone.** Not on disk; nothing to delete. It was
+  git-ignored and never tracked, so its absence leaves no trace in git. The
+  326 MB is already off this machine.
 
 ---
 
@@ -347,7 +397,9 @@ two are the ones I would put in front of him this afternoon.
 2. **Ask him for the two addresses and the four photographs.** He is the long
    pole; start him now and do the server work while you wait. *(§6)*
 3. **Server: schema → `.env` → `npm ci && npm run build` → systemd → nginx →
-   certbot.** Use `db/schema.sql`, not DEPLOYMENT.md §4. *(§3)*
+   certbot.** Use `db/schema.sql` — and DEPLOYMENT.md §4 now says the same
+   thing, so the two no longer contradict each other. Grant the DB user on
+   **both** tables. *(§3)*
 4. **Point DNS.** Everything downstream waits on propagation, so do not leave
    it last.
 5. **Run the four live checks** — enquiry lands in `leads`, wrong slug 404s,
@@ -359,3 +411,8 @@ If something has to give, it is §5 and §7 — those can slip to tomorrow morni
 without the site being wrong. **What is left of §0 cannot slip.** The code is
 pushed, but it is pushed to a branch: deploy from `origin/main` and you still
 put a world-writable copy of the site on the internet.
+
+**Every step above is now a server step, a live-site check, or a question for
+the owner.** As of 15:30 there is no remaining launch work that can be done
+from the repo — which also means none of it can be done for you while you are
+away from a terminal on that box.

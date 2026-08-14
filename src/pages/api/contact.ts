@@ -5,6 +5,13 @@
    in the MySQL `leads` table, then redirects the visitor to the
    thank-you page. This runs on the server at request time, which
    is why it is marked `prerender = false`.
+
+   Spam defence is in two layers, deliberately:
+     - nginx rate limits this route to 5 requests/minute per IP
+       (deploy/nginx-nestingtree.conf). Perimeter only — it goes
+       away the day traffic stops arriving through nginx.
+     - the honeypot below, which lives in the application and
+       therefore survives that change.
    ============================================================ */
 import type { APIRoute } from "astro";
 import pool from "../../lib/db";
@@ -29,6 +36,23 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     String(form.get("source_page") ?? "").trim() ||
     request.headers.get("referer") ||
     null;
+
+  // Honeypot. Every form carries an off-screen `subject` field that a person
+  // never sees, never tabs to and never fills; most bots fill every input they
+  // find. Anything in it means the submission is automated, so it is dropped
+  // without touching MySQL.
+  //
+  // It answers with the SAME 303 to /thank-you a real submission gets. Telling
+  // a bot it was caught is telling it which field to leave alone next time.
+  //
+  // THE NAME MUST MATCH the input in the eight enquiry forms — contact.astro
+  // and the seven project pages. They are the only place it appears; a
+  // mismatch fails silently and open, letting every bot through, so change it
+  // in nine files or none.
+  if (String(form.get("subject") ?? "").trim() !== "") {
+    console.warn("Enquiry discarded: honeypot filled.", { sourcePage });
+    return redirect("/thank-you", 303);
+  }
 
   // Name and phone are the two required fields on every form.
   if (!name || !phone) {

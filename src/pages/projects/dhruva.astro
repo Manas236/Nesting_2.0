@@ -638,6 +638,20 @@ const schema = residenceSchema(dhruva, gallery, new URL(Astro.site!));
       </p>
 
       <form class="mt-12 text-left" action="/api/contact" method="POST">
+        {/* Spam trap. Nobody sees this field and no browser fills it —
+            bots fill every input they find, and src/pages/api/contact.ts
+            discards any submission that arrives with it set. Positioned
+            off-screen rather than display:none, because some bots skip
+            hidden inputs, and styled inline so it stays off-screen even if
+            the stylesheet never loads. aria-hidden and tabindex="-1" keep
+            screen readers and the keyboard out of it; the name is one no
+            browser autofill heuristic recognises, so a real visitor cannot
+            fill it by accident. Rename it here and you must rename it in
+            contact.ts. */}
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+          <label for="subject">Subject</label>
+          <input id="subject" name="subject" type="text" tabindex="-1" autocomplete="off" />
+        </div>
         <div class="grid sm:grid-cols-2 gap-5">
           <div class="flex flex-col gap-2">
             <label for="name" class="font-display text-xs font-bold uppercase tracking-[0.14em] text-muted"

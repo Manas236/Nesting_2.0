@@ -1,7 +1,13 @@
 # Nesting Tree — server setup & deployment
 
 Everything needed to take this project from a repo to a live site.
-Written 28 July 2026 against the current build.
+Written 28 July 2026. **Corrected against the repo and a real build on
+14 August 2026** — §1, §4, §5, §6, §7 and §9 all carried figures or
+instructions that had gone stale, and three of them (the database DDL, the
+`git pull` deploy, and the missing `EDIT_` keys) would each have broken the
+site on launch day. Where this file and an older document disagree, this file
+is the newer one; where it and `LAUNCH-CHECKLIST-14AUG2026.md` disagree, the
+checklist wins on anything about *today's* deploy.
 
 ---
 
@@ -16,13 +22,20 @@ with two live routes.
 | Adapter | `@astrojs/node`, **standalone** mode (`astro.config.mjs`) |
 | Node required | **>= 22.12.0** (`package.json` engines). Dev machine runs 24.17.0 |
 | Database | MySQL, via `mysql2` connection pool |
-| Prerendered pages | 12 — home, about, gallery, projects index, 6 project pages, privacy, terms |
-| On-demand (SSR) routes | **2** — `/thank-you` and `POST /api/contact` |
-| Build output | `dist/client` (static, 430 MB) + `dist/server` (0.4 MB) |
+| Prerendered pages | 15 — home, about, gallery, projects index, **7** project pages, contact, privacy, terms, 404 — plus generated `robots.txt` and the sitemap |
+| On-demand (SSR) routes | **7** — `/thank-you`, `/studio/[key]`, and `/api/contact`, `/api/content`, `/api/content/revert`, `/api/content/history`, `/api/edit-session` |
+| Build output | `dist/client` (static, **65 MB**) + `dist/server` (0.6 MB) |
 
-The two SSR routes are why you cannot deploy this as static files alone.
-`/api/contact` writes enquiries to MySQL and `/thank-you` reads the
-`?project=` / `?status=` query string. **A Node process must be running.**
+*Figures re-measured 14 Aug 2026. They had drifted a long way: this table said
+12 pages, 2 SSR routes and a 430 MB build, all of which predate the seventh
+project, the editor and the image optimisation.*
+
+The SSR routes are why you cannot deploy this as static files alone.
+`/api/contact` writes enquiries to MySQL, `/thank-you` reads the
+`?project=` / `?status=` query string, and **`GET /api/content` runs on every
+single page view** to paint saved copy edits. **A Node process must be
+running** — without it the site does not merely lose its forms, every page
+loses its edits.
 
 ---
 
@@ -33,8 +46,8 @@ The two SSR routes are why you cannot deploy this as static files alone.
 - **Node.js 22.12+** (22 LTS or 24)
 - **MySQL 8.0+** (or MariaDB 10.6+) — can be on the same box
 - **Nginx or Caddy** as a reverse proxy, terminating TLS
-- **~2 GB free disk** — the repo (648 MB of `public/` alone) plus `node_modules`
-  plus a 430 MB build, with headroom for one previous build during deploys
+- **~2 GB free disk** — the repo (328 MB of `public/` alone) plus `node_modules`
+  plus a 65 MB build, with headroom for one previous build during deploys
 - A domain (`nestingtree.in`) with DNS A record pointed at the server
 - TLS certificate — Let's Encrypt via certbot, or automatic with Caddy
 
@@ -42,9 +55,11 @@ The two SSR routes are why you cannot deploy this as static files alone.
 
 ## 3. Environment variables
 
-The app reads these at runtime. `src/lib/db.ts` imports `dotenv/config`, so a
-`.env` file in the working directory works — but for a systemd service, prefer
-real environment variables or an `EnvironmentFile`.
+The app reads these at runtime. `src/lib/db.ts` and `src/lib/edit-auth.ts` both
+import `dotenv/config`, so a `.env` file in the working directory works — but
+for a systemd service, prefer real environment variables or an
+`EnvironmentFile`. `dotenv` reads once at process start: a value added to
+`.env` after the service is up does nothing until you restart it.
 
 | Variable | Required | Default if unset | Notes |
 |---|---|---|---|
@@ -87,10 +102,26 @@ openssl rand -base64 32 | tr -d '=+/' | cut -c1-40
 | `EDIT_SECRET` | The key the session cookie is signed with. 32+ random bytes. | Restart. **Signs everyone out.** |
 
 `EDIT_SECRET` has no fallback on purpose: with it unset, `src/lib/edit-auth.ts`
-throws on the first request to a write route or the login page and names the
-variable in the message. Look in `journalctl -u nestingtree -n 50`. It fails
-that way rather than defaulting, because an HMAC keyed on an empty string is
-one anybody who has read the repo can forge.
+throws and names the variable in the message. It fails that way rather than
+defaulting, because an HMAC keyed on an empty string is one anybody who has
+read the repo can forge.
+
+⚠️ **It throws at *import* time, and `src/pages/api/content.ts` imports the same
+module.** So a missing `EDIT_SECRET` does not just break the editor — it takes
+**`GET /api/content` down too, and that runs on every page view**, so every
+page answers 500. `npm run build` will not catch it: the write routes are
+`prerender = false`, so the build bundles them without executing them. Neither
+will the deploy script's smoke test, which curls `/` and gets a prerendered 200
+regardless. Check by hand after deploying:
+
+```bash
+curl -si localhost:4321/api/content?path=/     # 200, not 500
+curl -si -X POST localhost:4321/api/content    # 401, not 500 and not 200
+```
+
+If it is 500, `journalctl -u nesting -n 50 --no-pager` will be naming
+`EDIT_SECRET`. (Unit name: `nesting` on the current server, `nestingtree` on a
+greenfield build — see the box at the top of §5.)
 
 **Do not write the real slug or passphrase into any file in this repo** —
 not here, not in `.env.example`, not in a commit message. They live in `.env`
@@ -121,8 +152,9 @@ to the page; it carries `X-Robots-Tag: noindex, nofollow` and
 
 #### Rotating
 
-Change the value in `.env`, then `sudo systemctl restart nestingtree`. That is
-all — none of the three is read at build time.
+Change the value in `.env`, then restart the service — `sudo systemctl restart
+nesting` on the current server, `nestingtree` on a greenfield build (§5). That
+is all — none of the three is read at build time.
 
 - Rotating **`EDIT_LOGIN_SLUG`** changes where you sign in. Anyone already
   signed in stays signed in; their cookie does not care about the path.
@@ -141,52 +173,78 @@ brute-force ceiling is not a gate.
 
 ## 4. Database setup
 
-There is **no migration file in this repo** — the `leads` table has to be
-created by hand. This DDL matches exactly what `src/pages/api/contact.ts`
-inserts:
+**Run [`db/schema.sql`](db/schema.sql). Do not hand-write the DDL.**
 
-```sql
-CREATE DATABASE IF NOT EXISTS nesting_tree
-  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-USE nesting_tree;
-
-CREATE TABLE IF NOT EXISTS leads (
-  id          BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  name        VARCHAR(120)  NOT NULL,
-  phone       VARCHAR(30)   NOT NULL,
-  email       VARCHAR(190)  NULL,
-  project     VARCHAR(60)   NULL,
-  message     TEXT          NULL,
-  source_page VARCHAR(500)  NULL,
-  created_at  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
-  KEY idx_created_at (created_at),
-  KEY idx_project (project)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```bash
+mysql -u root -p < db/schema.sql
 ```
 
-Two details that will bite if you get them wrong:
+> **Corrected 14 Aug 2026.** This section used to open *"there is no migration
+> file in this repo"* and then print a hand-written `leads` table. Both were
+> wrong by then: `db/schema.sql` exists, and the hand-written DDL created
+> **only `leads`**. The in-page editor writes to a second table,
+> `content_edits`, and `GET /api/content` reads it on **every single page
+> view** — so a database built from the old §4 answers 500 on every page. The
+> two `leads` definitions also disagreed on column types. `db/schema.sql` is
+> the one that matches the application.
+
+The app uses **two** tables:
+
+| Table | Written by | Read by |
+|---|---|---|
+| `leads` | `POST /api/contact` | nobody yet — see §7, "nobody is notified" |
+| `content_edits` | `POST /api/content`, `/api/content/revert` | `GET /api/content`, **on every page view** |
+
+Confirm both landed:
+
+```sql
+USE nesting_tree; SHOW TABLES;   -- expect leads AND content_edits
+```
+
+Three details that will bite if you get them wrong:
 
 - **`created_at` must have `DEFAULT CURRENT_TIMESTAMP`.** The application never
   supplies it — the INSERT lists only the six content columns. Without the
   default you get zero dates on every lead.
 - **Charset must be `utf8mb4`.** Enquiry messages routinely contain `—`, `·`
   and `₹`. On a `latin1` table those either mangle or throw.
+- **If `leads` already exists** from an earlier run or from the old §4 DDL,
+  `CREATE TABLE IF NOT EXISTS` is a no-op and `source_page` is still whatever
+  it was. Widen it: `ALTER TABLE leads MODIFY source_page VARCHAR(500);` — a
+  full `Referer` with a query string overruns 255 and is either truncated
+  silently or, in strict mode, rejected, losing the enquiry.
 
 Create a dedicated user rather than using root:
 
 ```sql
 CREATE USER 'nesting_app'@'localhost' IDENTIFIED BY 'a-long-random-password';
-GRANT SELECT, INSERT ON nesting_tree.leads TO 'nesting_app'@'localhost';
+GRANT SELECT, INSERT ON nesting_tree.leads         TO 'nesting_app'@'localhost';
+GRANT SELECT, INSERT ON nesting_tree.content_edits TO 'nesting_app'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-`SELECT, INSERT` is all the app needs. It never updates or deletes.
+`SELECT, INSERT` is all the app needs — it never updates or deletes; a revert
+INSERTs a new row carrying the older text. **Grant on both tables.** Granting
+`leads` alone was the old §4's advice and it breaks every page view, not just
+the editor.
 
 ---
 
 ## 5. Build and run
+
+> ### ⚠️ Two hosts are described in this file. Know which one you are on.
+>
+> | | This section (§5) and §9's first recipe | **The box that actually serves the site** |
+> |---|---|---|
+> | Path | `/var/www/nestingtree` | **`/home/ubuntu/nesting`** |
+> | systemd unit | `nestingtree` | **`nesting`** |
+> | How code arrives | `git clone` / `git pull` | **`~/deploy.sh <branch>`** |
+>
+> §5 and the systemd unit below describe a **greenfield install** — follow them
+> when building a host from nothing. The existing server was not built that
+> way. On it, substitute the right-hand column everywhere in this document:
+> `systemctl restart nesting`, `journalctl -u nesting`, and **deploy with
+> `deploy.sh`, never `git pull`** — see §9.
 
 ```bash
 git clone <repo> /var/www/nestingtree
@@ -197,24 +255,22 @@ npm run build          # ~5s; writes dist/client + dist/server, then prunes
 
 **Use `npm run build`, not `astro build`.** The `postbuild` script
 (`scripts/prune-superseded-images.mjs`) runs automatically after `npm run build`
-and is not optional — it deletes the 80 superseded image originals from
+and is not optional — it deletes the **103** superseded image originals from
 `dist/client` so the 301s in `src/lib/image-redirects.ts` can fire. Run
-`astro build` on its own and those originals ship, every one of the 80 redirects
-goes dead, and the deploy is 219 MB heavier. See §5.1.
+`astro build` on its own and those originals ship, every one of the 103
+redirects goes dead, and the deploy is **264 MB** heavier — five times the size
+it should be. See §5.1.
 
-**There is no `start` script in `package.json`.** Run the built server directly:
+**Added 14 Aug 2026: `package.json` now has a `start` script.**
 
 ```bash
-HOST=127.0.0.1 PORT=4321 node ./dist/server/entry.mjs
+HOST=127.0.0.1 PORT=4321 npm start        # = node ./dist/server/entry.mjs
 ```
 
-Worth adding to `package.json` so nobody has to remember the path:
-
-```json
-"scripts": {
-  "start": "node ./dist/server/entry.mjs"
-}
-```
+The systemd unit below still calls the path directly (`ExecStart=/usr/bin/node
+./dist/server/entry.mjs`) and there is no reason to change it — one fewer
+process in the tree, and `npm` does not forward signals as cleanly. The script
+exists so nobody has to remember the path by hand.
 
 ### systemd unit
 
@@ -314,7 +370,7 @@ Serving `/images/` and `/_astro/` straight from nginx matters here — see §6.
 
 ### 5.1 Renamed images: the prune and the `/images/` fallback
 
-80 photographs were renamed. Their old URLs are kept alive as permanent
+103 photographs were renamed. Their old URLs are kept alive as permanent
 redirects — the map is `src/lib/image-redirects.ts` and `src/middleware.ts`
 serves it. **Middleware only runs inside the Node process**, and nginx serves
 `/images/` from disk, so this needs two things to be true at once:
@@ -330,11 +386,11 @@ serves it. **Middleware only runs inside the Node process**, and nginx serves
 2. **`location /images/` must end in `try_files $uri @node;`.** With `=404` there
    instead, the pruned URLs answer 404 and the 301s are unreachable.
 
-Either half alone is broken: prune without the fallback turns 80 live URLs into
+Either half alone is broken: prune without the fallback turns 103 live URLs into
 404s; fallback without the prune never fires. If old image URLs start returning
 200 with a large JPEG, or 404, check these two first.
 
-To confirm on the server after a deploy, from `/var/www/nestingtree`:
+To confirm on the server after a deploy, from the deploy directory (§5):
 
 ```bash
 # 0 expected — no superseded original left in the build
@@ -346,38 +402,40 @@ curl -sI http://127.0.0.1:4321/images/Project_Images/Dhruva/Aerial_View/DSC_0012
 
 ---
 
-## 6. The asset problem (read this before choosing a host)
+## 6. Assets — re-measured 14 August 2026, and this section is now good news
 
-`public/` is **648 MB**, and the build copies all of it except the 80 superseded
-image originals, which `postbuild` prunes back out — 219.5 MB, leaving a 430 MB
-`dist/client`. See §5.1; those originals stay in `public/` and in git as the only
-full-resolution copies. The figures below predate the prune and describe
-`public/`, not the deploy.
+> **Everything this section used to say was true in July and is not true now.**
+> It described a 648 MB `public/`, a 430 MB deploy, 240.8 MB of video and two
+> 40 MB `_og` files it told you to delete. The video re-encode, the image
+> optimisation and the orphan-asset prune all landed between then and now. The
+> old numbers would have you buy a much bigger host than this site needs, so
+> they are replaced rather than annotated.
 
-| Category | Size |
+| | Measured today |
 |---|---|
-| 22 × `.mp4` background videos | **240.8 MB** |
-| Two unreferenced `_og` images | **83.7 MB** |
-| Everything else (photos, renders, plans) | ~293 MB |
+| `public/` in the repo | **328 MB** |
+| **What actually deploys** (`dist/client`) | **65 MB** |
+| Pruned out of the build by `postbuild` | 264 MB — the 103 superseded originals (§5.1) |
+| 9 × `.mp4` background videos | **18.6 MB total**, largest `about.mp4` at 4.6 MB |
+| Two unreferenced `_og` images | **deleted** — they are gone from `public/` |
+
+Those 264 MB of originals stay in `public/` and in git as the only
+full-resolution copies. They must never be pruned from `public/` itself.
 
 Consequences to plan for:
 
-- **Bandwidth is the real cost driver, not CPU.** A single visitor who hits the
-  home page and two project pages can pull 30–60 MB of video. A hundred such
-  visitors a day is roughly 150 GB/month. Check your host's bandwidth
-  allowance before you pick a plan, and put Cloudflare (free tier is fine) in
-  front to absorb repeat traffic.
-- **Never proxy these through Node.** The nginx `location` blocks above serve
-  them from disk. Astro's Node server can do it, but it is far slower and
-  pins your single process on every video request. Only a *miss* under
+- **Bandwidth is no longer the cost driver it was.** The whole deploy is 65 MB
+  and the entire video set is 18.6 MB; a visitor who reads the home page and
+  two project pages pulls single-digit MB, not 30–60. Any ordinary VPS
+  allowance covers this. Cloudflare in front is still worth having, but it is
+  now an optimisation and not a rescue.
+- **Never proxy the static files through Node.** The nginx `location` blocks
+  above serve them from disk. Astro's Node server can do it, but it is far
+  slower and pins your single process on every request. Only a *miss* under
   `/images/` reaches Node, and then only to answer a 301 or a 404 — see §5.1.
-- **Two files are dead weight and can be deleted right now:**
-  `public/images/projects/Prithvi-Elevation_og.jpg` (44.2 MB) and
-  `public/images/projects/ShikharElevationFinal_og.jpeg` (39.5 MB). Nothing in
-  `src/` references either — verified by grep. Deleting them removes 83.7 MB,
-  about 13% of the whole deploy, with zero visual change.
-- `Prithvi2-scrub.mp4` alone is 60.5 MB. If you ever want a quick win,
-  re-encoding the videos at a lower bitrate would cut the deploy substantially.
+- **Re-measure before quoting any of this again.** Every figure here has been
+  wrong by an order of magnitude at some point in the last three weeks:
+  `du -sh public dist/client` takes a second and settles it.
 
 ---
 
@@ -421,9 +479,11 @@ line follows `PUBLIC_SITE_URL` instead of hard-coding the origin — see
 Search Console.** Build with `PUBLIC_SITE_URL` set and you get a sitemap full of
 that host's URLs — submitting it asks Google to index the staging host.
 
-### No canonical URLs
-With `site` set, adding `<link rel="canonical" href={Astro.url}>` to
-`BaseLayout` prevents duplicate-content issues between `www` and apex.
+### Canonical URLs — DONE, verified 13 Aug 2026
+This section used to read *"no canonical URLs"*. `BaseLayout` emits
+`<link rel="canonical">` resolved against `site`, on all 14 indexable pages,
+measured from the built HTML. Nothing to do; the `www`-versus-apex
+duplicate-content risk is already closed.
 
 ### Nobody is notified when a lead arrives
 This is the most important operational gap. `/api/contact` writes to MySQL and
@@ -436,10 +496,24 @@ table, enquiries sit there unseen. Before launch, either:
 
 Whichever you choose, decide it before the first real enquiry arrives.
 
-### The contact form has no spam protection — nginx config provided
+### Contact-form spam — honeypot added 14 Aug 2026, nginx does the rest
 `POST /api/contact` is a public, unauthenticated endpoint that writes a row on
-every call, with no rate limit, CAPTCHA or honeypot in the application itself.
-Bots find endpoints like this within days of a domain going live.
+every call. Bots find endpoints like this within days of a domain going live.
+There are now two layers, and they fail differently on purpose:
+
+**In the application.** Every one of the eight enquiry forms carries an
+off-screen `subject` input that no visitor sees, no keyboard reaches and no
+autofill fills. `src/pages/api/contact.ts` discards any submission that arrives
+with it set, before touching MySQL, and answers with the same 303 to
+`/thank-you` a real enquiry gets — a bot that is told it was caught learns
+which field to skip. Discards are logged as `Enquiry discarded: honeypot
+filled.`, so `journalctl` says whether it is doing anything.
+
+This layer travels with the code: it still works if the Node process is ever
+exposed directly, or the host moves off nginx. Rename the field and you must
+rename it in both places.
+
+**At the perimeter.**
 
 **A complete, ready-to-install nginx config is at
 [`deploy/nginx-nestingtree.conf`](deploy/nginx-nestingtree.conf).** It rate
@@ -457,10 +531,13 @@ sudo nginx -t && sudo systemctl reload nginx
 block of `/etc/nginx/nginx.conf`, not inside `server { }`. They are at the top
 of the provided file with a comment; if nginx refuses to start, that is why.
 
-This is perimeter defence only — it protects the endpoint as long as traffic
-arrives through nginx. If you later expose the Node process directly, or move
-to a host that does not use nginx, the protection goes with it. An
-application-level honeypot field would survive either change.
+The nginx layer is perimeter defence only — it protects the endpoint as long as
+traffic arrives through nginx, and the day the Node process is exposed directly
+the rate limits go with the config. That is exactly why the honeypot above was
+added in the application rather than left to nginx alone. Keep both: the
+honeypot catches the dumb high-volume bots, the rate limit is what stops
+someone hammering the *editor* passphrase, and neither substitutes for the
+other.
 
 ### Legal pages need a lawyer
 `/privacy` and `/terms` were drafted to match what the site actually does but
@@ -473,11 +550,19 @@ and the registered office address.
 
 Ordered. Everything above the line must be true before the site is public.
 
+- [ ] **The deployed commit is the one you meant** — check `git log -1
+      --oneline`, not the branch name (§9)
 - [ ] Node 22.12+ installed
-- [ ] MySQL installed, `nesting_tree` database and `leads` table created (§4)
-- [ ] Dedicated DB user created; credentials in `.env` on the server
-- [ ] `EDIT_LOGIN_SLUG`, `EDIT_PASSPHRASE` and `EDIT_SECRET` set in `.env` (§3.1)
-- [ ] `npm ci && npm run build` completes clean
+- [ ] MySQL installed, `db/schema.sql` run, and `SHOW TABLES;` lists **both
+      `leads` and `content_edits`** (§4)
+- [ ] Dedicated DB user created, granted on **both** tables; credentials in
+      `.env` on the server
+- [ ] `EDIT_LOGIN_SLUG`, `EDIT_PASSPHRASE` and `EDIT_SECRET` set in `.env`
+      **before** the first deploy that carries the editor (§3.1) — a missing
+      `EDIT_SECRET` throws at import time and takes `GET /api/content` down
+      with it, so every page answers 500
+- [ ] `npm ci && npm run build` completes clean **on the server**, printing
+      `103 redirect keys, 103 originals deleted`
 - [ ] systemd service running and enabled; survives `reboot`
 - [ ] Nginx proxying to `127.0.0.1:4321`, static paths served from disk
 - [ ] `location /images/` ends in `try_files $uri @node;` and an old image URL
@@ -495,23 +580,60 @@ Ordered. Everything above the line must be true before the site is public.
 
 ---
 
-- [ ] Delete the two unreferenced `_og` files (83.7 MB)
-- [ ] Set `site` in `astro.config.mjs` and fix `og:image` (§7)
+- [x] Delete the two unreferenced `_og` files — done; both are gone from
+      `public/`, along with 46 orphan assets in total (§6)
+- [x] Set `site` in `astro.config.mjs` and fix `og:image` (§7)
 - [x] Add `robots.txt` and a sitemap — done 12 Aug 2026; **still to submit the
       sitemap in Search Console**, which needs the domain off its parking page
-- [ ] Decide lead notification method
-- [ ] Add rate limiting to `/api/contact`
-- [ ] Fill in or hide social links
-- [ ] Legal review of `/privacy` and `/terms`
-- [ ] Add a `start` script to `package.json`
-- [ ] Set up database backups (`mysqldump` on a cron — the leads table is the
-      only thing on this server that cannot be rebuilt from git)
+- [x] Add a `start` script to `package.json` — done 14 Aug 2026 (§5)
+- [x] Add rate limiting to `/api/contact` — the config exists at
+      `deploy/nginx-nestingtree.conf`; **it still has to be installed on the
+      server**, which is the §7 step, not a code one
+- [x] Contact-form honeypot — done 14 Aug 2026, in the application (§7)
+- [x] Fill in or hide social links — dead `#` tiles removed; Instagram is the
+      only live profile
+- [ ] Decide lead notification method — **still open, and it is the one on
+      this list that costs money if it is forgotten**
+- [ ] Legal review of `/privacy` and `/terms`, and the Grievance Officer's name
+- [ ] Set up database backups (`mysqldump` on a cron). Back up **both** tables:
+      `leads` and `content_edits` are the only things on this server that
+      cannot be rebuilt from git
 
 ---
 
 ## 9. Redeploying after a content change
 
-Most edits are content in `src/data/*.ts`. The cycle:
+Most edits are content in `src/data/*.ts`.
+
+### On the server that actually serves the site — `deploy.sh`
+
+```bash
+cd ~
+bash -n deploy.sh                  # syntax check before you run it
+./deploy.sh feat/edit-auth         # ALWAYS name the branch
+```
+
+**Four things about that script, all of them things you can get wrong once:**
+
+1. **Always pass the branch by name.** Line 4 is
+   `BRANCH="${1:-full-snapshot}"`. A bare `./deploy.sh` rolls the server back
+   to `full-snapshot`, which does **not** contain the passphrase gate
+   (`ace5024`) — that is a live footgun until the default is changed. The
+   script is not in this repo, so it has to be edited on the server.
+2. **Verify by SHA, never by branch name.** It does `git fetch --depth 1` +
+   `git reset --hard FETCH_HEAD`, so it never checks a branch out.
+   `git rev-parse --abbrev-ref HEAD` keeps printing whatever it printed
+   before, forever. `git log -1 --oneline` is the only check that means
+   anything.
+3. **`=== DEPLOYED ===` is not evidence.** Its smoke test curls `/`, which is
+   prerendered and returns 200 whether or not Node, MySQL or the editor are
+   alive. Run the three checks in §8 by hand.
+4. **`.env` is git-ignored, so `git reset --hard` never delivers it.** A new
+   key — the three `EDIT_` ones, on this deploy — has to be put on the server
+   by hand *before* the deploy, and `dotenv` reads at process start, so a key
+   added afterwards needs `sudo systemctl restart nesting`.
+
+### On a greenfield `/var/www/nestingtree` host
 
 ```bash
 cd /var/www/nestingtree
@@ -521,10 +643,18 @@ npm run build
 sudo systemctl restart nestingtree
 ```
 
-The build takes a few seconds. The restart drops in-flight requests, which for
-this traffic level is fine — but note the static files under `dist/client` are
-replaced during the build, so run it at a quiet moment rather than mid-campaign.
+⚠️ `git pull` here pulls **the branch that host has checked out**. `main` does
+not contain the passphrase gate; deploy `main` and `POST /api/content` is
+accepted with no cookie, which puts prices, RERA numbers and the sales phone
+one request away from any visitor who reads the page source. Check what is
+checked out before pulling.
 
-`npm run build` here, never `astro build` — the `postbuild` prune has to run or
-the renamed images' 301s go dead (§5.1). It prints its counts; expect
-`80 redirect keys, 80 originals deleted`.
+Both paths, in common:
+
+- `npm run build`, **never `astro build`** — the `postbuild` prune has to run
+  or the renamed images' 301s go dead (§5.1). It prints its counts; expect
+  `103 redirect keys, 103 originals deleted`.
+- The build takes a few seconds. The restart drops in-flight requests, which at
+  this traffic level is fine — but the static files under `dist/client` are
+  replaced *during* the build, so run it at a quiet moment rather than
+  mid-campaign.

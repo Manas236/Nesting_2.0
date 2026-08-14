@@ -29,7 +29,7 @@ export const heroStats = [
   { figure: "G+10", label: "Floors" },
   { figure: "66", label: "Total units" },
   { figure: "3", label: "Elevators" },
-  { figure: "20+", label: "Years’ experience" },
+  { figure: "20+", label: "Years' experience" },
 ];
 
 /* ---------- Overview ---------- */

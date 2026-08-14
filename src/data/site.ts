@@ -415,7 +415,7 @@ export const amenities = [
   {
     no: "04",
     kicker: "Dedicated Parking",
-    title: "A parking spot that’s actually yours.",
+    title: "A parking spot that's actually yours.",
     body:
       "Ground-floor covered parking for the car and the two-wheeler, shielded from sun and rain. Dedicated parking spots - no circling, no scrambling for a spot.",
     featured: "Covered Parking · Two-Wheeler & Car",
