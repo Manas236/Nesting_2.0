@@ -21,6 +21,12 @@
        removed on 13 Aug 2026 at the owner's request. The only copy the
        editor still leaves alone is what an author opted out by hand
        with data-no-edit.
+     · none of this exists for a visitor. BaseLayout only imports this
+       file when the `nt_edit_ui` hint cookie is set, and the check is
+       repeated at the top of this file for the case the import happens
+       anyway — a cached bundle, a hand-typed import. It is a hint, not
+       authorisation: the token cookie the write routes check is what
+       actually decides anything (src/lib/edit-auth.ts).
      · none of it is live until "Edit text" is pressed; with the mode on,
        one click enters an element and no link navigates
      · one element is editable at a time, and only while it has focus
@@ -48,6 +54,13 @@ const TOAST_MS = 4200;
     outlive the tab. */
 const MODE_KEY = "nt-edit-mode";
 
+/** The sign-in hint BaseLayout gates the import on. See the note above. */
+const UI_COOKIE = "nt_edit_ui";
+
+function hasUiCookie() {
+  return document.cookie.split("; ").some((c) => c === `${UI_COOKIE}=1`);
+}
+
 const state = {
   /** key -> { text, original, id } for this page. */
   edits: {},
@@ -58,7 +71,8 @@ const state = {
   menu: null,
   /** Editing is off until someone asks for it. See the note on gestures. */
   editing: false,
-  /** The mode button, so setMode can relabel it. */
+  /** The toolbar and the mode button, so they can be relabelled and removed. */
+  bar: null,
   toggle: null,
   holdTimer: 0,
   holdFrom: null,
@@ -67,7 +81,13 @@ const state = {
 /* ============================================================
    Boot
    ============================================================ */
-if (NT) boot();
+/* The cookie check is a second lock on the same door BaseLayout already
+   shut, and it is here for the case where this module is evaluated
+   anyway: a bundle still in the browser cache from before signing out,
+   or somebody importing the chunk by hand. Cheap, and it means signing
+   out takes the toolbar off the page on the next navigation rather than
+   leaving furniture that no longer works. */
+if (NT && hasUiCookie()) boot();
 
 async function boot() {
   const data = await NT.ready;
@@ -407,8 +427,68 @@ function saveEdit(el, before, after) {
       el.removeAttribute("data-nt-edited");
     }
     NT.writeCache(state.edits);
+
+    /* The optimistic write above is what makes 401 the one rejection
+       that must not be a passing toast. The text on screen was changed
+       before the POST went, so a save that fails silently leaves the
+       page showing an edit that no longer exists anywhere. The revert
+       just above is what stops that; endSession is what stops the next
+       twenty edits going the same way unnoticed. */
+    if (res.status === 401) {
+      endSession();
+      return;
+    }
     toast(res.error);
   });
+}
+
+/* ============================================================
+   The session ran out
+   ------------------------------------------------------------
+   Seven days passed, or the passphrase was rotated on the server. Every
+   further save would be refused, so the honest thing is to stop looking
+   editable: drop the hint cookie, take the furniture off the page, and
+   leave a message that stays up rather than a toast that fades while
+   somebody is still typing.
+
+   The message does not name the sign-in URL. Whoever is editing knows
+   it already, and this text is exactly the sort of thing that ends up
+   in a screenshot pasted into a chat.
+   ============================================================ */
+function endSession() {
+  document.cookie = `${UI_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax`;
+
+  /* Out of the mode WITHOUT going through setMode(false), which commits
+     whatever is open — and what is open is the edit that was just
+     refused. Let go of the element instead. */
+  const el = state.active;
+  state.active = null;
+  if (el) {
+    el.contentEditable = "false";
+    el.removeAttribute("data-nt-editing");
+    if (document.activeElement === el) el.blur();
+  }
+
+  state.editing = false;
+  closeMenu();
+  clearHold();
+  document.documentElement.removeAttribute("data-nt-mode");
+  try {
+    sessionStorage.removeItem(MODE_KEY);
+  } catch (err) {
+    /* storage disabled: nothing was remembered to forget */
+  }
+
+  if (state.bar) state.bar.remove();
+  state.bar = null;
+  state.toggle = null;
+
+  // Nothing is marked editable any more, so a click is a click again.
+  for (const marked of document.querySelectorAll("[data-nt-editable]")) {
+    marked.removeAttribute("data-nt-editable");
+  }
+
+  toast("Your editing session has ended. Sign in again to keep editing.", true);
 }
 
 /* ============================================================
@@ -436,7 +516,8 @@ function revert(key, toId) {
 
   send("/api/content/revert", { path: NT.path, key, toId }).then((res) => {
     if (!res.ok) {
-      toast(res.error);
+      if (res.status === 401) endSession();
+      else toast(res.error);
       return;
     }
     const entry = state.edits[key];
@@ -471,7 +552,8 @@ async function openVersions(el) {
     `/api/content/history?path=${encodeURIComponent(NT.path)}&key=${encodeURIComponent(key)}`
   );
   if (!res.ok) {
-    toast(res.error);
+    if (res.status === 401) endSession();
+    else toast(res.error);
     return;
   }
   const rows = (res.data.history || []).slice(0, MENU_VERSIONS);
@@ -598,6 +680,7 @@ function buildToolbar() {
   bar.appendChild(undo);
   document.body.appendChild(bar);
 
+  state.bar = bar;
   state.toggle = toggle;
   // Restore the mode this tab was left in, so it survives a navigation.
   setMode(readMode(), true);
@@ -646,7 +729,9 @@ function setMode(on, quiet) {
 }
 
 let toastTimer = 0;
-function toast(message) {
+/** `stay` holds it on screen indefinitely — for the one message that is
+    not "here is what happened" but "nothing more will work". */
+function toast(message, stay) {
   if (!message) return;
   let node = document.querySelector(".nt-toast");
   if (!node) {
@@ -660,6 +745,7 @@ function toast(message) {
   node.classList.add("is-up");
 
   clearTimeout(toastTimer);
+  if (stay) return;
   toastTimer = window.setTimeout(() => node.classList.remove("is-up"), TOAST_MS);
 }
 
@@ -677,10 +763,13 @@ async function send(url, body) {
       keepalive: true,
     });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) return { ok: false, error: data.error || "Could not save." };
+    // The status is carried out with the error because 401 is not a
+    // failure to report — it is the end of the session (see endSession).
+    if (!res.ok)
+      return { ok: false, status: res.status, error: data.error || "Could not save." };
     return { ok: true, data };
   } catch (err) {
-    return { ok: false, error: "No connection — the change was not saved." };
+    return { ok: false, status: 0, error: "No connection — the change was not saved." };
   }
 }
 
@@ -688,9 +777,10 @@ async function request(url) {
   try {
     const res = await fetch(url, { credentials: "same-origin" });
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) return { ok: false, error: data.error || "Could not load." };
+    if (!res.ok)
+      return { ok: false, status: res.status, error: data.error || "Could not load." };
     return { ok: true, data };
   } catch (err) {
-    return { ok: false, error: "No connection." };
+    return { ok: false, status: 0, error: "No connection." };
   }
 }

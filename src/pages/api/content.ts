@@ -3,21 +3,26 @@
    POST /api/content                   — save one edit
    ------------------------------------------------------------
    The read half runs on every page view, so it stays cheap: one
-   indexed query, no session, no cookies.
+   indexed query, no session, no cookies. It must STAY open. This is
+   what paints the edited copy for the public — put a check on the GET
+   and every visitor sees the text the site was built with instead of
+   the text it now says.
 
-   The write half is the only thing standing between the site's copy
-   and the open internet — there is no login on this feature — so it
-   trusts nothing in the request body. Every field goes through
-   validateEdit() in src/lib/editable.ts, which is the same module the
-   browser uses to decide what it will let you click into.
+   The write half is behind a signed-cookie session (src/lib/edit-auth.ts)
+   and, once past that, still trusts nothing in the request body. Every
+   field goes through validateEdit() in src/lib/editable.ts, which is the
+   same module the browser uses to decide what it will let you click into.
 
-   Be clear about how little that is now. validateEdit checks the SHAPE
-   of a request — known page, well-formed key, non-empty text under the
-   length cap, markup stripped — and, since the denylist was removed on
-   13 Aug 2026, nothing whatever about what the text says. Anyone who
-   can load a page can rewrite any of its copy, including prices, RERA
-   numbers and the sales phone number. What survives is not prevention
-   but the audit trail below.
+   The two do different jobs and neither substitutes for the other.
+   isAuthed() answers "may this caller write at all" — before this
+   existed, the answer was yes, to everyone who could load a page, and
+   prices, RERA numbers and the sales phone were one POST away for any
+   visitor. validateEdit() only checks the SHAPE of a request — known
+   page, well-formed key, non-empty text under the length cap, markup
+   stripped — and, since the denylist was removed on 13 Aug 2026,
+   nothing whatever about what the text SAYS. So the session is what
+   decides who edits; validation is what stops a signed-in editor
+   posting something the page cannot hold.
 
    content_edits is APPEND-ONLY. A save is an INSERT; the current text
    for a key is the row with the highest id. Nothing here UPDATEs or
@@ -27,6 +32,7 @@
 import type { APIRoute } from "astro";
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import pool from "../../lib/db";
+import { isAuthed } from "../../lib/edit-auth";
 import {
   cleanText,
   clientIpFrom,
@@ -134,6 +140,14 @@ const MAX_BODY = 16 * 1024;
 
 export const POST: APIRoute = async (context) => {
   const { request } = context;
+
+  /* Before the body is read, before it is validated, before anything
+     touches the database. An unauthenticated caller gets one answer and
+     costs one HMAC. The wording is what the editor puts on screen when
+     a session runs out mid-edit — see endSession() in
+     src/scripts/inline-edit.js. */
+  if (!isAuthed(request))
+    return json({ error: "Your editing session has ended." }, 401);
 
   // The socket address, used only if X-Forwarded-For does not parse.
   // Astro throws here rather than returning undefined when the adapter

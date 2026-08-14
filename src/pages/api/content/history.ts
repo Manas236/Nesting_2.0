@@ -7,10 +7,26 @@
    the trail.
 
    `original` on the OLDEST row is the text the page was built with.
+
+   SIGNED IN ONLY, even though it writes nothing. This is a GET and it
+   reads text — the tempting call is to leave it open the way
+   `GET /api/content` is. The difference is what each returns.
+   /api/content returns the CURRENT copy, which is on the page for
+   anybody to read anyway; this returns every version there has ever
+   been, with timestamps. That is a record of what the site said about
+   a price, a carpet area or a RERA number at each moment, and of when
+   somebody thought better of it — not public copy, and not something
+   to leave enumerable a key at a time.
+
+   Nothing is given up by closing it: the version menu in the editor is
+   the only caller, and the editor now only exists for a signed-in
+   browser. The check is here rather than only in the UI because the UI
+   is not a security boundary.
    ============================================================ */
 import type { APIRoute } from "astro";
 import type { RowDataPacket } from "mysql2";
 import pool from "../../../lib/db";
+import { isAuthed } from "../../../lib/edit-auth";
 import { isValidKey, normalizePath } from "../../../lib/editable";
 
 export const prerender = false;
@@ -34,7 +50,10 @@ const SELECT_HISTORY = `
    ORDER BY id DESC
 `;
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ request, url }) => {
+  if (!isAuthed(request))
+    return json({ error: "Your editing session has ended." }, 401);
+
   const path = normalizePath(url.searchParams.get("path"));
   if (!path) return json({ error: "That page cannot be edited." }, 400);
 

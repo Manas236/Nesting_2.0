@@ -98,6 +98,31 @@ const pageLd = schema ? jsonLd(schema) : null;
    2. A bundled module script at the end of the body: the gestures, the
       toolbar and saving, none of which the first paint needs.
 
+   THE TWO HALVES ARE NOT GATED THE SAME WAY, and that asymmetry is the
+   whole design.
+
+   Part 1 is the READ path and runs for everybody, always. It is what
+   paints the edited copy, so gating it would show the public the text
+   the site was built with rather than the text it now says.
+
+   Part 2 is the editor, and it is downloaded only by a browser holding
+   the `nt_edit_ui=1` hint cookie that /api/edit-session sets at
+   sign-in. Written as a dynamic import so the editor becomes a chunk of
+   its own: an ordinary visitor does not fetch a byte of it, sees no
+   button, and has nothing on the page to suggest one exists.
+
+   That cookie is a HINT and nothing more. It is not HttpOnly, anybody
+   can set it by hand, and all that earns them is a downloaded script
+   whose every save is refused — the write routes check the signed
+   `nt_edit` cookie instead, which is the real gate (src/lib/edit-auth.ts).
+   Never make a server-side decision from `nt_edit_ui`.
+
+   The check has to be CLIENT-SIDE. Every page using this layout is
+   prerendered, so its HTML is written once at build time and served
+   from disk to everyone; there is no per-request frontmatter to read a
+   cookie in, and reading one there would silently bake one visitor's
+   answer into the file.
+
    The prose lives up here rather than beside the tags because an inline
    script followed by a MULTI-LINE HTML comment does not survive the Astro
    compiler — it reports "Unexpected token" and fails the build. Keep any
@@ -444,9 +469,11 @@ const pageLd = schema ? jsonLd(schema) : null;
   <body class="text-ink antialiased">
     <slot />
 
-    <!-- In-page text editing, part 2 of 2: the editor. Bundled by Astro, so it loads deferred. -->
+    <!-- In-page text editing, part 2 of 2: the editor, for signed-in browsers only. See the frontmatter. -->
     <script>
-      import "../scripts/inline-edit.js";
+      if (document.cookie.split("; ").some((c) => c === "nt_edit_ui=1")) {
+        import("../scripts/inline-edit.js");
+      }
     </script>
   </body>
 </html>

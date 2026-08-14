@@ -18,6 +18,7 @@
 import type { APIRoute } from "astro";
 import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import pool from "../../../lib/db";
+import { isAuthed } from "../../../lib/edit-auth";
 import {
   MAX_TEXT,
   cleanText,
@@ -55,6 +56,11 @@ const INSERT_EDIT = `
 
 export const POST: APIRoute = async (context) => {
   const { request } = context;
+
+  /* A revert writes a row like any other edit, so it is gated like any
+     other edit — first thing, before the body is read. */
+  if (!isAuthed(request))
+    return json({ error: "Your editing session has ended." }, 401);
 
   // See the note in api/content.ts: only a fallback, and it must not throw.
   let socket: string | null = null;

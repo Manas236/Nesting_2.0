@@ -55,9 +55,87 @@ real environment variables or an `EnvironmentFile`.
 | `DB_NAME` | yes | `nesting_tree` | |
 | `HOST` | yes | `0.0.0.0` | Set to `127.0.0.1` so only the proxy can reach it |
 | `PORT` | yes | `4321` | |
+| `EDIT_LOGIN_SLUG` | yes | none | Secret path segment for the editor sign-in — §3.1 |
+| `EDIT_PASSPHRASE` | yes | none | What the editor types — §3.1 |
+| `EDIT_SECRET` | yes | none | HMAC key for the session cookie. **Missing = the app throws** — §3.1 |
 
 `.env` is correctly git-ignored (`.gitignore:17`) and is **not** in the repo.
 `.env.example` is the template. Never commit real credentials.
+
+---
+
+### 3.1 The editor sign-in
+
+The in-page text editor (`src/scripts/inline-edit.js`) rewrites live copy —
+prices, RERA numbers, the sales phone. It is behind a passphrase.
+
+**Reads are open and must stay open.** `GET /api/content` is what paints the
+edited copy for every visitor. Only the writes are gated.
+
+#### The three variables
+
+Generate all three as long random strings. One way:
+
+```bash
+openssl rand -base64 32 | tr -d '=+/' | cut -c1-40
+```
+
+| | What it is | Changing it |
+|---|---|---|
+| `EDIT_LOGIN_SLUG` | The secret second path segment. Sign-in is at `/studio/<slug>`. | `systemctl restart` — the route reads it per request, so **no rebuild** |
+| `EDIT_PASSPHRASE` | What the person types into the box. | Restart. **Signs everyone out.** |
+| `EDIT_SECRET` | The key the session cookie is signed with. 32+ random bytes. | Restart. **Signs everyone out.** |
+
+`EDIT_SECRET` has no fallback on purpose: with it unset, `src/lib/edit-auth.ts`
+throws on the first request to a write route or the login page and names the
+variable in the message. Look in `journalctl -u nestingtree -n 50`. It fails
+that way rather than defaulting, because an HMAC keyed on an empty string is
+one anybody who has read the repo can forge.
+
+**Do not write the real slug or passphrase into any file in this repo** —
+not here, not in `.env.example`, not in a commit message. They live in `.env`
+on the server (or the systemd `EnvironmentFile`) and nowhere else.
+
+#### Reaching the editor
+
+1. Open `https://nestingtree.in/studio/<EDIT_LOGIN_SLUG>`. Any other slug
+   returns an ordinary 404, identical to any other 404 on the site — that is
+   deliberate, so a scanner cannot tell a wrong slug from a path that was
+   never a route.
+2. Enter the passphrase. On success the browser is sent to `/` with the URL
+   *replaced*, so the secret is not left in the address bar or the back stack.
+3. Two cookies are set for seven days: `nt_edit` (signed, `HttpOnly` — the real
+   credential) and `nt_edit_ui` (a hint the browser reads to decide whether to
+   download the editor bundle at all; it carries no authority and the server
+   never trusts it).
+4. An **Edit text** button now appears on every page. A visitor without the
+   cookie sees no button, no prompt, and never downloads the editor chunk.
+5. Sign out from the same `/studio/<slug>` URL. A session that runs out
+   mid-edit is not silent: the save is refused, the text on screen snaps back,
+   and the editor tears itself off the page with a message.
+
+The sign-in page is **not** listed in `robots.txt`, and must not be — robots.txt
+is public, so a `Disallow` line for a secret path publishes it. Nothing links
+to the page; it carries `X-Robots-Tag: noindex, nofollow` and
+`Referrer-Policy: no-referrer` so the slug cannot travel in a `Referer` header.
+
+#### Rotating
+
+Change the value in `.env`, then `sudo systemctl restart nestingtree`. That is
+all — none of the three is read at build time.
+
+- Rotating **`EDIT_LOGIN_SLUG`** changes where you sign in. Anyone already
+  signed in stays signed in; their cookie does not care about the path.
+- Rotating **`EDIT_PASSPHRASE` or `EDIT_SECRET`** invalidates every cookie
+  already issued and **signs everybody out immediately**. That is the way to
+  end a session you cannot otherwise revoke — sessions are stateless signed
+  tokens, so there is nothing per-person to delete (`src/lib/edit-auth.ts`
+  explains why that trade was taken: an in-memory store would sign the editor
+  out on every content deploy).
+
+`deploy/nginx-nestingtree.conf` caps `/api/edit-session` and `/studio/` at
+5 requests a minute per address. Keep it: a shared passphrase with no
+brute-force ceiling is not a gate.
 
 ---
 
@@ -398,6 +476,7 @@ Ordered. Everything above the line must be true before the site is public.
 - [ ] Node 22.12+ installed
 - [ ] MySQL installed, `nesting_tree` database and `leads` table created (§4)
 - [ ] Dedicated DB user created; credentials in `.env` on the server
+- [ ] `EDIT_LOGIN_SLUG`, `EDIT_PASSPHRASE` and `EDIT_SECRET` set in `.env` (§3.1)
 - [ ] `npm ci && npm run build` completes clean
 - [ ] systemd service running and enabled; survives `reboot`
 - [ ] Nginx proxying to `127.0.0.1:4321`, static paths served from disk
@@ -407,6 +486,11 @@ Ordered. Everything above the line must be true before the site is public.
 - [ ] DNS A records for apex and `www` resolve to the server
 - [ ] **Submit a real enquiry on the live site and confirm the row lands in `leads`** — this is the one end-to-end test that matters
 - [ ] Confirm `/thank-you` renders correctly after that submission
+- [ ] `curl -si https://nestingtree.in/studio/wrong-slug` returns **404**, and
+      `POST /api/content` with no cookie returns **401** — the two checks that
+      say the copy is not world-writable
+- [ ] Sign in at `/studio/<slug>`, change one line, confirm it saves and that a
+      logged-out browser sees the change
 - [ ] Someone is responsible for reading the `leads` table
 
 ---
