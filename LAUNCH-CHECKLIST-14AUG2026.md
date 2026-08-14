@@ -19,6 +19,14 @@ broken launch day. Items closed that way are marked **[x] — done 15:30** below
 remains is on the server (§1, §3), on the live site (§4, §5), or on the owner
 (§6, §7). Full build re-run and clean after every change.
 
+**Updated 17:00 — one real defect was found after 15:30, and it was a big one.**
+The claim above that "nothing left can be finished from the repo" was true of
+everything then known; it was not true of what had not been looked at.
+**The owner's saved edits were never shown to the public.** See §0.1. Fixed,
+built, smoke-tested against the real database, committed and pushed. The three
+launch-day `POST /api/content` checks were also wrong — they say 401 and the
+server answers 403. Corrected everywhere, here and in DEPLOYMENT.md.
+
 **Verdict: the code is ready. One thing is not.** The finished work is now on
 `origin`, but the domain is still parked. That is not a coding job; it is on the
 critical path and it is inside a two-hour budget.
@@ -39,6 +47,41 @@ deploy from the branch.** `origin/main` was left exactly where it was, at
 - [x] **Push.** Done. `feat/edit-auth` now tracks `origin/feat/edit-auth`
       (it had no upstream at all before this). Sixteen commits went up: the
       fourteen that were stranded, the sign-out fix, and this file.
+
+## 0.1 The edits were invisible to everybody but the editor — fixed 17:00
+
+**This is the one thing on this page that would have made the launch look
+finished and be wrong.** Every visitor's browser was already fetching
+`GET /api/content` in the `<head>` on every page view — and then throwing the
+answer away. The only code that applied the server's reply lived in
+`src/scripts/inline-edit.js`, which loads *solely* for a browser carrying the
+`nt_edit_ui=1` cookie. So:
+
+- the owner edits a line in `/studio`, sees it change, and it is genuinely
+  saved — `content_edits` has all 347 rows;
+- his own browser keeps showing it, from `localStorage`, which is per-origin
+  and per-device;
+- **every other visitor sees the text the site was built with.** No error, no
+  warning, nothing in any log. The site would simply have gone live saying the
+  old words while the database held the new ones.
+
+**The fix moves the apply step out of the editor bundle and into the ungated
+head script** ([`BaseLayout.astro`](src/layouts/BaseLayout.astro#L449)), which
+runs for everyone. It exports a new `applied` promise — the server's answer,
+*already on the page* — and the editor now awaits that instead of `ready`, so
+the text is written in exactly one place rather than two racing ones. A null
+answer (offline, or MySQL down) leaves the cached copy alone rather than
+snapping the page back to the built-in text.
+
+Verified, not assumed: `npm run build` clean, the prune still reports its
+103/103/103, the head script is present in every prerendered page in `dist`,
+and a built server against the real database answers `GET /api/content?path=/`
+with **200 and 27 edits for the home page**.
+
+⚠️ **This is on the branch and nowhere else.** It is one more reason the deploy
+must name `feat/edit-auth`: `origin/main` and `full-snapshot` both have the
+broken read path, so deploying either puts a site on the internet that quietly
+ignores every word the owner has changed since 6 August.
 
 ### ⚠️ The consequence, and it is now the deploy step that carries it
 
@@ -84,8 +127,14 @@ on the live host, not on localhost:
 
 ```bash
 curl -si https://nestingtree.in/studio/wrong-slug          # must be 404
-curl -si -X POST https://nestingtree.in/api/content        # must be 401
+curl -si -X POST https://nestingtree.in/api/content        # must be 403 (see below)
 ```
+
+⚠️ **That POST answers 403, not 401 — and 403 is the pass.** Astro's own CSRF
+check rejects an `Origin`-less POST before the route's auth guard runs, so a
+bare curl never reaches the 401. Measured against a built server on 14 Aug
+2026. Both codes mean *rejected*; **only a 200 is a failure.** DEPLOYMENT.md §3
+carries the longer form of the check if you want to watch the 401 itself fire.
 
 ### ⚠️ The three `EDIT_` keys must be in `.env` *before* this deploy, not after
 
@@ -112,7 +161,7 @@ edit silently missing**. Check the three below by hand instead:
 curl -sk -o /dev/null -w 'GET  /api/content   %{http_code}\n' \
   'https://43.204.250.50/api/content?path=/'          # 200, not 500
 curl -sk -o /dev/null -w 'POST /api/content   %{http_code}\n' \
-  -X POST 'https://43.204.250.50/api/content'         # 401, not 500 and not 200
+  -X POST 'https://43.204.250.50/api/content'         # 403, not 500 and not 200
 curl -sk -o /dev/null -w 'GET  /studio/wrong  %{http_code}\n' \
   'https://43.204.250.50/studio/wrong-slug'           # 404
 ```
@@ -283,9 +332,16 @@ Both §4 and `db/schema.sql` now grant on **both tables**.
 - [ ] `/thank-you` renders correctly after that submission, with the right
       project render
 - [ ] `curl -si https://nestingtree.in/studio/wrong-slug` → **404**
-- [ ] `curl -si -X POST https://nestingtree.in/api/content` → **401**
+- [ ] `curl -si -X POST https://nestingtree.in/api/content` → **403** (CSRF
+      layer, ahead of the 401 — see §0; a **200** is the only failure)
 - [ ] Sign in at `/studio/<slug>`, change one line, confirm it saves **and that
-      a logged-out browser sees the change**
+      a logged-out browser sees the change**. ⚠️ **It must be a browser that has
+      never edited this origin** — a private window or a phone on mobile data.
+      An editing browser has the value in `localStorage` and will show it to you
+      whether or not the fix in §0.1 is deployed, so it cannot prove anything.
+- [ ] **Open two or three pages the owner edited, in that same clean browser,
+      and read them.** This is the check that §0.1 exists for; before today it
+      would have failed on every page while everything else on this list passed.
 - [ ] Sign out, and confirm the button reports failure rather than pretending
       (the fix in §0)
 - [ ] An old image URL 301s to its `.webp`:
@@ -403,7 +459,7 @@ two are the ones I would put in front of him this afternoon.
 4. **Point DNS.** Everything downstream waits on propagation, so do not leave
    it last.
 5. **Run the four live checks** — enquiry lands in `leads`, wrong slug 404s,
-   cookieless POST 401s, old image URL 301s. *(§4)*
+   cookieless POST 403s (not 200), old image URL 301s. *(§4)*
 6. **Search Console and the OG debuggers**, only once DNS resolves. *(§5)*
 7. **Name whoever reads the leads table.** *(§7)*
 

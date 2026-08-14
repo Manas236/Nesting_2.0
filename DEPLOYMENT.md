@@ -116,7 +116,19 @@ regardless. Check by hand after deploying:
 
 ```bash
 curl -si localhost:4321/api/content?path=/     # 200, not 500
-curl -si -X POST localhost:4321/api/content    # 401, not 500 and not 200
+curl -si -X POST localhost:4321/api/content    # 403, not 500 and not 200
+```
+
+⚠️ **That POST answers 403, not 401, and 403 is the correct pass.** Astro's
+built-in CSRF check rejects a POST that carries no `Origin` header before the
+route's own auth guard ever runs, so a bare `curl -X POST` never reaches the
+401. Measured on a built server, 14 Aug 2026. Either code means *rejected*;
+only **200** is a failure. To see the auth guard itself answer 401, give the
+request an origin and a JSON content type:
+
+```bash
+curl -si -X POST -H 'Content-Type: application/json' \
+  -H 'Origin: http://localhost:4321' -d '{}' localhost:4321/api/content   # 401
 ```
 
 If it is 500, `journalctl -u nesting -n 50 --no-pager` will be naming
@@ -572,8 +584,9 @@ Ordered. Everything above the line must be true before the site is public.
 - [ ] **Submit a real enquiry on the live site and confirm the row lands in `leads`** — this is the one end-to-end test that matters
 - [ ] Confirm `/thank-you` renders correctly after that submission
 - [ ] `curl -si https://nestingtree.in/studio/wrong-slug` returns **404**, and
-      `POST /api/content` with no cookie returns **401** — the two checks that
-      say the copy is not world-writable
+      `POST /api/content` with no cookie returns **403** (the CSRF layer, which
+      fires before the 401 — see §3) — the two checks that say the copy is not
+      world-writable
 - [ ] Sign in at `/studio/<slug>`, change one line, confirm it saves and that a
       logged-out browser sees the change
 - [ ] Someone is responsible for reading the `leads` table

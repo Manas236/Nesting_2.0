@@ -90,7 +90,13 @@ const state = {
 if (NT && hasUiCookie()) boot();
 
 async function boot() {
-  const data = await NT.ready;
+  // NT.applied, not NT.ready: the head script applies the server's answer
+  // for every visitor, so by the time this resolves the page already says
+  // what the database says. The editor only needs the same map to edit
+  // against. Awaiting `ready` here and applying it a second time is how
+  // this used to work, and it made the editor the only thing that ever
+  // painted an edit — see the note in BaseLayout.astro.
+  const data = await NT.applied;
 
   // Copy that shares its parent with a <br>, an icon or a <strong> gets
   // a wrapper of its own first, so that everything below — applying,
@@ -99,16 +105,9 @@ async function boot() {
   // where nothing else would have asked.
   NT.ensureWrapped();
 
-  if (data && data.edits) {
-    // Server wins over the cache, and refreshes it.
-    state.edits = data.edits;
-    NT.applyAll(state.edits);
-    NT.writeCache(state.edits);
-  } else {
-    // Offline, or the database is down. Keep showing what we cached
-    // rather than snapping back to the built-in copy.
-    state.edits = NT.readCache();
-  }
+  // Offline, or the database is down: keep whatever the cache pass put on
+  // screen rather than editing against an empty map.
+  state.edits = data && data.edits ? data.edits : NT.readCache();
 
   markElements();
   installGestures();

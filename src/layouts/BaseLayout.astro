@@ -431,19 +431,58 @@ const pageLd = schema ? jsonLd(schema) : null;
         /* readystatechange -> "interactive" fires once the document is
            parsed and BEFORE deferred scripts run, so the cached copy is
            on screen by the time the editor boots. */
+        function whenParsed(fn) {
+          if (document.readyState !== "loading") return fn();
+          document.addEventListener("readystatechange", function onState() {
+            if (document.readyState === "loading") return;
+            document.removeEventListener("readystatechange", onState);
+            fn();
+          });
+        }
+
         function applyCache() {
           ensureWrapped();
           applyAll(readCache());
         }
-        if (document.readyState === "loading") {
-          document.addEventListener("readystatechange", function onState() {
-            if (document.readyState === "loading") return;
-            document.removeEventListener("readystatechange", onState);
-            applyCache();
-          });
-        } else {
-          applyCache();
+        whenParsed(applyCache);
+
+        /* THE READ PATH. This is what puts the saved text on the page for
+           every visitor, and it must stay in this ungated head script.
+
+           The cache pass above is only a head start for a browser that
+           has been here before; localStorage is per-origin and empty for
+           everybody else, including this site's own preview host and any
+           first-time visitor. Until 14 Aug 2026 the only code that ever
+           applied the SERVER's answer lived in the editor bundle, which
+           loads only for a browser holding nt_edit_ui=1 — so an edit was
+           visible to the person who made it and to nobody else. Nothing
+           was wrong with the database; the text simply was never written
+           to the page. If you are about to gate this, re-read that.
+
+           A null answer means offline or a database that is down. Leave
+           the cached copy alone in that case rather than snapping the
+           page back to the built-in text. */
+        function applyServer(data) {
+          if (!data || !data.edits) return;
+          ensureWrapped();
+          applyAll(data.edits);
+          writeCache(data.edits);
         }
+
+        /* Resolves once the server's answer is ON the page, which needs
+           both the fetch and a parsed document — whichever lands second
+           does the work. The editor awaits this rather than `ready` so
+           the text is applied in exactly one place. Where the cache pass
+           already painted an older value, applyOne() recognises its own
+           handiwork through data-nt-applied and overwrites it. */
+        var applied = ready.then(function (data) {
+          return new Promise(function (resolve) {
+            whenParsed(function () {
+              applyServer(data);
+              resolve(data);
+            });
+          });
+        });
 
         return {
           path: path,
@@ -462,6 +501,7 @@ const pageLd = schema ? jsonLd(schema) : null;
           readCache: readCache,
           writeCache: writeCache,
           ready: ready,
+          applied: applied,
         };
       })();
     </script>
