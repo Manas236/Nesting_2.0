@@ -40,18 +40,27 @@ with `git pull` on `main`. Follow it literally and the site goes live with the
 accepted, and prices, RERA numbers and the sales phone are one request away for
 any visitor who reads the page source.
 
-- [ ] **Check the branch out on the server**, not `main`:
-      `git fetch origin && git checkout feat/edit-auth && git pull`. On the
-      server, `git rev-parse --abbrev-ref HEAD` must print `feat/edit-auth` and
-      `git log -1 --oneline` must show the branch tip, **not `389187f`**.
-- [ ] **Fix DEPLOYMENT.md §9** so the next deploy — by anyone, including future
-      you at 4:45 — does not quietly go back to `main`. Either name the branch
-      there or merge to `main` later and undo this note.
+- [ ] **Put `EDIT_LOGIN_SLUG`, `EDIT_PASSPHRASE` and `EDIT_SECRET` in the
+      server's `.env` BEFORE deploying** — see the second ⚠️ below. This is the
+      one that bites silently.
+- [ ] **Deploy the branch by name**: `cd ~ && bash -n deploy.sh &&
+      ./deploy.sh feat/edit-auth`. Verify by **SHA, not branch name** —
+      `deploy.sh` does `git fetch --depth 1` + `git reset --hard FETCH_HEAD`, so
+      it never checks a branch out and `git rev-parse --abbrev-ref HEAD` on the
+      server keeps printing whatever it printed before. `git log -1 --oneline`
+      is the check that means anything.
+- [ ] **Change `deploy.sh`'s default branch.** Line 4 is
+      `BRANCH="${1:-full-snapshot}"`. A bare `./deploy.sh`, by anyone, at any
+      point, rolls the server back to `full-snapshot` — which does **not**
+      contain `ace5024`. That is a live footgun for as long as the default
+      stands.
+- [ ] **DEPLOYMENT.md §9 describes a different host** — `/var/www/nestingtree`,
+      service `nestingtree`, `git pull`. The preview box is
+      `/home/ubuntu/nesting`, service `nesting`, `deploy.sh`. Reconcile the two
+      before anyone deploys from the document rather than from this file.
 
-The same thing merged to `main` would have retired this risk outright. It was
-not, so the branch checkout above is a launch blocker in its own right, and it
-is the one item in this file that a person reading DEPLOYMENT.md instead of this
-file would get wrong.
+Merging to `main` would have retired this risk outright. It was not, so
+deploying the branch **by name** is a launch blocker in its own right.
 
 The two curl checks in DEPLOYMENT.md §8 exist precisely to catch this. Run them
 on the live host, not on localhost:
@@ -60,6 +69,44 @@ on the live host, not on localhost:
 curl -si https://nestingtree.in/studio/wrong-slug          # must be 404
 curl -si -X POST https://nestingtree.in/api/content        # must be 401
 ```
+
+### ⚠️ The three `EDIT_` keys must be in `.env` *before* this deploy, not after
+
+This is the first deploy that carries the passphrase gate, and it is the first
+one whose `.env` needs `EDIT_LOGIN_SLUG`, `EDIT_PASSPHRASE` and `EDIT_SECRET`.
+`.env` is git-ignored, so `git reset --hard` will not put them there and no
+previous deploy has needed them.
+
+**`npm run build` will not catch a missing key.** `/api/content` and
+`/studio/[key]` are both `prerender = false`, so the build bundles them without
+executing them; the `throw` at [`edit-auth.ts:60`](src/lib/edit-auth.ts#L60)
+fires at *import* time, in the running Node process, on the first request that
+touches a write route. `src/pages/api/content.ts` imports the same module for
+its POST guard, so a missing `EDIT_SECRET` takes **`GET /api/content` down too**
+and every read answers 500.
+
+**And the deploy script's own smoke test will still say the deploy worked.** It
+curls `https://43.204.250.50/`, which is prerendered and returns 200 whether or
+not the editor is alive. `=== DEPLOYED ===` is not evidence. What visitors
+would see is a site that renders its baked-in copy correctly with **every saved
+edit silently missing**. Check the three below by hand instead:
+
+```bash
+curl -sk -o /dev/null -w 'GET  /api/content   %{http_code}\n' \
+  'https://43.204.250.50/api/content?path=/'          # 200, not 500
+curl -sk -o /dev/null -w 'POST /api/content   %{http_code}\n' \
+  -X POST 'https://43.204.250.50/api/content'         # 401, not 500 and not 200
+curl -sk -o /dev/null -w 'GET  /studio/wrong  %{http_code}\n' \
+  'https://43.204.250.50/studio/wrong-slug'           # 404
+```
+
+A 500 on either of the first two means the key is not reaching the process.
+`journalctl -u nesting -n 50 --no-pager` will be naming `EDIT_SECRET` if so.
+
+`edit-auth.ts` does `import "dotenv/config"` exactly as `db.ts` does, so
+whatever already delivers the `DB_*` values delivers these — they just have to
+be in the file. `dotenv` reads at process start, so a key added *after* a deploy
+needs `sudo systemctl restart nesting` to take.
 
 Also on the branch and not on `main`: the branded 404 page, the 63% page-weight
 cut, the asset prune, the reissued Ishaan sheets, and the standalone `/contact`
@@ -154,8 +201,8 @@ blocker** — ship behind nginx today, add the honeypot this week.
 
 Straight from DEPLOYMENT.md §8, with the corrections found today folded in.
 
-- [ ] **Working tree on `feat/edit-auth`, not `main`** — see §0. Everything
-      below is worthless if the checkout is wrong, so verify it first
+- [ ] **Server at the `feat/edit-auth` tip, checked by SHA** — see §0.
+      Everything below is worthless if the code is wrong, so verify it first
 - [ ] Node 22.12+ installed
 - [ ] MySQL installed and **`db/schema.sql` run** — see the ⚠️ below
 - [ ] Dedicated DB user (`SELECT, INSERT` only); credentials in `.env` on the server
@@ -294,8 +341,9 @@ two are the ones I would put in front of him this afternoon.
 
 1. ~~Commit the studio fix, merge, push.~~ **Done at 14:50** — committed as
    `8d8b9d8` and pushed to `origin/feat/edit-auth`. What replaces it, and it is
-   still step one: **check that branch out on the server.** `origin/main` does
-   not have `ace5024`. *(§0)*
+   still step one: **three `EDIT_` keys into the server's `.env`, then
+   `./deploy.sh feat/edit-auth`.** Neither `origin/main` nor `full-snapshot`
+   has `ace5024`. *(§0)*
 2. **Ask him for the two addresses and the four photographs.** He is the long
    pole; start him now and do the server work while you wait. *(§6)*
 3. **Server: schema → `.env` → `npm ci && npm run build` → systemd → nginx →
