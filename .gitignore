@@ -40,3 +40,10 @@ audit/
 # they were never tracked; kept on disk rather than deleted so the decision is
 # reversible. Delete the folder once you are sure.
 _quarantine/
+
+# mysqldumps pulled off the server (nesting_tree_YYYY-MM-DD_HHMM.sql). These
+# carry the real `leads` rows — a member of the public's name, phone number and
+# email — so they must never be committed, and a stray `git add -A` at the repo
+# root is all it would take. `db/schema.sql` is the ONLY .sql that belongs in
+# git; it holds structure and no data.
+nesting_tree_*.sql
