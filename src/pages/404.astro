@@ -1,0 +1,585 @@
+---
+/* ============================================================
+   404 — Page not found
+   ------------------------------------------------------------
+   Closes SEO-AUDIT-13AUG2026.md §4.3. Before this, a bad URL got
+   nginx's default "404 Not Found" page: unbranded, and a dead end.
+
+   HOW IT GETS SERVED. Prerendered, so the build writes it to
+   dist/client/404.html. Two things then pick it up, and neither
+   needs a config change:
+
+     - the Astro node server answers unmatched routes with it,
+       and deploy/nginx-nestingtree.conf sends ALL non-asset
+       traffic to node (`location /`), so every page-level miss
+       lands here with a real 404 status;
+     - `astro dev` and `astro preview` do the same locally.
+
+   The nginx locations that answer their own 404 are /_astro/,
+   /favicon.ico and /robots.txt — asset requests, where a branded
+   HTML document would be the wrong reply to a request for a
+   stylesheet. They are deliberately left alone.
+
+   WHY PRERENDERED AND NOT `prerender = false`. A server-rendered
+   404 could read the attempted path in the frontmatter, which is
+   the only thing given up here. It is not worth it: 404s are the
+   most bot-hammered response on any site — probes for /wp-admin,
+   /.env and a few hundred others arrive daily — and a static file
+   answers those off disk instead of putting the single node
+   process through a render for each one. The attempted path is
+   read on the client instead (see the script at the foot).
+
+   NOT IN THE SITEMAP, and nothing was added to astro.config.mjs to
+   arrange that: @astrojs/sitemap drops "404" and "500" itself
+   (STATUS_CODE_PAGES in its index.js). `noindex` below is the
+   belt-and-braces half. It is not redundant: the node adapter does
+   answer a direct GET /404 with a 404 status (checked), but that is
+   its behaviour, not a guarantee — serve dist/client from any plain
+   static host and /404.html answers 200 like any other file.
+
+   No `Disallow: /404` was added to robots.txt, and that is on
+   purpose rather than an oversight — it is the one difference from
+   how /thank-you is handled. A disallow would stop a crawler
+   FETCHING /404, which nothing links to anyway, while doing nothing
+   about the 404s served at every other URL, which is where this page
+   is actually seen. The status code is what keeps those out of the
+   index, and `noindex` covers the direct hit.
+   ============================================================ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SocialLinks from "../components/SocialLinks.astro";
+import { brand, contact, projects, whatsappHref } from "../data/site";
+
+/* The same clean night render /thank-you falls back to — the neutral
+   brand image, and at 279 KB the lightest of the renders. Weight
+   matters more here than on any other page: see the note above on
+   how much of this page's traffic is machines. */
+const art = {
+  image: "/images/projects/dhruva/photos/dhruva-render-01.webp",
+  objectPosition: "center",
+};
+
+/* Every real destination on the site, handed to the client script so it
+   can answer "did you mean …?" against the URL that missed. Built from
+   `projects` rather than typed out, so a new project is offered as a
+   suggestion the day it is added to site.ts and never goes stale.
+
+   `seg` is what the matcher actually compares: the last path segment,
+   which is where a typo almost always is (/projects/dhurva, /gallary).
+   The home page has none, so it is not a suggestion candidate — it is
+   the button everybody already gets. */
+const destinations = [
+  { path: "/projects", seg: "projects", label: "All projects" },
+  { path: "/gallery", seg: "gallery", label: "Gallery" },
+  { path: "/about", seg: "about", label: "About us" },
+  { path: "/contact", seg: "contact", label: "Contact" },
+  { path: "/privacy", seg: "privacy", label: "Privacy Policy" },
+  { path: "/terms", seg: "terms", label: "Terms of Use" },
+  ...projects.map((p) => ({
+    path: `/projects/${p.slug}`,
+    seg: p.slug,
+    label: p.name,
+  })),
+];
+
+/* The four places a lost visitor actually wants. Home is not among them:
+   it is the primary button in the panel above. */
+const wayfinding = [
+  {
+    href: "/projects",
+    label: "Projects",
+    body: `All ${brand.name} residences, ongoing and delivered.`,
+  },
+  {
+    href: "/gallery",
+    label: "Gallery",
+    body: "Renders, site photographs and floor plans.",
+  },
+  {
+    href: "/about",
+    label: "About",
+    body: `The record behind the name, from ${brand.legacyYear} to today.`,
+  },
+  {
+    href: "/contact",
+    label: "Contact",
+    body: "Book a site visit or reach the sales desk.",
+  },
+];
+
+const footerLinks = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Contact", href: "/contact" },
+];
+
+const waHref = whatsappHref(
+  `Hi ${brand.name}, I'd like to enquire about your homes.`
+);
+
+const telHref = `tel:${contact.phone.replace(/\s/g, "")}`;
+
+const pageTitle = `Page not found — ${brand.name}`;
+const pageDesc =
+  "That page doesn't exist. Browse the Nesting Tree residences across Navi Mumbai and Panvel, or get in touch with the sales desk.";
+---
+
+<BaseLayout title={pageTitle} description={pageDesc} noindex>
+  <SiteHeader />
+
+  <main>
+    <!-- ============================ PANEL ============================ -->
+    <section class="bg-ink text-stone grid lg:grid-cols-2">
+      <!-- Render: top on mobile, left on desktop — the /thank-you split. -->
+      <div
+        class="relative bg-ink h-[38vh] min-h-[260px] lg:h-auto lg:min-h-[620px] overflow-hidden"
+      >
+        <img
+          src={art.image}
+          alt="A Nesting Tree residence at dusk"
+          width="1600"
+          height="1067"
+          class="absolute inset-0 w-full h-full object-cover opacity-70"
+          style={`object-position: ${art.objectPosition};`}
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-ink/40"
+        >
+        </div>
+        <div
+          class="hidden lg:block absolute inset-y-0 right-0 w-40 bg-gradient-to-r from-transparent to-ink"
+        >
+        </div>
+
+        <!-- The numeral, drawn as an outline so it reads as a watermark
+             rather than as a second headline competing with the h1.
+
+             The outline is set INLINE and not with the .text-hollow class
+             that exists for exactly this, deliberately. That class lives in
+             global.css *outside* any @layer, while every Tailwind colour
+             utility is inside @layer utilities — and an unlayered rule beats
+             a layered one whatever the specificity. So .text-hollow's
+             `color: transparent` wins over any `text-white/…` beside it, its
+             `-webkit-text-stroke: … currentColor` resolves to transparent
+             too, and the result is an invisible glyph. Inline wins outright,
+             and lets the stroke scale to a numeral this size — 1.5px reads
+             as a hairline at 13rem. -->
+        <div
+          class="absolute inset-0 flex items-center justify-center"
+          aria-hidden="true"
+        >
+          <span
+            class="font-display font-bold leading-none tracking-tight text-[7rem] sm:text-[10rem] lg:text-[13rem]"
+            style="color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4); text-stroke: 2px rgba(255, 255, 255, 0.4);"
+            data-no-edit>404</span
+          >
+        </div>
+      </div>
+
+      <!-- Message -->
+      <div class="flex items-center px-6 sm:px-10 lg:px-16 py-16 lg:py-24">
+        <div class="max-w-xl">
+          <p
+            class="hero-fade font-display text-xs font-bold uppercase tracking-[0.2em] text-stone/60 mb-5"
+            style="--fade-d:0.1s"
+          >
+            Error 404
+          </p>
+
+          <h1
+            class="hero-rise font-display font-bold text-4xl sm:text-5xl lg:text-[3.5rem] leading-[1.03]"
+            style="--rise-d:0.18s"
+          >
+            This address doesn't exist.
+          </h1>
+
+          <p
+            class="hero-rise text-stone/75 text-lg leading-relaxed mt-6"
+            style="--rise-d:0.26s"
+          >
+            The page you were looking for has moved, been renamed, or was never
+            here. Nothing is broken — you are one wrong turn from where you
+            meant to be, and everything below leads back.
+          </p>
+
+          <!-- Filled in by the script at the foot of the page, from the URL
+               that actually missed. Hidden until then, so a visitor with
+               JavaScript off never sees an empty frame. `data-no-edit` keeps
+               the whole block out of the in-page text editor: the path is
+               written at runtime and is not copy anyone should be editing. -->
+          <div class="hero-rise mt-8 hidden" id="nf-detail" data-no-edit style="--rise-d:0.34s">
+            <div class="border-l-2 border-white/15 pl-4 py-1">
+              <p
+                class="font-display text-[11px] font-bold uppercase tracking-[0.18em] text-stone/45"
+              >
+                You asked for
+              </p>
+              <p
+                class="mt-1.5 text-sm text-stone/80 break-all"
+                style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace"
+                id="nf-path"
+              >
+              </p>
+            </div>
+
+            <p class="mt-5 text-stone/75 hidden" id="nf-guess-wrap">
+              Did you mean{" "}
+              <a
+                href="/"
+                id="nf-guess"
+                class="text-olive-100 font-semibold underline underline-offset-4 hover:text-white transition-colors"
+              ></a
+              >?
+            </p>
+          </div>
+
+          <div
+            class="hero-rise mt-10 flex flex-wrap items-center gap-3.5"
+            style="--rise-d:0.42s"
+          >
+            <a href="/" class="btn btn-primary-dark">Back to home</a>
+            <a href="/projects" class="btn btn-ghost-dark">All projects</a>
+            <a
+              href="/contact"
+              class="font-display font-bold uppercase tracking-[0.06em] text-sm text-stone/70 px-3 py-4 hover:text-white transition-colors"
+              >Talk to us</a
+            >
+          </div>
+
+          <p
+            class="hero-fade mt-8 text-sm text-stone/45"
+            style="--fade-d:0.5s"
+          >
+            Looking for something specific? Call{" "}
+            <a href={telHref} class="text-stone/75 hover:text-white transition-colors"
+              >{contact.phone}</a
+            >{" "}or{" "}
+            <a
+              href={waHref}
+              target="_blank"
+              rel="noopener"
+              class="text-stone/75 hover:text-white transition-colors">message us on WhatsApp</a
+            >.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================== WAYFINDING ========================== -->
+    <section class="bg-stone py-20 lg:py-28">
+      <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12">
+        <div class="reveal max-w-2xl">
+          <span
+            class="font-display text-xs font-bold uppercase tracking-[0.22em] text-olive-600"
+            >Where you were headed</span
+          >
+          <h2
+            class="font-display font-bold text-3xl sm:text-4xl lg:text-5xl tracking-tight mt-4 leading-[1.08]"
+          >
+            The whole site, in one screen.
+          </h2>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+          {
+            wayfinding.map((item, i) => (
+              <a
+                href={item.href}
+                class="reveal group bg-card border border-line rounded-[3px] p-7 hover:border-ink transition-colors"
+                style={`--reveal-d:${(i * 0.06).toFixed(2)}s`}
+              >
+                <h3 class="font-display font-bold text-xl tracking-tight">{item.label}</h3>
+                <p class="text-muted text-sm leading-relaxed mt-2.5">{item.body}</p>
+                <span class="inline-flex items-center gap-2 mt-5 font-display text-[11px] font-bold uppercase tracking-[0.14em] text-olive-600 group-hover:text-ink transition-colors">
+                  Go
+                  <svg
+                    class="w-4 h-4 transition-transform group-hover:translate-x-1"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
+              </a>
+            ))
+          }
+        </div>
+
+        <!-- The residences themselves. Someone who mistyped a project URL is
+             one click from the right one here, without a second page load. -->
+        <div class="reveal mt-16 pt-12 border-t border-line">
+          <h3
+            class="font-display font-bold text-sm uppercase tracking-[0.14em] text-muted"
+          >
+            Or go straight to a residence
+          </h3>
+
+          <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-1 mt-6">
+            {
+              projects.map((p, i) => (
+                <li class="reveal" style={`--reveal-d:${(i * 0.04).toFixed(2)}s`}>
+                  <a
+                    href={`/projects/${p.slug}`}
+                    class="group flex items-baseline justify-between gap-4 py-4 border-b border-line hover:border-ink transition-colors"
+                  >
+                    <span>
+                      <span class="font-display font-bold text-lg tracking-tight group-hover:text-olive-600 transition-colors">
+                        {p.name}
+                      </span>
+                      <span class="block text-muted text-xs mt-1">{p.address}</span>
+                    </span>
+                    <span class="font-display text-[10px] font-bold uppercase tracking-[0.12em] text-mutedlight shrink-0">
+                      {p.statusLabel}
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="bg-ink text-stone">
+    <div
+      class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 pt-16 pb-10 border-b border-white/10"
+    >
+      <h3
+        class="reveal font-display font-bold text-[3.25rem] sm:text-[6rem] lg:text-[8rem] leading-none tracking-tight"
+      >
+        NESTING TREE
+      </h3>
+    </div>
+
+    <div class="max-w-[1600px] mx-auto px-5 sm:px-6 lg:px-12 py-14">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-[minmax(300px,1fr)_1fr_1fr_1fr] gap-12">
+        <div class="reveal">
+          <p class="text-stone/55 text-sm leading-relaxed sm:whitespace-nowrap">
+            {brand.footerLine}
+          </p>
+          <SocialLinks />
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.08s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Explore
+          </h5>
+          <ul class="space-y-3 text-sm font-medium">
+            {
+              footerLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="hover:text-olive-100 transition-colors">
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.16s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Projects
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            {
+              projects.map((p) => (
+                <li>
+                  <a href={`/projects/${p.slug}`} class="hover:text-olive-100 transition-colors">
+                    {p.name} — {p.status}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="reveal" style="--reveal-d:0.24s">
+          <h5 class="font-display font-bold text-sm uppercase tracking-wide text-stone/40 mb-4">
+            Contact
+          </h5>
+          <ul class="space-y-3 text-sm font-medium text-stone/80">
+            <li class="flex items-start gap-2.5">
+              <svg
+                class="w-4 h-4 mt-0.5 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                ><path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z"></path><circle
+                  cx="12"
+                  cy="9"
+                  r="2.2"></circle></svg
+              >
+              {contact.address}
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"><path d="M4 5h16v14H4z"></path><path d="m4 6 8 7 8-7"></path></svg
+              >
+              <a href={`mailto:${contact.email}`} class="hover:text-olive-100 transition-colors"
+                >{contact.email}</a
+              >
+            </li>
+            <li class="flex items-center gap-2.5">
+              <svg
+                class="w-4 h-4 shrink-0 text-olive-100"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                ><path
+                  d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 1-2Z"
+                ></path></svg
+              >
+              <a href={telHref} class="hover:text-olive-100 transition-colors">{contact.phone}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone/40"
+      >
+        <p>&copy; {new Date().getFullYear()} {brand.name}. All rights reserved.</p>
+        <p>{contact.maharera}</p>
+        <div class="flex items-center gap-5">
+          <a href="/privacy" class="hover:text-stone/70 transition-colors">Privacy Policy</a>
+          <a href="/terms" class="hover:text-stone/70 transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script is:inline define:vars={{ destinations }}>
+    /* Two jobs, both of which only exist because the page is a static file
+       served in place of whatever URL missed: report the path that missed,
+       and guess what was meant. See the frontmatter for why static.
+
+       SECURITY — the pathname is attacker-controlled. Somebody can link a
+       victim to /<img src=x onerror=…> and this page will render for it.
+       Every write below is textContent or a whitelisted href taken from
+       `destinations`; nothing derived from location touches innerHTML or
+       becomes a URL. Keep it that way. */
+    (() => {
+      const path = location.pathname;
+
+      /* /404 reached directly — nothing missed, so there is no path worth
+         reporting and no typo to guess at. The panel copy and the links
+         below still make sense on their own. */
+      if (path === "/404" || path === "/404/" || path === "/404.html") return;
+
+      const detail = document.getElementById("nf-detail");
+      const out = document.getElementById("nf-path");
+      if (!detail || !out) return;
+
+      /* Long enough to show a real path, short enough that a crafted
+         2,000-character URL cannot stretch the panel. */
+      let shown = path + location.search;
+      if (shown.length > 70) shown = shown.slice(0, 70) + "…";
+      out.textContent = shown;
+      detail.classList.remove("hidden");
+
+      /* ---- Did you mean …? ----
+         The typo is nearly always in the last segment, so that is what is
+         compared: /projects/dhurva against "dhruva", /gallary against
+         "gallery". Punctuation and case are flattened first, and a
+         trailing extension dropped, so /Gallery.html still matches. */
+      const norm = (s) =>
+        s
+          .toLowerCase()
+          .replace(/\.(html?|php|aspx?)$/, "")
+          .replace(/[^a-z0-9]+/g, "");
+
+      const segments = path.split("/").filter(Boolean);
+      const tail = norm(segments[segments.length - 1] || "");
+      if (!tail) return;
+
+      /* Levenshtein, iterative with a single row. The lists being compared
+         are a dozen short slugs, so the cost is irrelevant and the clarity
+         is worth more than a cleverer algorithm. */
+      const distance = (a, b) => {
+        if (a === b) return 0;
+        if (!a.length) return b.length;
+        if (!b.length) return a.length;
+        let row = Array.from({ length: b.length + 1 }, (_, i) => i);
+        for (let i = 1; i <= a.length; i++) {
+          let prev = row[0];
+          row[0] = i;
+          for (let j = 1; j <= b.length; j++) {
+            const carry = row[j];
+            row[j] = Math.min(
+              row[j] + 1,
+              row[j - 1] + 1,
+              prev + (a[i - 1] === b[j - 1] ? 0 : 1)
+            );
+            prev = carry;
+          }
+        }
+        return row[b.length];
+      };
+
+      let best = null;
+      let bestScore = Infinity;
+      for (const d of destinations) {
+        const target = norm(d.seg);
+        /* A segment that CONTAINS the target, or is contained by it, is a
+           match outright — /projects/shikhar-tower, /our-gallery. Scored
+           just above an exact hit so a true edit-distance winner still
+           beats it. */
+        const score =
+          tail.includes(target) || target.includes(tail) ? 0.5 : distance(tail, target);
+        if (score < bestScore) {
+          bestScore = score;
+          best = d;
+        }
+      }
+
+      /* The threshold is what stops this being noise. Two edits on a short
+         slug is a typo; two edits on "wp-admin" is a coincidence, and
+         offering "Udaan" to a vulnerability scanner helps nobody. Scale it
+         with the length of what was typed, and cap it. */
+      const allowed = Math.min(3, Math.max(1, Math.floor(tail.length / 3)));
+      if (!best || bestScore > allowed) return;
+
+      const link = document.getElementById("nf-guess");
+      const wrap = document.getElementById("nf-guess-wrap");
+      if (!link || !wrap) return;
+
+      /* href comes from the build-time list, never from the URL. */
+      link.setAttribute("href", best.path);
+      link.textContent = best.label;
+      wrap.classList.remove("hidden");
+    })();
+  </script>
+
+  <script is:inline>
+    if (document.documentElement.classList.contains("reveal-on")) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              obs.unobserve(entry.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
+      document.querySelectorAll(".reveal, .reveal-img").forEach((el) => io.observe(el));
+    }
+  </script>
+</BaseLayout>
