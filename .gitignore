@@ -41,6 +41,12 @@ audit/
 # reversible. Delete the folder once you are sure.
 _quarantine/
 
+# SQL emitted by `node scripts/reanchor-content-edits.mjs --out`. It is a
+# snapshot of one build's copy against one database, regenerated in seconds and
+# stale the moment either changes — committing one invites somebody to apply it
+# months later against a site that has moved on.
+reanchor-*.sql
+
 # mysqldumps pulled off the server (nesting_tree_YYYY-MM-DD_HHMM.sql). These
 # carry the real `leads` rows — a member of the public's name, phone number and
 # email — so they must never be committed, and a stray `git add -A` at the repo

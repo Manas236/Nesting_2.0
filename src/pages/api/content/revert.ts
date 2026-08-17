@@ -128,11 +128,16 @@ export const POST: APIRoute = async (context) => {
     if (target === cleanText(current.new_text))
       return json({ error: "That is already what the page says." }, 400);
 
-    // Every row for a key carries the same anchor: the text the page was
-    // built with, taken from the oldest row. A revert is a new row like
-    // any other, so it files itself under the same anchor — see the note
-    // in api/content.ts for why that column must never drift.
-    const anchor = rows[rows.length - 1].original_text;
+    /* The anchor in force, which is the NEWEST row's — not the oldest.
+       Rows for one key no longer all carry the same anchor: when the
+       site's own copy is rewritten under a key, the next save adopts the
+       text the browser found there (see the long note in api/content.ts).
+       Taking the oldest row here would walk that back and re-strand every
+       edit on this line, which is the bug the adoption exists to fix.
+
+       A revert is a new row like any other, so it files itself under
+       whatever anchor is current. */
+    const anchor = rows[0].original_text;
 
     const [res] = await pool.execute<ResultSetHeader>(INSERT_EDIT, [
       path,

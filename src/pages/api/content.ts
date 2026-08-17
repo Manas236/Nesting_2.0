@@ -110,16 +110,36 @@ export const GET: APIRoute = async ({ url }) => {
    Body: { path, key, original, text }
 
    `original_text` means one thing throughout this table: the text the
-   page was BUILT with. It never moves. That is what makes an edit
-   findable months later — the browser looks the element up by key, and
-   if the markup has shifted underneath it, falls back to hunting for
-   the string this edit replaced. If each save filed itself under the
-   PREVIOUS save's text instead, a second edit would already have no
-   string on the page to match, and the whole page's edits would quietly
-   stop applying for new visitors.
+   page was BUILT with. That is what makes an edit findable months later
+   — the browser looks the element up by key, and if the markup has
+   shifted underneath it, falls back to hunting for the string this edit
+   replaced. If each save filed itself under the PREVIOUS save's text
+   instead, a second edit would already have no string on the page to
+   match, and the whole page's edits would quietly stop applying for new
+   visitors. So the anchor does not follow the edits.
 
-   So the `original` in the body is only ever used for the first edit of
-   a key. After that the anchor is read back off the existing rows.
+   IT DOES, HOWEVER, FOLLOW THE BUILD, and it has to. Read this before
+   pinning it back to the first row.
+
+   The site's own copy gets rewritten — the owner's 12 and 13 Aug 2026
+   reviews rewrote most of it. When the source text under a key changes,
+   the anchor on file names a string that is now nowhere on the page, and
+   applyOne() in BaseLayout.astro refuses to write an edit onto an
+   element it cannot recognise. Every edit under that key becomes
+   invisible. Worse, it stays invisible: the browser sends the text it
+   actually found on the page, and if this route discards that in favour
+   of the dead anchor, the next save is filed under the dead anchor too.
+   That is a line nobody can edit again — it saves, answers 200, and is
+   gone on reload, for ever. Sixty of two hundred and twenty-four stored
+   edits were in exactly that state on 17 Aug 2026.
+
+   So the rule is: the anchor is kept while the browser still reports it,
+   and adopted from the browser when it does not. The browser reads
+   `original` off the live DOM, so what arrives here is by definition a
+   string that WAS on the page — which is precisely what applyOne() needs
+   to match on the next load. A key that has drifted heals itself on its
+   first edit; the rows already stranded need the one-off re-anchor pass
+   in scripts/reanchor-content-edits.mjs.
    ------------------------------------------------------------ */
 const SELECT_CURRENT = `
   SELECT original_text, new_text
@@ -180,7 +200,17 @@ export const POST: APIRoute = async (context) => {
       check.key,
     ]);
     const latest = rows[0];
-    const anchor = latest ? latest.original_text : check.original;
+
+    /* Kept verbatim when the browser still reports it — comparing
+       cleaned, because a row written before this route cleaned its input
+       may differ from `check.original` only in whitespace, and that is
+       not drift. Anything else means the page moved underneath the key,
+       so the browser's reading of it becomes the anchor. */
+    const anchor =
+      latest && cleanText(latest.original_text) === check.original
+        ? latest.original_text
+        : check.original;
+
     const current = latest ? cleanText(latest.new_text) : check.original;
 
     if (current === check.text)

@@ -671,3 +671,41 @@ Both paths, in common:
   this traffic level is fine — but the static files under `dist/client` are
   replaced *during* the build, so run it at a quiet moment rather than
   mid-campaign.
+
+### 9.1 If the deploy rewrote copy, re-anchor the in-page edits
+
+**Rewording a line in `src/pages` can make every in-page edit under it
+disappear.** This is not hypothetical — it had happened to 60 of 224 stored
+edits by 17 Aug 2026, and it is what "the owner's changes will not save" turns
+out to mean.
+
+Each row in `content_edits` records the text the page was **built** with, and
+the head script in `BaseLayout.astro` will only write an edit onto an element
+that still holds that string. Change the source wording and the anchor points at
+a sentence that is nowhere on the page, so the edit is skipped in silence: the
+built-in copy renders, the owner re-types the change, it saves, answers 200, and
+is gone again on the next reload.
+
+`POST /api/content` now adopts a fresh anchor whenever the browser reports text
+other than the one on file, so **a line heals itself the next time somebody
+edits it**. That covers the future. Rows already stranded are not sent back
+through that route by anything, so they need a pass of their own:
+
+```bash
+# From a machine with Chrome, pointed at the DEPLOYED site:
+node scripts/reanchor-content-edits.mjs --site https://nestingtree.in     # dry run, reports
+node scripts/reanchor-content-edits.mjs --site https://nestingtree.in \
+     --out reanchor.sql
+
+# then on the server:
+mysql -u root -p nesting_tree < reanchor.sql
+sudo systemctl restart nestingtree      # not strictly needed; reads are per-request
+```
+
+It renders the real pages in headless Chrome rather than parsing the HTML,
+because the anchor has to be the exact string the browser computes after
+`ensureWrapped()` runs. It only ever **inserts** — the table stays append-only
+and the history stays walkable. Run it against the site whose database you are
+about to write to, and read the dry run first: it names every line it would
+touch, and separately lists the edits whose markup no longer exists at all,
+which nothing can recover.
