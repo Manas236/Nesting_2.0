@@ -201,17 +201,45 @@ export const POST: APIRoute = async (context) => {
     ]);
     const latest = rows[0];
 
-    /* Kept verbatim when the browser still reports it — comparing
-       cleaned, because a row written before this route cleaned its input
-       may differ from `check.original` only in whitespace, and that is
-       not drift. Anything else means the page moved underneath the key,
-       so the browser's reading of it becomes the anchor. */
-    const anchor =
-      latest && cleanText(latest.original_text) === check.original
-        ? latest.original_text
-        : check.original;
+    /* The row on file, but only while its anchor is still LIVE — while
+       `original_text` is a string the browser reports finding on the
+       page. Both decisions below turn on that one question, so it is
+       asked once, here, rather than answered twice and drifting apart.
 
-    const current = latest ? cleanText(latest.new_text) : check.original;
+       Compared cleaned, because a row written before this route cleaned
+       its input may differ from `check.original` only in whitespace, and
+       that is not drift. Anything else means the page moved underneath
+       the key. */
+    const live =
+      latest && cleanText(latest.original_text) === check.original
+        ? latest
+        : null;
+
+    /* Kept verbatim while the browser still reports it; when it does
+       not, the browser's reading of the page becomes the anchor. */
+    const anchor = live ? live.original_text : check.original;
+
+    /* What the page ACTUALLY says under this key — which is not always
+       what the newest row claims it says. A row whose anchor is dead
+       never paints: applyOne() in BaseLayout.astro can find no element
+       to write it to, so the copy the page was BUILT with renders in its
+       place — and that built copy is exactly what the browser has just
+       sent as `original`.
+
+       Reading `new_text` in that state is what made a stranded line
+       permanently unfixable. Retyping the edit that is not showing
+       matched the row on file, answered 400 "that is already what the
+       page says" about words nowhere on the screen, and returned BEFORE
+       the adoption above could give the row a live anchor. The one
+       gesture that heals a stranded key was the one gesture this guard
+       refused. So when the anchor is dead, "already what the page says"
+       has to mean the page, not the row.
+
+       Both sides of the comparison are cleaned: `check.original` and
+       `check.text` come out of validateEdit() already through
+       cleanText(), so `latest.new_text` is given the same treatment
+       rather than compared raw. */
+    const current = live ? cleanText(live.new_text) : check.original;
 
     if (current === check.text)
       return json({ error: "That is already what the page says." }, 400);
