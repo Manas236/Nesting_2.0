@@ -5,6 +5,12 @@ import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
 
+// Build-time only: the per-URL lastmod / changefreq / priority / image
+// table. Kept out of this file because every value in it is DERIVED —
+// lastmod from git, images from src/data/*.ts — and the derivation is
+// what needs explaining. See the header of that file.
+import { metaFor } from './src/lib/sitemap-meta.ts';
+
 // https://astro.build/config
 // The site stays static (all pages are pre-built HTML). The Node adapter is
 // added only so that on-demand routes — currently just the /api/contact
@@ -38,6 +44,22 @@ export default defineConfig({
     // robots.txt and carries `noindex, follow`.
     sitemap({
       filter: (page) => new URL(page).pathname.replace(/\/$/, '') !== '/thank-you',
+
+      // Each listed URL gets a `lastmod` (the git date of the files that
+      // actually produce that page), a `changefreq` and `priority`, and —
+      // for the pages that show our own buildings — `<image:image>`
+      // entries for every photograph on them. That last part is why the
+      // gallery and the seven project pages are worth crawling for Google
+      // Images at all: 83 documentary construction photographs, each with
+      // written alt text, that are otherwise reachable only through a
+      // lightbox.
+      //
+      // The `img` field is real and supported by the underlying `sitemap`
+      // package (the image namespace is emitted by default), but it is
+      // missing from @astrojs/sitemap's narrowed `SitemapItem` type — hence
+      // the cast. Drop the cast when the integration widens the type; do
+      // not drop the field.
+      serialize: (item) => /** @type {any} */ ({ ...item, ...metaFor(item.url) }),
     }),
   ],
   vite: {
